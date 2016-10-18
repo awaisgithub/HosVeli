@@ -18,6 +18,7 @@ public class HRDFApplication extends Application {
 
     private static HRDFApplication mInstance;
     private RequestQueue requestQueue;
+    String newVar;
 
     @Override
     public void onCreate() {
