@@ -21,4 +21,5 @@ final public class HRDFConstants {
     public static final String AboutHRDFList = "hrdfAboutUs";
     public static final String AgendaList = "hrdfEventAgenda";
     public static final String FloorplanList = "hrdfEventFloorPlanList";
+    public static final String FloorplanList2 = "hrdfEventFloorPlanList";
 }
