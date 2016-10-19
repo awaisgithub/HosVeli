@@ -1,12 +1,8 @@
 package com.od.hrdf.API;
 
-import com.od.hrdf.HRDFConstants;
-import com.od.hrdf.Utils.Keys;
+import com.od.hrdf.Utils.HRDFConstants;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
 
 /**
  * Created by Awais on 10/12/2016.
@@ -99,7 +95,7 @@ public class Api {
 
     public static String urlGetJogetList(String listId) {
         JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
-        builder.appId(Keys.JOGET_APP_ID);
+        builder.appId(HRDFConstants.JOGET_APP_ID);
         builder.listId(listId);
         builder.action("list");
         builder.willIncludeImages(true);
@@ -108,7 +104,7 @@ public class Api {
 
     public static String urlGetJogetList(String listId, String filter1name, String filter1Value) {
         JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
-        builder.appId(Keys.JOGET_APP_ID);
+        builder.appId(HRDFConstants.JOGET_APP_ID);
         builder.listId(listId);
         builder.action("list");
         builder.primaryFilter(filter1name, filter1Value);
@@ -118,7 +114,7 @@ public class Api {
 
     public static String urlGetJogetList(String listId, String filter1name, String filter1Value, boolean fileUrl) {
         JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
-        builder.appId(Keys.JOGET_APP_ID);
+        builder.appId(HRDFConstants.JOGET_APP_ID);
         builder.listId(listId);
         builder.action("list");
         builder.primaryFilter(filter1name, filter1Value);
@@ -129,7 +125,7 @@ public class Api {
 
     public static String urlGetJogetList(String listId, String filter1name, String filter1Value, boolean imageUrl, boolean fileUrl) {
         JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
-        builder.appId(Keys.JOGET_APP_ID);
+        builder.appId(HRDFConstants.JOGET_APP_ID);
         builder.listId(listId);
         builder.action("list");
         builder.primaryFilter(filter1name, filter1Value);

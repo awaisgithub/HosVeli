@@ -8,7 +8,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
-import com.od.hrdf.Utils.Keys;
+import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
 
@@ -258,22 +258,22 @@ public class Speaker extends RealmObject {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(Keys.TAG, response.toString());
+                        Log.i(HRDFConstants.TAG, response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Log.i(Keys.TAG, "In Run()");
+                                Log.i(HRDFConstants.TAG, "In Run()");
                                 try {
                                     realm.beginTransaction();
-                                    Log.i(Keys.TAG, "In Run()-TransactionBegun");
+                                    Log.i(HRDFConstants.TAG, "In Run()-TransactionBegun");
                                     realm.createOrUpdateAllFromJson(Speaker.class, response);
-                                    Log.i(Keys.TAG, "In Run()-CreateFromJSON");
+                                    Log.i(HRDFConstants.TAG, "In Run()-CreateFromJSON");
                                     RealmResults speakers = query.findAll();
                                     realm.commitTransaction();
-                                    Log.i(Keys.TAG, "In Run()-TransactionCommit");
+                                    Log.i(HRDFConstants.TAG, "In Run()-TransactionCommit");
                                     callBack.fetchDidSucceed(speakers);
                                 } catch (Exception e) {
-                                    Log.i(Keys.TAG, "Exception Error - " + e.getMessage());
+                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
                             }
@@ -298,7 +298,7 @@ public class Speaker extends RealmObject {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(Keys.TAG, response.toString());
+                        Log.i(HRDFConstants.TAG, response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -309,7 +309,7 @@ public class Speaker extends RealmObject {
                                     realm.commitTransaction();
                                     callBack.fetchDidSucceed(eventSpeakers);
                                 } catch (Exception e) {
-                                    Log.i(Keys.TAG, "Exception Error - " + e.getMessage());
+                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
                             }
@@ -321,7 +321,7 @@ public class Speaker extends RealmObject {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i(Keys.TAG, "OnErrorRun()");
+                        Log.i(HRDFConstants.TAG, "OnErrorRun()");
                         callBack.fetchDidFail(error);
                     }
                 });

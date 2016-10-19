@@ -1,33 +1,21 @@
 package com.od.hrdf;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.od.hrdf.API.Api;
-import com.od.hrdf.BOs.Agenda;
 import com.od.hrdf.BOs.Event;
-import com.od.hrdf.BOs.Floorplan;
-import com.od.hrdf.BOs.Organization;
 import com.od.hrdf.BOs.Speaker;
 import com.od.hrdf.BOs.User;
-import com.od.hrdf.CallBack.FetchCallBack;
-import com.od.hrdf.Utils.Keys;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.security.Key;
-
+import com.od.hrdf.Utils.Util;
+import com.od.hrdf.loginregistration.LoginRegistrationActivity;
 import io.realm.Realm;
 import io.realm.RealmQuery;
-import io.realm.RealmResults;
 
 public class LandingActivity extends AppCompatActivity {
     private Realm realm;
@@ -58,48 +46,51 @@ public class LandingActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
         User user = User.getCurrentUser(realm);
 
+        // Added by mahmoor
+        gotoActivity(Util.Activity.LOGIN_REG);
+
         //   WORKING
 /*
-        Log.i(Keys.TAG, Api.urlExhibitor("8c253bfe-7f000010-9bb09e10-ebd2fe00"));
+        Log.i(HRDFConstants.TAG, Api.urlExhibitor("8c253bfe-7f000010-9bb09e10-ebd2fe00"));
         query = realm.where(Exhibitor.class).equalTo("id", "8c253bfe-7f000010-9bb09e10-ebd2fe00");
         Exhibitor.fetchExhibitor(this, realm, Api.urlExhibitor("8c253bfe-7f000010-9bb09e10-ebd2fe00"), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
+                Log.i(HRDFConstants.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
             }
         });
 
-        Log.i(Keys.TAG, Api.urlSponsor("8be4c14b-7f000010-9bb09e10-8cc19433"));
+        Log.i(HRDFConstants.TAG, Api.urlSponsor("8be4c14b-7f000010-9bb09e10-8cc19433"));
         query = realm.where(Sponsor.class).equalTo("id", "8be4c14b-7f000010-9bb09e10-8cc19433");
         Sponsor.fetchSponsor(this, realm, Api.urlSponsor("8be4c14b-7f000010-9bb09e10-8cc19433"), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
+                Log.i(HRDFConstants.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
 
             }
         });
 
-        Log.i(Keys.TAG, Api.urlUserList("farooq.zaman@me.com"));
+        Log.i(HRDFConstants.TAG, Api.urlUserList("farooq.zaman@me.com"));
         query = realm.where(User.class).equalTo("email", "farooq.zaman@me.com");
         User.fetchUser(this, realm, Api.urlUserList("farooq.zaman@me.com"), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
+                Log.i(HRDFConstants.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
 
             }
         });
@@ -108,12 +99,12 @@ public class LandingActivity extends AppCompatActivity {
         Speaker.fetchAllSpeakers(this, realm, Api.urlSpeakerList(), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
+                Log.i(HRDFConstants.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
             }
         });
 
@@ -134,12 +125,12 @@ public class LandingActivity extends AppCompatActivity {
         Speaker.fetchEventSpeakers(this, realm, Api.urlEventSpeakerList("b3358590-7f000010-9bb09e10-17cd6d26"), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "@@@@@@@@@@@@EVENTSPEAKER@@@@@@@@= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "@@@@@@@@@@@@EVENTSPEAKER@@@@@@@@= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, " Event Speaker FAIL----FAIL-----FAIL== " + e.toString());
+                Log.i(HRDFConstants.TAG, " Event Speaker FAIL----FAIL-----FAIL== " + e.toString());
             }
         });
 
@@ -147,26 +138,26 @@ public class LandingActivity extends AppCompatActivity {
         Sponsor.fetchEventSponsors(this, realm, Api.urlEventSponsorsList("6eaff16c-7f000010-9bb09e10-e19925f5"), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "@@@@@@@@@@@@EVENTSPONSOR@@@@@@@@= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "@@@@@@@@@@@@EVENTSPONSOR@@@@@@@@= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, " Event Sponsor FAIL-----FAIL-----FAIL== " + e.toString());
+                Log.i(HRDFConstants.TAG, " Event Sponsor FAIL-----FAIL-----FAIL== " + e.toString());
             }
         });
 
-        Log.i(Keys.TAG, Api.urlEventExhibitorsList("6eaff16c-7f000010-9bb09e10-e19925f5"));
+        Log.i(HRDFConstants.TAG, Api.urlEventExhibitorsList("6eaff16c-7f000010-9bb09e10-e19925f5"));
         query = realm.where(Exhibitor.class).equalTo("event", "6eaff16c-7f000010-9bb09e10-e19925f5");
         Exhibitor.fetchEventExhibitors(this, realm, Api.urlEventExhibitorsList("6eaff16c-7f000010-9bb09e10-e19925f5"), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "@@@@@@@@@@@@EVENTExhibitor@@@@@@@@= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "@@@@@@@@@@@@EVENTExhibitor@@@@@@@@= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, " Event Sponsor FAIL-----FAIL-----FAIL== " + e.toString());
+                Log.i(HRDFConstants.TAG, " Event Sponsor FAIL-----FAIL-----FAIL== " + e.toString());
             }
         });
 
@@ -174,12 +165,12 @@ public class LandingActivity extends AppCompatActivity {
         Article.fetchArticles(this, realm, Api.urlArticleList(), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "@@@@@@@@@@@@EVENTArticle@@@@@@@@= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "@@@@@@@@@@@@EVENTArticle@@@@@@@@= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, " Article FAIL-----FAIL-----FAIL== " + e.toString());
+                Log.i(HRDFConstants.TAG, " Article FAIL-----FAIL-----FAIL== " + e.toString());
             }
         });
 
@@ -225,12 +216,12 @@ public class LandingActivity extends AppCompatActivity {
         Event.fetchAllEvents(this, realm, Api.urlEventList(), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
+                Log.i(HRDFConstants.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
             }
         });
 
@@ -240,67 +231,67 @@ public class LandingActivity extends AppCompatActivity {
 
         /*
         //Data-Type Issue while Fetching
-        Log.i(Keys.TAG, Api.urlUserEventList("farahrohaiza@hrdf.com.my"));
+        Log.i(HRDFConstants.TAG, Api.urlUserEventList("farahrohaiza@hrdf.com.my"));
         query = realm.where(Event.class).equalTo("userObj.email", "farahrohaiza@hrdf.com.my");
         Event.fetchUserEvents(this, realm, Api.urlUserEventList("farahrohaiza@hrdf.com.my"), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                //         Log.i(Keys.TAG, "!!!!RESULT LIST!!!!= " + fetchedItems.toString());
+                //         Log.i(HRDFConstants.TAG, "!!!!RESULT LIST!!!!= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
+                Log.i(HRDFConstants.TAG, " FAIL----FAIL-----FAIL== " + e.toString());
             }
         });
 */
 
 
 /*                              //ORGANIZATION//
-        Log.i(Keys.TAG, "ORganiZATIOn   =   =  "+ Api.urlAboutHRDF());
+        Log.i(HRDFConstants.TAG, "ORganiZATIOn   =   =  "+ Api.urlAboutHRDF());
          query = realm.where(Organization.class);
         Organization.fetchAboutHRDF(this, realm, Api.urlAboutHRDF(), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "!!!!RESULT LIST   YES!!!!= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "!!!!RESULT LIST   YES!!!!= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, "!!!!NO   ===   !!!!= " + e.toString());
+                Log.i(HRDFConstants.TAG, "!!!!NO   ===   !!!!= " + e.toString());
             }
         });
 */
 
         /*
                                 //FLOORPLAN//
-        Log.i(Keys.TAG, "Floor PLan   =   = " + Api.urlEventFloorplan("6ebe9417-7f000010-9bb09e10-63d8d7e4"));
+        Log.i(HRDFConstants.TAG, "Floor PLan   =   = " + Api.urlEventFloorplan("6ebe9417-7f000010-9bb09e10-63d8d7e4"));
         query = realm.where(Floorplan.class).equalTo("event","6ebe9417-7f000010-9bb09e10-63d8d7e4");
         Floorplan.fetchEventFloorPlan(this, realm, Api.urlEventFloorplan("6ebe9417-7f000010-9bb09e10-63d8d7e4"), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "!!!!RESULT LIST   YES!!!!= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "!!!!RESULT LIST   YES!!!!= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, "!!!!NO   ===   !!!!= " + e.toString());
+                Log.i(HRDFConstants.TAG, "!!!!NO   ===   !!!!= " + e.toString());
             }
         });
 */
 
  /*                             //AGENDA
-       Log.i(Keys.TAG, "AGENDA =    = " + Api.urlEventAgenda("6eaff16c-7f000010-9bb09e10-e19925f5"));
+       Log.i(HRDFConstants.TAG, "AGENDA =    = " + Api.urlEventAgenda("6eaff16c-7f000010-9bb09e10-e19925f5"));
         query = realm.where(Agenda.class).equalTo("event", "6eaff16c-7f000010-9bb09e10-e19925f5");
         Agenda.fetchEventAgenda(this, realm, Api.urlEventAgenda("6eaff16c-7f000010-9bb09e10-e19925f5"), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(Keys.TAG, "!!!!RESULT LIST   YES!!!!= " + fetchedItems.toString());
+                Log.i(HRDFConstants.TAG, "!!!!RESULT LIST   YES!!!!= " + fetchedItems.toString());
             }
 
             @Override
             public void fetchDidFail(Exception e) {
-                Log.i(Keys.TAG, "!!!!NO   ===   !!!!= " + e.toString());
+                Log.i(HRDFConstants.TAG, "!!!!NO   ===   !!!!= " + e.toString());
             }
         });
         */
@@ -309,20 +300,19 @@ public class LandingActivity extends AppCompatActivity {
         User.forgotPassword(this, "http://www.mypams.net/jw/web/json/plugin/org.joget.hrdf.forgetPasswordWS/service", "wengyew@opendynamics.com.my");
         */
 
-//        Log.i(Keys.TAG,Api.urlJogetCRUD());
+//        Log.i(HRDFConstants.TAG,Api.urlJogetCRUD());
 //
 //        User.performUserRegistration(this, Api.urlJogetCRUD(), new FetchCallBack() {
 //            @Override
 //            public void fetchDidSucceed(RealmResults fetchedItems) {
-//                Log.i(Keys.TAG, "WORKING   = " + fetchedItems.toString());
+//                Log.i(HRDFConstants.TAG, "WORKING   = " + fetchedItems.toString());
 //            }
 //
 //            @Override
 //            public void fetchDidFail(Exception e) {
-//                Log.i(Keys.TAG, " FAILURE in FETCHDIDFAIL =  " + e.toString());
+//                Log.i(HRDFConstants.TAG, " FAILURE in FETCHDIDFAIL =  " + e.toString());
 //            }
 //        });
-
 
 
     }
@@ -340,5 +330,19 @@ public class LandingActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // Added By Mahmoor
+
+    private void gotoActivity(Util.Activity activity) {
+
+        switch (activity) {
+            case LOGIN_REG:
+                Intent intent = new Intent(this, LoginRegistrationActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -17,7 +17,7 @@ import com.google.gson.reflect.TypeToken;
 import com.od.hrdf.CallBack.LocationCallBack;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
-import com.od.hrdf.Utils.Keys;
+import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -345,12 +345,12 @@ public class Event extends RealmObject {
     }
 
     public static void fetchAllEvents(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
-        Log.i(Keys.TAG, "fetchAllEvents URL =" + url);
+        Log.i(HRDFConstants.TAG, "fetchAllEvents URL =" + url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(Keys.TAG, response.toString());
+                        Log.i(HRDFConstants.TAG, response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -361,7 +361,7 @@ public class Event extends RealmObject {
 
                                 ArrayList<Event> eventList = gson.fromJson(response.toString(), collectionType);
                                 String jsonString = gson.toJson(eventList);
-                                Log.i(Keys.TAG, "jsonString - " + jsonString);
+                                Log.i(HRDFConstants.TAG, "jsonString - " + jsonString);
                                 realm.beginTransaction();
                                 for (Event event : eventList) {
                                     realm.copyToRealmOrUpdate(event);
@@ -407,12 +407,12 @@ public class Event extends RealmObject {
                                     String jsonString = gson.toJson(userEvents);
 
                                     for (UserEventBO event : userEvents) {
-                                        Log.i(Keys.TAG, "Date Created =     " + event.datecreated.toString());
+                                        Log.i(HRDFConstants.TAG, "Date Created =     " + event.datecreated.toString());
                                     }
 
                                     callBack.fetchDidSucceed(users);
                                 } catch (Exception e) {
-                                    Log.i(Keys.TAG, "Exception Error - " + e.getMessage());
+                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
                             }
@@ -469,13 +469,13 @@ public class Event extends RealmObject {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.i(Keys.TAG, "------@ Event Booked Successfully -----@" + response.toString());
+                Log.i(HRDFConstants.TAG, "------@ Event Booked Successfully -----@" + response.toString());
             }
         }, new Response.ErrorListener() {
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(Keys.TAG, "-----Error FAILURE Event Not Booked= " + error.toString());
+                Log.i(HRDFConstants.TAG, "-----Error FAILURE Event Not Booked= " + error.toString());
             }
         });
         HRDFApplication.getInstance().addToRequestQueue(userRegistration);

@@ -17,7 +17,7 @@ import com.android.volley.toolbox.Volley;
 import com.od.hrdf.CallBack.CheckCallBack;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
-import com.od.hrdf.Utils.Keys;
+import com.od.hrdf.Utils.HRDFConstants;
 
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -356,7 +356,7 @@ public class User extends RealmObject {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(Keys.TAG, response.toString());
+                        Log.i(HRDFConstants.TAG, response.toString());
 
                         context.runOnUiThread(new Runnable() {
                             @Override
@@ -369,7 +369,7 @@ public class User extends RealmObject {
                                         realm.commitTransaction();
                                         callBack.fetchDidSucceed(user);
                                     } catch (Exception e) {
-                                        Log.i(Keys.TAG, "Exception Error - " + e.getMessage());
+                                        Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                         callBack.fetchDidFail(e);
                                     }
                                 }
@@ -395,7 +395,7 @@ public class User extends RealmObject {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(Keys.TAG, response.toString());
+                        Log.i(HRDFConstants.TAG, response.toString());
 
                         context.runOnUiThread(new Runnable() {
                             @Override
@@ -408,7 +408,7 @@ public class User extends RealmObject {
                                             duplicate = true;
                                         callBack.checkDuplicateUser(duplicate);
                                     } catch (Exception e) {
-                                        Log.i(Keys.TAG, "Exception Error - " + e.getMessage());
+                                        Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                         callBack.checkFail(e);
                                     }
                                 } else {
@@ -465,17 +465,17 @@ public class User extends RealmObject {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.i(Keys.TAG, "JsonObject= " + jsonObject.toString());
+        Log.i(HRDFConstants.TAG, "JsonObject= " + jsonObject.toString());
         userRegistration = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.i(Keys.TAG, " onResponse = " + response.toString());
+                Log.i(HRDFConstants.TAG, " onResponse = " + response.toString());
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(Keys.TAG, " ERRor  Errror ERROR = " + error.toString());
+                Log.i(HRDFConstants.TAG, " ERRor  Errror ERROR = " + error.toString());
 
             }
         });
@@ -494,13 +494,13 @@ public class User extends RealmObject {
         JsonObjectRequest jr = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.i(Keys.TAG, " onResponse = " + response.toString());
+                Log.i(HRDFConstants.TAG, " onResponse = " + response.toString());
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(Keys.TAG, " ERRor  Errror ERROR = " + error.toString());
+                Log.i(HRDFConstants.TAG, " ERRor  Errror ERROR = " + error.toString());
 
             }
         });

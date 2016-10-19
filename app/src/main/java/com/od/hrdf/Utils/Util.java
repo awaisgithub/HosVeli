@@ -5,4 +5,9 @@ package com.od.hrdf.Utils;
  */
 
 public class Util {
+
+
+    public enum Activity{
+        LOGIN_REG,
+    }
 }

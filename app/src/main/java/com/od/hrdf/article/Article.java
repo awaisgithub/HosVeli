@@ -8,18 +8,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.CallBack.FetchCallBack;
-import com.od.hrdf.Utils.Keys;
+import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
-
 import java.util.Date;
-
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 import io.realm.annotations.PrimaryKey;
+
 
 /**
  * Created by Awais on 10/10/2016.
@@ -180,7 +179,7 @@ public class Article extends RealmObject {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(Keys.TAG, response.toString());
+                        Log.i(HRDFConstants.TAG, response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -191,7 +190,7 @@ public class Article extends RealmObject {
                                     realm.commitTransaction();
                                     callBack.fetchDidSucceed(articles);
                                 } catch (Exception e) {
-                                    Log.i(Keys.TAG, "Exception Error - " + e.getMessage());
+                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
                             }

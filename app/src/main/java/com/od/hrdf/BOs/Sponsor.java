@@ -8,7 +8,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
-import com.od.hrdf.Utils.Keys;
+import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
 
@@ -86,7 +86,7 @@ public class Sponsor extends RealmObject {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(Keys.TAG, response.toString());
+                        Log.i(HRDFConstants.TAG, response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -97,7 +97,7 @@ public class Sponsor extends RealmObject {
                                     realm.commitTransaction();
                                     callBack.fetchDidSucceed(sponsor);
                                 } catch (Exception e) {
-                                    Log.i(Keys.TAG, "Exception Error - " + e.getMessage());
+                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
                             }
@@ -122,7 +122,7 @@ public class Sponsor extends RealmObject {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(Keys.TAG, response.toString());
+                        Log.i(HRDFConstants.TAG, response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -133,7 +133,7 @@ public class Sponsor extends RealmObject {
                                     realm.commitTransaction();
                                     callBack.fetchDidSucceed(eventSponsors);
                                 } catch (Exception e) {
-                                    Log.i(Keys.TAG, "Exception Error - " + e.getMessage());
+                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
                             }
@@ -145,7 +145,7 @@ public class Sponsor extends RealmObject {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i(Keys.TAG, "OnErrorRun()");
+                        Log.i(HRDFConstants.TAG, "OnErrorRun()");
                         callBack.fetchDidFail(error);
                     }
                 });

@@ -48,7 +48,7 @@ public class dataType extends RealmObject {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        //      Log.i(Keys.TAG, response.toString());
+                        //      Log.i(HRDFConstants.TAG, response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -62,13 +62,13 @@ public class dataType extends RealmObject {
                                     Type collectionType = new TypeToken<ArrayList<Event>>() {
                                     }.getType();
                                     ArrayList<Event> events = gson.fromJson(response.toString(), collectionType);
-                                    //       Log.i(Keys.TAG, "AWAIS= "+events.size());
+                                    //       Log.i(HRDFConstants.TAG, "AWAIS= "+events.size());
 
 
 
                                     realm.commitTransaction();
                                 } catch (Exception e) {
-                                    Log.i(Keys.TAG, "Exception Error - " + e.getMessage());
+                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                 }
                             }
                         });
