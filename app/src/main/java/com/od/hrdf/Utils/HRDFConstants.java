@@ -1,4 +1,4 @@
-package com.od.hrdf;
+package com.od.hrdf.Utils;
 
 /**
  * Created by Awais on 10/12/2016.
