@@ -10,4 +10,8 @@ public class Util {
     public enum Activity{
         LOGIN_REG,
     }
+
+    public enum Navigate {
+        FORWARD, BACKWARD, SIGNUP, LOGIN
+    }
 }

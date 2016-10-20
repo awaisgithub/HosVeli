@@ -23,5 +23,8 @@ final public class HRDFConstants {
     public static final String AgendaList = "hrdfEventAgenda";
     public static final String FloorplanList = "hrdfEventFloorPlanList";
     public static final String JOGET_APP_ID = "hrdfApp";
+    public static final String USER_REG_TABLE = "app_fd_hrdf_user";
     public static final String EVENT_LIST_ID = "hrdfEventList";
+    public static final String DB_OP_CREATE = "Create";
+
 }
