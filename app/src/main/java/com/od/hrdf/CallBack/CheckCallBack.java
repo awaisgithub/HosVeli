@@ -6,7 +6,6 @@ package com.od.hrdf.CallBack;
 
 public interface CheckCallBack {
     public void checkDuplicateUser(boolean fetchedItems);
-
     public void checkFail(Exception e);
 
 }

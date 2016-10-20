@@ -14,7 +14,6 @@ import io.realm.RealmResults;
 
 public interface FetchCallBack {
     public void fetchDidSucceed(RealmResults fetchedItems);
-
     public void fetchDidFail(Exception e);
 
 }
