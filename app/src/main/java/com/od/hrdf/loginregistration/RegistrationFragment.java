@@ -1,6 +1,9 @@
 package com.od.hrdf.loginregistration;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,12 +11,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.text.TextUtilsCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,6 +31,7 @@ import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.CallBack.StatusCallBack;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
+import com.od.hrdf.Utils.Util;
 
 import org.json.JSONObject;
 import org.w3c.dom.Text;
@@ -61,6 +68,7 @@ public class RegistrationFragment extends Fragment {
     private EditText nationalityTV;
     private EditText passwordTV;
     private EditText confirmPasswordTV;
+    private ProgressDialog progressDialog;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -112,9 +120,13 @@ public class RegistrationFragment extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 validateAndSubmitRegistration();
             }
         });
+
+        progressDialog = new ProgressDialog(getActivity());
     }
 
     private void validateAndSubmitRegistration() {
@@ -142,6 +154,7 @@ public class RegistrationFragment extends Fragment {
         if (!resultPair.first) {
             showActionSnackBarMessage(resultPair.second);
         } else {
+            showProgressDialog(R.string.reg_checking_duplicate);
             checkDuplicateAndPerformReg();
         }
 
@@ -151,10 +164,12 @@ public class RegistrationFragment extends Fragment {
         User.checkDuplicate(Api.urlUserList(user.getId()), new CheckCallBack() {
             @Override
             public void checkDuplicateUser(boolean isDuplicate) {
+                hideProgressDialog();
                 Log.i(HRDFConstants.TAG, "checkDuplicate =" + isDuplicate);
                 if (isDuplicate) {
                     showActionSnackBarMessage(getString(R.string.reg_error_duplicate));
                 } else {
+                    showProgressDialog(R.string.reg_registering);
                     performReg();
                 }
             }
@@ -163,6 +178,7 @@ public class RegistrationFragment extends Fragment {
             public void checkFail(Exception e) {
                 e.printStackTrace();
                 Log.i(HRDFConstants.TAG, "checkDuplicate Exception=");
+                hideProgressDialog();
                 showActionSnackBarMessage(getActivity().getResources().getString(R.string.reg_error_unknown_server));
             }
         });
@@ -172,12 +188,16 @@ public class RegistrationFragment extends Fragment {
         user.performUserRegistration(user, Api.urlJogetCRUD(), new StatusCallBack() {
             @Override
             public void success(JSONObject response) {
+                hideProgressDialog();
                 if (response.has("status")) {
                     String status = response.optString("status");
                     if (status.equalsIgnoreCase("1")) {
                         user.setTemp(false);
                         user.setSynced(true);
+                        realm.beginTransaction();
                         realm.copyToRealmOrUpdate(user);
+                        realm.commitTransaction();
+                        onRegistrationSubmitDialog();
                     } else {
                         showActionSnackBarMessage(getActivity().getResources().getString(R.string.reg_error_unknown_server));
                     }
@@ -188,6 +208,7 @@ public class RegistrationFragment extends Fragment {
 
             @Override
             public void failure(String response) {
+                hideProgressDialog();
                 showActionSnackBarMessage(getActivity().getResources().getString(R.string.reg_error_server_not_reached));
                 Log.i(HRDFConstants.TAG, "performReg failure=" + response);
             }
@@ -218,6 +239,34 @@ public class RegistrationFragment extends Fragment {
         TextView textView = (TextView) group.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.YELLOW);
         textView.setMaxLines(2);
+        textView.setGravity(Gravity.CENTER);
         snackbar.show();
+    }
+
+    private void showProgressDialog(int message) {
+        progressDialog.setMessage(getResources().getString(message));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        progressDialog.dismiss();
+    }
+
+    private void onRegistrationSubmitDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.ThemeDialogCustom);
+        builder.setTitle(R.string.dialog_congrats_title);
+        builder.setMessage(R.string.reg_registered_message);
+        builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                mListener.onFragmentNav(RegistrationFragment.this, Util.Navigate.LOGIN);
+            }
+        });
+        builder.show();
     }
 }

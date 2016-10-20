@@ -32,10 +32,14 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
         user = User.getCurrentUser(realm);
         if (user != null) {
             Toast.makeText(this, "Ready to go to landing", Toast.LENGTH_SHORT).show();
+            finish();
         } else {
             initViews();
             fragmentManager = getSupportFragmentManager();
-            addFragment(LoginFragment.newInstance("", ""));
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.add(R.id.fragment, LoginFragment.newInstance("", ""))
+                    .addToBackStack("LoginFragment")
+                    .commit();
         }
 
     }
@@ -93,6 +97,7 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
                 }
                 break;
             case LOGIN:
+                finish();
                 break;
             default:
                 break;

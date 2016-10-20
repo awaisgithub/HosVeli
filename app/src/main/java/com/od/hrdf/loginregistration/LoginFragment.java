@@ -1,5 +1,7 @@
 package com.od.hrdf.loginregistration;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -7,11 +9,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,6 +37,8 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
+import static android.R.attr.id;
+
 public class LoginFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     private static final String ARG_PARAM1 = "param1";
@@ -44,6 +51,7 @@ public class LoginFragment extends Fragment {
     private EditText username;
     private EditText password;
     private Realm realm;
+    private ProgressDialog progressDialog;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -87,12 +95,27 @@ public class LoginFragment extends Fragment {
 
         username = (EditText) rootView.findViewById(R.id.username);
         password = (EditText) rootView.findViewById(R.id.password);
-        password.setImeActionLabel("JOIN", 0);
         password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
+
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
+                if(TextUtils.isEmpty(username.getText().toString())) {
+                    showActionSnackBarMessage(getString(R.string.login_error_username));
+                    return true;
+                }
+
+                if(TextUtils.isEmpty(password.getText().toString())) {
+                    showActionSnackBarMessage(getString(R.string.reg_error_password));
+                    return true;
+                }
+
+                showProgressDialog(R.string.login_authenticating);
                 performLogin(username.getText().toString(), password.getText().toString());
                 return true;
+
             }
         });
         Button signupButton = (Button) rootView.findViewById(R.id.signup_button);
@@ -102,6 +125,8 @@ public class LoginFragment extends Fragment {
                 mListener.onFragmentNav(LoginFragment.this, Util.Navigate.SIGNUP);
             }
         });
+
+        progressDialog = new ProgressDialog(getActivity());
     }
 
     @Override
@@ -126,25 +151,29 @@ public class LoginFragment extends Fragment {
         User.fetchUser(getActivity(), realm, Api.urlUserList(email), query, new LoginCallBack() {
             @Override
             public void fetchDidSucceed(String response) {
-                if(response != null && response.length() > 0) {
+                hideProgressDialog();
+                if (response != null && response.length() > 0) {
+                    realm.beginTransaction();
                     try {
-                        realm.beginTransaction();
                         JSONArray array = new JSONArray(response);
                         realm.createOrUpdateObjectFromJson(User.class, array.getJSONObject(0));
                         User user = realm.where(User.class).endsWith("id", email).findFirst();
-                        if(user != null && user.getPassword().equalsIgnoreCase(password)) {
+                        if (user != null && user.getPassword().equalsIgnoreCase(password)) {
                             user.setTemp(false);
                             user.setSynced(true);
+                            mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
+
                             Toast.makeText(getActivity(), "Good to go", Toast.LENGTH_SHORT).show();
                         } else {
                             user.setTemp(true);
                             user.setSynced(false);
                             showActionSnackBarMessage(getString(R.string.login_cred_error));
                         }
-                        realm.commitTransaction();
                     } catch (JSONException e) {
+                        showActionSnackBarMessage(getString(R.string.reg_error_unknown_server));
                         e.printStackTrace();
                     }
+                    realm.commitTransaction();
                 } else {
                     showActionSnackBarMessage(getString(R.string.login_not_exist));
                 }
@@ -152,6 +181,7 @@ public class LoginFragment extends Fragment {
 
             @Override
             public void fetchDidFail(Exception e) {
+                hideProgressDialog();
                 showActionSnackBarMessage(getString(R.string.login_server_error));
             }
         });
@@ -165,5 +195,18 @@ public class LoginFragment extends Fragment {
         textView.setTextColor(Color.YELLOW);
         textView.setMaxLines(2);
         snackbar.show();
+    }
+
+    private void showProgressDialog(int message) {
+        progressDialog.setMessage(getResources().getString(message));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setIndeterminate(true);
+        progressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        progressDialog.dismiss();
     }
 }
