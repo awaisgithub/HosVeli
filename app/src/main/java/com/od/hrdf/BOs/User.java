@@ -16,26 +16,16 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.od.hrdf.CallBack.CheckCallBack;
 import com.od.hrdf.CallBack.FetchCallBack;
+import com.od.hrdf.CallBack.LoginCallBack;
+import com.od.hrdf.CallBack.StatusCallBack;
 import com.od.hrdf.HRDFApplication;
+import com.od.hrdf.Payload.JSONPayloadManager;
+import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -52,7 +42,7 @@ import static android.R.attr.data;
 
 public class User extends RealmObject {
     @PrimaryKey
-    private String email;
+    private String id;
 
     private int age;
     private boolean is_hrdf_staff;
@@ -71,6 +61,7 @@ public class User extends RealmObject {
     private String nationality;
     private String passport;
     private String password;
+    private String confirmPassword;
     private String race;
     private String salutation;
     private String sector;
@@ -137,14 +128,6 @@ public class User extends RealmObject {
 
     public void setDesignation(String designation) {
         this.designation = designation;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getEmploymentstatus() {
@@ -283,6 +266,22 @@ public class User extends RealmObject {
         this.status = status;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     //METHODS
 
     private static User getTempUser(Realm realm) {
@@ -307,7 +306,7 @@ public class User extends RealmObject {
     }
 
     public static User getUser(String id, Realm realm) {
-        return realm.where(User.class).equalTo("email", id)
+        return realm.where(User.class).equalTo("id", id)
                 .findFirst();
     }
 
@@ -318,26 +317,30 @@ public class User extends RealmObject {
 
     public Pair<Boolean, String> validate() {
         if (name == null || name.isEmpty())
-            return new Pair<Boolean, String>(false, "Please provide your full name.");
+            return new Pair<Boolean, String>(false, HRDFApplication.context.getResources().getString(R.string.reg_error_name));
 
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())
-            return new Pair<Boolean, String>(false, "Please provide a valid email.");
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(id).matches())
+            return new Pair<Boolean, String>(false, HRDFApplication.context.getResources().getString(R.string.reg_error_email));
 
         if (!Patterns.PHONE.matcher(contactNumber).matches())
-            return new Pair<Boolean, String>(false, "Please provide a valid contact number.");
+            return new Pair<Boolean, String>(false, HRDFApplication.context.getResources().getString(R.string.reg_error_contact_number));
 
         if (nationality.isEmpty() || nationality == null)
-            return new Pair<Boolean, String>(false, "Please provide your nationality.");
+            return new Pair<Boolean, String>(false, HRDFApplication.context.getResources().getString(R.string.reg_error_nationality));
 
         if (password.isEmpty() || password == null)
-            return new Pair<Boolean, String>(false, "You must provide password to sign up.");
+            return new Pair<Boolean, String>(false, HRDFApplication.context.getResources().getString(R.string.reg_error_password));
+
+        if (!password.equalsIgnoreCase(confirmPassword)) {
+            return new Pair<Boolean, String>(false, HRDFApplication.context.getResources().getString(R.string.reg_error_password_not_match));
+        }
 
         return new Pair<Boolean, String>(true, "");
     }
 
     public JSONObject getUserData() throws JSONException {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", email);
+        jsonObject.put("id", id);
         jsonObject.put("name", name);
         jsonObject.put("contactNumber", contactNumber);
         jsonObject.put("nationality", nationality);
@@ -347,34 +350,17 @@ public class User extends RealmObject {
     }
 
     public static RealmResults<Event> getUserEvents(RealmResults delegate, String userId, Realm realm) {
-        return realm.where(Event.class).equalTo("email", userId)
+        return realm.where(Event.class).equalTo("id", userId)
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
-    public static void fetchUser(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+    public static void fetchUser(final Activity context, final Realm realm, String url, final RealmQuery query, final LoginCallBack callBack) {
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
-
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (response != null && response.length() > 0) {
-                                    try {
-                                        realm.beginTransaction();
-                                        realm.createOrUpdateAllFromJson(User.class, response);
-                                        RealmResults user = query.findAll();
-                                        realm.commitTransaction();
-                                        callBack.fetchDidSucceed(user);
-                                    } catch (Exception e) {
-                                        Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                        callBack.fetchDidFail(e);
-                                    }
-                                }
-                            }
-                        });
+                        callBack.fetchDidSucceed(response.toString());
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -390,92 +376,42 @@ public class User extends RealmObject {
         HRDFApplication.getInstance().addToRequestQueue(req);
     }
 
-    public static void checkDuplicate(final Activity context, final Realm realm, String url, final RealmQuery query, final CheckCallBack callBack) {
+    public static void checkDuplicate(String url, final CheckCallBack callBack) {
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
 
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (response != null && response.length() > 0) {
-                                    try {
-                                        boolean duplicate = false;
-                                        RealmResults user = query.findAll();
-                                        if (user.size() > 0)
-                                            duplicate = true;
-                                        callBack.checkDuplicateUser(duplicate);
-                                    } catch (Exception e) {
-                                        Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                        callBack.checkFail(e);
-                                    }
-                                } else {
-                                    callBack.checkDuplicateUser(false);
-                                }
-                            }
-                        });
+                        if (response != null && response.length() > 0) {
+                            callBack.checkDuplicateUser(true);
+                        } else {
+                            callBack.checkDuplicateUser(false);
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        callBack.checkFail(error);
-                    }
-                });
+                callBack.checkFail(error);
             }
         });
         HRDFApplication.getInstance().addToRequestQueue(req);
     }
 
-    public static void performUserRegistration(Activity context, String url, FetchCallBack callBack) {
-        JSONObject jsonObject = new JSONObject();
-        JsonObjectRequest userRegistration;
-        try {
-            jsonObject.accumulate("sector", "A");
-            jsonObject.accumulate("passwd", "OpenDynamics");
-            jsonObject.accumulate("dateModified", "2016-10-14 15:54:56.0");
-            jsonObject.accumulate("contactNumber", "010");
-            jsonObject.accumulate("isSynced", "");
-            jsonObject.accumulate("state", "Selangor");
-            jsonObject.accumulate("designation", "CEO");
-            jsonObject.accumulate("address1", "Malaysia kelana");
-            jsonObject.accumulate("mycoid", "");
-            jsonObject.accumulate("address2", "");
-            jsonObject.accumulate("type", "User");
-            jsonObject.accumulate("is_hrdf_staff", "");
-            jsonObject.accumulate("race", "Black");
-            jsonObject.accumulate("city", "kuala lumpur");
-            jsonObject.accumulate("id", "name@person.com");
-            jsonObject.accumulate("name", "sameer");
-            jsonObject.accumulate("age", "2016-10-14 15:54:56.0");
-            jsonObject.accumulate("gender", "A");
-            jsonObject.accumulate("industry", "OpenDynamics");
-            jsonObject.accumulate("status", "2016-10-14 15:54:56.0");
-            jsonObject.accumulate("postcode", "A");
-            jsonObject.accumulate("nationality", "OpenDynamics");
-            jsonObject.accumulate("company", "2016-10-14 15:54:56.0");
-            jsonObject.accumulate("dateCreated", "A");
-            jsonObject.accumulate("salutation", "OpenDynamics");
-            jsonObject.accumulate("passport", "2016-10-14 15:54:56.0");
-            jsonObject.accumulate("employmentStatus", "2016-10-14 15:54:56.0");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.i(HRDFConstants.TAG, "JsonObject= " + jsonObject.toString());
-        userRegistration = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+    public static void performUserRegistration(User user, String url, final StatusCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "performUserRegistration =" + url);
+        JSONObject jsonObject = JSONPayloadManager.getInstance().getRegReqPayload(user);
+        JsonObjectRequest userRegistration = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.i(HRDFConstants.TAG, " onResponse = " + response.toString());
+                callBack.success(response);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(HRDFConstants.TAG, " ERRor  Errror ERROR = " + error.toString());
+                callBack.failure(error.toString());
 
             }
         });
