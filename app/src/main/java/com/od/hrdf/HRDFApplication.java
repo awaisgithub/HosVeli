@@ -1,6 +1,7 @@
 package com.od.hrdf;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,13 +20,14 @@ public class HRDFApplication extends Application {
     private static HRDFApplication mInstance;
     private RequestQueue requestQueue;
     String newVar;
+    public static Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Realm.init(this);
         mInstance = this;
-
+        context = this;
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name(Realm.DEFAULT_REALM_NAME)
                 .schemaVersion(0)

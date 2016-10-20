@@ -108,18 +108,7 @@ public class LandingActivity extends AppCompatActivity {
             }
         });
 
-        query = realm.where(User.class).equalTo("email", "janet@opendynamics.com.my");
-        User.checkDuplicate(this, realm, Api.urlUserList("janet@opendynamics.com.my"), query, new CheckCallBack() {
-            @Override
-            public void checkDuplicateUser(boolean fetchedItems) {
-
-            }
-
-            @Override
-            public void checkFail(Exception e) {
-
-            }
-        });
+        performUserRegistration
 
         query = realm.where(Speaker.class).equalTo("event", "b3358590-7f000010-9bb09e10-17cd6d26");
         Speaker.fetchEventSpeakers(this, realm, Api.urlEventSpeakerList("b3358590-7f000010-9bb09e10-17cd6d26"), query, new FetchCallBack() {
