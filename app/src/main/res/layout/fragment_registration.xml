@@ -26,7 +26,7 @@
                 android:background="@drawable/edit_text_login"
                 android:ems="10"
                 android:hint="@string/reg_hint_name"
-                android:inputType="textPersonName"
+                android:inputType="textPersonName|textCapWords"
                 android:padding="10dp"
                 android:textSize="@dimen/text_size_loginreg" />
 
@@ -63,7 +63,7 @@
                 android:background="@drawable/edit_text_login"
                 android:ems="10"
                 android:hint="@string/reg_hint_nationality"
-                android:inputType="textPersonName"
+                android:inputType="textCapWords"
                 android:padding="10dp"
                 android:textSize="@dimen/text_size_loginreg" />
 
