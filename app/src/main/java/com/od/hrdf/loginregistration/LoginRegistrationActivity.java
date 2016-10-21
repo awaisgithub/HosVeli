@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.od.hrdf.BOs.User;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.Util;
+import com.od.hrdf.landingtab.TabbarActivity;
 
 import io.realm.Realm;
 
@@ -31,8 +32,8 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
         realm = Realm.getDefaultInstance();
         user = User.getCurrentUser(realm);
         if (user != null) {
-            Toast.makeText(this, "Ready to go to landing", Toast.LENGTH_SHORT).show();
             finish();
+            gotoMainTabbarActivity();
         } else {
             initViews();
             fragmentManager = getSupportFragmentManager();
@@ -102,5 +103,10 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
             default:
                 break;
         }
+    }
+
+    private void gotoMainTabbarActivity() {
+        Intent intent = new Intent(this, TabbarActivity.class);
+        startActivity(intent);
     }
 }
