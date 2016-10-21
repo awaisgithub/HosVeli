@@ -39,7 +39,14 @@
     <string name="login_cred_error">Unable to login. Please check your login credentials.</string>
     <string name="login_authenticating">Authenticating....</string>
     <string name="login_error_username">Please provide username.</string>
+    <string name="title_activity_tabbar">TabbarActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 
+    <string-array name="main_tabs">
+        <item>About Us</item>
+        <item>Speakers</item>
+        <item>Profile</item>
+    </string-array>
 
 </resources>
