@@ -24,6 +24,7 @@ public class LandingActivity extends AppCompatActivity {
     private Event event;
     private Speaker speaker;
     private User user;
+    private String bitbucketPullTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
