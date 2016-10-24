@@ -209,7 +209,7 @@ public class Exhibitor extends RealmObject {
     }
 
     //Shutter bug
-    public void fetchImage(final Activity context, final Realm realm, final ImageCallBack callBack) {
+    public void fetchImage(final Activity context, final Realm realm, String imageURL, final ImageCallBack callBack) {
 
         if (isImagePresent) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
@@ -219,7 +219,7 @@ public class Exhibitor extends RealmObject {
             else
                 callBack.fetchImageFail("Failed to Load Image");
         } else {
-            ImageRequest request = new ImageRequest("https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_284x96dp.png",
+            ImageRequest request = new ImageRequest(imageURL,
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap bitmap) {
