@@ -61,6 +61,7 @@ public class User extends RealmObject {
     private String sector;
     private String state;
     private String status;
+    private String photo;
     private boolean isSyncedLocal = false;
     private boolean isTemp = true;
     private RealmList<Event> events;
