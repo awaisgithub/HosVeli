@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LandingActivity"
+            android:name=".loginregistration.LoginRegistrationActivity"
             android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".loginregistration.LoginRegistrationActivity"
-            android:theme="@style/AppTheme.Login"
-            android:windowSoftInputMode="stateHidden" />
+        <!--<activity-->
+            <!--android:name=".loginregistration.LoginRegistrationActivity"-->
+            <!--android:theme="@style/AppTheme.Login"-->
+            <!--android:windowSoftInputMode="stateHidden" />-->
         <activity
             android:name=".landingtab.TabbarActivity"
             android:label="@string/app_name"
