@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.od.hrdf.news.NewsDetailsActivity"
-    tools:showIn="@layout/activity_news_details2">
+    tools:showIn="@layout/activity_news_details">
 
     <RelativeLayout xmlns:fresco="http://schemas.android.com/apk/res-auto"
         android:id="@+id/header"
