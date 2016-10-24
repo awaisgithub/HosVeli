@@ -1,6 +1,5 @@
 package com.od.hrdf.landingtab;
 
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,23 +17,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.od.hrdf.R;
+import com.od.hrdf.Utils.Util;
+import com.od.hrdf.abouts.AboutUsFragment;
+import com.od.hrdf.news.NewsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabbarActivity extends AppCompatActivity {
+public class TabbarActivity extends AppCompatActivity implements TabFragActivityInterface{
 
     private ViewPager mViewPager;
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private int[] tabIconsNormal = {
             R.drawable.about,
-            R.drawable.speaker,
+            R.drawable.news,
+            R.drawable.event,
             R.drawable.profile
     };
     private int[] tabIconsSelected = {
             R.drawable.about_selected,
-            R.drawable.speaker_selected,
+            R.drawable.news_selected,
+            R.drawable.event_selected,
             R.drawable.profile_selected
     };
 
@@ -47,9 +51,11 @@ public class TabbarActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
+
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -80,8 +86,8 @@ public class TabbarActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_tabbar, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.menu_tabbar, menu);
+        return false;
     }
 
     @Override
@@ -95,9 +101,10 @@ public class TabbarActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(PlaceholderFragment.newInstance(0), "ONE");
-        adapter.addFragment(PlaceholderFragment.newInstance(1), "TWO");
+        adapter.addFragment(AboutUsFragment.newInstance("", ""), "About Us");
+        adapter.addFragment(NewsFragment.newInstance("",""), "News");
         adapter.addFragment(PlaceholderFragment.newInstance(2), "THREE");
+        adapter.addFragment(PlaceholderFragment.newInstance(3), "FOUR");
         viewPager.setAdapter(adapter);
     }
 
@@ -113,9 +120,13 @@ public class TabbarActivity extends AppCompatActivity {
             } else {
                 tabOne.setCompoundDrawablesWithIntrinsicBounds(0, tabIconsNormal[i], 0, 0);
             }
-
             tabLayout.getTabAt(i).setCustomView(tabOne);
         }
+    }
+
+    @Override
+    public void onFragmentNav(Fragment fragment, Util.Navigate navigate) {
+
     }
 
     public static class PlaceholderFragment extends Fragment {
