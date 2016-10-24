@@ -231,7 +231,7 @@ public class Exhibitor extends RealmObject {
                     new Response.ErrorListener() {
                         public void onErrorResponse(VolleyError error) {
                             //    mImageView.setImageResource(R.drawable.image_load_error);
-                            Log.i("HRDF", "FAILURE NO NO");
+
                             callBack.fetchImageFail(error.toString());
                         }
                     });
