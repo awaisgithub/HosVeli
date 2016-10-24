@@ -1,0 +1,78 @@
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/header_layout"
+        app:layout_heightPercent="30%"
+        app:layout_widthPercent="100%">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/header_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"
+            android:alpha="0.5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="25dp"
+            android:text="@string/aboutus_header_text_bhasa"
+            android:textColor="@android:color/white"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/aboutus_header_text_english"
+            android:textColor="@android:color/white"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+
+    <include
+        android:id="@+id/segmentlayoutinclude"
+        layout="@layout/aboutus_segment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header_layout"
+        app:layout_marginTopPercent="1%">
+
+    </include>
+
+    <ViewSwitcher
+        android:id="@+id/view_switcher"
+        android:layout_below="@+id/segmentlayoutinclude"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        app:layout_heightPercent="55%"
+        app:layout_widthPercent="100%">
+
+        <WebView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" />
+
+        <include layout="@layout/contactus_layout" />
+
+
+    </ViewSwitcher>
+
+
+</android.support.percent.PercentRelativeLayout>
