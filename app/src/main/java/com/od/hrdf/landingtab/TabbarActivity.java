@@ -20,6 +20,7 @@ import com.od.hrdf.R;
 import com.od.hrdf.Utils.Util;
 import com.od.hrdf.abouts.AboutUsFragment;
 import com.od.hrdf.news.NewsFragment;
+import com.od.hrdf.profile.ProfileFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +105,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         adapter.addFragment(AboutUsFragment.newInstance("", ""), "About Us");
         adapter.addFragment(NewsFragment.newInstance("",""), "News");
         adapter.addFragment(PlaceholderFragment.newInstance(2), "THREE");
-        adapter.addFragment(PlaceholderFragment.newInstance(3), "FOUR");
+        adapter.addFragment(ProfileFragment.newInstance("", ""), "Profile");
         viewPager.setAdapter(adapter);
     }
 
