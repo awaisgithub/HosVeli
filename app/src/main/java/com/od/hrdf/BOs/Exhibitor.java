@@ -12,9 +12,7 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.CallBack.ImageCallBack;
-import com.od.hrdf.CustomVolleyRequest;
 import com.od.hrdf.HRDFApplication;
-import com.od.hrdf.MySingleton;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 
@@ -31,6 +29,7 @@ import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
+
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 import io.realm.internal.IOException;
@@ -246,7 +245,7 @@ public class Exhibitor extends RealmObject {
                             callBack.fetchImageFail(error.toString());
                         }
                     });
-            MySingleton.getInstance(context).addToRequestQueue(request);
+            HRDFApplication.getInstance().addToRequestQueue(request);
         }
     }
 }
