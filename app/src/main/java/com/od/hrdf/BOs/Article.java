@@ -1,4 +1,4 @@
-package com.od.hrdf.article;
+package com.od.hrdf.BOs;
 
 import android.app.Activity;
 import android.util.Log;
@@ -6,11 +6,17 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Date;
 import io.realm.Realm;
 import io.realm.RealmObject;
@@ -37,13 +43,23 @@ public class Article extends RealmObject {
     private String url;
     private String title;
     private String category;
+
+    private String articleSummaryImage;
     private String articleContentImage;
     private boolean enableSocialMediaSharing = false;
-    private String articleDescription;
-    private boolean active = false;
+    private String description;
+    private String active;
     private String sortingSequence;
 
     public Article() {
+    }
+
+    public String getArticleSummaryImage() {
+        return articleSummaryImage;
+    }
+
+    public void setArticleSummaryImage(String articleSummaryImage) {
+        this.articleSummaryImage = articleSummaryImage;
     }
 
     public String getId() {
@@ -142,19 +158,19 @@ public class Article extends RealmObject {
         this.enableSocialMediaSharing = enableSocialMediaSharing;
     }
 
-    public String getArticleDescription() {
-        return articleDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setArticleDescription(String articleDescription) {
-        this.articleDescription = articleDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public boolean isActive() {
+    public String getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(String active) {
         this.active = active;
     }
 
@@ -167,10 +183,15 @@ public class Article extends RealmObject {
     }
 
     //METHODS
+
+    public static Article getArticle(Realm realm, String id) {
+        return realm.where(Article.class).equalTo("id", id).findFirst();
+    }
+
     public static RealmResults<Article> getArticlesResultController(Realm realm) {
         Date today = new Date();
         return realm.where(Article.class).lessThanOrEqualTo("startDate", today).greaterThanOrEqualTo("endDate", today)
-                .equalTo("active", true)
+                .equalTo("active", "Yes")
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
@@ -183,16 +204,23 @@ public class Article extends RealmObject {
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                realm.beginTransaction();
                                 try {
-                                    realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(Article.class, response);
-                                    RealmResults articles = query.findAll();
-                                    realm.commitTransaction();
-                                    callBack.fetchDidSucceed(articles);
+                                    Gson gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
+                                    Type collectionType = new TypeToken<ArrayList<Article>>() {
+                                    }.getType();
+                                    ArrayList<Article> articles = gson.fromJson(response.toString(), collectionType);
+                                    for(Article article: articles)
+                                    realm.copyToRealmOrUpdate(article);
+
+//                                    realm.copyToRealmOrUpdate(articles);//Article.class, response);
+                                    RealmResults articlesResultSet = query.findAll();
+                                    callBack.fetchDidSucceed(articlesResultSet);
                                 } catch (Exception e) {
                                     Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
+                                realm.commitTransaction();
                             }
                         });
                     }

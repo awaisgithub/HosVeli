@@ -1,6 +1,5 @@
 package com.od.hrdf.loginregistration;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import com.od.hrdf.BOs.User;
 import com.od.hrdf.R;
@@ -98,6 +96,7 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
                 }
                 break;
             case LOGIN:
+                gotoMainTabbarActivity();
                 finish();
                 break;
             default:

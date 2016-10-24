@@ -7,15 +7,11 @@ import android.util.Pair;
 import android.util.Patterns;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.od.hrdf.CallBack.CheckCallBack;
-import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.CallBack.LoginCallBack;
 import com.od.hrdf.CallBack.StatusCallBack;
 import com.od.hrdf.HRDFApplication;
@@ -34,8 +30,6 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 import io.realm.annotations.PrimaryKey;
 
-import static android.R.attr.data;
-
 /**
  * Created by Awais on 10/10/2016.
  */
@@ -44,9 +38,9 @@ public class User extends RealmObject {
     @PrimaryKey
     private String id;
 
-    private int age;
-    private boolean is_hrdf_staff;
-    private int postcode;
+    private String age;
+    private String is_hrdf_staff;
+    private String postcode;
     private String address11;
     private String address12;
     private String city;
@@ -67,7 +61,7 @@ public class User extends RealmObject {
     private String sector;
     private String state;
     private String status;
-    private boolean isSynced = false;
+    private boolean isSyncedLocal = false;
     private boolean isTemp = true;
     private RealmList<Event> events;
 
@@ -90,11 +84,11 @@ public class User extends RealmObject {
         this.address12 = address12;
     }
 
-    public int getAge() {
+    public String getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(String age) {
         this.age = age;
     }
 
@@ -154,12 +148,12 @@ public class User extends RealmObject {
         this.industry = industry;
     }
 
-    public boolean isSynced() {
-        return isSynced;
+    public boolean isSyncedLocal() {
+        return isSyncedLocal;
     }
 
-    public void setSynced(boolean synced) {
-        isSynced = synced;
+    public void setSyncedLocal(boolean syncedLocal) {
+        isSyncedLocal = syncedLocal;
     }
 
     public boolean isTemp() {
@@ -170,11 +164,11 @@ public class User extends RealmObject {
         isTemp = temp;
     }
 
-    public boolean is_hrdf_staff() {
+    public String is_hrdf_staff() {
         return is_hrdf_staff;
     }
 
-    public void setIs_hrdf_staff(boolean is_hrdf_staff) {
+    public void setIs_hrdf_staff(String is_hrdf_staff) {
         this.is_hrdf_staff = is_hrdf_staff;
     }
 
@@ -218,11 +212,11 @@ public class User extends RealmObject {
         this.password = password;
     }
 
-    public int getPostcode() {
+    public String getPostcode() {
         return postcode;
     }
 
-    public void setPostcode(int postcode) {
+    public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
 
@@ -285,7 +279,7 @@ public class User extends RealmObject {
     //METHODS
 
     private static User getTempUser(Realm realm) {
-        return realm.where(User.class).equalTo("isTemp", true).equalTo("isSynced", false)
+        return realm.where(User.class).equalTo("isTemp", true).equalTo("isSyncedLocal", false)
                 .findFirst();
     }
 
@@ -311,7 +305,7 @@ public class User extends RealmObject {
     }
 
     public static User getCurrentUser(Realm realm) {
-        return realm.where(User.class).equalTo("isTemp", false).equalTo("isSynced", true)
+        return realm.where(User.class).equalTo("isTemp", false).equalTo("isSyncedLocal", true)
                 .findFirst();
     }
 
@@ -355,6 +349,7 @@ public class User extends RealmObject {
     }
 
     public static void fetchUser(final Activity context, final Realm realm, String url, final RealmQuery query, final LoginCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "fetchUser ="+url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override

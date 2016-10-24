@@ -5,14 +5,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
@@ -27,18 +24,14 @@ import android.widget.TextView;
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.User;
 import com.od.hrdf.CallBack.CheckCallBack;
-import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.CallBack.StatusCallBack;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.Util;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -193,7 +186,7 @@ public class RegistrationFragment extends Fragment {
                     String status = response.optString("status");
                     if (status.equalsIgnoreCase("1")) {
                         user.setTemp(false);
-                        user.setSynced(true);
+                        user.setSyncedLocal(true);
                         realm.beginTransaction();
                         realm.copyToRealmOrUpdate(user);
                         realm.commitTransaction();

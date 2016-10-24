@@ -4,18 +4,15 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,10 +21,8 @@ import android.widget.Toast;
 
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.User;
-import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.CallBack.LoginCallBack;
 import com.od.hrdf.R;
-import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.Util;
 
 import org.json.JSONArray;
@@ -35,9 +30,6 @@ import org.json.JSONException;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
-import io.realm.RealmResults;
-
-import static android.R.attr.id;
 
 public class LoginFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -160,13 +152,13 @@ public class LoginFragment extends Fragment {
                         User user = realm.where(User.class).endsWith("id", email).findFirst();
                         if (user != null && user.getPassword().equalsIgnoreCase(password)) {
                             user.setTemp(false);
-                            user.setSynced(true);
+                            user.setSyncedLocal(true);
                             mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
 
                             Toast.makeText(getActivity(), "Good to go", Toast.LENGTH_SHORT).show();
                         } else {
                             user.setTemp(true);
-                            user.setSynced(false);
+                            user.setSyncedLocal(false);
                             showActionSnackBarMessage(getString(R.string.login_cred_error));
                         }
                     } catch (JSONException e) {
