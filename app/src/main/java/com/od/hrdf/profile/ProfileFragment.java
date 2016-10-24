@@ -85,7 +85,7 @@ public class ProfileFragment extends Fragment {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getFragmentManager());
-        adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(0), "One");
+        adapter.addFragment(ProfileQRFragment.newInstance("", ""), "One");
         adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(1), "Two");
         adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(2), "THREE");
         adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(3), "Four");
