@@ -18,6 +18,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by Awais on 10/10/2016.
@@ -26,10 +27,15 @@ import io.realm.annotations.PrimaryKey;
 public class Sponsor extends RealmObject {
     @PrimaryKey
     private String id;
+    @Required
+    private byte[] imageData;
 
     private String name;
     private String website;
     private String image;
+    private String level;
+    private long levelSeq;
+    private boolean isImagePresent;
     private String event;
     private Event events;
 
@@ -67,6 +73,54 @@ public class Sponsor extends RealmObject {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public long getLevelSeq() {
+        return levelSeq;
+    }
+
+    public void setLevelSeq(long levelSeq) {
+        this.levelSeq = levelSeq;
+    }
+
+    public boolean isImagePresent() {
+        return isImagePresent;
+    }
+
+    public void setImagePresent(boolean imagePresent) {
+        isImagePresent = imagePresent;
+    }
+
+    public String getEvent() {
+        return event;
+    }
+
+    public void setEvent(String event) {
+        this.event = event;
+    }
+
+    public Event getEvents() {
+        return events;
+    }
+
+    public void setEvents(Event events) {
+        this.events = events;
     }
 
     //METHODS

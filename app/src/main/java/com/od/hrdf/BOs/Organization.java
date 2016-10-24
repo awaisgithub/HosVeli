@@ -38,6 +38,13 @@ public class Organization extends RealmObject {
     private String facebookLink;
     private String twitterLink;
     private String instagramLink;
+    private String linkedInLink;
+    private String youtubeLink;
+    private String socialMediaShareLink;
+    private String socialMediaShareText;
+    private String socialMediaSharePic;
+
+
 
     public String getId() {
         return id;
@@ -89,6 +96,46 @@ public class Organization extends RealmObject {
 
     public String getBannerImage() {
         return bannerImage;
+    }
+
+    public String getLinkedInLink() {
+        return linkedInLink;
+    }
+
+    public void setLinkedInLink(String linkedInLink) {
+        this.linkedInLink = linkedInLink;
+    }
+
+    public String getYoutubeLink() {
+        return youtubeLink;
+    }
+
+    public void setYoutubeLink(String youtubeLink) {
+        this.youtubeLink = youtubeLink;
+    }
+
+    public String getSocialMediaShareLink() {
+        return socialMediaShareLink;
+    }
+
+    public void setSocialMediaShareLink(String socialMediaShareLink) {
+        this.socialMediaShareLink = socialMediaShareLink;
+    }
+
+    public String getSocialMediaShareText() {
+        return socialMediaShareText;
+    }
+
+    public void setSocialMediaShareText(String socialMediaShareText) {
+        this.socialMediaShareText = socialMediaShareText;
+    }
+
+    public String getSocialMediaSharePic() {
+        return socialMediaSharePic;
+    }
+
+    public void setSocialMediaSharePic(String socialMediaSharePic) {
+        this.socialMediaSharePic = socialMediaSharePic;
     }
 
     public void setBannerImage(String bannerImage) {

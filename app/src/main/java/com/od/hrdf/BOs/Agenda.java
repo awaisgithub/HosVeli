@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import java.util.Date;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -33,6 +34,15 @@ public class Agenda extends RealmObject {
     private String agendaType;
     private String session;
     private String event;
+    private RealmList<SessionItem> sessionItems;
+
+    public RealmList<SessionItem> getSessionItems() {
+        return sessionItems;
+    }
+
+    public void setSessionItems(RealmList<SessionItem> sessionItems) {
+        this.sessionItems = sessionItems;
+    }
 
     public String getId() {
         return id;

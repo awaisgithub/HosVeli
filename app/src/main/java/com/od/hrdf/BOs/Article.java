@@ -47,7 +47,7 @@ public class Article extends RealmObject {
     private String articleSummaryImage;
     private String articleContentImage;
     private boolean enableSocialMediaSharing = false;
-    private String description;
+    private String articleDescription;
     private String active;
     private String sortingSequence;
 
@@ -158,12 +158,12 @@ public class Article extends RealmObject {
         this.enableSocialMediaSharing = enableSocialMediaSharing;
     }
 
-    public String getDescription() {
-        return description;
+    public String getArticleDescription() {
+        return articleDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setArticleDescription(String articleDescription) {
+        this.articleDescription = articleDescription;
     }
 
     public String getActive() {
@@ -181,6 +181,8 @@ public class Article extends RealmObject {
     public void setSortingSequence(String sortingSequence) {
         this.sortingSequence = sortingSequence;
     }
+
+
 
     //METHODS
 

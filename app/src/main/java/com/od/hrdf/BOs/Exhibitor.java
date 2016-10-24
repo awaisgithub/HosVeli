@@ -1,16 +1,29 @@
 package com.od.hrdf.BOs;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.od.hrdf.CallBack.FetchCallBack;
+import com.od.hrdf.CallBack.ImageCallBack;
+import com.od.hrdf.CustomVolleyRequest;
 import com.od.hrdf.HRDFApplication;
+import com.od.hrdf.MySingleton;
+import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -19,6 +32,8 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+import io.realm.internal.IOException;
 
 /**
  * Created by Awais on 10/10/2016.
@@ -27,14 +42,24 @@ import io.realm.annotations.PrimaryKey;
 public class Exhibitor extends RealmObject {
     @PrimaryKey
     private String id;
+    @Required
+    private byte[] imageData;
 
     private String name;
     private String boothNo;
     private String sector;
     private String website;
     private String image;
-    private String event;
+    private boolean isImagePresent;
     private RealmList<Event> events;
+
+    public RealmList<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(RealmList<Event> events) {
+        this.events = events;
+    }
 
     public String getName() {
         return name;
@@ -62,6 +87,22 @@ public class Exhibitor extends RealmObject {
 
     public String getSector() {
         return sector;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    public boolean isImagePresent() {
+        return isImagePresent;
+    }
+
+    public void setImagePresent(boolean imagePresent) {
+        isImagePresent = imagePresent;
     }
 
     public void setSector(String sector) {
@@ -168,4 +209,44 @@ public class Exhibitor extends RealmObject {
         HRDFApplication.getInstance().addToRequestQueue(req);
     }
 
+    //Shutter bug
+    public void fetchImage(final Activity context, final Realm realm, final ImageCallBack callBack) {
+
+        if (isImagePresent) {
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+            if(bitmap!=null) {
+                callBack.fetchImageSucceed(bitmap);
+            }
+            else
+                callBack.fetchImageFail("Failed to Load Image");
+        } else {
+            ImageRequest request = new ImageRequest("https://www.gstatic.com/images/branding/googlelogo/2x/googlelogo_color_284x96dp.png",
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap bitmap) {
+                            Log.i("HRDF", "Success YES YES");
+                            if (bitmap != null) {
+                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                                Log.i("HRDF", "3");
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                Log.i("HRDF", "4");
+                                realm.beginTransaction();
+                                imageData = stream.toByteArray();
+                                Log.i("HRDF", "5");
+                                isImagePresent = true;
+                                realm.commitTransaction();
+                                callBack.fetchImageSucceed(bitmap);
+                            }
+                        }
+                    }, 0, 0, null,
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                            //    mImageView.setImageResource(R.drawable.image_load_error);
+                            Log.i("HRDF", "FAILURE NO NO");
+                            callBack.fetchImageFail(error.toString());
+                        }
+                    });
+            MySingleton.getInstance(context).addToRequestQueue(request);
+        }
+    }
 }

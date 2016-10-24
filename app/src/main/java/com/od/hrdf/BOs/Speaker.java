@@ -19,6 +19,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by Awais on 10/10/2016.
@@ -27,10 +28,13 @@ import io.realm.annotations.PrimaryKey;
 public class Speaker extends RealmObject {
     @PrimaryKey
     private String id;
+    @Required
+    private byte[] imageData;
 
-    private int speaker_age;
-    private int speaker_hrdf_staff;
-    private String cpeaker;
+    private Long speaker_age;
+    private Long speaker_hrdf_staff;
+    //
+    private String cpeaker_sector;
     private String speaker_company;
     private String speaker_contact_number;
     private String speaker_office_contact;
@@ -50,30 +54,18 @@ public class Speaker extends RealmObject {
     private String speaker_about;
     private String event;
     private AddressD address;
-    private RealmList<Event> events;
+    private long rating;
+    private long sequence;
+    private boolean isImagePresent;
+    private RealmList<SpeakerTopic> topics;
 
     public String getId() {
         return id;
     }
 
+
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCpeaker() {
-        return cpeaker;
-    }
-
-    public void setCpeaker(String cpeaker) {
-        this.cpeaker = cpeaker;
-    }
-
-    public int getSpeaker_age() {
-        return speaker_age;
-    }
-
-    public void setSpeaker_age(int speaker_age) {
-        this.speaker_age = speaker_age;
     }
 
     public String getSpeaker_company() {
@@ -90,6 +82,54 @@ public class Speaker extends RealmObject {
 
     public void setSpeaker_contact_number(String speaker_contact_number) {
         this.speaker_contact_number = speaker_contact_number;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
+    }
+
+    public void setSpeaker_age(Long speaker_age) {
+        this.speaker_age = speaker_age;
+    }
+
+    public void setSpeaker_hrdf_staff(Long speaker_hrdf_staff) {
+        this.speaker_hrdf_staff = speaker_hrdf_staff;
+    }
+
+    public String getCpeaker_sector() {
+        return cpeaker_sector;
+    }
+
+    public void setCpeaker_sector(String cpeaker_sector) {
+        this.cpeaker_sector = cpeaker_sector;
+    }
+
+    public long getRating() {
+        return rating;
+    }
+
+    public void setRating(long rating) {
+        this.rating = rating;
+    }
+
+    public long getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(long sequence) {
+        this.sequence = sequence;
+    }
+
+    public boolean isImagePresent() {
+        return isImagePresent;
+    }
+
+    public void setImagePresent(boolean imagePresent) {
+        isImagePresent = imagePresent;
     }
 
     public String getSpeaker_office_contact() {
@@ -124,6 +164,22 @@ public class Speaker extends RealmObject {
         this.speaker_employment_status = speaker_employment_status;
     }
 
+    public Long getSpeaker_age() {
+        return speaker_age;
+    }
+
+    public Long getSpeaker_hrdf_staff() {
+        return speaker_hrdf_staff;
+    }
+
+    public RealmList<SpeakerTopic> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(RealmList<SpeakerTopic> topics) {
+        this.topics = topics;
+    }
+
     public String getSpeaker_gender() {
         return speaker_gender;
     }
@@ -140,13 +196,6 @@ public class Speaker extends RealmObject {
         this.speaker_hrdf_mycoid = speaker_hrdf_mycoid;
     }
 
-    public int getSpeaker_hrdf_staff() {
-        return speaker_hrdf_staff;
-    }
-
-    public void setSpeaker_hrdf_staff(int speaker_hrdf_staff) {
-        this.speaker_hrdf_staff = speaker_hrdf_staff;
-    }
 
     public String getSpeaker_hrdf_status() {
         return speaker_hrdf_status;

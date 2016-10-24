@@ -45,7 +45,7 @@ public class Event extends RealmObject {
     @PrimaryKey
     private String id;
     @Nullable
-    private int sequence;
+    private Long sequence;
 
     private String contactEmail;
     private Date endDate;
@@ -75,6 +75,9 @@ public class Event extends RealmObject {
     private RealmList<Speaker> speakers;
     private RealmList<Exhibitor> exhibitors;
     private RealmList<Sponsor> sponsors;
+    private RealmList<Agenda> agenda;
+    private RealmList<Floorplan> floorplans;
+    private Boolean isFavourite;
     private User userObj;
 
     public Event() {
@@ -131,6 +134,42 @@ public class Event extends RealmObject {
 
     public void setFeeEarlybirdIndividual(String feeEarlybirdIndividual) {
         this.feeEarlybirdIndividual = feeEarlybirdIndividual;
+    }
+
+    public void setSequence(@Nullable Long sequence) {
+        this.sequence = sequence;
+    }
+
+    public RealmList<Agenda> getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(RealmList<Agenda> agenda) {
+        this.agenda = agenda;
+    }
+
+    public RealmList<Floorplan> getFloorplans() {
+        return floorplans;
+    }
+
+    public void setFloorplans(RealmList<Floorplan> floorplans) {
+        this.floorplans = floorplans;
+    }
+
+    public Boolean getFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(Boolean favourite) {
+        isFavourite = favourite;
+    }
+
+    public User getUserObj() {
+        return userObj;
+    }
+
+    public void setUserObj(User userObj) {
+        this.userObj = userObj;
     }
 
     public String getFeeGovernment() {
@@ -289,11 +328,12 @@ public class Event extends RealmObject {
         this.feedBackId = feedBackId;
     }
 
-    public int getSequence() {
+    @Nullable
+    public Long getSequence() {
         return sequence;
     }
 
-    public void setSequence(int sequence) {
+    public void setSequence(long sequence) {
         this.sequence = sequence;
     }
 
