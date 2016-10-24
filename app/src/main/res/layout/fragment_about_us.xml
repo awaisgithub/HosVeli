@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:id="@+id/header_layout"
-        app:layout_heightPercent="30%"
+        app:layout_heightPercent="40%"
         app:layout_widthPercent="100%">
 
         <com.facebook.drawee.view.SimpleDraweeView
