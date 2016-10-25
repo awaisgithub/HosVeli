@@ -408,7 +408,11 @@ public class Event extends RealmObject {
                                 }
                                 realm.commitTransaction();
                                 RealmResults events = query.findAll();
-                                callBack.fetchDidSucceed(events);
+                                try {
+                                    callBack.fetchDidSucceed(events);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         });
                     }

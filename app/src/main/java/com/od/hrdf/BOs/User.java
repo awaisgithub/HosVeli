@@ -277,6 +277,26 @@ public class User extends RealmObject {
         this.id = id;
     }
 
+    public String getIs_hrdf_staff() {
+        return is_hrdf_staff;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public RealmList<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(RealmList<Event> events) {
+        this.events = events;
+    }
+
     //METHODS
 
     private static User getTempUser(Realm realm) {
@@ -344,7 +364,7 @@ public class User extends RealmObject {
         return jsonObject;
     }
 
-    public static RealmResults<Event> getUserEvents(RealmResults delegate, String userId, Realm realm) {
+    public static RealmResults<Event> getUserEvents(String userId, Realm realm) {
         return realm.where(Event.class).equalTo("id", userId)
                 .findAll().sort("startDate", Sort.DESCENDING);
     }

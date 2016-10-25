@@ -9,6 +9,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.Utils.HRDFConstants;
+import com.od.hrdf.profile.ProfileQRFragment;
 
 import org.json.JSONArray;
 
