@@ -1,6 +1,8 @@
 package com.od.hrdf.abouts;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,7 +28,7 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-public class AboutUsFragment extends Fragment {
+public class AboutUsFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -130,6 +132,13 @@ public class AboutUsFragment extends Fragment {
         contact = (TextView) rootView.findViewById(R.id.contact);
         email = (TextView) rootView.findViewById(R.id.email);
         website = (TextView) rootView.findViewById(R.id.website);
+
+        rootView.findViewById(R.id.twitter).setOnClickListener(this);
+        rootView.findViewById(R.id.facebook).setOnClickListener(this);
+        rootView.findViewById(R.id.linkedin).setOnClickListener(this);
+        rootView.findViewById(R.id.instagram).setOnClickListener(this);
+        rootView.findViewById(R.id.youtube).setOnClickListener(this);
+
     }
 
     private void fetchAboutUsInfo() {
@@ -164,19 +173,97 @@ public class AboutUsFragment extends Fragment {
         email.setText(aboutUs.getEmail());
         website.setText(aboutUs.getWebsite());
         final ViewSwitcher viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.view_switcher);
-//        SegmentedGroup segmentedGroup = (SegmentedGroup) rootView.findViewById(R.id.profile_segment_control);
-//        int checkedButtonId = segmentedGroup.getCheckedRadioButtonId();
-//        switch (checkedButtonId) {
-//            case R.id.aboutus:
-//                viewSwitcher.setDisplayedChild(0);
-//                break;
-//            case R.id.contactus:
-//                viewSwitcher.setDisplayedChild(1);
-//                break;
-//            default:
-//                break;
-//        }
-        //aboutUsRB.setChecked(true);
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.twitter:
+                Intent twitterIntent = getOpenTwitterIntent(getContext());
+                startActivity(twitterIntent);
+                break;
+            case R.id.facebook:
+                Intent facebookIntent = getOpenFacebookIntent(getContext());
+                startActivity(facebookIntent);
+                break;
+            case R.id.linkedin:
+                Intent linkedInIntent = getOpenLinkdinIntent(getContext());
+                startActivity(linkedInIntent);
+                break;
+            case R.id.instagram:
+                Intent instaIntent = getOpenInstagramIntent(getContext());
+                startActivity(instaIntent);
+                break;
+            case R.id.youtube:
+                Intent youtubeIntent = getOpenYouTubeIntent(getContext());
+                startActivity(youtubeIntent);
+                break;
+
+        }
+    }
+
+    public Intent getOpenFacebookIntent(Context context) {
+
+        try {
+            context.getPackageManager()
+                    .getPackageInfo("com.facebook.katana", 0); //Checks if FB is even installed.
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("fb://page/"+aboutUs.getFacebookLink())); //Trys to make intent with FB's URI
+        } catch (Exception e) {
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.facebook.com/MY-HRDF-"+aboutUs.getFacebookLink())); //catches and opens a url to the desired page
+        }
+    }
+
+    public Intent getOpenTwitterIntent(Context context) {
+
+        try {
+            context.getPackageManager()
+                    .getPackageInfo("com.twitter.android", 0); //Checks if Twitter is even installed.
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://twitter.com/"+aboutUs.getTwitterLink())); //Trys to make intent with Twitter's's URI
+        } catch (Exception e) {
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://twitter.com/"+aboutUs.getTwitterLink())); //catches and opens a url to the desired page
+        }
+    }
+
+    public Intent getOpenLinkdinIntent(Context context) {
+
+        try {
+            context.getPackageManager()
+                    .getPackageInfo("com.linkedin.android", 0); //Checks if Linkdin is even installed.
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.linkedin.com/company/"+aboutUs.getLinkedinLink())); //Trys to make intent with Linkdin's URI
+        } catch (Exception e) {
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.linkedin.com/company/"+aboutUs.getLinkedinLink())); //catches and opens a url to the desired page
+        }
+    }
+
+    public Intent getOpenInstagramIntent(Context context) {
+
+        try {
+            context.getPackageManager()
+                    .getPackageInfo("com.instagram.android", 0); //Checks if Instagram is even installed.
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.instagram.com/"+aboutUs.getInstagramLink()+"/?hl=en")); //Trys to make intent with Instagram's URI
+        } catch (Exception e) {
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.instagram.com/"+aboutUs.getInstagramLink()+"/?hl=en")); //catches and opens a url to the desired page
+        }
+    }
+
+    public Intent getOpenYouTubeIntent(Context context) {
+
+        try {
+            context.getPackageManager()
+                    .getPackageInfo("com.google.android.youtube", 0); //Checks if YT is even installed.
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.youtube.com/channel/"+aboutUs.getYoutubeLink())); //Trys to make intent with YT's URI
+        } catch (Exception e) {
+            return new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://www.youtube.com/channel/"+aboutUs.getYoutubeLink())); //catches and opens a url to the desired page
+        }
+    }
 }
