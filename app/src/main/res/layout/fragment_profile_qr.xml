@@ -1,13 +1,34 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.od.hrdf.profile.ProfileQRFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="QR Code Fragment" />
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="300dp"
+            app:srcCompat="@drawable/hrdf_logo"
+            android:id="@+id/imageView3"
+            android:layout_height="300dp"
+            android:layout_marginTop="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="26dp" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/refresh"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="60dp"
+            android:id="@+id/imageButton2"
+            android:backgroundTint="@color/QRCodeWhiteColor"
+            android:background="@color/QRCodeWhiteColor"
+            android:layout_marginTop="15dp" />
+    </RelativeLayout>
 
 </FrameLayout>
