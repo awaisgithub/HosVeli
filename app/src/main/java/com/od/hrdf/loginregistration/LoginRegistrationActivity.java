@@ -30,8 +30,8 @@ public class LoginRegistrationActivity extends AppCompatActivity implements Logi
         realm = Realm.getDefaultInstance();
         user = User.getCurrentUser(realm);
         if (user != null) {
-            finish();
             gotoMainTabbarActivity();
+            finish();
         } else {
             initViews();
             fragmentManager = getSupportFragmentManager();
