@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import com.od.hrdf.BOs.User;
 import com.od.hrdf.R;
@@ -42,9 +43,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import info.hoang8f.android.segmented.SegmentedGroup;
 import io.realm.Realm;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private static int CAPTURE_IMAGE = 1;
     private static int ATTACH_IMAGE = 2;
@@ -111,7 +113,13 @@ public class ProfileFragment extends Fragment {
         TextView email = (TextView) rootView.findViewById(R.id.user_profile_email);
         email.setText(user.getId());
 
+        final SegmentedGroup segmentedGroup = (SegmentedGroup) rootView.findViewById(R.id.profile_segment_control);
+        ((RadioButton) segmentedGroup.findViewById(R.id.qr_code)).setOnClickListener(this);
+        ((RadioButton) segmentedGroup.findViewById(R.id.my_profile)).setOnClickListener(this);
+        ((RadioButton) segmentedGroup.findViewById(R.id.my_events)).setOnClickListener(this);
+        ((RadioButton) segmentedGroup.findViewById(R.id.fav_events)).setOnClickListener(this);
         mViewPager = (ViewPager) rootView.findViewById(R.id.profile_viewpager);
+        mViewPager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -121,7 +129,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onPageSelected(int position) {
-
+                ((RadioButton)segmentedGroup.getChildAt(position)).setChecked(true);
             }
 
             @Override
@@ -380,6 +388,29 @@ public class ProfileFragment extends Fragment {
         Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
         img.recycle();
         return rotatedImg;
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        int viewId = view.getId();
+        switch (viewId) {
+            case R.id.qr_code:
+                mViewPager.setCurrentItem(0);
+                break;
+            case R.id.my_profile:
+                mViewPager.setCurrentItem(1);
+                break;
+            case R.id.my_events:
+                mViewPager.setCurrentItem(2);
+                break;
+            case R.id.fav_events:
+                mViewPager.setCurrentItem(3);
+                break;
+            default:
+                break;
+        }
+
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
