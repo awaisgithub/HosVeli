@@ -1,92 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fresco="http://schemas.android.com/tools"
+
+<android.support.v7.widget.CardView android:background="#ffffff"
     android:id="@+id/parent_layout"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/header_image"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="175dp"
-        fresco:actualImageScaleType="fitXY"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/date_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/header_image"
-        android:textAllCaps="true"
-        app:layout_marginTopPercent="1%"
-        app:layout_marginStartPercent="1%"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@android:color/holo_red_light"
-        android:textSize="12sp" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/header_image"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"
+            fresco:actualImageScaleType="fitXY" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/date_time"
-        app:layout_marginTopPercent="2%"
-        app:layout_marginStartPercent="1%"
-        android:textColor="@android:color/black"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textSize="16sp"
-         />
+        <TextView
+            android:id="@+id/date_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_image"
+            android:textAllCaps="true"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="12sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"/>
 
-    <TextView
-        android:id="@+id/venue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        app:layout_marginTopPercent="2%"
-        app:layout_marginStartPercent="1%"
-        android:textColor="@android:color/black"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textSize="12sp" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date_time"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"/>
 
-    <View
-        android:id="@+id/footer_line"
-        app:layout_marginTopPercent="1%"
-        android:layout_below="@+id/venue"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/black"/>
-
-    <LinearLayout
-        android:layout_below="@id/footer_line"
-        android:layout_alignParentEnd="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="end|center_vertical"
-        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/venue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginStart="10dp" />
 
         <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/black"/>
+            android:id="@+id/footer_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/venue"
+            android:background="@android:color/black"
+            app:layout_marginTopPercent="1%" />
 
-        <ImageView
-            android:padding="5dp"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/share"/>
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/footer_line"
+            android:gravity="end|center_vertical"
+            android:orientation="horizontal">
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/black"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/black" />
 
-        <ImageView
-            android:padding="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:src="@drawable/bookmark"/>
-    </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:src="@drawable/share" />
 
-</android.support.percent.PercentRelativeLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/black" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:scaleType="center"
+                android:src="@drawable/bookmark" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
