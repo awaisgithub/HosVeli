@@ -366,13 +366,13 @@ public class Event extends RealmObject {
         return realm.where(Event.class).equalTo("id", id).findFirst();
     }
 
-    public static RealmResults<Event> getUpcomingEvents(RealmResults delegate, Realm realm) {
+    public static RealmResults<Event> getUpcomingEvents(Realm realm) {
         Date today = new Date();
         return realm.where(Event.class).greaterThanOrEqualTo("endDate", today)
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
-    public static RealmResults<Event> getPastEvents(RealmResults delegate, Realm realm) {
+    public static RealmResults<Event> getPastEvents(Realm realm) {
         Date today = new Date();
         return realm.where(Event.class).lessThan("endDate", today)
                 .findAll().sort("startDate", Sort.DESCENDING);
