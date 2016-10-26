@@ -54,6 +54,10 @@
     <string name="profile_tab_my_events">My Events</string>
     <string name="profile_tab_fav_events">Favourite Events</string>
 
+    <!-- Event strings-->
+    <string name="event_tab_upcoming">Upcoming</string>
+    <string name="event_tab_archive">Archive</string>
+    <string name="event_tab_feedback">Feedback</string>
 
     <string-array name="main_tabs">
         <item>About Us</item>
