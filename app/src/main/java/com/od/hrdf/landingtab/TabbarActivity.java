@@ -19,6 +19,8 @@ import android.widget.TextView;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.Util;
 import com.od.hrdf.abouts.AboutUsFragment;
+import com.od.hrdf.event.EventFragment;
+import com.od.hrdf.event.EventListFragment;
 import com.od.hrdf.news.NewsFragment;
 import com.od.hrdf.profile.ProfileFragment;
 
@@ -104,7 +106,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(AboutUsFragment.newInstance("", ""), "About Us");
         adapter.addFragment(NewsFragment.newInstance("",""), "News");
-        adapter.addFragment(PlaceholderFragment.newInstance(2), "THREE");
+        adapter.addFragment(EventFragment.newInstance("", ""), "Events");
         adapter.addFragment(ProfileFragment.newInstance("", ""), "Profile");
         viewPager.setAdapter(adapter);
     }
