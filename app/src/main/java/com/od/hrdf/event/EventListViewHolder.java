@@ -1,6 +1,7 @@
 package com.od.hrdf.event;
 
 import android.support.percent.PercentRelativeLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.webkit.WebView;
@@ -15,14 +16,14 @@ import com.od.hrdf.R;
  */
 public class EventListViewHolder extends RecyclerView.ViewHolder {
 
-    PercentRelativeLayout parent = null;
+    CardView parent = null;
 
     public final TextView title;
     public final TextView venue;
     public final TextView dateTime;
     public final SimpleDraweeView summaryImageView;
 
-    public EventListViewHolder(View parentView, final PercentRelativeLayout parentLayout, TextView title, TextView venue, TextView dateTime, SimpleDraweeView summaryImageView) {
+    public EventListViewHolder(View parentView, final CardView parentLayout, TextView title, TextView venue, TextView dateTime, SimpleDraweeView summaryImageView) {
         super(parentView);
         this.parent = parentLayout;
         this.title = title;
@@ -34,7 +35,7 @@ public class EventListViewHolder extends RecyclerView.ViewHolder {
 
     public static EventListViewHolder newInstance(View parent) {
 
-        PercentRelativeLayout parentLayout = (PercentRelativeLayout) parent.findViewById(R.id.parent_layout);
+        CardView parentLayout = (CardView) parent.findViewById(R.id.parent_layout);
         TextView title = (TextView) parent.findViewById(R.id.title);
         TextView venue = (TextView) parent.findViewById(R.id.venue);
         TextView dateTime = (TextView) parent.findViewById(R.id.date_time);

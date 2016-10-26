@@ -96,6 +96,7 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
         if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_UPCOMING)) {
             realmResults = Event.getUpcomingEvents(realm);
         } else if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_ARCHIVE)) {
+            realmResults = Event.getPastEvents(realm);
         }
 
         if(realmResults != null) {
