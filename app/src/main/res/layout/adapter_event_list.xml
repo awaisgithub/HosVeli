@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:layout_margin="10dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/header_image"
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        fresco:actualImageScaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/date_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header_image"
+        android:textAllCaps="true"
+        app:layout_marginTopPercent="1%"
+        app:layout_marginStartPercent="1%"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_time"
+        app:layout_marginTopPercent="2%"
+        app:layout_marginStartPercent="1%"
+        android:textColor="@android:color/black"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textSize="16sp"
+         />
+
+    <TextView
+        android:id="@+id/venue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        app:layout_marginTopPercent="2%"
+        app:layout_marginStartPercent="1%"
+        android:textColor="@android:color/black"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textSize="12sp" />
+
+    <View
+        android:id="@+id/footer_line"
+        app:layout_marginTopPercent="1%"
+        android:layout_below="@+id/venue"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
+
+    <LinearLayout
+        android:layout_below="@id/footer_line"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end|center_vertical"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+
+        <ImageView
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/share"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+
+        <ImageView
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="center"
+            android:src="@drawable/bookmark"/>
+    </LinearLayout>
+
+</android.support.percent.PercentRelativeLayout>
