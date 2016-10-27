@@ -8,8 +8,8 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.od.hrdf.R;
 
-import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import io.realm.RealmViewHolder;
+
 
 /**
  * Created by Mahmoor on 19/2/2016.
