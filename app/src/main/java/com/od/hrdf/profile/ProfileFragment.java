@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -114,6 +115,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         email.setText(user.getId());
 
         final SegmentedGroup segmentedGroup = (SegmentedGroup) rootView.findViewById(R.id.profile_segment_control);
+        segmentedGroup.setTintColor(ContextCompat.getColor(getActivity(), R.color.colorLightBlue), Color.WHITE);
         ((RadioButton) segmentedGroup.findViewById(R.id.qr_code)).setOnClickListener(this);
         ((RadioButton) segmentedGroup.findViewById(R.id.my_profile)).setOnClickListener(this);
         ((RadioButton) segmentedGroup.findViewById(R.id.my_events)).setOnClickListener(this);
