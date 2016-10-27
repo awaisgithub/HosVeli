@@ -6,12 +6,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.Event;
 import com.od.hrdf.BOs.Speaker;
+import com.od.hrdf.BOs.SpeakerTopic;
 import com.od.hrdf.BOs.User;
+import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.Util;
 import com.od.hrdf.loginregistration.LoginRegistrationActivity;
 import io.realm.Realm;
@@ -182,6 +187,73 @@ public class LandingActivity extends AppCompatActivity {
         }
 
 
+//TEST   OF  fetchEventTopic
+//        RealmQuery query;
+//        Log.i(HRDFConstants.TAG, Api.urlEventTopicList("6eaff16c-7f000010-9bb09e10-e19925f5"));
+//        query = realm.where(SpeakerTopic.class).equalTo("event", "6eaff16c-7f000010-9bb09e10-e19925f5");
+//        SpeakerTopic.fetchEventTopics(this, realm, Api.urlEventTopicList("6eaff16c-7f000010-9bb09e10-e19925f5"), query, new FetchCallBack() {
+//                    @Override
+//                    public void fetchDidSucceed(RealmResults fetchedItems) {
+//                        Log.i("AWAIS1", " !!!RESULT LIST!!! = " + fetchedItems.toString());
+//                    }
+//
+//                    @Override
+//                    public void fetchDidFail(Exception e) {
+//                        Log.i("AWAIS1", " !!!FAIL FAIL FAIL!!! = " + e.toString());
+//                    }
+//                });
+
+         //TEST of fetchEventSpeakerTopic
+//                RealmQuery query;
+//        Log.i(HRDFConstants.TAG, Api.urlEventSpeakerTopic("6eaff16c-7f000010-9bb09e10-e19925f5", "b649fc89-7f000010-9bb09e10-19affd91"));
+//        query = realm.where(SpeakerTopic.class).equalTo("event", "6eaff16c-7f000010-9bb09e10-e19925f5").equalTo("speaker", "b649fc89-7f000010-9bb09e10-19affd91");
+//        SpeakerTopic.fetchEventSpeakerTopic(this, realm, Api.urlEventSpeakerTopic("6eaff16c-7f000010-9bb09e10-e19925f5", "b649fc89-7f000010-9bb09e10-19affd91"), query, new FetchCallBack() {
+//                    @Override
+//                    public void fetchDidSucceed(RealmResults fetchedItems) {
+//                        Log.i("AWAIS1", " !!!RESULT LIST!!! = " + fetchedItems.toString());
+//                    }
+//
+//                    @Override
+//                    public void fetchDidFail(Exception e) {
+//                        Log.i("AWAIS1", " !!!FAIL FAIL FAIL!!! = " + e.toString());
+//                    }
+//                });
+
+//  TEST of fetchEventDocumentId
+//                RealmQuery query;
+//        Log.i(HRDFConstants.TAG, Api.urlDocumentIds("74fc7e5f-7f000010-9bb09e10-ac03266e"));
+//        query = realm.where(DocumentId.class).equalTo("speaker", "74fc7e5f-7f000010-9bb09e10-ac03266e");
+//        DocumentId.fetchEventDocumentId(this, realm, Api.urlDocumentIds("74fc7e5f-7f000010-9bb09e10-ac03266e"), query, new FetchCallBack() {
+//                    @Override
+//                    public void fetchDidSucceed(RealmResults fetchedItems) {
+//                        Log.i("AWAIS1", " !!!RESULT LIST!!! = " + fetchedItems.toString());
+//                    }
+//
+//                    @Override
+//                    public void fetchDidFail(Exception e) {
+//                        Log.i("AWAIS1", " !!!FAIL FAIL FAIL!!! = " + e.toString());
+//                    }
+//                });
+        //
+
+
+//  TEST of fetchDocument
+//                RealmQuery query;
+//        Log.i(HRDFConstants.TAG, Api.urlDocumentList("8ed47761-7f000010-9bb09e10-477631ff"));
+//        query = realm.where(Document.class).equalTo("id", "8ed47761-7f000010-9bb09e10-477631ff");
+//        Document.fetchEventDocument(this, realm, Api.urlDocumentList("8ed47761-7f000010-9bb09e10-477631ff"), query, new FetchCallBack() {
+//                    @Override
+//                    public void fetchDidSucceed(RealmResults fetchedItems) {
+//                        Log.i("AWAIS1", " !!!RESULT LIST!!! = " + fetchedItems.toString());
+//                    }
+//
+//                    @Override
+//                    public void fetchDidFail(Exception e) {
+//                        Log.i("AWAIS1", " !!!FAIL FAIL FAIL!!! = " + e.toString());
+//                    }
+//                });
+        //
+
 
 
 //ENDofWorking
@@ -303,6 +375,8 @@ public class LandingActivity extends AppCompatActivity {
 //                Log.i(HRDFConstants.TAG, " FAILURE in FETCHDIDFAIL =  " + e.toString());
 //            }
 //        });
+
+
 
 
     }
