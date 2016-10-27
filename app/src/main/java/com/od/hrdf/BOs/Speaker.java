@@ -29,261 +29,257 @@ import io.realm.annotations.Required;
 public class Speaker extends RealmObject {
     @PrimaryKey
     private String id;
-    @Required
-    private byte[] imageData;
 
-    private Long speaker_age;
-    private Long speaker_hrdf_staff;
-    //
-    private String cpeaker_sector;
-    private String speaker_company;
-    private String speaker_contact_number;
-    private String speaker_office_contact;
-    private String speaker_designation;
-    private String speaker_email;
-    private String speaker_employment_status;
-    private String speaker_gender;
-    private String speaker_hrdf_mycoid;
-    private String speaker_hrdf_status;
-    private String speaker_industry;
-    private String speaker_name;
-    private String speaker_nationality;
-    private String speaker_race;
-    private String speaker_role;
-    private String speaker_salutation;
-    private String speaker_photo;
-    private String speaker_about;
-    private String event;
-    private AddressD address;
-    private long rating;
-    private long sequence;
-    private boolean isImagePresent;
-    private RealmList<SpeakerTopic> topics;
+    private String sector;
+    private String hrdf_staff;
+    private String dateModified;
+    private String state;
+    private String address1;
+    private String  hrdf_mycoid;
+    private String address2;
+    private String race;
+    private String city;
+    private String organization;
+    private String speakerEmail;
+    private String name;
+    private String age;
+    private String  role;
+    private String  gender;
+    private String  industry;
+    private String  attendedEvents;
+    private String  jobTitle;
+    private String  aboutSpeaker;
+    private String  image;
+    private String  postcode;
+    private String  nationality;
+    private String  officeNumber;
+    private String  dateCreated;
+    private String  salutation;
+    private String  mobileNumber;
+    private String  hrdf_status;
 
     public String getId() {
         return id;
     }
 
-
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getSpeaker_company() {
-        return speaker_company;
+    public String getSector() {
+        return sector;
     }
 
-    public void setSpeaker_company(String speaker_company) {
-        this.speaker_company = speaker_company;
+    public void setSector(String sector) {
+        this.sector = sector;
     }
 
-    public String getSpeaker_contact_number() {
-        return speaker_contact_number;
+    public String getHrdf_staff() {
+        return hrdf_staff;
     }
 
-    public void setSpeaker_contact_number(String speaker_contact_number) {
-        this.speaker_contact_number = speaker_contact_number;
+    public void setHrdf_staff(String hrdf_staff) {
+        this.hrdf_staff = hrdf_staff;
     }
 
-    public byte[] getImageData() {
-        return imageData;
+    public String getDateModified() {
+        return dateModified;
     }
 
-    public void setImageData(byte[] imageData) {
-        this.imageData = imageData;
+    public void setDateModified(String dateModified) {
+        this.dateModified = dateModified;
     }
 
-    public void setSpeaker_age(Long speaker_age) {
-        this.speaker_age = speaker_age;
+    public String getState() {
+        return state;
     }
 
-    public void setSpeaker_hrdf_staff(Long speaker_hrdf_staff) {
-        this.speaker_hrdf_staff = speaker_hrdf_staff;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public String getCpeaker_sector() {
-        return cpeaker_sector;
+    public String getAddress1() {
+        return address1;
     }
 
-    public void setCpeaker_sector(String cpeaker_sector) {
-        this.cpeaker_sector = cpeaker_sector;
+    public void setAddress1(String address1) {
+        this.address1 = address1;
     }
 
-    public long getRating() {
-        return rating;
+    public String getHrdf_mycoid() {
+        return hrdf_mycoid;
     }
 
-    public void setRating(long rating) {
-        this.rating = rating;
+    public void setHrdf_mycoid(String hrdf_mycoid) {
+        this.hrdf_mycoid = hrdf_mycoid;
     }
 
-    public long getSequence() {
-        return sequence;
+    public String getAddress2() {
+        return address2;
     }
 
-    public void setSequence(long sequence) {
-        this.sequence = sequence;
+    public void setAddress2(String address2) {
+        this.address2 = address2;
     }
 
-    public boolean isImagePresent() {
-        return isImagePresent;
+    public String getRace() {
+        return race;
     }
 
-    public void setImagePresent(boolean imagePresent) {
-        isImagePresent = imagePresent;
+    public void setRace(String race) {
+        this.race = race;
     }
 
-    public String getSpeaker_office_contact() {
-        return speaker_office_contact;
+    public String getCity() {
+        return city;
     }
 
-    public void setSpeaker_office_contact(String speaker_office_contact) {
-        this.speaker_office_contact = speaker_office_contact;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getSpeaker_designation() {
-        return speaker_designation;
+    public String getOrganization() {
+        return organization;
     }
 
-    public void setSpeaker_designation(String speaker_designation) {
-        this.speaker_designation = speaker_designation;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
-    public String getSpeaker_email() {
-        return speaker_email;
+    public String getSpeakerEmail() {
+        return speakerEmail;
     }
 
-    public void setSpeaker_email(String speaker_email) {
-        this.speaker_email = speaker_email;
+    public void setSpeakerEmail(String speakerEmail) {
+        this.speakerEmail = speakerEmail;
     }
 
-    public String getSpeaker_employment_status() {
-        return speaker_employment_status;
+    public String getName() {
+        return name;
     }
 
-    public void setSpeaker_employment_status(String speaker_employment_status) {
-        this.speaker_employment_status = speaker_employment_status;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Long getSpeaker_age() {
-        return speaker_age;
+    public String getAge() {
+        return age;
     }
 
-    public Long getSpeaker_hrdf_staff() {
-        return speaker_hrdf_staff;
+    public void setAge(String age) {
+        this.age = age;
     }
 
-    public RealmList<SpeakerTopic> getTopics() {
-        return topics;
+    public String getRole() {
+        return role;
     }
 
-    public void setTopics(RealmList<SpeakerTopic> topics) {
-        this.topics = topics;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public String getSpeaker_gender() {
-        return speaker_gender;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSpeaker_gender(String speaker_gender) {
-        this.speaker_gender = speaker_gender;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public String getSpeaker_hrdf_mycoid() {
-        return speaker_hrdf_mycoid;
+    public String getIndustry() {
+        return industry;
     }
 
-    public void setSpeaker_hrdf_mycoid(String speaker_hrdf_mycoid) {
-        this.speaker_hrdf_mycoid = speaker_hrdf_mycoid;
+    public void setIndustry(String industry) {
+        this.industry = industry;
     }
 
-
-    public String getSpeaker_hrdf_status() {
-        return speaker_hrdf_status;
+    public String getAttendedEvents() {
+        return attendedEvents;
     }
 
-    public void setSpeaker_hrdf_status(String speaker_hrdf_status) {
-        this.speaker_hrdf_status = speaker_hrdf_status;
+    public void setAttendedEvents(String attendedEvents) {
+        this.attendedEvents = attendedEvents;
     }
 
-    public String getSpeaker_industry() {
-        return speaker_industry;
+    public String getJobTitle() {
+        return jobTitle;
     }
 
-    public void setSpeaker_industry(String speaker_industry) {
-        this.speaker_industry = speaker_industry;
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
     }
 
-    public String getSpeaker_name() {
-        return speaker_name;
+    public String getAboutSpeaker() {
+        return aboutSpeaker;
     }
 
-    public void setSpeaker_name(String speaker_name) {
-        this.speaker_name = speaker_name;
+    public void setAboutSpeaker(String aboutSpeaker) {
+        this.aboutSpeaker = aboutSpeaker;
     }
 
-    public String getSpeaker_nationality() {
-        return speaker_nationality;
+    public String getImage() {
+        return image;
     }
 
-    public void setSpeaker_nationality(String speaker_nationality) {
-        this.speaker_nationality = speaker_nationality;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getSpeaker_race() {
-        return speaker_race;
+    public String getPostcode() {
+        return postcode;
     }
 
-    public void setSpeaker_race(String speaker_race) {
-        this.speaker_race = speaker_race;
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 
-    public String getSpeaker_role() {
-        return speaker_role;
+    public String getNationality() {
+        return nationality;
     }
 
-    public void setSpeaker_role(String speaker_role) {
-        this.speaker_role = speaker_role;
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 
-    public String getSpeaker_salutation() {
-        return speaker_salutation;
+    public String getOfficeNumber() {
+        return officeNumber;
     }
 
-    public void setSpeaker_salutation(String speaker_salutation) {
-        this.speaker_salutation = speaker_salutation;
+    public void setOfficeNumber(String officeNumber) {
+        this.officeNumber = officeNumber;
     }
 
-    public String getSpeaker_photo() {
-        return speaker_photo;
+    public String getDateCreated() {
+        return dateCreated;
     }
 
-    public void setSpeaker_photo(String speaker_photo) {
-        this.speaker_photo = speaker_photo;
+    public void setDateCreated(String dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
-    public String getSpeaker_about() {
-        return speaker_about;
+    public String getSalutation() {
+        return salutation;
     }
 
-    public void setSpeaker_about(String speaker_about) {
-        this.speaker_about = speaker_about;
+    public void setSalutation(String salutation) {
+        this.salutation = salutation;
     }
 
-    public String getEvent() {
-        return event;
+    public String getMobileNumber() {
+        return mobileNumber;
     }
 
-    public void setEvent(String event) {
-        this.event = event;
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
-    public AddressD getAddress() {
-        return address;
+    public String getHrdf_status() {
+        return hrdf_status;
     }
 
-    public void setAddress(AddressD address) {
-        this.address = address;
+    public void setHrdf_status(String hrdf_status) {
+        this.hrdf_status = hrdf_status;
     }
 
     //METHODS
@@ -293,14 +289,9 @@ public class Speaker extends RealmObject {
                 .findFirst();
     }
 
-    public static RealmResults<Speaker> getSpeakerResultsController(RealmResults delegate, Realm realm) {
+    public static RealmResults<Speaker> getSpeakerResultsController(Realm realm) {
         return realm.where(Speaker.class)
-                .findAll().sort("speaker_name", Sort.DESCENDING);
-    }
-
-    public static RealmResults<Speaker> getEventSpeakerResultsController(RealmResults delegate, String eventId, Realm realm) {
-        return realm.where(Speaker.class).contains("events.id", eventId)
-                .findAll().sort("speaker_name", Sort.DESCENDING);
+                .findAll().sort("name", Sort.DESCENDING);
     }
 
     public static void fetchAllSpeakers(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
@@ -315,9 +306,7 @@ public class Speaker extends RealmObject {
                                 Log.i(HRDFConstants.TAG, "In Run()");
                                 try {
                                     realm.beginTransaction();
-                                    Log.i(HRDFConstants.TAG, "In Run()-TransactionBegun");
                                     realm.createOrUpdateAllFromJson(Speaker.class, response);
-                                    Log.i(HRDFConstants.TAG, "In Run()-CreateFromJSON");
                                     RealmResults speakers = query.findAll();
                                     realm.commitTransaction();
                                     Log.i(HRDFConstants.TAG, "In Run()-TransactionCommit");
@@ -342,42 +331,4 @@ public class Speaker extends RealmObject {
         });
         HRDFApplication.getInstance().addToRequestQueue(req);
     }
-
-    public static void fetchEventSpeakers(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
-        JsonArrayRequest req = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(final JSONArray response) {
-                        Log.i(HRDFConstants.TAG, response.toString());
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(Speaker.class, response);
-                                    RealmResults eventSpeakers = query.findAll();
-                                    realm.commitTransaction();
-                                    callBack.fetchDidSucceed(eventSpeakers);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
-                                }
-                            }
-                        });
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(final VolleyError error) {
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.i(HRDFConstants.TAG, "OnErrorRun()");
-                        callBack.fetchDidFail(error);
-                    }
-                });
-            }
-        });
-        HRDFApplication.getInstance().addToRequestQueue(req);
-    }
-
 }

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_centerHorizontal="true">
+
+        <info.hoang8f.android.segmented.SegmentedGroup
+            android:id="@+id/event_detail_segment_control"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:weightSum="5">
+
+            <RadioButton
+                android:id="@+id/event_detail_info"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/event_detail_tab_info"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+            <RadioButton
+                android:id="@+id/event_detail_speaker"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/event_detail_tab_speaker"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+            <RadioButton
+                android:id="@+id/event_detail_sponsor"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/event_detail_tab_sponsor"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+            <RadioButton
+                android:id="@+id/event_detail_exhibitor"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/event_detail_tab_exhibitor"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+            <RadioButton
+                android:id="@+id/event_detail_floorplan"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/event_detail_tab_floorplan"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+        </info.hoang8f.android.segmented.SegmentedGroup>
+    </HorizontalScrollView>
+
+</RelativeLayout>
