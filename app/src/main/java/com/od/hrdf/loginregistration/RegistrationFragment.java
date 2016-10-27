@@ -33,20 +33,11 @@ import org.json.JSONObject;
 
 import io.realm.Realm;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * to handle interaction events.
- * Use the {@link RegistrationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class RegistrationFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -59,6 +50,8 @@ public class RegistrationFragment extends Fragment {
     private EditText emailTV;
     private EditText contactTV;
     private EditText nationalityTV;
+    private EditText organisationTV;
+    private EditText designationTV;
     private EditText passwordTV;
     private EditText confirmPasswordTV;
     private ProgressDialog progressDialog;
@@ -67,7 +60,6 @@ public class RegistrationFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static RegistrationFragment newInstance(String param1, String param2) {
         RegistrationFragment fragment = new RegistrationFragment();
         Bundle args = new Bundle();
@@ -107,6 +99,8 @@ public class RegistrationFragment extends Fragment {
         emailTV = (EditText) rootView.findViewById(R.id.email);
         contactTV = (EditText) rootView.findViewById(R.id.contact_number);
         nationalityTV = (EditText) rootView.findViewById(R.id.nationality);
+        organisationTV = (EditText) rootView.findViewById(R.id.organisation);
+        designationTV = (EditText) rootView.findViewById(R.id.designation);
         passwordTV = (EditText) rootView.findViewById(R.id.password);
         confirmPasswordTV = (EditText) rootView.findViewById(R.id.confirm_password);
         Button submitButton = (Button) rootView.findViewById(R.id.submit_button);
@@ -127,6 +121,8 @@ public class RegistrationFragment extends Fragment {
         final String email = emailTV.getText().toString();
         final String contact = contactTV.getText().toString();
         final String nationality = nationalityTV.getText().toString();
+        final String organisation = organisationTV.getText().toString();
+        final String designation = designationTV.getText().toString();
         final String password = passwordTV.getText().toString();
         final String confirmPassword = confirmPasswordTV.getText().toString();
 
@@ -138,6 +134,8 @@ public class RegistrationFragment extends Fragment {
                 user.setName(name);
                 user.setContactNumber(contact);
                 user.setNationality(nationality);
+                user.setDesignation(designation);
+                user.setCompany(organisation);
                 user.setPassword(password);
                 user.setConfirmPassword(confirmPassword);
             }
