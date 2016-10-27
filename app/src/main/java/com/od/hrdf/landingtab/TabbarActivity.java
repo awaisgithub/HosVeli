@@ -1,5 +1,6 @@
 package com.od.hrdf.landingtab;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -9,28 +10,45 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.od.hrdf.API.Api;
+import com.od.hrdf.BOs.DocumentId;
+import com.od.hrdf.BOs.SpeakerTopic;
+import com.od.hrdf.BOs.User;
+import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.R;
+import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.Util;
 import com.od.hrdf.abouts.AboutUsFragment;
 import com.od.hrdf.event.EventFragment;
 import com.od.hrdf.event.EventListFragment;
+import com.od.hrdf.loginregistration.LoginRegistrationActivity;
 import com.od.hrdf.news.NewsFragment;
 import com.od.hrdf.profile.ProfileFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabbarActivity extends AppCompatActivity implements TabFragActivityInterface{
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+
+import static com.od.hrdf.HRDFApplication.realm;
+
+public class TabbarActivity extends AppCompatActivity implements TabFragActivityInterface {
 
     private ViewPager mViewPager;
     private Toolbar toolbar;
+    Realm realm;
+    User user;
     private TabLayout tabLayout;
     private int[] tabIconsNormal = {
             R.drawable.about,
@@ -49,16 +67,15 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabbar);
-
+        realm = Realm.getDefaultInstance();
+        user = User.getCurrentUser(realm);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -105,7 +122,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(AboutUsFragment.newInstance("", ""), "About Us");
-        adapter.addFragment(NewsFragment.newInstance("",""), "News");
+        adapter.addFragment(NewsFragment.newInstance("", ""), "News");
         adapter.addFragment(EventFragment.newInstance("", ""), "Events");
         adapter.addFragment(ProfileFragment.newInstance("", ""), "Profile");
         viewPager.setAdapter(adapter);
@@ -117,7 +134,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         for (int i = 0; i < tabs.length; i++) {
             TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
             tabOne.setText(tabs[i]);
-            if(i == 0) {
+            if (i == 0) {
                 tabOne.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
                 tabOne.setCompoundDrawablesWithIntrinsicBounds(0, tabIconsSelected[i], 0, 0);
             } else {
@@ -129,7 +146,16 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
 
     @Override
     public void onFragmentNav(Fragment fragment, Util.Navigate navigate) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                user.setSyncedLocal(false);
+            }
+        });
 
+        Intent login = new Intent(this, LoginRegistrationActivity.class);
+        startActivity(login);
+        this.finish();
     }
 
     public static class PlaceholderFragment extends Fragment {

@@ -93,6 +93,14 @@ public class Api {
         return urlGetJogetList(HRDFConstants.EventExhibitorsList, "event", eventId);
     }
 
+    public static String urlEventTopicList(String eventId) {
+       return urlGetJogetList(HRDFConstants.EventSpeakerTopicList, "event", eventId);
+    }
+
+    public static String urlEventSpeakerTopic(String eventId,String speakerId) {
+        return urlGetJogetList(HRDFConstants.EventSpeakerTopicList, "event", eventId, "speaker", speakerId);
+    }
+
     public static String urlGetJogetList(String listId) {
         JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
         builder.appId(HRDFConstants.JOGET_APP_ID);
@@ -108,6 +116,17 @@ public class Api {
         builder.listId(listId);
         builder.action("list");
         builder.primaryFilter(filter1name, filter1Value);
+        builder.willIncludeImages(true);
+        return builder.build().toString();
+    }
+
+    public static String urlGetJogetList(String listId, String filter1name, String filter1Value, String filter2name, String filter2Value) {
+        JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
+        builder.appId(HRDFConstants.JOGET_APP_ID);
+        builder.listId(listId);
+        builder.action("list");
+        builder.primaryFilter(filter1name, filter1Value);
+        builder.secondaryFilter(filter2name,filter2Value);
         builder.willIncludeImages(true);
         return builder.build().toString();
     }

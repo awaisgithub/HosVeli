@@ -434,6 +434,25 @@ public class User extends RealmObject {
         HRDFApplication.getInstance().addToRequestQueue(userRegistration);
     }
 
+    public static void performUserUpdation(User user, String url, final StatusCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "performUserUpdation=" + url);
+        JSONObject jsonObject = JSONPayloadManager.getInstance().getRegReqPayloadUpdation(user);
+        JsonObjectRequest userUpdation = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callBack.success(response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callBack.failure(error.toString());
+
+            }
+        });
+        HRDFApplication.getInstance().addToRequestQueue(userUpdation);
+    }
+
     public static void forgotPassword(Activity context, String url, final String Email) {
         String jStr = "{\"email\":\"" + Email + "\"}";
         JSONObject object = null;
