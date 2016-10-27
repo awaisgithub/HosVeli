@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true">
+
+        <info.hoang8f.android.segmented.SegmentedGroup
+            android:id="@+id/sp_detail_segment_control"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RadioButton
+                android:id="@+id/sp_about"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/sp_tab_about"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+            <RadioButton
+                android:id="@+id/sp_topics"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sp_tab_topics"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+            <RadioButton
+                android:id="@+id/sp_uploads"
+                style="@style/RadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sp_tab_uploads"
+                android:textAppearance="?android:textAppearanceSmall" />
+
+        </info.hoang8f.android.segmented.SegmentedGroup>
+    </HorizontalScrollView>
+
+</RelativeLayout>

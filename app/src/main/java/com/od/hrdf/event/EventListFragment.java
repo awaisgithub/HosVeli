@@ -2,6 +2,7 @@ package com.od.hrdf.event;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import io.realm.RealmResults;
 public class EventListFragment extends Fragment implements EventListAdapterInterface {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
     private String type;
     private View rootView;
     private Realm realm;
@@ -96,6 +98,7 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
         if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_UPCOMING)) {
             realmResults = Event.getUpcomingEvents(realm);
         } else if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_ARCHIVE)) {
+            realmResults = Event.getPastEvents(realm);
         }
 
         if(realmResults != null) {
@@ -120,7 +123,10 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
     }
 
     @Override
-    public void gotoDetailActivity(String id, View view) {
+    public void gotoDetailActivity(String id) {
+        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+        intent.putExtra(HRDFConstants.KEY_EVENT_ID, id);
+        startActivity(intent);
 
     }
 }

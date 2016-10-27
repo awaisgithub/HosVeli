@@ -81,6 +81,10 @@ public class Api {
         return urlGetJogetList(HRDFConstants.SponsorsList, "id", sponsorId);
     }
 
+    public static String urlAllSponsor() {
+        return urlGetJogetList(HRDFConstants.SponsorsList);
+    }
+
     public static String urlEventSponsorsList(String eventId) {
         return urlGetJogetList(HRDFConstants.EventSponsorsList, "event", eventId);
     }

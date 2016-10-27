@@ -12,6 +12,6 @@ public class Util {
     }
 
     public enum Navigate {
-        FORWARD, BACKWARD, SIGNUP, LOGIN
+        FORWARD, BACKWARD, SIGNUP, LOGIN, LOGOUT
     }
 }

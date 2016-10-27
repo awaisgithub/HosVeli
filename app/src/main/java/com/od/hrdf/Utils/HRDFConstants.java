@@ -26,6 +26,12 @@ final public class HRDFConstants {
     public static final String USER_REG_TABLE = "app_fd_hrdf_user";
     public static final String EVENT_LIST_ID = "hrdfEventList";
     public static final String DB_OP_CREATE = "Create";
+
+    // Intent keys
     public static final int MY_PERMISSIONS_REQUEST_READ_CAMERA = 0;
+    public static final String KEY_EVENT_ID = "event_id";
+    public static final String KEY_SPEAKER_ID = "speaker_id";
+
+
 
 }

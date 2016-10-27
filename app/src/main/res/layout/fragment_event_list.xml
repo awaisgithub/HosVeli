@@ -5,7 +5,7 @@
     tools:context="com.od.hrdf.event.EventListFragment">
 
     <ImageView
-        android:alpha="0.3"
+        android:alpha="0.2"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
