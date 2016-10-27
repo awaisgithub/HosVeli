@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.od.hrdf.BOs.User;
 import com.od.hrdf.Utils.HRDFConstants;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,11 +54,38 @@ public class JSONPayloadManager {
         return regInfoJSON;
     }
 
+    public JSONObject getRegReqPayloadUpdation(User user) {
+
+        RegPayloadBO regPayloadBOUpdate = new RegPayloadBO();
+        regPayloadBOUpdate.setOperation(HRDFConstants.DB_OP_UPDATE);
+        regPayloadBOUpdate.setTable_name(HRDFConstants.USER_REG_TABLE);
+        ArrayList dataList = regPayloadBOUpdate.getData();
+        dataList.add(new DataBO("name", user.getName()));
+        dataList.add(new DataBO("contactNumber", user.getContactNumber()));
+        dataList.add(new DataBO("nationality", user.getName()));
+        dataList.add(new DataBO("designation", user.getDesignation()));
+        dataList.add(new DataBO("company", user.getCompany()));
+        ArrayList keyList = regPayloadBOUpdate.getKey();
+        keyList.add(new DataBO("id", user.getId()));
+
+        Gson gson = new Gson();
+        String requestJSON = gson.toJson(regPayloadBOUpdate);
+        Log.i(HRDFConstants.TAG, "requestJSON =" + requestJSON);
+        JSONObject regInfoJSON = null;
+        try {
+            regInfoJSON = new JSONObject(requestJSON);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.i("AWAIS1", "JSON= " + regInfoJSON.toString());
+        return regInfoJSON;
+    }
+
     private class RegPayloadBO {
         String operation;
         String table_name;
         ArrayList<DataBO> data = new ArrayList<>();
-        ArrayList<DataBO> key = null;
+        ArrayList<DataBO> key = new ArrayList<>();
 
         public String getOperation() {
             return operation;
