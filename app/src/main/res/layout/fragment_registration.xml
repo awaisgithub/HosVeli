@@ -68,13 +68,37 @@
                 android:textSize="@dimen/text_size_loginreg" />
 
             <EditText
+                android:id="@+id/organisation"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="Organisation"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp"
+                android:textSize="@dimen/text_size_loginreg" />
+
+            <EditText
+                android:id="@+id/designation"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="Designation"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp"
+                android:textSize="@dimen/text_size_loginreg" />
+
+            <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@drawable/edit_text_login"
                 android:ems="10"
-                android:hint="@string/reg_hint_password"
+                android:hint="@string/reg_hint_confirm_password"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textSize="@dimen/text_size_loginreg" />
@@ -94,11 +118,11 @@
             <Button
                 android:id="@+id/submit_button"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
                 android:layout_marginTop="@dimen/reg_button_verticle"
                 android:background="@drawable/reg_submit_button"
                 android:text="Submit"
-                android:textColor="@android:color/black" />
+                android:textColor="@android:color/black"
+                android:layout_height="45dp" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

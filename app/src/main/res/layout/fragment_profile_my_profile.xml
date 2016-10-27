@@ -4,101 +4,159 @@
     android:layout_height="match_parent"
     tools:context="com.od.hrdf.profile.ProfileMyProfileFragment">
 
-    <TableLayout
-        android:layout_width="wrap_content"
+
+    <ViewSwitcher
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="74dp">
+        android:id="@+id/edit_switcher">
 
-        <TableRow>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <TextView
+            <TableLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:padding="10dip"
-                android:text="NAME"
-                android:textColor="@color/QRCodeBlackColor"
-                android:textSize="16sp" />
+                android:layout_height="362dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="90dp">
 
-            <TextView
-                android:id="@+id/profile_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:padding="10dip"
-                android:text="Weng Yew"
-                android:textSize="16sp" />
-        </TableRow>
+                <TableRow>
 
-        <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:padding="10dip"
+                        android:text="NAME"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:padding="10dip"
-                android:text="EMAIL"
-                android:textColor="@color/QRCodeBlackColor"
-                android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/profile_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:padding="10dip"
+                        android:text=""
+                        android:textSize="16sp" />
+                </TableRow>
 
-            <TextView
-                android:id="@+id/profile_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:padding="10dip"
-                android:text="wengyew@opendynamics.my.dfaklsfakdlsjfkladsf.fadkjshfjaksdhf.fkjashdkjfhasdkjfhjsakdhfkjasdfasdfasdfasdfasdfasfdasdf"
-                android:textSize="16sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                />
-        </TableRow>
+                <TableRow>
 
-        <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:padding="10dip"
+                        android:text="EMAIL"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:padding="10dip"
-                android:text="NATIONALITY"
-                android:textColor="@color/QRCodeBlackColor"
-                android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/profile_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="left"
+                        android:maxLines="1"
+                        android:padding="10dip"
+                        android:text=""
+                        android:textSize="16sp" />
+                </TableRow>
 
-            <TextView
-                android:id="@+id/profile_nationality"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:padding="10dip"
-                android:text="Malaysia"
-                android:textSize="16sp" />
-        </TableRow>
+                <TableRow>
 
-        <TableRow>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:padding="10dip"
+                        android:text="NATIONALITY"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:padding="10dip"
-                android:text="CONTACT NUMBER"
-                android:textColor="@color/QRCodeBlackColor"
-                android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/profile_nationality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:padding="10dip"
+                        android:text=""
+                        android:textSize="16sp" />
+                </TableRow>
 
-            <TextView
-                android:id="@+id/profile_contact_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:padding="10dip"
-                android:text="0162577809"
-                android:textSize="16sp" />
-        </TableRow>
-    </TableLayout>
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:padding="10dip"
+                        android:text="CONTACT NUMBER"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/profile_contact_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:padding="10dip"
+                        android:text=""
+                        android:textSize="16sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:padding="10dip"
+                        android:text="ORGANISATION"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/profile_organisation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:padding="10dip"
+                        android:text=""
+                        android:textSize="16sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:padding="10dip"
+                        android:text="DESIGNATION"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/profile_designation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:padding="10dip"
+                        android:text=""
+                        android:textSize="16sp" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+        <!--<include layout="@layout/dummy"></include>-->
+
+        <include layout="@layout/profile_my_profile_edit"></include>
+
+    </ViewSwitcher>
 
     <TextView
         android:id="@+id/textView5"
