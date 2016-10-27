@@ -13,6 +13,7 @@ final public class HRDFConstants {
     public static final String SponsorsList = "hrdfSponsorsList";
     public static final String ExhibitorsList = "hrdfExhibitorsList";
     public static final String EventSpeakerList = "hrdfEventSpeakerList";
+    public static final String EventSpeakerTopicList = "hrdfEventSpeakerTopicList";
     public static final String EventSponsorsList = "hrdfEventSponsorList";
     public static final String EventExhibitorsList = "hrdfEventExhibitorList";
     public static final String ArticleList = "hrdfArticleList";
@@ -26,6 +27,7 @@ final public class HRDFConstants {
     public static final String USER_REG_TABLE = "app_fd_hrdf_user";
     public static final String EVENT_LIST_ID = "hrdfEventList";
     public static final String DB_OP_CREATE = "Create";
+    public static final String DB_OP_UPDATE = "Update";
 
     // Intent keys
     public static final int MY_PERMISSIONS_REQUEST_READ_CAMERA = 0;
