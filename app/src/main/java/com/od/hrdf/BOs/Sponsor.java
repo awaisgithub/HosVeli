@@ -130,12 +130,12 @@ public class Sponsor extends RealmObject {
                 .findFirst();
     }
 
-    public static RealmResults<Sponsor> getSponsorsResultController(RealmResults delegate, String eventId, Realm realm) {
+    public static RealmResults<Sponsor> getSponsorsResultController(String eventId, Realm realm) {
         return realm.where(Sponsor.class).contains("events.id", eventId)
                 .findAll().sort("name", Sort.DESCENDING);
     }
 
-    public static void fetchSponsor(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+    public static void fetchAllSponsors(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -160,6 +160,7 @@ public class Sponsor extends RealmObject {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
+                Log.i(HRDFConstants.TAG, "onErrorResponse Error - " + error.getMessage());
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -172,6 +173,7 @@ public class Sponsor extends RealmObject {
     }
 
     public static void fetchEventSponsors(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "fetchEventSponsors ="+url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
