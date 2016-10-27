@@ -17,8 +17,9 @@
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imageview_header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            fresco:actualImageScaleType="fitXY" />
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            fresco:actualImageScaleType="none" />
 
         <View
             android:layout_width="match_parent"
