@@ -2,7 +2,6 @@ package com.od.hrdf.event;
 
 import android.content.Context;
 import android.graphics.drawable.Animatable;
-import android.icu.text.SimpleDateFormat;
 import android.net.ParseException;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -25,6 +24,7 @@ import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.news.NewsListViewHolder;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.realm.OrderedRealmCollection;
@@ -58,16 +58,12 @@ public class EventListAdapter extends RealmRecyclerViewAdapter<Event, RecyclerVi
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         EventListViewHolder viewHolder = (EventListViewHolder) holder;
-        Event event = data.get(position);
+        final Event event = data.get(position);
         viewHolder.title.setText(event.getTitle());
         viewHolder.venue.setText(event.getLocation());
 
-        Date date = event.getStartDate();
-        date.getTime();
         String startDateTime = null;
-
         try {
-
             startDateTime = (String) DateFormat.format("EEE, MMM dd", event.getStartDate());
             SimpleDateFormat formatter = new SimpleDateFormat("H:mm");
             Date timeObj = formatter.parse(event.getStartTime());
@@ -96,6 +92,14 @@ public class EventListAdapter extends RealmRecyclerViewAdapter<Event, RecyclerVi
                     .build();
             viewHolder.summaryImageView.setController(controller);
         }
+
+        viewHolder.parent.setTag(event.getId());
+        viewHolder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                eventListAdapterInterface.gotoDetailActivity(((String)view.getTag()));
+            }
+        });
     }
 
     ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
