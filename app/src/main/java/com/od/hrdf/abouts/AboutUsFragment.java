@@ -2,10 +2,12 @@ package com.od.hrdf.abouts;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,6 +109,9 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initViews() {
+
+        SegmentedGroup segmentedGroup = (SegmentedGroup) rootView.findViewById(R.id.aboutus_segment_control);
+        segmentedGroup.setTintColor(ContextCompat.getColor(getActivity(), R.color.colorLightBlue), Color.WHITE);
         final ViewSwitcher viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.view_switcher);
         aboutUsRB = (RadioButton) rootView.findViewById(R.id.aboutus);
         aboutUsRB.setOnClickListener(new View.OnClickListener() {
