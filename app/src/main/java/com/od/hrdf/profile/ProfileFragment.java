@@ -2,6 +2,7 @@ package com.od.hrdf.profile;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,18 +24,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
 import com.od.hrdf.BOs.User;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
+import com.od.hrdf.Utils.Util;
+import com.od.hrdf.landingtab.TabFragActivityInterface;
 import com.od.hrdf.landingtab.TabbarActivity;
+import com.od.hrdf.loginregistration.LoginFragment;
+import com.od.hrdf.loginregistration.LoginRegistrationActivity;
 
 
 import java.io.ByteArrayOutputStream;
@@ -46,6 +56,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import info.hoang8f.android.segmented.SegmentedGroup;
 import io.realm.Realm;
+
+import static com.od.hrdf.HRDFApplication.realm;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
@@ -61,6 +73,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private Realm realm;
     private File imageFile;
     private CircleImageView profileImageView;
+    private TabFragActivityInterface mListener;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -81,6 +95,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -89,6 +104,26 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         rootView = inflater.inflate(R.layout.fragment_profile, container, false);
         return rootView;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_logout, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                mListener.onFragmentNav(ProfileFragment.this, Util.Navigate.LOGOUT);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -131,7 +166,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onPageSelected(int position) {
-                ((RadioButton)segmentedGroup.getChildAt(position)).setChecked(true);
+                ((RadioButton) segmentedGroup.getChildAt(position)).setChecked(true);
             }
 
             @Override
@@ -235,6 +270,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         });
         builder.show();
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -253,7 +289,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     bitmap = rotateImageIfRequired(bitmap, imageFile.getAbsolutePath());
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                   // NFCInfoBO.INSTANCE.receiptImageName = imageFile.getName();
+                    // NFCInfoBO.INSTANCE.receiptImageName = imageFile.getName();
                     byte[] imageByteArray = stream.toByteArray();
                     //NFCInfoBO.INSTANCE.receiptOS = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
                     profileImageView.setImageBitmap(bitmap);
@@ -268,7 +304,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
                     //NFCInfoBO.INSTANCE.receiptImageName = imageFile.getName();
                     byte[] imageByteArray = stream.toByteArray();
-                   // NFCInfoBO.INSTANCE.receiptOS = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
+                    // NFCInfoBO.INSTANCE.receiptOS = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
                     profileImageView.setImageBitmap(bitmap);
                     galleryAddPic(imageFile.getAbsolutePath());
                 } catch (Exception e) {
@@ -443,6 +479,24 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof TabFragActivityInterface) {
+            mListener = (TabFragActivityInterface) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+//        mListener.onFragmentNav(ProfileFragment.this, Util.Navigate.LOGOUT);
+        mListener = null;
     }
 
 }
