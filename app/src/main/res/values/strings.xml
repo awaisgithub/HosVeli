@@ -54,10 +54,22 @@
     <string name="profile_tab_my_events">My Events</string>
     <string name="profile_tab_fav_events">Favourite Events</string>
 
+    <!-- Speaker detail strings-->
+    <string name="sp_tab_about">About Speaker</string>
+    <string name="sp_tab_topics">Topics</string>
+    <string name="sp_tab_uploads">Uploads</string>
+
     <!-- Event strings-->
     <string name="event_tab_upcoming">Upcoming</string>
     <string name="event_tab_archive">Archive</string>
     <string name="event_tab_feedback">Feedback</string>
+
+    <!-- Event detail strings-->
+    <string name="event_detail_tab_info">Info</string>
+    <string name="event_detail_tab_speaker">Speakers</string>
+    <string name="event_detail_tab_sponsor">Sponsors</string>
+    <string name="event_detail_tab_exhibitor">Exhibitors</string>
+    <string name="event_detail_tab_floorplan">Floor Plan</string>
 
     <string-array name="main_tabs">
         <item>About Us</item>
@@ -156,5 +168,11 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_news_details">NewsDetailsActivity</string>
+    <string name="title_activity_event_detail">EventDetailActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_speaker_detail">SpeakerDetailActivity</string>
 
 </resources>
