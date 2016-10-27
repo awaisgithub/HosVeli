@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.od.hrdf.API.Api;
+import com.od.hrdf.BOs.Event;
+import com.od.hrdf.BOs.EventSpeaker;
+import com.od.hrdf.BOs.Speaker;
+import com.od.hrdf.BOs.Sponsor;
+import com.od.hrdf.CallBack.FetchCallBack;
+import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
+import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.Util;
 import com.od.hrdf.abouts.AboutUsFragment;
 import com.od.hrdf.event.EventFragment;
@@ -27,7 +36,11 @@ import com.od.hrdf.profile.ProfileFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TabbarActivity extends AppCompatActivity implements TabFragActivityInterface{
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+
+public class TabbarActivity extends AppCompatActivity implements TabFragActivityInterface {
 
     private ViewPager mViewPager;
     private Toolbar toolbar;
@@ -44,6 +57,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
             R.drawable.event_selected,
             R.drawable.profile_selected
     };
+    private TextView toolbarTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +65,10 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         setContentView(R.layout.activity_tabbar);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
+
+        toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setOffscreenPageLimit(4);
@@ -66,8 +83,8 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
                 TextView textView = (TextView) tab.getCustomView();
                 assert textView != null;
                 textView.setCompoundDrawablesWithIntrinsicBounds(0, tabIconsSelected[tab.getPosition()], 0, 0);
-                textView.setTextColor(ContextCompat.getColor(TabbarActivity.this, R.color.colorAccent));
-
+                //textView.setTextColor(ContextCompat.getColor(TabbarActivity.this, R.color.colorAccent));
+                toolbarTitle.setText(tab.getText());
             }
 
             @Override
@@ -75,7 +92,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
                 TextView textView = (TextView) tab.getCustomView();
                 assert textView != null;
                 textView.setCompoundDrawablesWithIntrinsicBounds(0, tabIconsNormal[tab.getPosition()], 0, 0);
-                textView.setTextColor(ContextCompat.getColor(TabbarActivity.this, android.R.color.white));
+                //textView.setTextColor(ContextCompat.getColor(TabbarActivity.this, android.R.color.white));
             }
 
             @Override
@@ -85,6 +102,8 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         });
 
         setupTabIcons();
+        fetchAllSpeakers();
+        fetchAllSponsors();
     }
 
     @Override
@@ -105,7 +124,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(AboutUsFragment.newInstance("", ""), "About Us");
-        adapter.addFragment(NewsFragment.newInstance("",""), "News");
+        adapter.addFragment(NewsFragment.newInstance("", ""), "News");
         adapter.addFragment(EventFragment.newInstance("", ""), "Events");
         adapter.addFragment(ProfileFragment.newInstance("", ""), "Profile");
         viewPager.setAdapter(adapter);
@@ -117,8 +136,8 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         for (int i = 0; i < tabs.length; i++) {
             TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
             tabOne.setText(tabs[i]);
-            if(i == 0) {
-                tabOne.setTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+            if (i == 0) {
+                toolbarTitle.setText(tabs[i]);
                 tabOne.setCompoundDrawablesWithIntrinsicBounds(0, tabIconsSelected[i], 0, 0);
             } else {
                 tabOne.setCompoundDrawablesWithIntrinsicBounds(0, tabIconsNormal[i], 0, 0);
@@ -129,6 +148,17 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
 
     @Override
     public void onFragmentNav(Fragment fragment, Util.Navigate navigate) {
+
+        if (fragment instanceof ProfileFragment) {
+            switch (navigate) {
+                case LOGOUT:
+
+                    break;
+                default:
+                    break;
+            }
+        }
+
 
     }
 
@@ -154,6 +184,33 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
+    }
+
+    private void fetchAllSpeakers() {
+
+        RealmQuery query = HRDFApplication.realm.where(Speaker.class);
+        Speaker.fetchAllSpeakers(this, HRDFApplication.realm, Api.urlSpeakerList(), query, new FetchCallBack() {
+            @Override
+            public void fetchDidSucceed(RealmResults fetchedItems) {
+            }
+
+            @Override
+            public void fetchDidFail(Exception e) {
+            }
+        });
+    }
+
+    private void fetchAllSponsors() {
+        RealmQuery query = HRDFApplication.realm.where(Sponsor.class);
+        Sponsor.fetchAllSponsors(this, HRDFApplication.realm, Api.urlAllSponsor(), query, new FetchCallBack() {
+            @Override
+            public void fetchDidSucceed(RealmResults fetchedItems) {
+            }
+
+            @Override
+            public void fetchDidFail(Exception e) {
+            }
+        });
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
