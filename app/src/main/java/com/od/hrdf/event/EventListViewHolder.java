@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -16,14 +17,14 @@ import com.od.hrdf.R;
  */
 public class EventListViewHolder extends RecyclerView.ViewHolder {
 
-    CardView parent = null;
+    RelativeLayout parent = null;
 
     public final TextView title;
     public final TextView venue;
     public final TextView dateTime;
     public final SimpleDraweeView summaryImageView;
 
-    public EventListViewHolder(View parentView, final CardView parentLayout, TextView title, TextView venue, TextView dateTime, SimpleDraweeView summaryImageView) {
+    public EventListViewHolder(View parentView, final RelativeLayout parentLayout, TextView title, TextView venue, TextView dateTime, SimpleDraweeView summaryImageView) {
         super(parentView);
         this.parent = parentLayout;
         this.title = title;
@@ -35,7 +36,7 @@ public class EventListViewHolder extends RecyclerView.ViewHolder {
 
     public static EventListViewHolder newInstance(View parent) {
 
-        CardView parentLayout = (CardView) parent.findViewById(R.id.parent_layout);
+        RelativeLayout parentLayout = (RelativeLayout) parent.findViewById(R.id.content_container);
         TextView title = (TextView) parent.findViewById(R.id.title);
         TextView venue = (TextView) parent.findViewById(R.id.venue);
         TextView dateTime = (TextView) parent.findViewById(R.id.date_time);
