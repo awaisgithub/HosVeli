@@ -62,6 +62,10 @@ public class Floorplan extends RealmObject {
         this.floorPlan = floorPlan;
     }
 
+    public static RealmResults getFloorPlanForEvent(Realm realm, String eventId) {
+        return realm.where(Floorplan.class).equalTo("event", eventId).findAll();
+    }
+
     public static void fetchEventFloorPlan(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {

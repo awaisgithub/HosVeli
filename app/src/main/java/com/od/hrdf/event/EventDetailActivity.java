@@ -26,6 +26,7 @@ import com.od.hrdf.BOs.Event;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.SectionsPagerAdapter;
+import com.od.hrdf.event.floorplan.FloorPlanFragment;
 import com.od.hrdf.event.speaker.SpeakerListFragment;
 import com.od.hrdf.event.sponsor.SponsorListFragment;
 import com.od.hrdf.landingtab.TabbarActivity;
@@ -135,7 +136,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         adapter.addFragment(SpeakerListFragment.newInstance(event.getId()), "Speaker Info");
         adapter.addFragment(SponsorListFragment.newInstance(event.getId()), "Sponsors");
         adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(4), "Four");
-        adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(5), "Five");
+        adapter.addFragment(FloorPlanFragment.newInstance(event.getId()), "Floor Plan");
         viewPager.setAdapter(adapter);
     }
 
