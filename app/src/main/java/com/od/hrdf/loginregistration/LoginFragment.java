@@ -32,10 +32,10 @@ import io.realm.Realm;
 import io.realm.RealmQuery;
 
 public class LoginFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
+
     private String mParam1;
     private String mParam2;
     private View rootView;
@@ -49,7 +49,6 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static LoginFragment newInstance(String param1, String param2) {
         LoginFragment fragment = new LoginFragment();
         Bundle args = new Bundle();
@@ -154,8 +153,6 @@ public class LoginFragment extends Fragment {
                             user.setTemp(false);
                             user.setSyncedLocal(true);
                             mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
-
-                            Toast.makeText(getActivity(), "Good to go", Toast.LENGTH_SHORT).show();
                         } else {
                             user.setTemp(true);
                             user.setSyncedLocal(false);
