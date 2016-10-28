@@ -54,6 +54,7 @@ public class AboutSpeakerFragment extends Fragment {
         title.setText("Who is "+speaker.getName()+" ?");
 
         WebView speakerDetail = (WebView) rootView.findViewById(R.id.speaker_detail);
+        speakerDetail.setBackgroundColor(0x00000000);
         speakerDetail.loadData(speaker.getAboutSpeaker(), "text/html; charset=utf-8", "UTF-8");
 
     }
