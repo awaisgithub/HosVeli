@@ -3,6 +3,7 @@ package com.od.hrdf.event;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,14 +16,19 @@ import android.view.ViewGroup;
 
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.Event;
+import com.od.hrdf.BOs.Organization;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
+import com.od.hrdf.abouts.AboutUs;
 import com.od.hrdf.landingtab.TabFragActivityInterface;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+
+import static com.od.hrdf.HRDFApplication.context;
+import static com.od.hrdf.HRDFApplication.realm;
 
 public class EventListFragment extends Fragment implements EventListAdapterInterface {
     private static final String ARG_PARAM1 = "param1";
@@ -31,6 +37,7 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
     private String type;
     private View rootView;
     private Realm realm;
+    AboutUs aboutus;
     private TabFragActivityInterface mListener;
 
     public EventListFragment() {
@@ -63,6 +70,7 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         realm = Realm.getDefaultInstance();
+        aboutus = AboutUs.getAboutUs(realm);
         initViews();
         fetchAllEvents();
     }
@@ -101,7 +109,7 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
             realmResults = Event.getPastEvents(realm);
         }
 
-        if(realmResults != null) {
+        if (realmResults != null) {
             EventListAdapter eventListAdapter = new EventListAdapter(getActivity(), realmResults, this, true);
             recyclerView.setAdapter(eventListAdapter);
         }
@@ -130,4 +138,20 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
         startActivity(intent);
 
     }
+
+    @Override
+    public void socialMediaSharing(String id) {
+        Log.i("AWAIS1", " IT IS WORKING ");
+        Log.i("AWAIS1", "LINK to SHARE =  " + aboutus.getSocialMediaShareLink());
+        Log.i("AWAIS1", "TEXT to SHARE =  " + aboutus.getSocialMediaShareText());
+        Log.i("AWAIS1", "PIC to SHARE =  " + aboutus.getSocialMediaSharePic());
+        Intent textShareIntent = new Intent(Intent.ACTION_SEND);
+        textShareIntent.putExtra(Intent.EXTRA_TEXT,aboutus.getSocialMediaShareText() + " \n" + aboutus.getSocialMediaShareLink() );
+        textShareIntent.putExtra(Intent.EXTRA_SUBJECT, aboutus.getSocialMediaShareText() + "\n" + aboutus.getSocialMediaSharePic());
+        textShareIntent.setType("text/plain");
+        startActivity(Intent.createChooser(textShareIntent, "Share"));
+
+    }
+
+
 }

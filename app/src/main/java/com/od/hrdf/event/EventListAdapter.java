@@ -31,6 +31,7 @@ import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
 import static android.R.attr.order;
+import static com.od.hrdf.R.id.imageView;
 
 /**
  * Created by MuhammadMahmoor on 10/26/16.
@@ -68,19 +69,24 @@ public class EventListAdapter extends RealmRecyclerViewAdapter<Event, RecyclerVi
             SimpleDateFormat formatter = new SimpleDateFormat("H:mm");
             Date timeObj = formatter.parse(event.getStartTime());
             String time = new SimpleDateFormat("hh:mm a").format(timeObj);
-            time = time.replace(".","");
-            startDateTime = startDateTime+", "+time;
+            time = time.replace(".", "");
+            startDateTime = startDateTime + ", " + time;
         } catch (ParseException e) {
             e.printStackTrace();
             startDateTime = "";
         } catch (java.text.ParseException e) {
             e.printStackTrace();
+            startDateTime = "";
         } catch (NullPointerException ex) {
             ex.printStackTrace();
+            startDateTime = "";
+        } catch (NoClassDefFoundError ex) {
+            ex.printStackTrace();
+            startDateTime = "";
         }
 
         viewHolder.dateTime.setText(startDateTime);
-        if(event.getImage() != null) {
+        if (event.getImage() != null) {
             String image = event.getImage();
             image = image.replaceAll(" ", "%20");
             Uri uri = Uri.parse(image);
@@ -97,9 +103,18 @@ public class EventListAdapter extends RealmRecyclerViewAdapter<Event, RecyclerVi
         viewHolder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eventListAdapterInterface.gotoDetailActivity(((String)view.getTag()));
+                eventListAdapterInterface.gotoDetailActivity(((String) view.getTag()));
             }
         });
+
+        ImageView imageView = (ImageView)  view.findViewById(R.id.share);
+        imageView.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                Log.v("AWAIS1", " clicked getTag = "+ event.getId());
+               eventListAdapterInterface.socialMediaSharing(event.getId());
+            }
+        });
+
     }
 
     ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
