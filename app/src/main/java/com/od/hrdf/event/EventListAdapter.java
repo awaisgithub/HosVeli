@@ -107,8 +107,7 @@ public class EventListAdapter extends RealmRecyclerViewAdapter<Event, RecyclerVi
             }
         });
 
-        ImageView imageView = (ImageView)  view.findViewById(R.id.share);
-        imageView.setOnClickListener(new View.OnClickListener(){
+        viewHolder.share.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 Log.v("AWAIS1", " clicked getTag = "+ event.getId());
                eventListAdapterInterface.socialMediaSharing(event.getId());
