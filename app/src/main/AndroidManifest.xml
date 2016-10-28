@@ -46,6 +46,10 @@
         <activity
             android:name=".event.speaker.SpeakerDetailActivity"
             android:label="@string/title_activity_speaker_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".event.agenda.AgendsMainActivity"
+            android:label="@string/title_activity_agends_main"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

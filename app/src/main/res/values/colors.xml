@@ -9,10 +9,8 @@
     <color name="colorTabbar">#f2f2f2</color>
     <color name="colorSponsorCategory">#397e95</color>
     <color name="colorSponsorName">#7a7878</color>
-
-
-
-
-
+    <color name="colorAgendaTabs">#53b5c0</color>
+    <color name="colorAgendaTabsText">#cdcdcd</color>
+    <color name="colorAgendaListItem">#b6e2fc</color>
 
 </resources>
