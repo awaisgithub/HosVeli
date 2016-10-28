@@ -83,8 +83,10 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="true"
                 android:padding="5dp"
-                android:src="@drawable/share" />
+                android:src="@drawable/share"
+                android:id="@+id/share" />
 
             <View
                 android:layout_width="1dp"
