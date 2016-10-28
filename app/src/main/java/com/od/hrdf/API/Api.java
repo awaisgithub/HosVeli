@@ -93,6 +93,10 @@ public class Api {
         return urlGetJogetList(HRDFConstants.ExhibitorsList, "id", exhibitorId);
     }
 
+    public static String urlAllExhibitor() {
+        return urlGetJogetList(HRDFConstants.ExhibitorsList);
+    }
+
     public static String urlEventExhibitorsList(String eventId) {
         return urlGetJogetList(HRDFConstants.EventExhibitorsList, "event", eventId);
     }

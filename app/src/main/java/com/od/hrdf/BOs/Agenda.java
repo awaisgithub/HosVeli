@@ -6,17 +6,24 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.Utils.HRDFConstants;
 import org.json.JSONArray;
-import java.util.Date;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import io.realm.Sort;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -28,13 +35,16 @@ public class Agenda extends RealmObject {
     private String id;
 
     private String title;
-    private Date agendaDate;
-    private Date agendaStartTime;
-    private Date agendaEndTime;
+    private String agendaDate;
+    private String agendaStartTime;
+    private String agendaEndTime;
     private String agendaType;
     private String session;
     private String event;
     private RealmList<SessionItem> sessionItems;
+    // for GSON only
+    @Ignore
+    private String sessionItem;
 
     public RealmList<SessionItem> getSessionItems() {
         return sessionItems;
@@ -60,27 +70,27 @@ public class Agenda extends RealmObject {
         this.title = title;
     }
 
-    public Date getAgendaDate() {
+    public String getAgendaDate() {
         return agendaDate;
     }
 
-    public void setAgendaDate(Date agendaDate) {
+    public void setAgendaDate(String agendaDate) {
         this.agendaDate = agendaDate;
     }
 
-    public Date getAgendaStartTime() {
+    public String getAgendaStartTime() {
         return agendaStartTime;
     }
 
-    public void setAgendaStartTime(Date agendaStartTime) {
+    public void setAgendaStartTime(String agendaStartTime) {
         this.agendaStartTime = agendaStartTime;
     }
 
-    public Date getAgendaEndTime() {
+    public String getAgendaEndTime() {
         return agendaEndTime;
     }
 
-    public void setAgendaEndTime(Date agendaEndTime) {
+    public void setAgendaEndTime(String agendaEndTime) {
         this.agendaEndTime = agendaEndTime;
     }
 
@@ -108,24 +118,49 @@ public class Agenda extends RealmObject {
         this.event = event;
     }
 
+    public RealmResults getSessionsForAgenda(Realm realm) {
+//        return realm.where(SessionItem.class)..findAll();
+        return sessionItems.where().findAll();
+    }
+
+    public static RealmResults getAgendaForDate(String event, String date, Realm realm) {
+        return realm.where(Agenda.class).equalTo("agendaDate", date).equalTo("event", event).findAll().sort("agendaStartTime", Sort.ASCENDING);
+    }
+
     public static void fetchEventAgenda(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "fetchEventAgenda ="+url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(HRDFConstants.TAG, response.toString());
+
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
                                     realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(Agenda.class, response);
+                                    Gson gson = new GsonBuilder().create();
+                                    Type collectionType = new TypeToken<ArrayList<Agenda>>() {
+                                    }.getType();
+
+                                    ArrayList<Agenda> agendaList = gson.fromJson(response.toString(), collectionType);
+                                    for(Agenda agenda : agendaList) {
+                                        String sessionsJSON = agenda.sessionItem.replace("'\'", " ");
+                                        collectionType = new TypeToken<RealmList<SessionItem>>() {
+                                        }.getType();
+
+                                        RealmList<SessionItem> agendaSessionList = gson.fromJson(sessionsJSON, collectionType);
+                                        agenda.setSessionItems(agendaSessionList);
+                                        realm.copyToRealmOrUpdate(agenda);
+                                    }
+//                                    realm.createOrUpdateAllFromJson(Agenda.class, response);
                                     RealmResults agenda = query.findAll();
-                                    realm.commitTransaction();
                                     callBack.fetchDidSucceed(agenda);
                                 } catch (Exception e) {
                                     Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
+                                } finally {
+                                    realm.commitTransaction();
                                 }
                             }
                         });
