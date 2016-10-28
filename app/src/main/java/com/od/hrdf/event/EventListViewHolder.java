@@ -5,6 +5,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,14 +23,16 @@ public class EventListViewHolder extends RecyclerView.ViewHolder {
     public final TextView title;
     public final TextView venue;
     public final TextView dateTime;
+    public final ImageView share;
     public final SimpleDraweeView summaryImageView;
 
-    public EventListViewHolder(View parentView, final RelativeLayout parentLayout, TextView title, TextView venue, TextView dateTime, SimpleDraweeView summaryImageView) {
+    public EventListViewHolder(View parentView, final RelativeLayout parentLayout, TextView title, TextView venue, TextView dateTime, SimpleDraweeView summaryImageView, ImageView share) {
         super(parentView);
         this.parent = parentLayout;
         this.title = title;
         this.venue = venue;
         this.summaryImageView = summaryImageView;
+        this.share = share;
         this.dateTime = dateTime;
 
     }
@@ -40,9 +43,10 @@ public class EventListViewHolder extends RecyclerView.ViewHolder {
         TextView title = (TextView) parent.findViewById(R.id.title);
         TextView venue = (TextView) parent.findViewById(R.id.venue);
         TextView dateTime = (TextView) parent.findViewById(R.id.date_time);
+        ImageView share  = (ImageView) parent.findViewById(R.id.share);
         SimpleDraweeView summaryImageView = (SimpleDraweeView) parent.findViewById(R.id.header_image);
 
-        return new EventListViewHolder(parent, parentLayout, title, venue, dateTime, summaryImageView);
+        return new EventListViewHolder(parent, parentLayout, title, venue, dateTime, summaryImageView, share);
     }
 
 }
