@@ -6,6 +6,7 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.od.hrdf.BOs.User;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.Utils.HRDFConstants;
@@ -43,6 +44,11 @@ public class AboutUs extends RealmObject {
     private String aboutUsBanner;
     private String instagramLink;
     private String linkedinLink;
+
+    public static AboutUs getAboutUs(Realm realm) {
+        return realm.where(AboutUs.class).findFirst();
+    }
+
 
     public String getPhone() {
         return phone;

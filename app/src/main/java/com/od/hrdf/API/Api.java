@@ -89,6 +89,10 @@ public class Api {
         return urlGetJogetList(HRDFConstants.EventSponsorsList, "event", eventId);
     }
 
+    public static String urlForgotPassword() {
+        return "http://www.mypams.net/jw/web/json/plugin/org.joget.hrdf.forgetPasswordWS/service";
+    }
+
     public static String urlExhibitor(String exhibitorId) {
         return urlGetJogetList(HRDFConstants.ExhibitorsList, "id", exhibitorId);
     }
