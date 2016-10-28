@@ -81,6 +81,30 @@ public class JSONPayloadManager {
         return regInfoJSON;
     }
 
+    public JSONObject getRSVPReqPayload(String eventId, String userId) {
+
+        RegPayloadBO regPayloadBO = new RegPayloadBO();
+        regPayloadBO.setOperation(HRDFConstants.DB_OP_CREATE);
+        regPayloadBO.setTable_name(HRDFConstants.USER_RSVP_TABLE);
+        regPayloadBO.setKey(null);
+        ArrayList dataList = regPayloadBO.getData();
+        dataList.add(new DataBO("event", eventId));
+        dataList.add(new DataBO("user", userId));
+        dataList.add(new DataBO("rsvp", "Book"));
+
+        Gson gson = new Gson();
+        String requestJSON = gson.toJson(regPayloadBO);
+        Log.i(HRDFConstants.TAG, "requestJSON =" + requestJSON);
+        JSONObject regInfoJSON = null;
+        try {
+            regInfoJSON = new JSONObject(requestJSON);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return regInfoJSON;
+    }
+
     private class RegPayloadBO {
         String operation;
         String table_name;

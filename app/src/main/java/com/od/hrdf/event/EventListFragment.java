@@ -126,6 +126,7 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
     public void gotoDetailActivity(String id) {
         Intent intent = new Intent(getActivity(), EventDetailActivity.class);
         intent.putExtra(HRDFConstants.KEY_EVENT_ID, id);
+        intent.putExtra(HRDFConstants.KEY_EVENT_TYPE, type);
         startActivity(intent);
 
     }

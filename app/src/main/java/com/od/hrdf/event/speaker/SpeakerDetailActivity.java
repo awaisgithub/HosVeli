@@ -36,6 +36,7 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 public class SpeakerDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String speakerId;
+    private String eventId;
     private Speaker speaker;
     private ViewPager mViewPager;
     @Override
@@ -54,6 +55,7 @@ public class SpeakerDetailActivity extends AppCompatActivity implements View.OnC
         });
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         speakerId = getIntent().getStringExtra(HRDFConstants.KEY_SPEAKER_ID);
+        eventId = getIntent().getStringExtra(HRDFConstants.KEY_EVENT_ID);
         speaker = Speaker.getSpeaker(speakerId, HRDFApplication.realm);
         initViews();
 
@@ -108,7 +110,7 @@ public class SpeakerDetailActivity extends AppCompatActivity implements View.OnC
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(AboutSpeakerFragment.newInstance(speaker), "About Speaker");
-        adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(2), "THREE");
+        adapter.addFragment(SpeakerTopicsFragment.newInstance(eventId, speaker.getId()), "Speaker Topic");
         adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(3), "THREE");
         viewPager.setAdapter(adapter);
     }

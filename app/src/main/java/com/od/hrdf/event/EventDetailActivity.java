@@ -1,5 +1,6 @@
 package com.od.hrdf.event;
 
+import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.net.ParseException;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -22,14 +24,22 @@ import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.Event;
+import com.od.hrdf.BOs.User;
+import com.od.hrdf.CallBack.StatusCallBack;
+import com.od.hrdf.Payload.JSONPayloadManager;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.SectionsPagerAdapter;
+import com.od.hrdf.event.agenda.AgendsMainActivity;
+import com.od.hrdf.event.exhibitor.ExhibitorListFragment;
 import com.od.hrdf.event.floorplan.FloorPlanFragment;
 import com.od.hrdf.event.speaker.SpeakerListFragment;
 import com.od.hrdf.event.sponsor.SponsorListFragment;
 import com.od.hrdf.landingtab.TabbarActivity;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -88,6 +98,9 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         findViewById(R.id.event_detail_sponsor).setOnClickListener(this);
         findViewById(R.id.event_detail_exhibitor).setOnClickListener(this);
         findViewById(R.id.event_detail_floorplan).setOnClickListener(this);
+        findViewById(R.id.button_register).setOnClickListener(this);
+
+        findViewById(R.id.button_agenda).setOnClickListener(this);
 
         mViewPager = (ViewPager) findViewById(R.id.event_detail_pager);
         setupViewPager(mViewPager);
@@ -107,6 +120,18 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
 
             }
         });
+
+        String type = getIntent().getStringExtra(HRDFConstants.KEY_EVENT_TYPE);
+        if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_UPCOMING)) {
+            if(event.getBooked()) {
+                ((TextView)findViewById(R.id.button_register)).setText("Registered");
+            } else {
+
+            }
+        } else if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_ARCHIVE)) {
+            findViewById(R.id.layout_actions).setVisibility(View.GONE);
+            findViewById(R.id.button_register).setVisibility(View.GONE);
+        }
     }
 
     private void setDateTimeView(TextView tv) {
@@ -132,10 +157,10 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(EventInfoFragment.newInstance(event), "Event Info");
+        adapter.addFragment(EventInfoFragment.newInstance(event.getId()), "Event Info");
         adapter.addFragment(SpeakerListFragment.newInstance(event.getId()), "Speaker Info");
         adapter.addFragment(SponsorListFragment.newInstance(event.getId()), "Sponsors");
-        adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(4), "Four");
+        adapter.addFragment(ExhibitorListFragment.newInstance(event.getId()), "Exhibitors");
         adapter.addFragment(FloorPlanFragment.newInstance(event.getId()), "Floor Plan");
         viewPager.setAdapter(adapter);
     }
@@ -160,9 +185,46 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
             case R.id.event_detail_floorplan:
                 mViewPager.setCurrentItem(4);
                 break;
+            case R.id.button_agenda:
+                Intent intent = new Intent(EventDetailActivity.this, AgendsMainActivity.class);
+                intent.putExtra(HRDFConstants.KEY_EVENT_ID, event.getId());
+                startActivity(intent);
+                break;
+            case R.id.button_register:
+                if(!event.getBooked())
+                    bookEvent();
+                break;
             default:
                 break;
         }
+    }
+
+    private void bookEvent() {
+        final User user = User.getCurrentUser(realm);
+        Event.bookEvent(user.getId(), event.getId(), Api.urlJogetCRUD(), new StatusCallBack() {
+            @Override
+            public void success(JSONObject response) {
+                Log.i(HRDFConstants.TAG, "bookEvent success=" + response);
+                if (response.has("status")) {
+                    String status = response.optString("status");
+                    if (status.equalsIgnoreCase("1")) {
+                        ((TextView)findViewById(R.id.button_register)).setText("Registered");
+                        realm.beginTransaction();
+                        event.setBooked(true);
+                        event.setUserId(user.getId());
+                        user.getEvents().add(event);
+                        realm.commitTransaction();
+                    } else {
+                    }
+                } else {
+                }
+            }
+
+            @Override
+            public void failure(String response) {
+                Log.i(HRDFConstants.TAG, "bookEvent failure=" + response);
+            }
+        });
     }
 
     ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {

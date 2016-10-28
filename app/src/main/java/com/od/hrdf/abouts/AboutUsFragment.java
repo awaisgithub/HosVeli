@@ -144,6 +144,10 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
         rootView.findViewById(R.id.instagram).setOnClickListener(this);
         rootView.findViewById(R.id.youtube).setOnClickListener(this);
 
+        rootView.findViewById(R.id.button_call).setOnClickListener(this);
+        rootView.findViewById(R.id.button_email).setOnClickListener(this);
+        rootView.findViewById(R.id.button_website).setOnClickListener(this);
+
     }
 
     private void fetchAboutUsInfo() {
@@ -203,7 +207,19 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
                 Intent youtubeIntent = getOpenYouTubeIntent(getContext());
                 startActivity(youtubeIntent);
                 break;
-
+            case R.id.button_call:
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+aboutUs.getPhone()));
+                startActivity(intent);
+                break;
+            case R.id.button_email:
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts( "mailto",aboutUs.getEmail(), null));
+                startActivity(Intent.createChooser(emailIntent, "Send email..."));
+                break;
+            case R.id.button_website:
+                Intent intentWebLink = new Intent(Intent.ACTION_VIEW, Uri.parse(aboutUs.getWebsite()));
+                startActivity(intentWebLink);
+                break;
         }
     }
 

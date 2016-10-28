@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.od.hrdf.event.EventListFragment">
 
-    <ImageView
-        android:alpha="0.2"
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/launch_footer"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/event_list_rv"
         android:layout_width="match_parent"

@@ -130,7 +130,7 @@ public class Exhibitor extends RealmObject {
         return realm.where(Exhibitor.class).equalTo("id", id).findFirst();
     }
 
-    public static RealmResults<Exhibitor> getEventExhibitorsResultController(RealmResults delegate, String eventId, Realm realm) {
+    public static RealmResults<Exhibitor> getEventExhibitorsResultController(String eventId, Realm realm) {
         return realm.where(Exhibitor.class).contains("events.id", eventId)
                 .findAll().sort("name", Sort.DESCENDING);
     }
@@ -172,6 +172,7 @@ public class Exhibitor extends RealmObject {
     }
 
     public static void fetchEventExhibitors(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "fetchEventExhibitors = "+url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -183,9 +184,9 @@ public class Exhibitor extends RealmObject {
                                 try {
                                     realm.beginTransaction();
                                     realm.createOrUpdateAllFromJson(Exhibitor.class, response);
-                                    RealmResults eventExhibitor = query.findAll();
+                                   // RealmResults eventExhibitor = query.findAll();
                                     realm.commitTransaction();
-                                    callBack.fetchDidSucceed(eventExhibitor);
+                                   // callBack.fetchDidSucceed(eventExhibitor);
                                 } catch (Exception e) {
                                     Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);

@@ -29,7 +29,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 
-public class SpeakerTopic extends RealmObject {
+public class  SpeakerTopic extends RealmObject {
     @PrimaryKey
     private String id;
 
@@ -105,6 +105,10 @@ public class SpeakerTopic extends RealmObject {
         this.dateCreated = dateCreated;
     }
 
+    public static RealmResults getSpeakerTopicForEvent(Realm realm, String speaker, String event) {
+        return realm.where(SpeakerTopic.class).equalTo("speaker", speaker).equalTo("event", event).findAll();
+    }
+
     public static void fetchEventTopics(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
@@ -142,13 +146,12 @@ public class SpeakerTopic extends RealmObject {
         HRDFApplication.getInstance().addToRequestQueue(req);
     }
 
-
     public static void fetchEventSpeakerTopic(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "fetchEventSpeakerTopic ="+url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        //      Log.i("AWAIS1", response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -159,7 +162,7 @@ public class SpeakerTopic extends RealmObject {
                                     realm.commitTransaction();
                                     callBack.fetchDidSucceed(eventSpeakerTopic);
                                 } catch (Exception e) {
-                                    Log.i("AWAIS1", "Exception Error - " + e.getMessage());
+                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
                             }
@@ -171,7 +174,7 @@ public class SpeakerTopic extends RealmObject {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i("AWAIS1", "OnErrorRun()");
+                        Log.i(HRDFConstants.TAG, "OnErrorRun()");
                         callBack.fetchDidFail(error);
                     }
                 });

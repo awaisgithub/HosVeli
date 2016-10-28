@@ -1,5 +1,6 @@
 package com.od.hrdf.landingtab;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,8 +20,10 @@ import android.widget.TextView;
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.Event;
 import com.od.hrdf.BOs.EventSpeaker;
+import com.od.hrdf.BOs.Exhibitor;
 import com.od.hrdf.BOs.Speaker;
 import com.od.hrdf.BOs.Sponsor;
+import com.od.hrdf.BOs.User;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
@@ -29,6 +32,7 @@ import com.od.hrdf.Utils.Util;
 import com.od.hrdf.abouts.AboutUsFragment;
 import com.od.hrdf.event.EventFragment;
 import com.od.hrdf.event.EventListFragment;
+import com.od.hrdf.loginregistration.LoginRegistrationActivity;
 import com.od.hrdf.news.NewsFragment;
 import com.od.hrdf.profile.ProfileFragment;
 
@@ -106,6 +110,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         setupTabIcons();
         fetchAllSpeakers();
         fetchAllSponsors();
+        fetchAllExhibitors();
     }
 
     @Override
@@ -181,7 +186,6 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_tabbar, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }
@@ -203,6 +207,19 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
     private void fetchAllSponsors() {
         RealmQuery query = HRDFApplication.realm.where(Sponsor.class);
         Sponsor.fetchAllSponsors(this, HRDFApplication.realm, Api.urlAllSponsor(), query, new FetchCallBack() {
+            @Override
+            public void fetchDidSucceed(RealmResults fetchedItems) {
+            }
+
+            @Override
+            public void fetchDidFail(Exception e) {
+            }
+        });
+    }
+
+    private void fetchAllExhibitors() {
+        RealmQuery query = HRDFApplication.realm.where(Exhibitor.class);
+        Exhibitor.fetchExhibitor(this, HRDFApplication.realm, Api.urlAllExhibitor(), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
             }

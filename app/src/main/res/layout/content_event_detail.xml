@@ -1,72 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_event_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/colorTabbar"
+
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.od.hrdf.event.EventDetailActivity"
     tools:showIn="@layout/activity_event_detail">
 
-    <RelativeLayout
-        android:id="@+id/header_layout"
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="170dp">
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/event_detail_header"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            fresco:actualImageScaleType="fitXY" />
-
-        <View
-            android:id="@+id/footer_dark_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/event_detail_header_overlay" />
-
-        <TextView
-            android:id="@+id/date_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/title"
-            android:layout_marginStart="10dp"
-            android:textAllCaps="true"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="@android:color/holo_red_light"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
-
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        android:src="@drawable/login_bg" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/event_detail_segment" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/event_detail_pager"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+        <RelativeLayout
+            android:id="@+id/header_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="170dp">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/event_detail_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                fresco:actualImageScaleType="focusCrop" />
+
+            <View
+                android:id="@+id/footer_dark_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/event_detail_header_overlay" />
+
+            <LinearLayout
+                android:id="@+id/layout_actions"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/rect_agenda_layout"
+                android:gravity="center_horizontal">
+
+                <ImageButton
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/button_agenda"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/calendar" />
+
+                <ImageButton
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:id="@+id/button_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/map" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/button_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/date_time"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="end"
+                android:textAllCaps="true"
+                android:text="Register"
+                android:background="@drawable/rect_button_register"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/date_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/title"
+                android:layout_marginStart="10dp"
+                android:textAllCaps="true"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/event_detail_segment" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/event_detail_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
+

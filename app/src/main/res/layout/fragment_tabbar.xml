@@ -8,9 +8,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.od.hrdf.landingtab.TabbarActivity$PlaceholderFragment">
 
+    <ImageView
+        android:layout_centerInParent="true"
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/splash_logo"/>
+
     <TextView
+        android:layout_centerInParent="true"
+        android:layout_below="@+id/logo"
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="This Section is Still Under Development"
+        android:textSize="14sp"
+        android:textAppearance="?android:textAppearanceMedium"/>
 
 </RelativeLayout>
