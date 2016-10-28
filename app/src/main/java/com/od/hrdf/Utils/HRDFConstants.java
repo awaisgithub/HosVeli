@@ -26,6 +26,7 @@ final public class HRDFConstants {
     public static final String JOGET_APP_ID = "hrdfApp";
     public static final String USER_REG_TABLE = "app_fd_hrdf_user";
     public static final String EVENT_LIST_ID = "hrdfEventList";
+    public static final String USER_RSVP_TABLE = "app_fd_hrdf_user_event_rsvp";
     public static final String DB_OP_CREATE = "Create";
     public static final String DB_OP_UPDATE = "Update";
 
@@ -33,6 +34,7 @@ final public class HRDFConstants {
     public static final int MY_PERMISSIONS_REQUEST_READ_CAMERA = 0;
     public static final String KEY_EVENT_ID = "event_id";
     public static final String KEY_SPEAKER_ID = "speaker_id";
+    public static final String KEY_EVENT_TYPE = "event_type";
 
 
 

@@ -16,11 +16,12 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.od.hrdf.CallBack.LocationCallBack;
 import com.od.hrdf.CallBack.FetchCallBack;
+import com.od.hrdf.CallBack.StatusCallBack;
 import com.od.hrdf.HRDFApplication;
+import com.od.hrdf.Payload.JSONPayloadManager;
 import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -77,7 +78,9 @@ public class Event extends RealmObject {
     private RealmList<EventSponsor> sponsors;
     private RealmList<Agenda> agenda;
     private RealmList<Floorplan> floorplans;
-    private Boolean isFavourite;
+    private boolean isFavourite;
+    private boolean isBookedLocal;
+    private String userId;
     private User userObj;
 
     public Event() {
@@ -126,6 +129,14 @@ public class Event extends RealmObject {
 
     public void setFeeEarlybirdGroup(String feeEarlybirdGroup) {
         this.feeEarlybirdGroup = feeEarlybirdGroup;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getFeeEarlybirdIndividual() {
@@ -353,6 +364,14 @@ public class Event extends RealmObject {
         this.exhibitors = exhibitors;
     }
 
+    public boolean getBooked() {
+        return isBookedLocal;
+    }
+
+    public void setBooked(boolean booked) {
+        isBookedLocal = booked;
+    }
+
     public RealmList<EventSponsor> getSponsors() {
         return sponsors;
     }
@@ -404,6 +423,12 @@ public class Event extends RealmObject {
                                 Log.i(HRDFConstants.TAG, "jsonString - " + jsonString);
                                 realm.beginTransaction();
                                 for (Event event : eventList) {
+                                    Event localEvent = getEvent(event.getId(), realm);
+                                    if(localEvent != null) {
+                                        boolean isBooked = localEvent.getBooked();
+                                        if(isBooked)
+                                            event.setBooked(true);
+                                    }
                                     realm.copyToRealmOrUpdate(event);
                                 }
                                 realm.commitTransaction();
@@ -495,34 +520,22 @@ public class Event extends RealmObject {
         }
     }
 
-    public static void bookEvent(Activity context, String url, FetchCallBack callBack) {
-        JSONObject jsonObject = new JSONObject();
-        JsonObjectRequest userRegistration;
-        try {
-            jsonObject.accumulate("title", "A");
-            jsonObject.accumulate("organizer", "OpenDynamics");
-            jsonObject.accumulate("theme", "classic");
-            jsonObject.accumulate("location", "010");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        userRegistration = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-
+    public static void bookEvent(String userId, String eventId, String url, final StatusCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "performUserRegistration =" + url);
+        JSONObject jsonObject = JSONPayloadManager.getInstance().getRSVPReqPayload(eventId, userId);
+        JsonObjectRequest rsvpRegistration = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.i(HRDFConstants.TAG, "------@ Event Booked Successfully -----@" + response.toString());
+                callBack.success(response);
+
             }
         }, new Response.ErrorListener() {
-
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i(HRDFConstants.TAG, "-----Error FAILURE Event Not Booked= " + error.toString());
+                callBack.failure(error.toString());
+
             }
         });
-        HRDFApplication.getInstance().addToRequestQueue(userRegistration);
+        HRDFApplication.getInstance().addToRequestQueue(rsvpRegistration);
     }
-
 }
