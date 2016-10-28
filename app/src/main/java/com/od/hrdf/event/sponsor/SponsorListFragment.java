@@ -106,4 +106,9 @@ public class SponsorListFragment extends Fragment implements EventListAdapterInt
     public void gotoDetailActivity(String id) {
 
     }
+
+    @Override
+    public void socialMediaSharing(String id) {
+
+    }
 }

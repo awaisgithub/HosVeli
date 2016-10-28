@@ -114,4 +114,9 @@ public class SpeakerListFragment extends Fragment implements EventListAdapterInt
         intent.putExtra(HRDFConstants.KEY_EVENT_ID, eventId);
         startActivity(intent);
     }
+
+    @Override
+    public void socialMediaSharing(String id) {
+
+    }
 }
