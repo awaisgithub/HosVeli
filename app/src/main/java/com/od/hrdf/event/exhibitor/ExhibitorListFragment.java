@@ -106,4 +106,9 @@ public class ExhibitorListFragment extends Fragment implements EventListAdapterI
     public void gotoDetailActivity(String id) {
 
     }
+
+    @Override
+    public void socialMediaSharing(String id) {
+
+    }
 }
