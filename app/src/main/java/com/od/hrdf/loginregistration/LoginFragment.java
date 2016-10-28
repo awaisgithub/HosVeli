@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +20,26 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.User;
+import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.CallBack.LoginCallBack;
+import com.od.hrdf.CallBack.StatusCallBack;
+import com.od.hrdf.HRDFApplication;
+import com.od.hrdf.Payload.JSONPayloadManager;
 import com.od.hrdf.R;
+import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -44,6 +57,7 @@ public class LoginFragment extends Fragment {
     private EditText password;
     private Realm realm;
     private ProgressDialog progressDialog;
+    private TextView textView;
 
     public LoginFragment() {
         // Required empty public constructor
@@ -86,6 +100,39 @@ public class LoginFragment extends Fragment {
 
         username = (EditText) rootView.findViewById(R.id.username);
         password = (EditText) rootView.findViewById(R.id.password);
+
+        textView = (TextView) rootView.findViewById(R.id.textView);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(username.getText().toString())) {
+                    showActionSnackBarMessage(getString(R.string.login_error_username));
+                } else {
+                    try {
+                        forgotPassword(username.getText().toString(), Api.urlForgotPassword(), new StatusCallBack() {
+                            @Override
+                            public void success(JSONObject response) {
+                                String status = response.optString("Status");
+                                if (status.equals("OK")) {
+                                    showActionSnackBarMessage("An email with link to reset password has been sent to the above email.");
+                                } else
+                                    showActionSnackBarMessage("Error = " + response.toString());
+                            }
+
+                            @Override
+                            public void failure(String response) {
+                                showActionSnackBarMessage("Error = " + response);
+                            }
+                        });
+                    } catch (JSONException e) {
+                        showActionSnackBarMessage("Error = " + e.toString());
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
         password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -93,12 +140,12 @@ public class LoginFragment extends Fragment {
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
-                if(TextUtils.isEmpty(username.getText().toString())) {
+                if (TextUtils.isEmpty(username.getText().toString())) {
                     showActionSnackBarMessage(getString(R.string.login_error_username));
                     return true;
                 }
 
-                if(TextUtils.isEmpty(password.getText().toString())) {
+                if (TextUtils.isEmpty(password.getText().toString())) {
                     showActionSnackBarMessage(getString(R.string.reg_error_password));
                     return true;
                 }
@@ -197,5 +244,22 @@ public class LoginFragment extends Fragment {
 
     private void hideProgressDialog() {
         progressDialog.dismiss();
+    }
+
+    public static void forgotPassword(String email, final String url, final StatusCallBack callBack) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("email", email);
+        JsonObjectRequest forgotPass = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callBack.success(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callBack.failure(error.toString());
+            }
+        });
+        HRDFApplication.getInstance().addToRequestQueue(forgotPass);
     }
 }
