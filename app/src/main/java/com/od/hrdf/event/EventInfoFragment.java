@@ -11,13 +11,14 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.od.hrdf.BOs.Event;
+import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
 
 public class EventInfoFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
+    private String eventId;
     private String mParam2;
     private View rootView;
     private Event event;
@@ -26,15 +27,20 @@ public class EventInfoFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static EventInfoFragment newInstance(Event event) {
+    public static EventInfoFragment newInstance(String eventId) {
         EventInfoFragment fragment = new EventInfoFragment();
-        fragment.event = event;
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, eventId);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            eventId = getArguments().getString(ARG_PARAM1);
+        }
     }
 
     @Override
@@ -47,6 +53,7 @@ public class EventInfoFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        event = Event.getEvent(eventId, HRDFApplication.realm);
         initViews();
     }
 

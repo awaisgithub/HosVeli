@@ -111,6 +111,7 @@ public class SpeakerListFragment extends Fragment implements EventListAdapterInt
     public void gotoDetailActivity(String id) {
         Intent intent = new Intent(getActivity(), SpeakerDetailActivity.class);
         intent.putExtra(HRDFConstants.KEY_SPEAKER_ID, id);
+        intent.putExtra(HRDFConstants.KEY_EVENT_ID, eventId);
         startActivity(intent);
     }
 }

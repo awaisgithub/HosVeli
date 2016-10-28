@@ -73,7 +73,7 @@ public class Event extends RealmObject {
     private String weChatLink;
     private String feedBackId;
     private RealmList<EventSpeaker> speakers;
-    private RealmList<Exhibitor> exhibitors;
+    private RealmList<EventExhibitor> exhibitors;
     private RealmList<EventSponsor> sponsors;
     private RealmList<Agenda> agenda;
     private RealmList<Floorplan> floorplans;
@@ -345,11 +345,11 @@ public class Event extends RealmObject {
         this.speakers = speakers;
     }
 
-    public RealmList<Exhibitor> getExhibitors() {
+    public RealmList<EventExhibitor> getExhibitors() {
         return exhibitors;
     }
 
-    public void setExhibitors(RealmList<Exhibitor> exhibitors) {
+    public void setExhibitors(RealmList<EventExhibitor> exhibitors) {
         this.exhibitors = exhibitors;
     }
 

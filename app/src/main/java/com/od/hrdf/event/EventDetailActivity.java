@@ -1,5 +1,6 @@
 package com.od.hrdf.event;
 
+import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.net.ParseException;
 import android.net.Uri;
@@ -26,6 +27,8 @@ import com.od.hrdf.BOs.Event;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.SectionsPagerAdapter;
+import com.od.hrdf.event.agenda.AgendsMainActivity;
+import com.od.hrdf.event.exhibitor.ExhibitorListFragment;
 import com.od.hrdf.event.floorplan.FloorPlanFragment;
 import com.od.hrdf.event.speaker.SpeakerListFragment;
 import com.od.hrdf.event.sponsor.SponsorListFragment;
@@ -89,6 +92,8 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         findViewById(R.id.event_detail_exhibitor).setOnClickListener(this);
         findViewById(R.id.event_detail_floorplan).setOnClickListener(this);
 
+        findViewById(R.id.button_agenda).setOnClickListener(this);
+
         mViewPager = (ViewPager) findViewById(R.id.event_detail_pager);
         setupViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -132,10 +137,10 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(EventInfoFragment.newInstance(event), "Event Info");
+        adapter.addFragment(EventInfoFragment.newInstance(event.getId()), "Event Info");
         adapter.addFragment(SpeakerListFragment.newInstance(event.getId()), "Speaker Info");
         adapter.addFragment(SponsorListFragment.newInstance(event.getId()), "Sponsors");
-        adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(4), "Four");
+        adapter.addFragment(ExhibitorListFragment.newInstance(event.getId()), "Exhibitors");
         adapter.addFragment(FloorPlanFragment.newInstance(event.getId()), "Floor Plan");
         viewPager.setAdapter(adapter);
     }
@@ -159,6 +164,11 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.event_detail_floorplan:
                 mViewPager.setCurrentItem(4);
+                break;
+            case R.id.button_agenda:
+                Intent intent = new Intent(EventDetailActivity.this, AgendsMainActivity.class);
+                intent.putExtra(HRDFConstants.KEY_EVENT_ID, event.getId());
+                startActivity(intent);
                 break;
             default:
                 break;

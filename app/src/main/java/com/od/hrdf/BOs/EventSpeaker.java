@@ -191,6 +191,7 @@ public class EventSpeaker extends RealmObject {
         this.sortingseq = sortingseq;
     }
 
+
     public static RealmList<EventSpeaker> getEventSpeakerList(Realm realm, String eventId) {
         RealmList<EventSpeaker> speakers = new RealmList<>();
 
