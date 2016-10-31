@@ -24,9 +24,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,9 +41,6 @@ import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.Util;
 import com.od.hrdf.event.EventListFragment;
 import com.od.hrdf.landingtab.TabFragActivityInterface;
-import com.od.hrdf.landingtab.TabbarActivity;
-import com.od.hrdf.loginregistration.LoginFragment;
-import com.od.hrdf.loginregistration.LoginRegistrationActivity;
 
 
 import java.io.ByteArrayOutputStream;
@@ -58,10 +53,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import info.hoang8f.android.segmented.SegmentedGroup;
 import io.realm.Realm;
 
-import static com.od.hrdf.HRDFApplication.realm;
 import static com.od.hrdf.event.EventFragment.LIST_TYPE_FAV_EVENTS;
 import static com.od.hrdf.event.EventFragment.LIST_TYPE_MY_EVENTS;
-import static com.od.hrdf.event.EventFragment.LIST_TYPE_UPCOMING;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
@@ -154,7 +147,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         email.setText(user.getId());
 
         final SegmentedGroup segmentedGroup = (SegmentedGroup) rootView.findViewById(R.id.profile_segment_control);
-        segmentedGroup.setTintColor(ContextCompat.getColor(getActivity(), R.color.colorLightBlue), Color.WHITE);
+        segmentedGroup.setTintColor(ContextCompat.getColor(getActivity(), R.color.colorTabs), Color.WHITE);
         ((RadioButton) segmentedGroup.findViewById(R.id.qr_code)).setOnClickListener(this);
         ((RadioButton) segmentedGroup.findViewById(R.id.my_profile)).setOnClickListener(this);
         ((RadioButton) segmentedGroup.findViewById(R.id.my_events)).setOnClickListener(this);
