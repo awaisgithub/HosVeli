@@ -25,6 +25,7 @@ import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.abouts.AboutUs;
 import com.od.hrdf.landingtab.TabFragActivityInterface;
+import com.surveymonkey.surveymonkeyandroidsdk.SurveyMonkey;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -42,6 +43,7 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
     private User user;
     private TabFragActivityInterface mListener;
     private RealmResults realmResults = null;
+    SurveyMonkey sdkInstance = new SurveyMonkey();
 
     public EventListFragment() {
     }
@@ -130,7 +132,18 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
             realmResults = UserEvent.getAllUserEvents(realm, user.getId());
             if(realmResults.size() < 1) {
                 showMessage(R.string.event_not_book);
+            } else {
+//                for(int i=0; i<realmResults.size(); i++){
+//                    UserEvent userEvent = ((UserEvent)realmResults.get(i));
+//                    Event event = Event.getUpcomingEventById(userEvent.getEvent(), realm);
+//                    if(event == null) {
+//                        realm.beginTransaction();
+//                        UserEvent.deleteFromRealm(userEvent);
+//                        realm.commitTransaction();
+//                    }
+//                }
             }
+
             UserEventListAdapter userEventListAdapter = new UserEventListAdapter(getActivity(), realmResults, this, true);
             recyclerView.setAdapter(userEventListAdapter);
             fetchUserEvents();
@@ -142,8 +155,14 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
             EventListAdapter eventListAdapter = new EventListAdapter(getActivity(), realmResults, this, true);
             recyclerView.setAdapter(eventListAdapter);
             fetchAllEvents();
-        } else {
-
+        } else if(type.equalsIgnoreCase(EventFragment.LIST_TYPE_FEEDBACK)){
+            realmResults = Event.getSurveyEvents(realm);
+            if(realmResults.size() < 1) {
+                showMessage(R.string.event_feedback_not_availble);
+            }
+            EventFeedbackListAdapter eventFeedbackListAdapter = new EventFeedbackListAdapter(getActivity(), realmResults, this, true);
+            recyclerView.setAdapter(eventFeedbackListAdapter);
+            fetchAllEvents();
         }
 
         realmResults.addChangeListener(new RealmChangeListener<RealmResults>() {
@@ -178,11 +197,19 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
     }
 
     private void fetchUserEvents() {
-        RealmQuery query = realm.where(Event.class);
+        RealmQuery query = realm.where(UserEvent.class);
         UserEvent.fetchUserEvents(getActivity(), realm, Api.urlUserEventList(user.getId()), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(HRDFConstants.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
+//                for(int i=0; i<fetchedItems.size(); i++){
+//                    UserEvent userEvent = ((UserEvent)fetchedItems.get(i));
+//                    Event event = Event.getUpcomingEventById(userEvent.getEvent(), realm);
+//                    if(event == null) {
+//                        realm.beginTransaction();
+//                        UserEvent.deleteFromRealm(userEvent);
+//                        realm.commitTransaction();
+//                    }
+//                }
             }
 
             @Override
@@ -205,7 +232,7 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
 
     @Override
     public void performOperationOnEvent(EventOP op, String eventId) {
-        Event evet = Event.getEvent(eventId, realm);
+        Event event = Event.getEvent(eventId, realm);
         switch (op) {
             case SHARE_SOCIAL:
                 Intent textShareIntent = new Intent(Intent.ACTION_SEND);
@@ -216,13 +243,25 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
                 break;
             case MARK_FAV:
                 realm.beginTransaction();
-                evet.setFavourite(true);
+                event.setFavourite(true);
                 realm.commitTransaction();
                 break;
             case UNMARK_FAV:
                 realm.beginTransaction();
-                evet.setFavourite(false);
+                event.setFavourite(false);
                 realm.commitTransaction();
+                break;
+            case LAUNCH_ACTIVITY:
+                if(type.equalsIgnoreCase(EventFragment.LIST_TYPE_FEEDBACK)){
+                    event = Event.getEvent(eventId, realm);
+                    sdkInstance.onStart(getActivity(), getString(R.string.app_name), 0, event.getSurveyId());
+                    sdkInstance.startSMFeedbackActivityForResult(getActivity(), 0, event.getSurveyId());
+                } else {
+                    Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+                    intent.putExtra(HRDFConstants.KEY_EVENT_ID, eventId);
+                    intent.putExtra(HRDFConstants.KEY_EVENT_TYPE, type);
+                    startActivity(intent);
+                }
                 break;
             default:
                 break;

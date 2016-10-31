@@ -104,13 +104,12 @@ public class EventListAdapter extends RealmRecyclerViewAdapter<Event, RecyclerVi
         viewHolder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eventListAdapterInterface.gotoDetailActivity(((String) view.getTag()));
+                eventListAdapterInterface.performOperationOnEvent(EventListAdapterInterface.EventOP.LAUNCH_ACTIVITY, event.getId());
             }
         });
 
         viewHolder.share.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.v("AWAIS1", " clicked getTag = " + event.getId());
                 eventListAdapterInterface.performOperationOnEvent(EventListAdapterInterface.EventOP.SHARE_SOCIAL, event.getId());
             }
         });
