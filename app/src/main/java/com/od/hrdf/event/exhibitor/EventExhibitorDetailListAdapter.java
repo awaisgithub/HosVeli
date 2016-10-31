@@ -1,6 +1,7 @@
 package com.od.hrdf.event.exhibitor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -53,11 +54,19 @@ public class EventExhibitorDetailListAdapter extends RealmRecyclerViewAdapter<Ev
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         EventExhibitorDetailViewHolder viewHolder = (EventExhibitorDetailViewHolder) holder;
         final EventExhibitor eventExhibitor = data.get(position);
-        Exhibitor exhibitor = Exhibitor.getExhibitor(eventExhibitor.getExhibitor(), HRDFApplication.realm);
+        final Exhibitor exhibitor = Exhibitor.getExhibitor(eventExhibitor.getExhibitor(), HRDFApplication.realm);
         if(exhibitor == null)
             return;
 
         viewHolder.name.setText(exhibitor.getName());
+
+        viewHolder.externalLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentWebLink = new Intent(Intent.ACTION_VIEW, Uri.parse(exhibitor.getWebsite()));
+                context.startActivity(intentWebLink);
+            }
+        });
 
         if(exhibitor.getImage() != null) {
             String image = exhibitor.getImage();

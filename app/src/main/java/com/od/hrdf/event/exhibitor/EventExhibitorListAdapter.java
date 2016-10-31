@@ -39,13 +39,11 @@ import io.realm.RealmResults;
 
 public class EventExhibitorListAdapter extends RealmRecyclerViewAdapter<EventExhibitor, RecyclerView.ViewHolder> {
     private Context context;
-    private EventListAdapterInterface eventListAdapterInterface;
     private OrderedRealmCollection<EventExhibitor> data;
     private View view;
 
-    public EventExhibitorListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<EventExhibitor> data, EventListAdapterInterface eventListAdapterInterface, boolean autoUpdate) {
+    public EventExhibitorListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<EventExhibitor> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
-        this.eventListAdapterInterface = eventListAdapterInterface;
         this.data = data;
     }
 

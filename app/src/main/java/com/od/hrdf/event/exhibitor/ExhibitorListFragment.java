@@ -29,7 +29,7 @@ import io.realm.RealmResults;
 
 import static com.od.hrdf.HRDFApplication.realm;
 
-public class ExhibitorListFragment extends Fragment implements EventListAdapterInterface {
+public class ExhibitorListFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private String eventId;
     private String mParam2;
@@ -81,7 +81,7 @@ public class ExhibitorListFragment extends Fragment implements EventListAdapterI
 
         RealmResults realmResults = null;
         realmResults = EventExhibitor.getEventExhibitor(HRDFApplication.realm, eventId);
-        EventExhibitorListAdapter eventExhibitorListAdapter = new EventExhibitorListAdapter(getActivity(), realmResults, this, true);
+        EventExhibitorListAdapter eventExhibitorListAdapter = new EventExhibitorListAdapter(getActivity(), realmResults, true);
         recyclerView.setAdapter(eventExhibitorListAdapter);
     }
 
@@ -102,13 +102,4 @@ public class ExhibitorListFragment extends Fragment implements EventListAdapterI
 
     }
 
-    @Override
-    public void gotoDetailActivity(String id) {
-
-    }
-
-    @Override
-    public void socialMediaSharing(String id) {
-
-    }
 }
