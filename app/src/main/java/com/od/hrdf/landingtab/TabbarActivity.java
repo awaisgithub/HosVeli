@@ -126,7 +126,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(AboutUsFragment.newInstance("", ""), "About Us");
-        adapter.addFragment(NewsFragment.newInstance("", ""), "News");
+        adapter.addFragment(NewsFragment.newInstance("", ""), "News Feed");
         adapter.addFragment(EventFragment.newInstance("", ""), "Events");
         adapter.addFragment(ProfileFragment.newInstance("", ""), "Profile");
         viewPager.setAdapter(adapter);
