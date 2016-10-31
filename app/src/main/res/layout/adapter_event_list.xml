@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:layout_width="match_parent"
-    card_view:cardCornerRadius="15dp"
+    card_view:cardCornerRadius="5dp"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
@@ -22,7 +22,7 @@
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/header_image"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="160dp"
                 fresco:actualImageScaleType="focusCrop" />
 
             <TextView
@@ -96,6 +96,7 @@
                 android:background="@android:color/black" />
 
             <ImageView
+                android:id="@+id/button_fav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"

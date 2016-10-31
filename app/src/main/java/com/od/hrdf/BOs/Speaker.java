@@ -57,6 +57,8 @@ public class Speaker extends RealmObject {
     private String  salutation;
     private String  mobileNumber;
     private String  hrdf_status;
+    private float rating;
+    private boolean isRated;
 
     public String getId() {
         return id;
@@ -280,6 +282,22 @@ public class Speaker extends RealmObject {
 
     public void setHrdf_status(String hrdf_status) {
         this.hrdf_status = hrdf_status;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public boolean isRated() {
+        return isRated;
+    }
+
+    public void setRated(boolean rated) {
+        isRated = rated;
     }
 
     //METHODS

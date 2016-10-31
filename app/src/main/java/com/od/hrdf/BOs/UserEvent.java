@@ -196,8 +196,21 @@ public class UserEvent extends RealmObject {
                             public void run() {
                                 realm.beginTransaction();
                                 try {
+                                    Gson gson = new GsonBuilder().create();
+                                    Type collectionType = new TypeToken<ArrayList<UserEvent>>() {
+                                    }.getType();
+
+                                    ArrayList<UserEvent> userEventList = gson.fromJson(response.toString(), collectionType);
+
+                                    for(int i=0; i<userEventList.size(); i++){
+                                        Event event = Event.getUpcomingEventById(userEventList.get(i).getEvent(), realm);
+                                        if(event != null) {
+                                            realm.copyToRealmOrUpdate(userEventList.get(i));
+                                        }
+                                    }
+
                                     RealmResults users = query.findAll();
-                                    realm.createOrUpdateAllFromJson(UserEvent.class, response);
+
                                     callBack.fetchDidSucceed(users);
                                 } catch (Exception e) {
                                     Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());

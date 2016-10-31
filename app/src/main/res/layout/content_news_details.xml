@@ -25,7 +25,7 @@
             android:id="@+id/imageview_header"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            fresco:actualImageScaleType="focusCrop" />
+            fresco:actualImageScaleType="center" />
 
         <View
             android:layout_width="match_parent"

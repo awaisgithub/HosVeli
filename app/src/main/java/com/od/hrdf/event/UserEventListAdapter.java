@@ -58,6 +58,9 @@ public class UserEventListAdapter extends RealmRecyclerViewAdapter<UserEvent, Re
         EventListViewHolder viewHolder = (EventListViewHolder) holder;
         UserEvent userEvent = data.get(position);
         final Event event = Event.getEvent(userEvent.getEvent(), HRDFApplication.realm);
+        if(event == null)
+            return;
+
         viewHolder.title.setText(event.getTitle());
         viewHolder.venue.setText(event.getLocation());
 

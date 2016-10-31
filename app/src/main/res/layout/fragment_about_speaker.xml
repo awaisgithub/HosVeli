@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceMedium"
         android:textStyle="bold"
-        android:textColor="@color/colorLightBlue"
+        android:textColor="@color/colorTabs"
         android:textSize="16sp" />
 
     <WebView

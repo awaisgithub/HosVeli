@@ -17,10 +17,6 @@ import android.widget.RadioButton;
 
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
-import com.od.hrdf.landingtab.TabbarActivity;
-import com.od.hrdf.profile.ProfileFragment;
-import com.od.hrdf.profile.ProfileMyProfileFragment;
-import com.od.hrdf.profile.ProfileQRFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +29,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM2 = "param2";
     public static final String LIST_TYPE_UPCOMING = "upcoming";
     public static final String LIST_TYPE_ARCHIVE = "archive";
+    public static final String LIST_TYPE_FEEDBACK = "feedback";
     public static final String LIST_TYPE_MY_EVENTS = "myevets";
     public static final String LIST_TYPE_FAV_EVENTS = "favevets";
     private String mParam1;
@@ -78,7 +75,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
 
     private void initViews() {
         final SegmentedGroup segmentedGroup = (SegmentedGroup) rootView.findViewById(R.id.event_segment_control);
-        segmentedGroup.setTintColor(ContextCompat.getColor(getActivity(), R.color.colorLightBlue), Color.WHITE);
+        segmentedGroup.setTintColor(ContextCompat.getColor(getActivity(), R.color.colorTabs), Color.WHITE);
         ((RadioButton) segmentedGroup.findViewById(R.id.event_upcoming)).setOnClickListener(this);
         ((RadioButton) segmentedGroup.findViewById(R.id.event_archive)).setOnClickListener(this);
         ((RadioButton) segmentedGroup.findViewById(R.id.event_feedback)).setOnClickListener(this);
@@ -108,7 +105,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
         adapter.addFragment(EventListFragment.newInstance(LIST_TYPE_UPCOMING), "Upcoming");
         adapter.addFragment(EventListFragment.newInstance(LIST_TYPE_ARCHIVE), "Archive");
-        adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(2), "THREE");
+        adapter.addFragment(EventListFragment.newInstance(LIST_TYPE_FEEDBACK), "Feedback");
         viewPager.setAdapter(adapter);
     }
 

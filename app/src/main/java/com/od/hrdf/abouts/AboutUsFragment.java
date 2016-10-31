@@ -18,8 +18,6 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.request.ImageRequest;
-import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
@@ -100,7 +98,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
     private void initViews() {
 
         segmentedGroup = (SegmentedGroup) rootView.findViewById(R.id.aboutus_segment_control);
-        segmentedGroup.setTintColor(ContextCompat.getColor(getActivity(), R.color.colorLightBlue), Color.WHITE);
+        segmentedGroup.setTintColor(ContextCompat.getColor(getActivity(), R.color.colorTabs), Color.WHITE);
         final ViewSwitcher viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.view_switcher);
         aboutUsRB = (RadioButton) rootView.findViewById(R.id.aboutus);
         aboutUsRB.setOnClickListener(new View.OnClickListener() {

@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -21,13 +22,14 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.od.hrdf.BOs.Speaker;
-import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.SectionsPagerAdapter;
 import com.od.hrdf.event.speaker.uploads.SpeakerUploadsFragment;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
+
+import static com.od.hrdf.HRDFApplication.realm;
 
 public class SpeakerDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -52,7 +54,7 @@ public class SpeakerDetailActivity extends AppCompatActivity implements View.OnC
         TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
         speakerId = getIntent().getStringExtra(HRDFConstants.KEY_SPEAKER_ID);
         eventId = getIntent().getStringExtra(HRDFConstants.KEY_EVENT_ID);
-        speaker = Speaker.getSpeaker(speakerId, HRDFApplication.realm);
+        speaker = Speaker.getSpeaker(speakerId, realm);
         initViews();
 
     }
@@ -79,7 +81,7 @@ public class SpeakerDetailActivity extends AppCompatActivity implements View.OnC
         }
 
         final SegmentedGroup segmentedGroup = (SegmentedGroup) findViewById(R.id.sp_detail_segment_control);
-        segmentedGroup.setTintColor(ContextCompat.getColor(this, R.color.colorLightBlue), Color.WHITE);
+        segmentedGroup.setTintColor(ContextCompat.getColor(this, R.color.colorTabs), Color.WHITE);
         ((RadioButton) segmentedGroup.findViewById(R.id.sp_about)).setOnClickListener(this);
         ((RadioButton) segmentedGroup.findViewById(R.id.sp_topics)).setOnClickListener(this);
         ((RadioButton) segmentedGroup.findViewById(R.id.sp_uploads)).setOnClickListener(this);
@@ -101,6 +103,23 @@ public class SpeakerDetailActivity extends AppCompatActivity implements View.OnC
 
             }
         });
+
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener(){
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                realm.beginTransaction();
+                speaker.setRating(v);
+                speaker.setRated(true);
+                realm.commitTransaction();
+            }
+        });
+
+        if(speaker.isRated()) {
+            ratingBar.setEnabled(false);
+            ratingBar.setRating(speaker.getRating());
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
