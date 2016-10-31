@@ -47,6 +47,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
         mHeaderTitle = (TextView) findViewById(R.id.textview_title);
         mHeaderTitle.setText(article.getTitle());
         WebView description = (WebView) findViewById(R.id.description);
+        description.setBackgroundColor(0x00000000);
         description.loadData(article.getDescription(), "text/html; charset=utf-8", "UTF-8");
         loadFullSizeImage();
     }
