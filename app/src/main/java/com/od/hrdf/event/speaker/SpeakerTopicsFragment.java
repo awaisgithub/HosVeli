@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.Event;
@@ -20,6 +22,7 @@ import com.od.hrdf.R;
 import com.od.hrdf.event.EventFragment;
 import com.od.hrdf.event.EventListAdapter;
 
+import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -32,7 +35,7 @@ public class SpeakerTopicsFragment extends Fragment {
     private String eventId;
     private String speakerId;
     private View rootView;
-
+    private RealmResults realmResults = null;
     public SpeakerTopicsFragment() {
     }
 
@@ -69,6 +72,7 @@ public class SpeakerTopicsFragment extends Fragment {
     }
 
     private void initViews() {
+
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.speaker_topic_rcv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
             @Override
@@ -78,9 +82,19 @@ public class SpeakerTopicsFragment extends Fragment {
         };
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        RealmResults realmResults = null;
-
         realmResults = SpeakerTopic.getSpeakerTopicForEvent(realm, speakerId, eventId);
+        realmResults.addChangeListener(new RealmChangeListener<RealmResults>() {
+            @Override
+            public void onChange(RealmResults element) {
+                if(element.size() > 0) {
+                    hideMessage();
+                }
+            }
+        });
+
+        if(realmResults.size() < 1) {
+            showMessage(R.string.sp_topics_not_available);
+        }
 
         SpeakerTopicListAdapter speakerTopicListAdapter = new SpeakerTopicListAdapter(getActivity(), realmResults, true);
         recyclerView.setAdapter(speakerTopicListAdapter);
@@ -96,7 +110,23 @@ public class SpeakerTopicsFragment extends Fragment {
 
             @Override
             public void fetchDidFail(Exception e) {
+
+                if(realmResults.size() < 1) {
+                    showMessage(R.string.server_error);
+                }
             }
         });
+    }
+
+    private void showMessage(int message){
+        RelativeLayout messageLayout = (RelativeLayout) rootView.findViewById(R.id.error_layout);
+        TextView messageView = (TextView) rootView.findViewById(R.id.label);
+        messageView.setText(message);
+        messageLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideMessage() {
+        RelativeLayout messageLayout = (RelativeLayout) rootView.findViewById(R.id.error_layout);
+        messageLayout.setVisibility(View.GONE);
     }
 }

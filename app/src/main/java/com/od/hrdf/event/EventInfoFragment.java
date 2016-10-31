@@ -61,6 +61,9 @@ public class EventInfoFragment extends Fragment {
         TextView title = (TextView) rootView.findViewById(R.id.title);
         title.setText(event.getTitle());
 
+        TextView objective = (TextView) rootView.findViewById(R.id.objective);
+        objective.setText(event.getObjective());
+
         WebView overview = (WebView) rootView.findViewById(R.id.overview);
         overview.setBackgroundColor(0x00000000);
         overview.loadData(event.getOverview(), "text/html; charset=utf-8", "UTF-8");

@@ -6,6 +6,7 @@ import android.net.ParseException;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -107,13 +108,30 @@ public class EventListAdapter extends RealmRecyclerViewAdapter<Event, RecyclerVi
             }
         });
 
-        viewHolder.share.setOnClickListener(new View.OnClickListener(){
+        viewHolder.share.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.v("AWAIS1", " clicked getTag = "+ event.getId());
-               eventListAdapterInterface.socialMediaSharing(event.getId());
+                Log.v("AWAIS1", " clicked getTag = " + event.getId());
+                eventListAdapterInterface.performOperationOnEvent(EventListAdapterInterface.EventOP.SHARE_SOCIAL, event.getId());
             }
         });
 
+        if (event.getFavourite())
+            viewHolder.favButton.setImageResource(R.drawable.bookmark_filled);
+        else
+            viewHolder.favButton.setImageResource(R.drawable.bookmark);
+
+        viewHolder.favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (event.getFavourite()) {
+                    ((ImageView) view).setImageResource(R.drawable.bookmark);
+                    eventListAdapterInterface.performOperationOnEvent(EventListAdapterInterface.EventOP.UNMARK_FAV, event.getId());
+                } else {
+                    ((ImageView) view).setImageResource(R.drawable.bookmark_filled);
+                    eventListAdapterInterface.performOperationOnEvent(EventListAdapterInterface.EventOP.MARK_FAV, event.getId());
+                }
+            }
+        });
     }
 
     ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {

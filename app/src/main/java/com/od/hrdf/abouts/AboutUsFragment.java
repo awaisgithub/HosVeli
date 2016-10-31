@@ -31,10 +31,6 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 public class AboutUsFragment extends Fragment implements View.OnClickListener {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private String mParam1;
-    private String mParam2;
     private TabFragActivityInterface mListener;
     private View rootView;
     private Realm realm;
@@ -42,6 +38,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
     private TextView address, contact, email, website;
     private RadioButton aboutUsRB;
     private AboutUs aboutUs = null;
+    private SegmentedGroup segmentedGroup;
 
     public AboutUsFragment() {
         // Required empty public constructor
@@ -49,20 +46,12 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
 
     public static AboutUsFragment newInstance(String param1, String param2) {
         AboutUsFragment fragment = new AboutUsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -110,7 +99,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
 
     private void initViews() {
 
-        SegmentedGroup segmentedGroup = (SegmentedGroup) rootView.findViewById(R.id.aboutus_segment_control);
+        segmentedGroup = (SegmentedGroup) rootView.findViewById(R.id.aboutus_segment_control);
         segmentedGroup.setTintColor(ContextCompat.getColor(getActivity(), R.color.colorLightBlue), Color.WHITE);
         final ViewSwitcher viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.view_switcher);
         aboutUsRB = (RadioButton) rootView.findViewById(R.id.aboutus);
@@ -182,6 +171,11 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
         email.setText(aboutUs.getEmail());
         website.setText(aboutUs.getWebsite());
         final ViewSwitcher viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.view_switcher);
+        int displayedChildId = viewSwitcher.getDisplayedChild();
+        if(displayedChildId == 0) {
+            aboutUsRB.setChecked(true);
+        }
+
     }
 
     @Override

@@ -11,7 +11,7 @@ import com.od.hrdf.loginregistration.LoginRegistrationActivity;
 
 public class SplashActivity extends FragmentActivity {
 
-    private static final int SPLASH_TIME_OUT = 2000;
+    private static final int SPLASH_TIME_OUT = 1000;
     static SplashActivity splashActivity = null;
     Handler mHideHandler = new Handler();
 

@@ -2,7 +2,6 @@ package com.od.hrdf.landingtab;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
@@ -18,8 +17,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.od.hrdf.API.Api;
-import com.od.hrdf.BOs.Event;
-import com.od.hrdf.BOs.EventSpeaker;
 import com.od.hrdf.BOs.Exhibitor;
 import com.od.hrdf.BOs.Speaker;
 import com.od.hrdf.BOs.Sponsor;
@@ -27,11 +24,9 @@ import com.od.hrdf.BOs.User;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
-import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.Util;
 import com.od.hrdf.abouts.AboutUsFragment;
 import com.od.hrdf.event.EventFragment;
-import com.od.hrdf.event.EventListFragment;
 import com.od.hrdf.loginregistration.LoginRegistrationActivity;
 import com.od.hrdf.news.NewsFragment;
 import com.od.hrdf.profile.ProfileFragment;
@@ -77,7 +72,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
 
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setOffscreenPageLimit(4);
+        //mViewPager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -184,8 +179,8 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_tabbar, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            View rootView = inflater.inflate(R.layout.layout_error, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.label);
             return rootView;
         }
     }

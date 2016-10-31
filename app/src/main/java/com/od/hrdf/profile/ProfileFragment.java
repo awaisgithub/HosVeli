@@ -41,6 +41,7 @@ import com.od.hrdf.BOs.User;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.Util;
+import com.od.hrdf.event.EventListFragment;
 import com.od.hrdf.landingtab.TabFragActivityInterface;
 import com.od.hrdf.landingtab.TabbarActivity;
 import com.od.hrdf.loginregistration.LoginFragment;
@@ -58,6 +59,9 @@ import info.hoang8f.android.segmented.SegmentedGroup;
 import io.realm.Realm;
 
 import static com.od.hrdf.HRDFApplication.realm;
+import static com.od.hrdf.event.EventFragment.LIST_TYPE_FAV_EVENTS;
+import static com.od.hrdf.event.EventFragment.LIST_TYPE_MY_EVENTS;
+import static com.od.hrdf.event.EventFragment.LIST_TYPE_UPCOMING;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
 
@@ -156,7 +160,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         ((RadioButton) segmentedGroup.findViewById(R.id.my_events)).setOnClickListener(this);
         ((RadioButton) segmentedGroup.findViewById(R.id.fav_events)).setOnClickListener(this);
         mViewPager = (ViewPager) rootView.findViewById(R.id.profile_viewpager);
-        mViewPager.setOffscreenPageLimit(4);
+        //mViewPager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -177,11 +181,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getFragmentManager());
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
         adapter.addFragment(ProfileQRFragment.newInstance("", ""), "One");
         adapter.addFragment(ProfileMyProfileFragment.newInstance("", ""), "Two");
-        adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(2), "THREE");
-        adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(3), "Four");
+        adapter.addFragment(EventListFragment.newInstance(LIST_TYPE_MY_EVENTS), "Upcoming");
+        adapter.addFragment(EventListFragment.newInstance(LIST_TYPE_FAV_EVENTS), "Favourite Events");
         viewPager.setAdapter(adapter);
     }
 

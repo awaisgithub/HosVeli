@@ -2,6 +2,7 @@ package com.od.hrdf.profile;
 
 
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,24 +32,15 @@ import static android.R.id.button2;
 import static com.od.hrdf.HRDFApplication.realm;
 import static com.od.hrdf.R.id.imageView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileQRFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ProfileQRFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private static Bitmap bitmap;
     ImageButton refresh;
     User user;
     public final static int QRcodeWidth = 300;
-    Bitmap bitmap;
     ImageView imageView;
     private View rootView;
 
@@ -56,15 +48,6 @@ public class ProfileQRFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileQRFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ProfileQRFragment newInstance(String param1, String param2) {
         ProfileQRFragment fragment = new ProfileQRFragment();
         Bundle args = new Bundle();
@@ -97,55 +80,39 @@ public class ProfileQRFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         imageView = (ImageView) rootView.findViewById(R.id.imageView3);
         user = User.getCurrentUser(realm);
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        try {
-            for (int i = 0; i < user.getEvents().size(); i++) {
-
-                jsonArray.put(user.getEvents().get(i).getId());
-
-            }
-            jsonObject.put("name", user.getName());
-            jsonObject.put("email", user.getId());
-            jsonObject.put("events", jsonArray.toString());
-            jsonObject.put("nationality", user.getNationality());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            Log.i("HRDF", " EDITTEXTVALUE " + jsonObject.toString());
-            bitmap = TextToImageEncode(jsonObject.toString());
+        if(bitmap != null) {
             imageView.setImageBitmap(bitmap);
-        } catch (WriterException e) {
-            e.printStackTrace();
         }
+
         //REFRESH BUTTON
         refresh = (ImageButton) rootView.findViewById(R.id.imageButton2);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject jsonObject1 = new JSONObject();
-                JSONArray jsonArray1 = new JSONArray();
-                try {
-                    for (int i = 0; i < user.getEvents().size(); i++) {
-                        jsonArray1.put(user.getEvents().get(i).getId());
-                    }
-                    jsonObject1.put("name", user.getName());
-                    jsonObject1.put("email", user.getId());
-                    jsonObject1.put("events", jsonArray1.toString());
-                    jsonObject1.put("nationality", user.getNationality());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    Log.i("HRDF", " EDITTEXTVALUE " + jsonObject1.toString());
-                    bitmap = TextToImageEncode(jsonObject1.toString());
-                    imageView.setImageBitmap(bitmap);
-                } catch (WriterException e) {
-                    e.printStackTrace();
-                }
+                new GenerateQRCode().execute(getPayloadForQR());
             }
         });
+
+        new GenerateQRCode().execute(getPayloadForQR());
+    }
+
+    private String getPayloadForQR() {
+        String jsonString = "";
+        JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        try {
+            for (int i = 0; i < user.getEvents().size(); i++) {
+                jsonArray.put(user.getEvents().get(i).getId());
+            }
+            jsonObject.put("name", user.getName());
+            jsonObject.put("email", user.getId());
+            jsonObject.put("events", jsonArray.toString());
+            jsonObject.put("nationality", user.getNationality());
+            jsonString = jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
     }
 
     Bitmap TextToImageEncode(String Value) throws WriterException {
@@ -174,6 +141,28 @@ public class ProfileQRFragment extends Fragment {
         Log.i(HRDFConstants.TAG, "Check= width=" + bitMatrixWidth + "     height=" + bitMatrixHeight);
         bitmap.setPixels(pixels, 0, 300, 0, 0, bitMatrixWidth, bitMatrixHeight);
         return bitmap;
+    }
+
+    class GenerateQRCode extends AsyncTask<String, Integer, Bitmap>{
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            try {
+                return TextToImageEncode(strings[0]);
+            } catch (WriterException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmapp) {
+            super.onPostExecute(bitmapp);
+            if(bitmapp != null) {
+                bitmap = bitmapp;
+                imageView.setImageBitmap(bitmap);
+            }
+        }
     }
 }
 

@@ -5,8 +5,6 @@ import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -27,9 +25,7 @@ import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.SectionsPagerAdapter;
-import com.od.hrdf.event.EventFragment;
-import com.od.hrdf.event.EventListFragment;
-import com.od.hrdf.landingtab.TabbarActivity;
+import com.od.hrdf.event.speaker.uploads.SpeakerUploadsFragment;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
 
@@ -111,7 +107,7 @@ public class SpeakerDetailActivity extends AppCompatActivity implements View.OnC
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(AboutSpeakerFragment.newInstance(speaker), "About Speaker");
         adapter.addFragment(SpeakerTopicsFragment.newInstance(eventId, speaker.getId()), "Speaker Topic");
-        adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(3), "THREE");
+        adapter.addFragment(SpeakerUploadsFragment.newInstance(eventId, speaker.getId()), "Speaker Uploads");
         viewPager.setAdapter(adapter);
     }
 

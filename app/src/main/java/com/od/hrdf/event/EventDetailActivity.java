@@ -27,6 +27,7 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.Event;
 import com.od.hrdf.BOs.User;
+import com.od.hrdf.BOs.UserEvent;
 import com.od.hrdf.CallBack.StatusCallBack;
 import com.od.hrdf.Payload.JSONPayloadManager;
 import com.od.hrdf.R;
@@ -52,6 +53,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
     private Realm realm;
     private Event event;
     private ViewPager mViewPager;
+    private boolean isEventBooked;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,9 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         String eventId = getIntent().getStringExtra(HRDFConstants.KEY_EVENT_ID);
         realm = Realm.getDefaultInstance();
         event = Event.getEvent(eventId, realm);
+        if(UserEvent.getUserEvent(realm, event.getId()) != null)
+            isEventBooked = true;
+
         initViews();
     }
 
@@ -99,8 +104,8 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         findViewById(R.id.event_detail_exhibitor).setOnClickListener(this);
         findViewById(R.id.event_detail_floorplan).setOnClickListener(this);
         findViewById(R.id.button_register).setOnClickListener(this);
-
         findViewById(R.id.button_agenda).setOnClickListener(this);
+        findViewById(R.id.button_map).setOnClickListener(this);
 
         mViewPager = (ViewPager) findViewById(R.id.event_detail_pager);
         setupViewPager(mViewPager);
@@ -123,7 +128,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
 
         String type = getIntent().getStringExtra(HRDFConstants.KEY_EVENT_TYPE);
         if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_UPCOMING)) {
-            if(event.getBooked()) {
+            if(isEventBooked) {
                 ((TextView)findViewById(R.id.button_register)).setText("Registered");
             } else {
 
@@ -131,6 +136,13 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         } else if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_ARCHIVE)) {
             findViewById(R.id.layout_actions).setVisibility(View.GONE);
             findViewById(R.id.button_register).setVisibility(View.GONE);
+        } else if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_MY_EVENTS)) {
+            ((TextView)findViewById(R.id.button_register)).setText("Registered");
+        } else if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_FAV_EVENTS)) {
+            if(isEventBooked) {
+                ((TextView)findViewById(R.id.button_register)).setText("Registered");
+            } else {
+            }
         }
     }
 
@@ -190,8 +202,20 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
                 intent.putExtra(HRDFConstants.KEY_EVENT_ID, event.getId());
                 startActivity(intent);
                 break;
+            case R.id.button_map:
+                Intent intentLocActivity = new Intent(EventDetailActivity.this, EventLocationActivity.class);
+                if(!event.getLocationLatitude().isEmpty() && !event.getLocationLongitude().isEmpty()) {
+                    double lat = Double.parseDouble(event.getLocationLatitude());
+                    double lng = Double.parseDouble(event.getLocationLongitude());
+                    intentLocActivity.putExtra("lat", lat);
+                    intentLocActivity.putExtra("lng", lng);
+                } else {
+                }
+                intentLocActivity.putExtra("address", event.getLocation());
+                startActivity(intentLocActivity);
+                break;
             case R.id.button_register:
-                if(!event.getBooked())
+                if(!isEventBooked)
                     bookEvent();
                 break;
             default:
@@ -210,9 +234,9 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
                     if (status.equalsIgnoreCase("1")) {
                         ((TextView)findViewById(R.id.button_register)).setText("Registered");
                         realm.beginTransaction();
-                        event.setBooked(true);
-                        event.setUserId(user.getId());
-                        user.getEvents().add(event);
+                        UserEvent userEvent = realm.createObject(UserEvent.class, event.getId());
+                        userEvent.setUser(user.getId());
+                        user.getEvents().add(userEvent);
                         realm.commitTransaction();
                     } else {
                     }

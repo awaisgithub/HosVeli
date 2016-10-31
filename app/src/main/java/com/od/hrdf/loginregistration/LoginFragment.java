@@ -189,7 +189,6 @@ public class LoginFragment extends Fragment {
         User.fetchUser(getActivity(), realm, Api.urlUserList(email), query, new LoginCallBack() {
             @Override
             public void fetchDidSucceed(String response) {
-                hideProgressDialog();
                 if (response != null && response.length() > 0) {
                     realm.beginTransaction();
                     try {
@@ -213,8 +212,8 @@ public class LoginFragment extends Fragment {
                 } else {
                     showActionSnackBarMessage(getString(R.string.login_not_exist));
                 }
+                hideProgressDialog();
             }
-
             @Override
             public void fetchDidFail(Exception e) {
                 hideProgressDialog();

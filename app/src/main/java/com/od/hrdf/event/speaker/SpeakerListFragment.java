@@ -116,7 +116,7 @@ public class SpeakerListFragment extends Fragment implements EventListAdapterInt
     }
 
     @Override
-    public void socialMediaSharing(String id) {
+    public void performOperationOnEvent(EventOP op, String eventId) {
 
     }
 }

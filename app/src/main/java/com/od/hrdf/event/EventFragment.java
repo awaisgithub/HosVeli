@@ -9,12 +9,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 
 import com.od.hrdf.R;
+import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.landingtab.TabbarActivity;
 import com.od.hrdf.profile.ProfileFragment;
 import com.od.hrdf.profile.ProfileMyProfileFragment;
@@ -31,6 +33,8 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM2 = "param2";
     public static final String LIST_TYPE_UPCOMING = "upcoming";
     public static final String LIST_TYPE_ARCHIVE = "archive";
+    public static final String LIST_TYPE_MY_EVENTS = "myevets";
+    public static final String LIST_TYPE_FAV_EVENTS = "favevets";
     private String mParam1;
     private String mParam2;
     private View rootView;
@@ -50,6 +54,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(HRDFConstants.TAG, "onCreate");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -59,6 +64,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(HRDFConstants.TAG, "onCreateView");
         rootView = inflater.inflate(R.layout.fragment_event, container, false);
         return rootView;
     }
@@ -66,6 +72,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.i(HRDFConstants.TAG, "onActivityCreated");
         initViews();
     }
 
@@ -76,7 +83,7 @@ public class EventFragment extends Fragment implements View.OnClickListener {
         ((RadioButton) segmentedGroup.findViewById(R.id.event_archive)).setOnClickListener(this);
         ((RadioButton) segmentedGroup.findViewById(R.id.event_feedback)).setOnClickListener(this);
         mViewPager = (ViewPager) rootView.findViewById(R.id.event_pager);
-        mViewPager.setOffscreenPageLimit(4);
+        //mViewPager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -97,7 +104,8 @@ public class EventFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getFragmentManager());
+        Log.i(HRDFConstants.TAG, "setupViewPager");
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
         adapter.addFragment(EventListFragment.newInstance(LIST_TYPE_UPCOMING), "Upcoming");
         adapter.addFragment(EventListFragment.newInstance(LIST_TYPE_ARCHIVE), "Archive");
         adapter.addFragment(TabbarActivity.PlaceholderFragment.newInstance(2), "THREE");

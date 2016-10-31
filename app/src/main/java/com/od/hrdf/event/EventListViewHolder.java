@@ -24,17 +24,18 @@ public class EventListViewHolder extends RecyclerView.ViewHolder {
     public final TextView venue;
     public final TextView dateTime;
     public final ImageView share;
+    public final ImageView favButton;
     public final SimpleDraweeView summaryImageView;
 
-    public EventListViewHolder(View parentView, final RelativeLayout parentLayout, TextView title, TextView venue, TextView dateTime, SimpleDraweeView summaryImageView, ImageView share) {
+    public EventListViewHolder(View parentView, final RelativeLayout parentLayout, TextView title, TextView venue, TextView dateTime, SimpleDraweeView summaryImageView, ImageView share, ImageView favButton) {
         super(parentView);
         this.parent = parentLayout;
         this.title = title;
         this.venue = venue;
         this.summaryImageView = summaryImageView;
         this.share = share;
+        this.favButton = favButton;
         this.dateTime = dateTime;
-
     }
 
     public static EventListViewHolder newInstance(View parent) {
@@ -43,10 +44,11 @@ public class EventListViewHolder extends RecyclerView.ViewHolder {
         TextView title = (TextView) parent.findViewById(R.id.title);
         TextView venue = (TextView) parent.findViewById(R.id.venue);
         TextView dateTime = (TextView) parent.findViewById(R.id.date_time);
-        ImageView share  = (ImageView) parent.findViewById(R.id.share);
+        ImageView share = (ImageView) parent.findViewById(R.id.share);
+        ImageView favButton = (ImageView) parent.findViewById(R.id.button_fav);
         SimpleDraweeView summaryImageView = (SimpleDraweeView) parent.findViewById(R.id.header_image);
 
-        return new EventListViewHolder(parent, parentLayout, title, venue, dateTime, summaryImageView, share);
+        return new EventListViewHolder(parent, parentLayout, title, venue, dateTime, summaryImageView, share, favButton);
     }
 
 }
