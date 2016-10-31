@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
+import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
 
@@ -22,14 +23,15 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 
-public class DocumentId extends RealmObject {
+public class SpeakerDocument extends RealmObject {
     @PrimaryKey
     private String id;
+
     private String event;
     private String speaker;
     private String dateModified;
     private String dateCreated;
-    private RealmList<Document> documents;
+    private RealmList<Document> documents = new RealmList<>();
 
     public String getDateModified() {
         return dateModified;
@@ -63,25 +65,36 @@ public class DocumentId extends RealmObject {
 
     public void setDocuments(RealmList<Document> documents) { this.documents = documents; }
 
-    public static void fetchEventDocumentId(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+    public RealmResults getSpeakerDocuments() {
+        return documents.where().findAll();
+    }
+    public static SpeakerDocument getSpeakerDocument(Realm realm, String speakerId) {
+        return realm.where(SpeakerDocument.class).equalTo("speaker", speakerId).findFirst();
+    }
+
+    public static RealmResults getSpeakerAllDocument(Realm realm, String speakerId) {
+        return realm.where(SpeakerDocument.class).equalTo("speaker", speakerId).findAll();
+    }
+
+    public static void fetchSpeakerDocuments(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "fetchSpeakerDocuments = "+url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        //      Log.i("AWAIS1", response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
                                     realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(DocumentId.class, response);
+                                    realm.createOrUpdateAllFromJson(SpeakerDocument.class, response);
                                     RealmResults eventDocumentId = query.findAll();
-                                    realm.commitTransaction();
                                     callBack.fetchDidSucceed(eventDocumentId);
                                 } catch (Exception e) {
-                                    Log.i("AWAIS1", "Exception Error - " + e.getMessage());
+                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
+                                realm.commitTransaction();
                             }
                         });
                     }
@@ -91,7 +104,7 @@ public class DocumentId extends RealmObject {
                 context.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.i("AWAIS1", "OnErrorRun()");
+                        Log.i(HRDFConstants.TAG, "OnErrorRun()");
                         callBack.fetchDidFail(error);
                     }
                 });

@@ -141,9 +141,9 @@ public class Sponsor extends RealmObject {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+//                        context.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
                                 try {
                                     realm.beginTransaction();
                                     realm.createOrUpdateAllFromJson(Sponsor.class, response);
@@ -154,8 +154,8 @@ public class Sponsor extends RealmObject {
                                     Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
-                            }
-                        });
+//                            }
+//                        });
                     }
                 }, new Response.ErrorListener() {
             @Override

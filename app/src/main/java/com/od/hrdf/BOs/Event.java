@@ -73,6 +73,8 @@ public class Event extends RealmObject {
     private String twitterLink;
     private String weChatLink;
     private String feedBackId;
+    private String locationLongitude = "";
+    private String locationLatitude = "";
     private RealmList<EventSpeaker> speakers;
     private RealmList<EventExhibitor> exhibitors;
     private RealmList<EventSponsor> sponsors;
@@ -82,6 +84,7 @@ public class Event extends RealmObject {
     private boolean isBookedLocal;
     private String userId;
     private User userObj;
+
 
     public Event() {
         userObj = new User();
@@ -372,6 +375,22 @@ public class Event extends RealmObject {
         isBookedLocal = booked;
     }
 
+    public String getLocationLongitude() {
+        return locationLongitude;
+    }
+
+    public void setLocationLongitude(String locationLongitude) {
+        this.locationLongitude = locationLongitude;
+    }
+
+    public String getLocationLatitude() {
+        return locationLatitude;
+    }
+
+    public void setLocationLatitude(String locationLatitude) {
+        this.locationLatitude = locationLatitude;
+    }
+
     public RealmList<EventSponsor> getSponsors() {
         return sponsors;
     }
@@ -381,13 +400,29 @@ public class Event extends RealmObject {
     }
 
     //METHODS
+    public static String getEventName(String id, Realm realm) {
+        return realm.where(Event.class).equalTo("id", id).findFirst().getTitle();
+    }
+
     public static Event getEvent(String id, Realm realm) {
         return realm.where(Event.class).equalTo("id", id).findFirst();
+    }
+
+    public static RealmResults<Event> getUpFavEvents(Realm realm) {
+        Date today = new Date();
+        return realm.where(Event.class).equalTo("isFavourite", true)
+                .findAll();
     }
 
     public static RealmResults<Event> getUpcomingEvents(Realm realm) {
         Date today = new Date();
         return realm.where(Event.class).greaterThanOrEqualTo("endDate", today)
+                .findAll().sort("startDate", Sort.DESCENDING);
+    }
+
+    public static RealmResults<Event> getUpcomingRegisteredEvents(Realm realm, String userId) {
+        Date today = new Date();
+        return realm.where(Event.class).equalTo("isBookedLocal", true).greaterThanOrEqualTo("endDate", today)
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
@@ -410,9 +445,9 @@ public class Event extends RealmObject {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+//                        context.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
 
                                 Gson gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
                                 Type collectionType = new TypeToken<ArrayList<Event>>() {
@@ -423,12 +458,6 @@ public class Event extends RealmObject {
                                 Log.i(HRDFConstants.TAG, "jsonString - " + jsonString);
                                 realm.beginTransaction();
                                 for (Event event : eventList) {
-                                    Event localEvent = getEvent(event.getId(), realm);
-                                    if(localEvent != null) {
-                                        boolean isBooked = localEvent.getBooked();
-                                        if(isBooked)
-                                            event.setBooked(true);
-                                    }
                                     realm.copyToRealmOrUpdate(event);
                                 }
                                 realm.commitTransaction();
@@ -438,8 +467,8 @@ public class Event extends RealmObject {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                            }
-                        });
+                           // }
+                       // });
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -456,13 +485,14 @@ public class Event extends RealmObject {
     }
 
     public static void fetchUserEvents(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "fetchUserEvents URL =" + url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+//                        context.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
                                 try {
 
                                     Gson gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
@@ -484,8 +514,8 @@ public class Event extends RealmObject {
                                     Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
-                            }
-                        });
+                          //  }
+                        //});
                     }
                 }, new Response.ErrorListener() {
             @Override

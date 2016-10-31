@@ -300,9 +300,9 @@ public class Speaker extends RealmObject {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+//                        context.runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
                                 Log.i(HRDFConstants.TAG, "In Run()");
                                 try {
                                     realm.beginTransaction();
@@ -315,8 +315,8 @@ public class Speaker extends RealmObject {
                                     Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
                                 }
-                            }
-                        });
+//                            }
+//                        });
                     }
                 }, new Response.ErrorListener() {
             @Override

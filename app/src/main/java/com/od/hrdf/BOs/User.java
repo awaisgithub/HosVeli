@@ -64,7 +64,7 @@ public class User extends RealmObject {
     private String photo;
     private boolean isSyncedLocal = false;
     private boolean isTemp = true;
-    private RealmList<Event> events = new RealmList<>();
+    private RealmList<UserEvent> events = new RealmList<>();
 
     public User() {
     }
@@ -289,15 +289,19 @@ public class User extends RealmObject {
         this.photo = photo;
     }
 
-    public RealmList<Event> getEvents() {
+    public RealmList<UserEvent> getEvents() {
         return events;
     }
 
-    public void setEvents(RealmList<Event> events) {
+    public void setEvents(RealmList<UserEvent> events) {
         this.events = events;
     }
 
     //METHODS
+
+    public RealmResults getUserEvents() {
+        return events.where().findAll();
+    }
 
     private static User getTempUser(Realm realm) {
         return realm.where(User.class).equalTo("isTemp", true).equalTo("isSyncedLocal", false)

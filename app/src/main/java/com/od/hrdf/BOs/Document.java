@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
+import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
 
@@ -122,7 +123,12 @@ public class Document extends RealmObject {
         this.dateCreated = dateCreated;
     }
 
+    public static RealmResults getAllDocumentForId(Realm realm, String docId) {
+        return realm.where(Document.class).equalTo("documentId", docId).findAll();
+    }
+
     public static void fetchDocument(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "fetchDocument = "+url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
