@@ -57,12 +57,21 @@
     <!-- Speaker detail strings-->
     <string name="sp_tab_about">About Speaker</string>
     <string name="sp_tab_topics">Topics</string>
+    <string name="sp_topics_not_available">No Topic Found.</string>
+    <string name="server_error">Unable to connect to server.</string>
     <string name="sp_tab_uploads">Uploads</string>
+    <string name="sp_upload_not_available">No Document Found.</string>
 
     <!-- Event strings-->
     <string name="event_tab_upcoming">Upcoming</string>
+    <string name="event_upcoming_not_availble">No Upcoming Events Found.</string>
     <string name="event_tab_archive">Archive</string>
+    <string name="event_archive_not_availble">No Archive Events Found.</string>
     <string name="event_tab_feedback">Feedback</string>
+    <string name="event_feedback_not_availble">No Survey Found.</string>
+
+    <string name="event_not_book">No Registered Event Found.</string>
+    <string name="event_not_fav">No Favourite Event Found.</string>
 
     <!-- Event detail strings-->
     <string name="event_detail_tab_info">Info</string>
@@ -73,7 +82,7 @@
 
     <string-array name="main_tabs">
         <item>About Us</item>
-        <item>News</item>
+        <item>News Feed</item>
         <item>Events</item>
         <item>Profile</item>
     </string-array>
@@ -175,5 +184,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_speaker_detail">SpeakerDetailActivity</string>
     <string name="title_activity_agends_main">AgendsMainActivity</string>
+    <string name="title_activity_event_location">Event Location</string>
 
 </resources>
