@@ -23,13 +23,11 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class SponsorListAdapter extends RealmRecyclerViewAdapter<EventSponsor, RecyclerView.ViewHolder> {
     private Context context;
-    private EventListAdapterInterface eventListAdapterInterface;
     private OrderedRealmCollection<EventSponsor> data;
     private View view;
 
-    public SponsorListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<EventSponsor> data, EventListAdapterInterface eventListAdapterInterface, boolean autoUpdate) {
+    public SponsorListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<EventSponsor> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
-        this.eventListAdapterInterface = eventListAdapterInterface;
         this.data = data;
     }
 

@@ -26,7 +26,7 @@ import com.od.hrdf.event.speaker.SpeakerListAdapter;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-public class SponsorListFragment extends Fragment implements EventListAdapterInterface {
+public class SponsorListFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -81,7 +81,7 @@ public class SponsorListFragment extends Fragment implements EventListAdapterInt
         RealmResults realmResults = null;
         realmResults = EventSponsor.getDistinctByLevelSeq(HRDFApplication.realm, eventId);
 
-        SponsorListAdapter sponsorListAdapter = new SponsorListAdapter(getActivity(), realmResults, this, true);
+        SponsorListAdapter sponsorListAdapter = new SponsorListAdapter(getActivity(), realmResults, true);
         recyclerView.setAdapter(sponsorListAdapter);
 
     }
@@ -100,15 +100,5 @@ public class SponsorListFragment extends Fragment implements EventListAdapterInt
             public void fetchDidFail(Exception e) {
             }
         });
-    }
-
-    @Override
-    public void gotoDetailActivity(String id) {
-
-    }
-
-    @Override
-    public void socialMediaSharing(String id) {
-
     }
 }
