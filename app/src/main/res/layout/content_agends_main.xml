@@ -9,6 +9,13 @@
     tools:context="com.od.hrdf.event.agenda.AgendsMainActivity"
     tools:showIn="@layout/activity_agends_main">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:scaleType="fitXY"
+        android:src="@drawable/login_bg" />
+
     <include
         android:id="@+id/segment_include"
         layout="@layout/agenda_segment"/>

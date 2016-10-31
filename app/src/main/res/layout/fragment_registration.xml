@@ -98,7 +98,7 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@drawable/edit_text_login"
                 android:ems="10"
-                android:hint="@string/reg_hint_confirm_password"
+                android:hint="@string/reg_hint_password"
                 android:inputType="textPassword"
                 android:padding="10dp"
                 android:textSize="@dimen/text_size_loginreg" />

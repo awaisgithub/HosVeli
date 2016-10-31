@@ -17,8 +17,7 @@
             android:id="@+id/summary_image"
             android:layout_width="130dp"
             android:layout_height="90dp"
-            fresco:actualImageScaleType="fitXY"
-            fresco:viewAspectRatio="12.9" />
+            fresco:actualImageScaleType="focusCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"

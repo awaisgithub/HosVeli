@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:layout_width="match_parent"
+    card_view:cardCornerRadius="15dp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/tools">
@@ -20,7 +22,7 @@
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/header_image"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="140dp"
                 fresco:actualImageScaleType="focusCrop" />
 
             <TextView

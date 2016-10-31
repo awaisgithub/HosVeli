@@ -2,11 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.od.hrdf.event.speaker.SpeakerUploadsFragment">
+    tools:context="com.od.hrdf.event.speaker.uploads.SpeakerUploadsFragment">
 
-    <TextView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/speaker_uploads_rcv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content" />
+
+    <include
+        android:visibility="gone"
+        layout="@layout/layout_error"/>
 
 </FrameLayout>

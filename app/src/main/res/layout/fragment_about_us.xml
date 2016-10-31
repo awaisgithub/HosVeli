@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:minHeight="85dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:orientation="vertical"
             android:background="@drawable/rect_agenda_layout"
             android:gravity="center_horizontal">

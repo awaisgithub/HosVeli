@@ -10,7 +10,7 @@
         android:padding="10dp"
         android:id="@+id/parent_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/speaker_card_layout"
         android:orientation="horizontal">
 
@@ -39,6 +39,7 @@
                 android:textSize="14sp" />
 
             <ImageButton
+                android:id="@+id/external_link"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:background="@android:color/transparent"
