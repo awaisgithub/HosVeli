@@ -37,8 +37,8 @@ public class JSONPayloadManager {
         dataList.add(new DataBO("contactNumber", user.getContactNumber()));
         dataList.add(new DataBO("nationality", user.getName()));
         dataList.add(new DataBO("type", "User"));
-        dataList.add(new DataBO("designation", ""));
-        dataList.add(new DataBO("company", ""));
+        dataList.add(new DataBO("designation", user.getDesignation()));
+        dataList.add(new DataBO("company", user.getCompany()));
 
 
         Gson gson = new Gson();

@@ -458,6 +458,10 @@ public class Event extends RealmObject {
                                 Log.i(HRDFConstants.TAG, "jsonString - " + jsonString);
                                 realm.beginTransaction();
                                 for (Event event : eventList) {
+                                    Event localEvent = getEvent(event.getId(), realm);
+                                    if(localEvent != null)
+                                        event.setFavourite(localEvent.getFavourite());
+
                                     realm.copyToRealmOrUpdate(event);
                                 }
                                 realm.commitTransaction();
