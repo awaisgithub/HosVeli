@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/file_photo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        fresco:placeholderImage="@drawable/notepad"
+        android:layout_centerHorizontal="true"
+        fresco:roundedCornerRadius="10dp"
+        fresco:roundingBorderWidth="1dp"
+        fresco:roundingBorderColor="@color/colorPrimary"
+        fresco:actualImageScaleType="fitCenter"/>
+
+
+    <TextView
+        android:layout_below="@+id/file_photo"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp"
+        android:id="@+id/file_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/colorSponsorName"
+        android:textAllCaps="true"
+        android:textStyle="bold"
+        android:textSize="12sp" />
+
+</RelativeLayout>
