@@ -72,7 +72,7 @@ public class Event extends RealmObject {
     private String theme;
     private String twitterLink;
     private String weChatLink;
-    private String feedBackId;
+    private String surveyId;
     private String locationLongitude = "";
     private String locationLatitude = "";
     private RealmList<EventSpeaker> speakers;
@@ -334,12 +334,12 @@ public class Event extends RealmObject {
         this.weChatLink = weChatLink;
     }
 
-    public String getFeedBackId() {
-        return feedBackId;
+    public String getSurveyId() {
+        return surveyId;
     }
 
-    public void setFeedBackId(String feedBackId) {
-        this.feedBackId = feedBackId;
+    public void setSurveyId(String surveyId) {
+        this.surveyId = surveyId;
     }
 
     @Nullable
@@ -404,13 +404,18 @@ public class Event extends RealmObject {
         return realm.where(Event.class).equalTo("id", id).findFirst().getTitle();
     }
 
+    public static Event getUpcomingEventById(String id, Realm realm) {
+        Date today = new Date();
+        return realm.where(Event.class).equalTo("id", id).greaterThanOrEqualTo("endDate", today).findFirst();
+    }
+
     public static Event getEvent(String id, Realm realm) {
         return realm.where(Event.class).equalTo("id", id).findFirst();
     }
 
     public static RealmResults<Event> getUpFavEvents(Realm realm) {
         Date today = new Date();
-        return realm.where(Event.class).equalTo("isFavourite", true)
+        return realm.where(Event.class).equalTo("isFavourite", true).greaterThanOrEqualTo("endDate", today)
                 .findAll();
     }
 
@@ -432,9 +437,9 @@ public class Event extends RealmObject {
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
-    public static RealmResults<Event> getSurveyEvents(RealmResults delegate, Realm realm) {
+    public static RealmResults<Event> getSurveyEvents(Realm realm) {
         Date today = new Date();
-        return realm.where(Event.class).lessThan("endDate", today).isNotNull("feedBackId").isNotEmpty("feedBackId")
+        return realm.where(Event.class).lessThan("endDate", today).isNotNull("surveyId").isNotEmpty("surveyId")
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
