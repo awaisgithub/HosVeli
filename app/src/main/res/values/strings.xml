@@ -69,6 +69,7 @@
     <string name="event_archive_not_availble">No Archive Events Found.</string>
     <string name="event_tab_feedback">Feedback</string>
     <string name="event_feedback_not_availble">No Survey Found.</string>
+    <string name="event_feedback_item_message">Please take a moment to give your feedback.</string>
 
     <string name="event_not_book">No Registered Event Found.</string>
     <string name="event_not_fav">No Favourite Event Found.</string>

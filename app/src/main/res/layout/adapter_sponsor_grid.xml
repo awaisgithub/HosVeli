@@ -14,7 +14,7 @@
         android:layout_height="90dp"
         fresco:roundedCornerRadius="10dp"
         fresco:roundingBorderWidth="1dp"
-        fresco:roundingBorderColor="@color/colorLightBlue"
+        fresco:roundingBorderColor="@color/colorTabs"
         fresco:actualImageScaleType="fitXY"/>
 
 

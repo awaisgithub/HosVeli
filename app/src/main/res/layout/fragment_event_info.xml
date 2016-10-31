@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceSmall"
         android:text="Join Us At"
-        android:textColor="@color/colorLightBlue"
+        android:textColor="@color/colorTabs"
         android:textSize="14sp" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="@color/colorLightBlue"/>
+        android:background="@color/colorTabs"/>
 
     <TextView
         android:id="@+id/objective"
