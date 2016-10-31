@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.Floorplan;
@@ -29,16 +30,19 @@ import com.od.hrdf.profile.ProfileFragment;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
+import static com.od.hrdf.HRDFApplication.realm;
+
 public class FloorPlanFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     private String eventId;
-    private String mParam2;
     private View rooView;
     private RadioGroup radioGroup;
     private ViewPager viewPager;
     private SectionsPagerAdapter adapter;
+    private Floorplan floor_plan;
+    TextView floorName;
+
     public FloorPlanFragment() {
     }
 
@@ -77,6 +81,9 @@ public class FloorPlanFragment extends Fragment {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 try {
+                    floor_plan = Floorplan.getCurrentFloorplan(realm, eventId);
+                    floorName = (TextView) rooView.findViewById(R.id.floor_plan_name);
+                    floorName.setText(floor_plan.getDesc());
                     ((RadioButton) radioGroup.getChildAt(position)).setChecked(true);
                 } catch (IndexOutOfBoundsException ex) {
                     ex.printStackTrace();
@@ -94,15 +101,14 @@ public class FloorPlanFragment extends Fragment {
             }
         });
         radioGroup = (RadioGroup) rooView.findViewById(R.id.radio_group);
-        RealmResults realmResults = Floorplan.getFloorPlanForEvent(HRDFApplication.realm, eventId);
+        RealmResults realmResults = Floorplan.getFloorPlanForEvent(realm, eventId);
         setupViewPager(realmResults);
         fetchFloorPlan();
-
     }
 
     private void fetchFloorPlan() {
-        RealmQuery query = HRDFApplication.realm.where(Floorplan.class).equalTo("event", eventId);
-        Floorplan.fetchEventFloorPlan(getActivity(), HRDFApplication.realm, Api.urlEventFloorplan(eventId), query, new FetchCallBack() {
+        RealmQuery query = realm.where(Floorplan.class).equalTo("event", eventId);
+        Floorplan.fetchEventFloorPlan(getActivity(), realm, Api.urlEventFloorplan(eventId), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
                 setupViewPager(fetchedItems);
@@ -117,7 +123,7 @@ public class FloorPlanFragment extends Fragment {
     private void setupViewPager(RealmResults realmResults) {
         adapter = new SectionsPagerAdapter(getFragmentManager());
         radioGroup.removeAllViews();
-        for(int i=0; i<realmResults.size(); i++) {
+        for (int i = 0; i < realmResults.size(); i++) {
             RadioButton radioButton = new RadioButton(getActivity());
             radioButton.setClickable(false);
             radioGroup.addView(radioButton);
@@ -125,8 +131,8 @@ public class FloorPlanFragment extends Fragment {
             adapter.addFragment(FloorImageFragment.newInstance(floorplan.getFloorPlan(), floorplan.getDesc()), "About Us");
         }
 
-        if(radioGroup.getChildCount() > 0)
-            ((RadioButton)radioGroup.getChildAt(0)).setChecked(true);
+        if (radioGroup.getChildCount() > 0)
+            ((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
 
         viewPager.setAdapter(adapter);
     }

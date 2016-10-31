@@ -1,6 +1,6 @@
 package com.od.hrdf.event.floorplan;
 
-import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,10 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.od.hrdf.BOs.Floorplan;
 import com.od.hrdf.R;
@@ -25,8 +23,26 @@ public class FloorImageFragment extends Fragment {
     private String mParam2;
     private View rootView;
     private Floorplan floorplan;
+    private SimpleDraweeView floorPlanPic;
+    TextView floorName;
     public FloorImageFragment() {
         // Required empty public constructor
+    }
+
+    public String getFloorPlanImageURL() {
+        return floorPlanImageURL;
+    }
+
+    public void setFloorPlanImageURL(String floorPlanImageURL) {
+        this.floorPlanImageURL = floorPlanImageURL;
+    }
+
+    public String getFloorPlanDesc() {
+        return floorPlanDesc;
+    }
+
+    public void setFloorPlanDesc(String floorPlanDesc) {
+        this.floorPlanDesc = floorPlanDesc;
     }
 
     public static FloorImageFragment newInstance(String param1, String param2) {
@@ -55,18 +71,39 @@ public class FloorImageFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViews();
+        floorPlanPic = (SimpleDraweeView) rootView.findViewById(R.id.floor_plan_image);
+        floorPlanPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(floorPlanImageURL!=null) {
+                    Intent zoom = new Intent(getActivity(), FragmentFloorImageZoom.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("floor_plan_image_url", floorPlanImageURL);
+                    bundle.putString("floor_plan_name", floorPlanDesc);
+                    zoom.putExtras(bundle);
+                    floorName = (TextView) rootView.findViewById(R.id.floor_plan_name);
+                    floorName.setText(floorPlanDesc);
+                    getActivity().startActivity(zoom);
+                }
+            }
+        });
+
     }
 
     private void initViews() {
         SimpleDraweeView floorPlanImage = (SimpleDraweeView) rootView.findViewById(R.id.floor_plan_image);
-        if(floorPlanImageURL != null) {
+        if (floorPlanImageURL != null) {
             String image = floorPlanImageURL;
             image = image.replaceAll(" ", "%20");
             Uri uri = Uri.parse(image);
             floorPlanImage.setImageURI(uri);
+            floorName = (TextView) rootView.findViewById(R.id.floor_plan_name);
+            floorName.setText(floorPlanDesc);
         }
+
     }
 }

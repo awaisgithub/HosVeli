@@ -116,12 +116,12 @@ public class LoginFragment extends Fragment {
                                 if (status.equals("OK")) {
                                     showActionSnackBarMessage("An email with link to reset password has been sent to the above email.");
                                 } else
-                                    showActionSnackBarMessage("Error = " + response.toString());
+                                    showActionSnackBarMessage("No account with that email address exist. Please sign up as a new user.");
                             }
 
                             @Override
                             public void failure(String response) {
-                                showActionSnackBarMessage("Error = " + response);
+                                showActionSnackBarMessage("No account with that email address exist. Please sign up as a new user.");
                             }
                         });
                     } catch (JSONException e) {
