@@ -49,7 +49,6 @@ public class AboutUs extends RealmObject {
         return realm.where(AboutUs.class).findFirst();
     }
 
-
     public String getPhone() {
         return phone;
     }

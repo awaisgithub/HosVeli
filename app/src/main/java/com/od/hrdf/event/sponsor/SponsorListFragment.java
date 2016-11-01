@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.Event;
@@ -23,6 +25,7 @@ import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.event.EventListAdapterInterface;
 import com.od.hrdf.event.speaker.SpeakerListAdapter;
 
+import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -80,6 +83,20 @@ public class SponsorListFragment extends Fragment {
 
         RealmResults realmResults = null;
         realmResults = EventSponsor.getDistinctByLevelSeq(HRDFApplication.realm, eventId);
+        realmResults.addChangeListener(new RealmChangeListener<RealmResults>() {
+            @Override
+            public void onChange(RealmResults element) {
+                if (element.size() > 0) {
+                    hideMessage();
+                } else {
+                    showMessage(R.string.event_no_sponsor);
+                }
+            }
+        });
+
+        if(realmResults.size() < 1) {
+            showMessage(R.string.event_no_sponsor);
+        }
 
         SponsorListAdapter sponsorListAdapter = new SponsorListAdapter(getActivity(), realmResults, true);
         recyclerView.setAdapter(sponsorListAdapter);
@@ -100,5 +117,17 @@ public class SponsorListFragment extends Fragment {
             public void fetchDidFail(Exception e) {
             }
         });
+    }
+
+    private void showMessage(int message) {
+        RelativeLayout messageLayout = (RelativeLayout) rootView.findViewById(R.id.error_layout);
+        TextView messageView = (TextView) rootView.findViewById(R.id.label);
+        messageView.setText(message);
+        messageLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideMessage() {
+        RelativeLayout messageLayout = (RelativeLayout) rootView.findViewById(R.id.error_layout);
+        messageLayout.setVisibility(View.GONE);
     }
 }
