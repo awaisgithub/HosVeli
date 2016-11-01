@@ -1,7 +1,10 @@
 package com.od.hrdf.event;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,6 +31,19 @@ public class EventLocationActivity extends FragmentActivity implements OnMapRead
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        findViewById(R.id.loc_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("geo:" + lat + "," + lng + "?q=(" + address + ")@" + lat + "," + lng));
+                startActivity(intent);
+            }
+        });
+
+        if(lat == 0.0 && lng == 0.0) {
+            findViewById(R.id.loc_icon).setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -39,7 +55,7 @@ public class EventLocationActivity extends FragmentActivity implements OnMapRead
             eventLocation = new LatLng(4.0891876, 100.5613175);
             cameraPosition = new CameraPosition.Builder()
                     .target(eventLocation)
-                    .zoom(5)
+                    .zoom(8)
                     .bearing(90)
                     .tilt(10)
                     .build();
@@ -48,7 +64,7 @@ public class EventLocationActivity extends FragmentActivity implements OnMapRead
             mMap.addMarker(new MarkerOptions().position(eventLocation).title(address));
             cameraPosition = new CameraPosition.Builder()
                     .target(eventLocation)
-                    .zoom(10)
+                    .zoom(15)
                     .bearing(90)
                     .tilt(10)
                     .build();

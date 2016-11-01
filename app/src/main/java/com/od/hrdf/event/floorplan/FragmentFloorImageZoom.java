@@ -65,7 +65,6 @@ public class FragmentFloorImageZoom extends AppCompatActivity {
         toolbar_back.setTitle(zoom_name);
         setSupportActionBar(toolbar_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         if (imageUrl != null) {
             imageUrl = imageUrl.replaceAll(" ", "%20");
         }

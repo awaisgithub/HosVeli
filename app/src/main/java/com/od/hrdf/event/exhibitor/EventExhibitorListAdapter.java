@@ -87,6 +87,23 @@ public class EventExhibitorListAdapter extends RealmRecyclerViewAdapter<EventExh
             }
         });
 
+//        viewHolder.arrowButton.setTag(false);
+//        viewHolder.arrowButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                boolean isExpanded = (boolean) view.getTag();
+//                if(isExpanded) {
+//                    view.setTag(false);
+//                    viewHolder.sessionListView.setVisibility(View.GONE);
+//                    viewHolder.arrowButton.setImageResource(R.drawable.expand);
+//                } else {
+//                    view.setTag(true);
+//                    viewHolder.sessionListView.setVisibility(View.VISIBLE);
+//                    viewHolder.arrowButton.setImageResource(R.drawable.expanded);
+//                }
+//            }
+//        });
+
     }
 
     ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {

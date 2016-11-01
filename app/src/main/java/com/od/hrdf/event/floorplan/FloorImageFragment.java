@@ -92,6 +92,9 @@ public class FloorImageFragment extends Fragment {
             }
         });
 
+        floorName = (TextView) rootView.findViewById(R.id.floor_plan_name);
+        floorName.setText(floorPlanDesc);
+
     }
 
     private void initViews() {

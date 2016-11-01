@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.od.hrdf.BOs.Agenda;
 import com.od.hrdf.BOs.Event;
@@ -17,6 +19,7 @@ import com.od.hrdf.R;
 import com.od.hrdf.event.EventFragment;
 import com.od.hrdf.event.EventListAdapter;
 
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 public class AgendaListFragment extends Fragment {
@@ -81,7 +84,34 @@ public class AgendaListFragment extends Fragment {
             realmResults = Agenda.getAgendaForDate(eventId, AgendsMainActivity.AGENDA_DEC_SEVEN, HRDFApplication.realm);
         }
 
+        realmResults.addChangeListener(new RealmChangeListener<RealmResults>() {
+            @Override
+            public void onChange(RealmResults element) {
+                if (element.size() > 0) {
+                    hideMessage();
+                } else {
+                    showMessage(R.string.event_no_agenda);
+                }
+            }
+        });
+
+        if(realmResults.size() < 1) {
+            showMessage(R.string.event_no_agenda);
+        }
+
         AgendaListAdapter agendaListAdapter = new AgendaListAdapter(getActivity(), realmResults, true);
         recyclerView.setAdapter(agendaListAdapter);
+    }
+
+    private void showMessage(int message) {
+        RelativeLayout messageLayout = (RelativeLayout) rootView.findViewById(R.id.error_layout);
+        TextView messageView = (TextView) rootView.findViewById(R.id.label);
+        messageView.setText(message);
+        messageLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideMessage() {
+        RelativeLayout messageLayout = (RelativeLayout) rootView.findViewById(R.id.error_layout);
+        messageLayout.setVisibility(View.GONE);
     }
 }

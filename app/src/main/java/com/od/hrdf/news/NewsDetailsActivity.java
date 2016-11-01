@@ -1,11 +1,20 @@
 package com.od.hrdf.news;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
@@ -26,6 +35,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
     private SimpleDraweeView mHeaderImageView;
     private TextView mHeaderTitle;
     private Article article;
+    private ShareActionProvider mShareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +60,24 @@ public class NewsDetailsActivity extends AppCompatActivity {
         description.setBackgroundColor(0x00000000);
         description.loadData(article.getDescription(), "text/html; charset=utf-8", "UTF-8");
         loadFullSizeImage();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_news_detail, menu);
+        MenuItem shareItem = menu.findItem(R.id.share_item);
+        Drawable icon = shareItem.getIcon();
+        icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        Intent shareIntent = article.createShareIntent();
+        mShareActionProvider.setShareIntent(shareIntent);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void loadFullSizeImage() {

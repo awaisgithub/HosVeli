@@ -1,6 +1,7 @@
 package com.od.hrdf.BOs;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -238,6 +239,14 @@ public class Article extends RealmObject {
         });
         // Adding request to request queue
         HRDFApplication.getInstance().addToRequestQueue(req);
+    }
+
+    public Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TITLE, this.getTitle());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, this.getDescription());
+        return shareIntent;
     }
 
 }

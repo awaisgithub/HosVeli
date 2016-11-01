@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.od.hrdf.API.Api;
@@ -27,6 +28,7 @@ import com.od.hrdf.landingtab.TabbarActivity;
 import com.od.hrdf.news.NewsFragment;
 import com.od.hrdf.profile.ProfileFragment;
 
+import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
@@ -41,7 +43,6 @@ public class FloorPlanFragment extends Fragment {
     private ViewPager viewPager;
     private SectionsPagerAdapter adapter;
     private Floorplan floor_plan;
-    TextView floorName;
 
     public FloorPlanFragment() {
     }
@@ -82,8 +83,6 @@ public class FloorPlanFragment extends Fragment {
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 try {
                     floor_plan = (Floorplan) Floorplan.getFloorPlanForEvent(realm, eventId).get(position);
-                    floorName = (TextView) rooView.findViewById(R.id.floor_plan_name);
-                    floorName.setText(floor_plan.getDesc());
                     ((RadioButton) radioGroup.getChildAt(position)).setChecked(true);
                 } catch (IndexOutOfBoundsException ex) {
                     ex.printStackTrace();
@@ -102,6 +101,21 @@ public class FloorPlanFragment extends Fragment {
         });
         radioGroup = (RadioGroup) rooView.findViewById(R.id.radio_group);
         RealmResults realmResults = Floorplan.getFloorPlanForEvent(realm, eventId);
+        realmResults.addChangeListener(new RealmChangeListener<RealmResults>() {
+            @Override
+            public void onChange(RealmResults element) {
+                if (element.size() > 0) {
+                    hideMessage();
+                } else {
+                    showMessage(R.string.event_no_floorplan);
+                }
+            }
+        });
+
+        if(realmResults.size() < 1) {
+            showMessage(R.string.event_no_floorplan);
+        }
+
         setupViewPager(realmResults);
         fetchFloorPlan();
     }
@@ -121,7 +135,7 @@ public class FloorPlanFragment extends Fragment {
     }
 
     private void setupViewPager(RealmResults realmResults) {
-        adapter = new SectionsPagerAdapter(getFragmentManager());
+        adapter = new SectionsPagerAdapter(getChildFragmentManager());
         radioGroup.removeAllViews();
         for (int i = 0; i < realmResults.size(); i++) {
             RadioButton radioButton = new RadioButton(getActivity());
@@ -136,4 +150,18 @@ public class FloorPlanFragment extends Fragment {
 
         viewPager.setAdapter(adapter);
     }
+
+    private void showMessage(int message) {
+        RelativeLayout messageLayout = (RelativeLayout) rooView.findViewById(R.id.error_layout);
+        TextView messageView = (TextView) rooView.findViewById(R.id.label);
+        messageView.setText(message);
+        messageLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideMessage() {
+        RelativeLayout messageLayout = (RelativeLayout) rooView.findViewById(R.id.error_layout);
+        messageLayout.setVisibility(View.GONE);
+    }
+
+
 }

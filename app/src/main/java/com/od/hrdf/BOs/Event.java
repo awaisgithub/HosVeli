@@ -1,9 +1,11 @@
 package com.od.hrdf.BOs;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -576,5 +578,13 @@ public class Event extends RealmObject {
             }
         });
         HRDFApplication.getInstance().addToRequestQueue(rsvpRegistration);
+    }
+
+    public Intent createShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TITLE, this.getTitle());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(this.getOverview()).toString());
+        return shareIntent;
     }
 }

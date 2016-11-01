@@ -140,6 +140,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        if(user.getPhoto() != null && !user.getPhoto().isEmpty()) {
+            Bitmap bitmap = decodeSampledBitmapFromResource(false, new File(user.getPhoto()), 800, 800);
+            try {
+                bitmap = rotateImageIfRequired(bitmap, user.getPhoto());
+                profileImageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         TextView userName = (TextView) rootView.findViewById(R.id.user_profile_name);
         userName.setText(user.getName());
 
@@ -290,6 +300,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     byte[] imageByteArray = stream.toByteArray();
                     //NFCInfoBO.INSTANCE.receiptOS = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
                     profileImageView.setImageBitmap(bitmap);
+                    realm.beginTransaction();
+                    user.setPhoto(filePath);
+                    realm.commitTransaction();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -304,6 +317,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     // NFCInfoBO.INSTANCE.receiptOS = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
                     profileImageView.setImageBitmap(bitmap);
                     galleryAddPic(imageFile.getAbsolutePath());
+                    realm.beginTransaction();
+                    user.setPhoto(imageFile.getAbsolutePath());
+                    realm.commitTransaction();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

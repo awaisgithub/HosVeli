@@ -1,18 +1,26 @@
 package com.od.hrdf.event;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.net.ParseException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -66,6 +74,17 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
 
         initViews();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_event_list, menu);
+        MenuItem shareItem = menu.findItem(R.id.share_item);
+        Drawable icon = shareItem.getIcon();
+        icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+        ShareActionProvider mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        Intent shareIntent = event.createShareIntent();
+        mShareActionProvider.setShareIntent(shareIntent);
+        return true;
+    }
 
     private void initViews() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -98,6 +117,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         }
 
         final SegmentedGroup segmentedGroup = (SegmentedGroup) findViewById(R.id.event_detail_segment_control);
+        segmentedGroup.setTintColor(ContextCompat.getColor(this, R.color.colorTabs), Color.WHITE);
         findViewById(R.id.event_detail_info).setOnClickListener(this);
         findViewById(R.id.event_detail_speaker).setOnClickListener(this);
         findViewById(R.id.event_detail_sponsor).setOnClickListener(this);
@@ -130,6 +150,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_UPCOMING)) {
             if(isEventBooked) {
                 ((TextView)findViewById(R.id.button_register)).setText("Registered");
+                ((TextView)findViewById(R.id.button_register)).setBackground(ContextCompat.getDrawable(this, R.drawable.rect_blue_button_register));
             } else {
 
             }
@@ -138,9 +159,11 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
             findViewById(R.id.button_register).setVisibility(View.GONE);
         } else if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_MY_EVENTS)) {
             ((TextView)findViewById(R.id.button_register)).setText("Registered");
+            ((TextView)findViewById(R.id.button_register)).setBackground(ContextCompat.getDrawable(this, R.drawable.rect_blue_button_register));
         } else if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_FAV_EVENTS)) {
             if(isEventBooked) {
                 ((TextView)findViewById(R.id.button_register)).setText("Registered");
+                ((TextView)findViewById(R.id.button_register)).setBackground(ContextCompat.getDrawable(this, R.drawable.rect_blue_button_register));
             } else {
             }
         }
@@ -233,6 +256,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
                     String status = response.optString("status");
                     if (status.equalsIgnoreCase("1")) {
                         ((TextView)findViewById(R.id.button_register)).setText("Registered");
+                        ((TextView)findViewById(R.id.button_register)).setBackground(ContextCompat.getDrawable(EventDetailActivity.this, R.drawable.rect_blue_button_register));
                         realm.beginTransaction();
                         UserEvent userEvent = realm.createObject(UserEvent.class, event.getId());
                         userEvent.setUser(user.getId());
