@@ -7,15 +7,16 @@
     android:layout_margin="10dp">
 
     <LinearLayout
+        android:id="@+id/parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
-            android:background="@drawable/exhibitor_card_layout"
-            android:id="@+id/parent_layout"
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
+            android:background="@drawable/exhibitor_card_layout"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:padding="5dp"
@@ -36,15 +37,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
+                android:clickable="false"
                 android:src="@drawable/expand" />
 
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:visibility="gone"
             android:id="@+id/exhibitor_rcv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
     </LinearLayout>
 
 </android.support.v7.widget.CardView>

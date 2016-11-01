@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.Event;
@@ -25,6 +27,7 @@ import com.od.hrdf.event.EventListAdapter;
 import com.od.hrdf.event.EventListAdapterInterface;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -84,6 +87,20 @@ public class SpeakerListFragment extends Fragment implements EventListAdapterInt
 
         RealmResults realmResults = null;
         realmResults = EventSpeaker.getEventSpeakerResultSet(realm, eventId);
+        realmResults.addChangeListener(new RealmChangeListener<RealmResults>() {
+            @Override
+            public void onChange(RealmResults element) {
+                if (element.size() > 0) {
+                    hideMessage();
+                } else {
+                    showMessage(R.string.sp_not_available);
+                }
+            }
+        });
+
+        if(realmResults.size() < 1) {
+            showMessage(R.string.sp_not_available);
+        }
 
         SpeakerListAdapter eventListAdapter = new SpeakerListAdapter(getActivity(), realmResults, this, true);
         recyclerView.setAdapter(eventListAdapter);
@@ -118,5 +135,17 @@ public class SpeakerListFragment extends Fragment implements EventListAdapterInt
     @Override
     public void performOperationOnEvent(EventOP op, String eventId) {
 
+    }
+
+    private void showMessage(int message) {
+        RelativeLayout messageLayout = (RelativeLayout) rootView.findViewById(R.id.error_layout);
+        TextView messageView = (TextView) rootView.findViewById(R.id.label);
+        messageView.setText(message);
+        messageLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void hideMessage() {
+        RelativeLayout messageLayout = (RelativeLayout) rootView.findViewById(R.id.error_layout);
+        messageLayout.setVisibility(View.GONE);
     }
 }
