@@ -81,7 +81,7 @@ public class FloorPlanFragment extends Fragment {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 try {
-                    floor_plan = Floorplan.getCurrentFloorplan(realm, eventId);
+                    floor_plan = (Floorplan) Floorplan.getFloorPlanForEvent(realm, eventId).get(position);
                     floorName = (TextView) rooView.findViewById(R.id.floor_plan_name);
                     floorName.setText(floor_plan.getDesc());
                     ((RadioButton) radioGroup.getChildAt(position)).setChecked(true);

@@ -117,7 +117,8 @@ public class SpeakerDetailActivity extends AppCompatActivity implements View.OnC
         });
 
         if(speaker.isRated()) {
-            ratingBar.setEnabled(false);
+            //ratingBar.setEnabled(false);
+            ratingBar.setIsIndicator(true);
             ratingBar.setRating(speaker.getRating());
         }
     }

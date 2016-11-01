@@ -74,6 +74,8 @@ public class NewsDetailsActivity extends AppCompatActivity {
                 @Nullable ImageInfo imageInfo,
                 @Nullable Animatable anim) {
 
+
+
         }
 
         @Override

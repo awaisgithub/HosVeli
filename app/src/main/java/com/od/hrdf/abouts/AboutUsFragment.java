@@ -160,6 +160,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
 
     private void setInfo() {
         webView.loadData(aboutUs.getAboutUs(), "text/html; charset=utf-8", "UTF-8");
+        webView.setVerticalScrollBarEnabled(false);
         SimpleDraweeView headerImageView = (SimpleDraweeView) rootView.findViewById(R.id.header_imageview);
         //ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithResourceId(R.drawable.login_bg).build();
         headerImageView.setImageURI(aboutUs.getAboutUsBanner());

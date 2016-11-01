@@ -5,6 +5,7 @@ import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +52,9 @@ public class NewListAdapter extends RealmRecyclerViewAdapter<Article, RecyclerVi
         final NewsListViewHolder viewHolder = (NewsListViewHolder) holder;
 
         viewHolder.title.setText(newsItem.getTitle());
-        viewHolder.description.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        viewHolder.description.loadData(newsItem.getDescription(), "text/html; charset=utf-8", "UTF-8");
+        viewHolder.description.setText(Html.fromHtml(newsItem.getDescription()));
+        //viewHolder.description.setVerticalScrollBarEnabled(false);
+        //viewHolder.description.loadData(newsItem.getDescription(), "text/html; charset=utf-8", "UTF-8");
         viewHolder.dummyView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

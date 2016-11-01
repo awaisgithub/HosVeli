@@ -43,7 +43,6 @@ public class Article extends RealmObject {
     private String url;
     private String title;
     private String category;
-
     private String articleSummaryImage;
     private String articleContentImage;
     private boolean enableSocialMediaSharing = false;
@@ -198,11 +197,11 @@ public class Article extends RealmObject {
     }
 
     public static void fetchArticles(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "fetchArticles = "+ url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(HRDFConstants.TAG, response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

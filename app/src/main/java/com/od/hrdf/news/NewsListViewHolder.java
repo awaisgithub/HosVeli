@@ -17,10 +17,10 @@ public class NewsListViewHolder extends RecyclerView.ViewHolder {
     LinearLayout parent = null;
     View dummyView = null;
     public final TextView title;
-    public final WebView description;
+    public final TextView description;
     public final SimpleDraweeView summaryImageView;
 
-    public NewsListViewHolder(View parentView, final LinearLayout parentLayout, TextView title, WebView description, SimpleDraweeView summaryImageView, View dummyView) {
+    public NewsListViewHolder(View parentView, final LinearLayout parentLayout, TextView title, TextView description, SimpleDraweeView summaryImageView, View dummyView) {
         super(parentView);
         this.parent = parentLayout;
         this.title = title;
@@ -34,7 +34,7 @@ public class NewsListViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout parentLayout = (LinearLayout) parent.findViewById(R.id.parent_layout);
         TextView title = (TextView) parent.findViewById(R.id.title);
-        WebView description = (WebView) parent.findViewById(R.id.description);
+        TextView description = (TextView) parent.findViewById(R.id.description);
         SimpleDraweeView summaryImageView = (SimpleDraweeView) parent.findViewById(R.id.summary_image);
         View dummyView = parent.findViewById(R.id.dummy_view);
         return new NewsListViewHolder(parent, parentLayout, title, description, summaryImageView, dummyView);
