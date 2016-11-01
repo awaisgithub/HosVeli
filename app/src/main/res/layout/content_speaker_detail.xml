@@ -88,12 +88,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
-                android:progressBackgroundTint="@android:color/holo_orange_light"
-                android:progressTint="@android:color/holo_orange_light"
-                android:indeterminateTint="@android:color/holo_orange_light"
+                android:theme="@style/RatingBar"
                 android:id="@+id/ratingBar"
+                android:isIndicator="false"
+                android:transformPivotX="220dp"
+                android:transformPivotY="10dp"
+                android:scaleX=".5"
+                android:scaleY=".5"
                 android:numStars="5" />
 
         </RelativeLayout>

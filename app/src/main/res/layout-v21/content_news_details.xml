@@ -23,9 +23,9 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/imageview_header"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            fresco:actualImageScaleType="center" />
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            fresco:viewAspectRatio="2.1" />
 
         <View
             android:layout_width="match_parent"
