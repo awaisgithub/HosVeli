@@ -61,6 +61,7 @@
     <string name="server_error">Unable to connect to server.</string>
     <string name="sp_tab_uploads">Uploads</string>
     <string name="sp_upload_not_available">No Document Found.</string>
+    <string name="sp_not_available">No Speaker Available.</string>
 
     <!-- Event strings-->
     <string name="event_tab_upcoming">Upcoming</string>
@@ -70,9 +71,12 @@
     <string name="event_tab_feedback">Feedback</string>
     <string name="event_feedback_not_availble">No Survey Found.</string>
     <string name="event_feedback_item_message">Please take a moment to give your feedback.</string>
-
-    <string name="event_not_book">No Registered Event Found.</string>
-    <string name="event_not_fav">No Favourite Event Found.</string>
+    <string name="event_not_book">This event has no speaker.</string>
+    <string name="event_no_sponsor">This event has no sponsors.</string>
+    <string name="event_no_exhibitor">This event has no exhibitor.</string>
+    <string name="event_no_floorplan">Floor Plan is not available for this event.</string>
+    <string name="event_no_agenda">This event has no agenda.</string>
+    <string name="event_not_fav">No Favourite Found.</string>
 
     <!-- Event detail strings-->
     <string name="event_detail_tab_info">Info</string>

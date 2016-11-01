@@ -85,6 +85,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.od.hrdf.event.EventDetailActivity" />
         </activity>
+
+        <activity
+            android:name=".event.floorplan.FragmentFloorImageZoom"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>
