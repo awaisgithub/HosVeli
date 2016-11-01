@@ -1,38 +1,22 @@
 package com.od.hrdf.event.speaker.uploads;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.Volley;
 import com.od.hrdf.API.Api;
 import com.od.hrdf.BOs.Document;
 import com.od.hrdf.BOs.SpeakerDocument;
-import com.od.hrdf.BOs.SpeakerTopic;
 import com.od.hrdf.CallBack.FetchCallBack;
-import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
-import com.od.hrdf.Utils.DownloadFileFromURL;
-import com.od.hrdf.Utils.InputStreamVolleyRequest;
-
-import java.io.FileOutputStream;
-import java.io.UnsupportedEncodingException;
 
 import io.realm.RealmChangeListener;
 import io.realm.RealmQuery;
@@ -147,7 +131,6 @@ public class SpeakerUploadsFragment extends Fragment implements SpeakerDocNotifi
 
     @Override
     public void downloadFile(String file, final String desc, final String type) {
-        new DownloadFileFromURL(getActivity(), file, desc, type).execute(file);
     }
 
     private void showMessage(int message){
