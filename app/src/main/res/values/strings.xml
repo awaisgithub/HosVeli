@@ -28,6 +28,7 @@
     <string name="reg_error_password_not_match">Passwords does not matched.</string>
     <string name="reg_error_server_not_reached">Server is not reachable. Please try back shortly</string>
     <string name="reg_error_unknown_server">Unable to register due to unknown server error.</string>
+    <string name="login_error_unknown_server">Unable to login due to unknown server error.</string>
     <string name="reg_error_duplicate">Your are already a registered user. Please login</string>
     <string name="reg_checking_duplicate">Checking for duplication...</string>
     <string name="reg_registering">Submitting registration....Please login</string>
@@ -46,22 +47,22 @@
     <string name="aboutus_tab_aboutus">About Us</string>
     <string name="aboutus_tab_contactus">Contact Us</string>
     <string name="aboutus_header_text_bhasa">PEMBANGUNAN SUMBER MANUSIA BERHAD</string>
-    <string name="aboutus_header_text_english">Human Resource Development Fund</string>
+    <string name="aboutus_header_text_english">Human Resource Development Fund (545143-D)</string>
 
     <!-- Profile strings-->
     <string name="profile_tab_qr">QR Code</string>
     <string name="profile_tab_my_profile">My Profile</string>
     <string name="profile_tab_my_events">My Events</string>
-    <string name="profile_tab_fav_events">Favourite Events</string>
+    <string name="profile_tab_fav_events">Favourites</string>
 
     <!-- Speaker detail strings-->
     <string name="sp_tab_about">About Speaker</string>
     <string name="sp_tab_topics">Topics</string>
-    <string name="sp_topics_not_available">No Topic Found.</string>
+    <string name="sp_topics_not_available">This speaker has no topics.</string>
     <string name="server_error">Unable to connect to server.</string>
     <string name="sp_tab_uploads">Uploads</string>
-    <string name="sp_upload_not_available">No Document Found.</string>
-    <string name="sp_not_available">No Speaker Available.</string>
+    <string name="sp_upload_not_available">No documents available at the moment.</string>
+    <string name="sp_not_available">This event has no speakers.</string>
 
     <!-- Event strings-->
     <string name="event_tab_upcoming">Upcoming</string>
@@ -71,12 +72,12 @@
     <string name="event_tab_feedback">Feedback</string>
     <string name="event_feedback_not_availble">No Survey Found.</string>
     <string name="event_feedback_item_message">Please take a moment to give your feedback.</string>
-    <string name="event_not_book">This event has no speaker.</string>
+    <string name="event_not_book">No booked events.</string>
     <string name="event_no_sponsor">This event has no sponsors.</string>
-    <string name="event_no_exhibitor">This event has no exhibitor.</string>
+    <string name="event_no_exhibitor">This event has no exhibitors.</string>
     <string name="event_no_floorplan">Floor Plan is not available for this event.</string>
     <string name="event_no_agenda">This event has no agenda.</string>
-    <string name="event_not_fav">No Favourite Found.</string>
+    <string name="event_not_fav">No favourite events.</string>
 
     <!-- Event detail strings-->
     <string name="event_detail_tab_info">Info</string>
@@ -89,7 +90,7 @@
         <item>About Us</item>
         <item>News Feed</item>
         <item>Events</item>
-        <item>Profile</item>
+        <item>My Profile</item>
     </string-array>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="large_text">

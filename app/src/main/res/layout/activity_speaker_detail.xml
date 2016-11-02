@@ -25,7 +25,7 @@
                 android:paddingRight="15dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="Speaker"
+                android:text="Speakers"
                 android:layout_gravity="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@android:color/white"

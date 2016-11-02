@@ -11,14 +11,16 @@
         android:id="@+id/parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/speaker_card_layout"
+        android:background="@drawable/exhibitor_detail_card_layout"
         android:orientation="horizontal">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/exhibitor_photo"
             android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            fresco:placeholderImage="@drawable/placeholder"
+            fresco:viewAspectRatio="1.1"
             fresco:roundedCornerRadius="10dp"
             fresco:roundingBorderWidth="1dp"
             fresco:roundingBorderColor="@color/colorPrimaryDark" />
@@ -36,6 +38,17 @@
                 android:gravity="start"
                 android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/booth"
+                android:layout_below="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="start"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorOrange"
                 android:textSize="14sp" />
 
             <ImageButton

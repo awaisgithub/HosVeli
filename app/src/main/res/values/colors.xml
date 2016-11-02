@@ -15,4 +15,7 @@
     <color name="colorAgendaTabsText">#cdcdcd</color>
     <color name="colorAgendaListItem">#b6e2fc</color>
 
+    <color name="colorSpeakerCardEnd">#C8EDFF</color>
+    <color name="colorSpeakerCardStart">#041E42</color>
+
 </resources>

@@ -28,7 +28,6 @@
         android:ellipsize="end"
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="@color/colorSponsorName"
-        android:textAllCaps="true"
         android:textStyle="bold"
         android:textSize="12sp" />
 

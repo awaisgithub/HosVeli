@@ -36,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:textAppearanceSmall"
                     android:textColor="@android:color/holo_red_light"
+                    android:inputType="textCapWords"
                     android:textSize="12sp" />
 
                 <View
