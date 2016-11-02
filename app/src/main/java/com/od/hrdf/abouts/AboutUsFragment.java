@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.od.hrdf.API.Api;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
@@ -139,7 +140,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
 
     private void fetchAboutUsInfo() {
         RealmQuery query = realm.where(AboutUs.class);
-        String url = "http://www.mypams.net/jw/web/json/plugin/org.od.webservice.JsonApiPlugin2/service?appId=hrdfApp&listId=hrdfAboutUs&action=list&imageUrl=Yes";
+        String url = "http://"+ Api.basicBaseURL+"/jw/web/json/plugin/org.od.webservice.JsonApiPlugin2/service?appId=hrdfApp&listId=hrdfAboutUs&action=list&imageUrl=Yes";
         AboutUs.fetchAboutUs(getActivity(), realm, url, query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {

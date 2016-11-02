@@ -193,19 +193,23 @@ public class LoginFragment extends Fragment {
                     realm.beginTransaction();
                     try {
                         JSONArray array = new JSONArray(response);
-                        realm.createOrUpdateObjectFromJson(User.class, array.getJSONObject(0));
-                        User user = realm.where(User.class).endsWith("id", email).findFirst();
-                        if (user != null && user.getPassword().equalsIgnoreCase(password)) {
-                            user.setTemp(false);
-                            user.setSyncedLocal(true);
-                            mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
+                        if(array.length() > 0) {
+                            realm.createOrUpdateObjectFromJson(User.class, array.getJSONObject(0));
+                            User user = realm.where(User.class).endsWith("id", email).findFirst();
+                            if (user != null && user.getPassword().equalsIgnoreCase(password)) {
+                                user.setTemp(false);
+                                user.setSyncedLocal(true);
+                                mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
+                            } else {
+                                user.setTemp(true);
+                                user.setSyncedLocal(false);
+                                showActionSnackBarMessage(getString(R.string.login_cred_error));
+                            }
                         } else {
-                            user.setTemp(true);
-                            user.setSyncedLocal(false);
-                            showActionSnackBarMessage(getString(R.string.login_cred_error));
+                            showActionSnackBarMessage(getString(R.string.login_not_exist));
                         }
                     } catch (JSONException e) {
-                        showActionSnackBarMessage(getString(R.string.reg_error_unknown_server));
+                        showActionSnackBarMessage(getString(R.string.login_error_unknown_server));
                         e.printStackTrace();
                     }
                     realm.commitTransaction();

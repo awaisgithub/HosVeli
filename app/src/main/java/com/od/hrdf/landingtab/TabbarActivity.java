@@ -128,7 +128,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         adapter.addFragment(AboutUsFragment.newInstance("", ""), "About Us");
         adapter.addFragment(NewsFragment.newInstance("", ""), "News Feed");
         adapter.addFragment(EventFragment.newInstance("", ""), "Events");
-        adapter.addFragment(ProfileFragment.newInstance("", ""), "Profile");
+        adapter.addFragment(ProfileFragment.newInstance("", ""), "My Profile");
         viewPager.setAdapter(adapter);
     }
 

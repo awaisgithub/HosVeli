@@ -104,10 +104,11 @@ public class ExhibitorListFragment extends Fragment {
     }
 
     private void fetchExhibitors() {
-        RealmQuery query= realm.where(EventExhibitor.class).equalTo("event", eventId);
+        RealmQuery query= realm.where(EventExhibitor.class).equalTo("event", eventId).equalTo("isObsolete", false);
         EventExhibitor.fetchEventExhibitors(getActivity(), realm, Api.urlEventExhibitorsList(eventId), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
+                Log.i(HRDFConstants.TAG, "fetchExhibitors fetchDidSucceed");
                 HRDFApplication.realm.beginTransaction();
                 Event.getEvent(eventId, realm).setExhibitors(EventExhibitor.getEventExhibitorList(realm, eventId));
                 HRDFApplication.realm.commitTransaction();
@@ -115,6 +116,7 @@ public class ExhibitorListFragment extends Fragment {
 
             @Override
             public void fetchDidFail(Exception e) {
+                Log.i(HRDFConstants.TAG, "fetchExhibitors fetchDidFail");
             }
         });
     }

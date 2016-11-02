@@ -194,6 +194,7 @@ public class AboutUs extends RealmObject {
     }
 
     public static void fetchAboutUs(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "fetchAboutUs = "+url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -202,15 +203,11 @@ public class AboutUs extends RealmObject {
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Log.i(HRDFConstants.TAG, "In Run()");
                                 try {
                                     realm.beginTransaction();
-                                    Log.i(HRDFConstants.TAG, "In Run()-TransactionBegun");
                                     realm.createOrUpdateAllFromJson(AboutUs.class, response);
-                                    Log.i(HRDFConstants.TAG, "In Run()-CreateFromJSON");
                                     RealmResults about = query.findAll();
                                     realm.commitTransaction();
-                                    Log.i(HRDFConstants.TAG, "In Run()-TransactionCommit");
                                     callBack.fetchDidSucceed(about);
                                 } catch (Exception e) {
                                     Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());

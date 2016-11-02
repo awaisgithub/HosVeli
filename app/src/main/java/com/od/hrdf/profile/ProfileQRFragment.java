@@ -80,7 +80,7 @@ public class ProfileQRFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         imageView = (ImageView) rootView.findViewById(R.id.imageView3);
         user = User.getCurrentUser(realm);
-        if(bitmap != null) {
+        if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
 
@@ -116,6 +116,9 @@ public class ProfileQRFragment extends Fragment {
     }
 
     Bitmap TextToImageEncode(String Value) throws WriterException {
+        if (getActivity() == null)
+            return null;
+
         BitMatrix bitMatrix;
         try {
             bitMatrix = new MultiFormatWriter().encode(
@@ -124,26 +127,26 @@ public class ProfileQRFragment extends Fragment {
                     QRcodeWidth, QRcodeWidth, null
             );
 
-        } catch (IllegalArgumentException Illegalargumentexception) {
+            int bitMatrixWidth = bitMatrix.getWidth();
+            int bitMatrixHeight = bitMatrix.getHeight();
+            int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
+            for (int y = 0; y < bitMatrixHeight; y++) {
+                int offset = y * bitMatrixWidth;
+                for (int x = 0; x < bitMatrixWidth; x++) {
+                    pixels[offset + x] = bitMatrix.get(x, y) ?
+                            getResources().getColor(R.color.QRCodeBlackColor) : getResources().getColor(R.color.QRCodeWhiteColor);
+                }
+            }
+            Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
+            Log.i(HRDFConstants.TAG, "Check= width=" + bitMatrixWidth + "     height=" + bitMatrixHeight);
+            bitmap.setPixels(pixels, 0, 300, 0, 0, bitMatrixWidth, bitMatrixHeight);
+            return bitmap;
+        } catch (Exception Illegalargumentexception) {
             return null;
         }
-        int bitMatrixWidth = bitMatrix.getWidth();
-        int bitMatrixHeight = bitMatrix.getHeight();
-        int[] pixels = new int[bitMatrixWidth * bitMatrixHeight];
-        for (int y = 0; y < bitMatrixHeight; y++) {
-            int offset = y * bitMatrixWidth;
-            for (int x = 0; x < bitMatrixWidth; x++) {
-                pixels[offset + x] = bitMatrix.get(x, y) ?
-                        getResources().getColor(R.color.QRCodeBlackColor) : getResources().getColor(R.color.QRCodeWhiteColor);
-            }
-        }
-        Bitmap bitmap = Bitmap.createBitmap(bitMatrixWidth, bitMatrixHeight, Bitmap.Config.ARGB_4444);
-        Log.i(HRDFConstants.TAG, "Check= width=" + bitMatrixWidth + "     height=" + bitMatrixHeight);
-        bitmap.setPixels(pixels, 0, 300, 0, 0, bitMatrixWidth, bitMatrixHeight);
-        return bitmap;
     }
 
-    class GenerateQRCode extends AsyncTask<String, Integer, Bitmap>{
+    class GenerateQRCode extends AsyncTask<String, Integer, Bitmap> {
 
         @Override
         protected Bitmap doInBackground(String... strings) {
@@ -158,7 +161,7 @@ public class ProfileQRFragment extends Fragment {
         @Override
         protected void onPostExecute(Bitmap bitmapp) {
             super.onPostExecute(bitmapp);
-            if(bitmapp != null) {
+            if (bitmapp != null) {
                 bitmap = bitmapp;
                 imageView.setImageBitmap(bitmap);
             }

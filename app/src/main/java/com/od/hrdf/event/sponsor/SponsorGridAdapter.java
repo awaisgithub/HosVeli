@@ -21,6 +21,7 @@ import com.od.hrdf.BOs.Sponsor;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
 import com.od.hrdf.event.EventListAdapterInterface;
+import com.od.hrdf.event.agenda.WordUtils;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmBasedRecyclerViewAdapter;
@@ -76,7 +77,9 @@ public class SponsorGridAdapter extends RealmRecyclerViewAdapter<EventSponsor, R
         if(sponsor == null)
             return;
 
-        sponsorGridViewHolder.name.setText(sponsor.getName());
+        String titleString = sponsor.getName();
+        titleString = titleString.toLowerCase();
+        sponsorGridViewHolder.name.setText(WordUtils.capitalize(titleString));
 
         if(sponsor.getImage() != null) {
             String image = sponsor.getImage();

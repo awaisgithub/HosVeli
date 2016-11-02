@@ -43,7 +43,7 @@ public class EventExhibitorListAdapter extends RealmRecyclerViewAdapter<EventExh
     private View view;
 
     public EventExhibitorListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<EventExhibitor> data, boolean autoUpdate) {
-        super(context, data, autoUpdate);
+        super(context, data, true);
         this.data = data;
     }
 

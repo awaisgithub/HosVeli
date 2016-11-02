@@ -433,6 +433,12 @@ public class Event extends RealmObject {
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
+    public static Event checkIfEventIsPassed(Realm realm, String eventId) {
+        Date today = new Date();
+        return realm.where(Event.class).equalTo("id", eventId).lessThanOrEqualTo("endDate", today)
+                .findFirst();
+    }
+
     public static RealmResults<Event> getPastEvents(Realm realm) {
         Date today = new Date();
         return realm.where(Event.class).lessThan("endDate", today)

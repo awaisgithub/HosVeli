@@ -59,6 +59,7 @@ public class EventExhibitorDetailListAdapter extends RealmRecyclerViewAdapter<Ev
             return;
 
         viewHolder.name.setText(exhibitor.getName());
+        viewHolder.booth.setText("Booth No. "+eventExhibitor.getBoothNo());
 
         viewHolder.externalLink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +74,6 @@ public class EventExhibitorDetailListAdapter extends RealmRecyclerViewAdapter<Ev
             image = image.replaceAll(" ", "%20");
             Uri uri = Uri.parse(image);
             viewHolder.imageView.setImageURI(uri);
-            viewHolder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             DraweeController controller = Fresco.newDraweeControllerBuilder()
                     .setControllerListener(controllerListener)
                     .setUri(uri)

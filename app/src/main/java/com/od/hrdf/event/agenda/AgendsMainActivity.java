@@ -33,11 +33,12 @@ import io.realm.RealmResults;
 
 import static com.od.hrdf.HRDFApplication.realm;
 
-public class AgendsMainActivity extends AppCompatActivity implements View.OnClickListener{
+public class AgendsMainActivity extends AppCompatActivity implements View.OnClickListener, AgendaFragActivityNotifier{
     protected static final String AGENDA_DEC_SIX = "2016-12-06";
     protected static final String AGENDA_DEC_SEVEN = "2016-12-07";
     private String eventId;
     private ViewPager mViewPager;
+    private SegmentedGroup segmentedGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class AgendsMainActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void initViews() {
-        final SegmentedGroup segmentedGroup = (SegmentedGroup) findViewById(R.id.agenda_segment_control);
+        segmentedGroup = (SegmentedGroup) findViewById(R.id.agenda_segment_control);
         segmentedGroup.setTintColor(ContextCompat.getColor(this, R.color.colorAgendaTabs), Color.BLACK);
         findViewById(R.id.date_six).setOnClickListener(this);
         findViewById(R.id.date_seven).setOnClickListener(this);
@@ -118,5 +119,15 @@ public class AgendsMainActivity extends AppCompatActivity implements View.OnClic
             default:
                 break;
         }
+    }
+
+    @Override
+    public void noAgendaAvailable() {
+        segmentedGroup.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void agendaAvailable() {
+        segmentedGroup.setVisibility(View.VISIBLE);
     }
 }

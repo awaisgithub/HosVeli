@@ -1,6 +1,7 @@
 package com.od.hrdf.event.agenda;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
 import com.od.hrdf.event.EventFragment;
 import com.od.hrdf.event.EventListAdapter;
+import com.od.hrdf.landingtab.TabFragActivityInterface;
 
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -32,6 +34,7 @@ public class AgendaListFragment extends Fragment {
     private View rootView;
     private String type;
     private String eventId;
+    private AgendaFragActivityNotifier mListener;
 
     public AgendaListFragment() {
     }
@@ -67,6 +70,24 @@ public class AgendaListFragment extends Fragment {
         initViews();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof AgendaFragActivityNotifier) {
+            mListener = (AgendaFragActivityNotifier) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+//        mListener.onFragmentNav(ProfileFragment.this, Util.Navigate.LOGOUT);
+        mListener = null;
+    }
+
     private void initViews() {
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.agenda_rcv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
@@ -89,14 +110,21 @@ public class AgendaListFragment extends Fragment {
             public void onChange(RealmResults element) {
                 if (element.size() > 0) {
                     hideMessage();
+                    if (mListener != null)
+                        mListener.agendaAvailable();
                 } else {
+                    if (mListener != null)
+                        mListener.noAgendaAvailable();
+
                     showMessage(R.string.event_no_agenda);
                 }
             }
         });
 
-        if(realmResults.size() < 1) {
+        if (realmResults.size() < 1) {
             showMessage(R.string.event_no_agenda);
+            if (mListener != null)
+                mListener.noAgendaAvailable();
         }
 
         AgendaListAdapter agendaListAdapter = new AgendaListAdapter(getActivity(), realmResults, true);

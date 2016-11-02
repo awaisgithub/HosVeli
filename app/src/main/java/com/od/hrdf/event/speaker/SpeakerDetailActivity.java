@@ -21,6 +21,7 @@ import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
+import com.od.hrdf.BOs.Event;
 import com.od.hrdf.BOs.Speaker;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
@@ -120,6 +121,11 @@ public class SpeakerDetailActivity extends AppCompatActivity implements View.OnC
             //ratingBar.setEnabled(false);
             ratingBar.setIsIndicator(true);
             ratingBar.setRating(speaker.getRating());
+        }
+
+        Event event = Event.checkIfEventIsPassed(realm, eventId);
+        if(event == null) {
+            ratingBar.setVisibility(View.GONE);
         }
     }
 

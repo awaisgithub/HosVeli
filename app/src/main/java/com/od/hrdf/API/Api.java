@@ -10,6 +10,12 @@ import java.io.UnsupportedEncodingException;
 
 public class Api {
     private static String baseURL = "http://www.mypams.net";
+    //private static String baseURL = "http://103.233.0.208";
+
+    public static String basicBaseURL = "www.mypams.net";
+
+    //public static String basicBaseURL = "103.233.0.208";
+
     private static String jogetAppId = "hrdfApp";
     private static String jogetAppVersion = "1";
     private static String jogetUserViewID = "hrdfAppUV";
@@ -22,7 +28,7 @@ public class Api {
     }
 
     public static String urlJogetCRUD() {
-        JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonCudApiPlugin2");
+        JogetAPIBuilder builder = new JogetAPIBuilder("http", basicBaseURL , "org.od.webservice.JsonCudApiPlugin2");
         return builder.build().toString();
     }
 
@@ -90,7 +96,7 @@ public class Api {
     }
 
     public static String urlForgotPassword() {
-        return "http://www.mypams.net/jw/web/json/plugin/org.joget.hrdf.forgetPasswordWS/service";
+        return "http://"+basicBaseURL+"/jw/web/json/plugin/org.joget.hrdf.forgetPasswordWS/service";
     }
 
     public static String urlExhibitor(String exhibitorId) {
@@ -114,7 +120,7 @@ public class Api {
     }
 
     public static String urlGetJogetList(String listId) {
-        JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
+        JogetAPIBuilder builder = new JogetAPIBuilder("http", basicBaseURL, "org.od.webservice.JsonApiPlugin2");
         builder.appId(HRDFConstants.JOGET_APP_ID);
         builder.listId(listId);
         builder.action("list");
@@ -123,7 +129,7 @@ public class Api {
     }
 
     public static String urlGetJogetList(String listId, String filter1name, String filter1Value) {
-        JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
+        JogetAPIBuilder builder = new JogetAPIBuilder("http", basicBaseURL, "org.od.webservice.JsonApiPlugin2");
         builder.appId(HRDFConstants.JOGET_APP_ID);
         builder.listId(listId);
         builder.action("list");
@@ -133,7 +139,7 @@ public class Api {
     }
 
     public static String urlGetJogetList(String listId, String filter1name, String filter1Value, String filter2name, String filter2Value) {
-        JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
+        JogetAPIBuilder builder = new JogetAPIBuilder("http", basicBaseURL, "org.od.webservice.JsonApiPlugin2");
         builder.appId(HRDFConstants.JOGET_APP_ID);
         builder.listId(listId);
         builder.action("list");
@@ -144,7 +150,7 @@ public class Api {
     }
 
     public static String urlGetJogetList(String listId, String filter1name, String filter1Value, boolean fileUrl) {
-        JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
+        JogetAPIBuilder builder = new JogetAPIBuilder("http", basicBaseURL, "org.od.webservice.JsonApiPlugin2");
         builder.appId(HRDFConstants.JOGET_APP_ID);
         builder.listId(listId);
         builder.action("list");
@@ -155,7 +161,7 @@ public class Api {
     }
 
     public static String urlGetJogetList(String listId, String filter1name, String filter1Value, boolean imageUrl, boolean fileUrl) {
-        JogetAPIBuilder builder = new JogetAPIBuilder("http", "www.mypams.net", "org.od.webservice.JsonApiPlugin2");
+        JogetAPIBuilder builder = new JogetAPIBuilder("http", basicBaseURL, "org.od.webservice.JsonApiPlugin2");
         builder.appId(HRDFConstants.JOGET_APP_ID);
         builder.listId(listId);
         builder.action("list");

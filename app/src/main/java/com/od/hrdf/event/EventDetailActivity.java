@@ -62,6 +62,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
     private Event event;
     private ViewPager mViewPager;
     private boolean isEventBooked;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +70,8 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         String eventId = getIntent().getStringExtra(HRDFConstants.KEY_EVENT_ID);
         realm = Realm.getDefaultInstance();
         event = Event.getEvent(eventId, realm);
-        if(UserEvent.getUserEvent(realm, event.getId()) != null)
+        user =  User.getCurrentUser(realm);
+        if(UserEvent.getUserEvent(realm, event.getId(), user.getId()) != null)
             isEventBooked = true;
 
         initViews();
@@ -247,7 +249,6 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void bookEvent() {
-        final User user = User.getCurrentUser(realm);
         Event.bookEvent(user.getId(), event.getId(), Api.urlJogetCRUD(), new StatusCallBack() {
             @Override
             public void success(JSONObject response) {
@@ -258,9 +259,16 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
                         ((TextView)findViewById(R.id.button_register)).setText("Registered");
                         ((TextView)findViewById(R.id.button_register)).setBackground(ContextCompat.getDrawable(EventDetailActivity.this, R.drawable.rect_blue_button_register));
                         realm.beginTransaction();
-                        UserEvent userEvent = realm.createObject(UserEvent.class, event.getId());
-                        userEvent.setUser(user.getId());
-                        user.getEvents().add(userEvent);
+                        UserEvent userEvent = null;
+                        if(UserEvent.getUserEvent(realm, event.getId()) != null) {
+                            userEvent = UserEvent.getUserEvent(realm, event.getId());
+                            userEvent.setUser(user.getId());
+                            user.getEvents().add(userEvent);
+                        } else {
+                            userEvent = realm.createObject(UserEvent.class, event.getId());
+                            userEvent.setUser(user.getId());
+                            user.getEvents().add(userEvent);
+                        }
                         realm.commitTransaction();
                     } else {
                     }

@@ -112,6 +112,8 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
         recyclerView.setLayoutManager(linearLayoutManager);
         Log.i(HRDFConstants.TAG, "initViews = "+type);
 
+        fetchUserEvents();
+
         if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_UPCOMING)) {
             realmResults = Event.getUpcomingEvents(realm);
             if(realmResults.size() < 1) {
@@ -146,7 +148,6 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
 
             UserEventListAdapter userEventListAdapter = new UserEventListAdapter(getActivity(), realmResults, this, true);
             recyclerView.setAdapter(userEventListAdapter);
-            fetchUserEvents();
         } else if(type.equalsIgnoreCase(EventFragment.LIST_TYPE_FAV_EVENTS)) {
             realmResults = Event.getUpFavEvents(realm);
             if(realmResults.size() < 1) {
@@ -164,6 +165,7 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
             recyclerView.setAdapter(eventFeedbackListAdapter);
             fetchAllEvents();
         }
+
 
         realmResults.addChangeListener(new RealmChangeListener<RealmResults>() {
             @Override

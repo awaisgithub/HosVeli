@@ -53,6 +53,7 @@ public class EventExhibitor extends RealmObject {
     private String eventtitle;
     private String exhibitorwebsite;
     private String exhibitor;
+    boolean isObsolete;
 
     public String getDateModified() {
         return dateModified;
@@ -230,26 +231,39 @@ public class EventExhibitor extends RealmObject {
         this.exhibitor = exhibitor;
     }
 
+    public boolean isObsolete() {
+        return isObsolete;
+    }
+
+    public void setObsolete(boolean obsolete) {
+        isObsolete = obsolete;
+    }
+
     public static RealmList<EventExhibitor> getEventExhibitorList(Realm realm, String eventId) {
         RealmList<EventExhibitor> eventExhibitors = new RealmList<>();
 
         RealmResults realmResults = realm.where(EventExhibitor.class).equalTo("event", eventId).findAll();
-        for(int i=0; i<realmResults.size(); i++) {
+        for (int i = 0; i < realmResults.size(); i++) {
             eventExhibitors.add((EventExhibitor) realmResults.get(i));
         }
         return eventExhibitors;
     }
 
+
+    public static EventExhibitor getExhibitorForId(Realm realm, String id) {
+        return realm.where(EventExhibitor.class).equalTo("id", id).findFirst();
+    }
+
     public static RealmResults getExhibitorForCategory(Realm realm, String category, String eventId) {
-        return realm.where(EventExhibitor.class).equalTo("exhibitorcategoryname", category).equalTo("event", eventId).findAll().sort("exhibitorcategoryseq", Sort.ASCENDING);
+        return realm.where(EventExhibitor.class).equalTo("exhibitorcategoryname", category).equalTo("isObsolete", false).equalTo("event", eventId).findAll().sort("exhibitorcategoryseq", Sort.ASCENDING);
     }
 
     public static RealmResults getEventExhibitor(Realm realm, String eventId) {
-        return realm.where(EventExhibitor.class).equalTo("event", eventId).findAll().distinct("exhibitorcategoryseq").sort("exhibitorcategoryseq", Sort.ASCENDING);
+        return realm.where(EventExhibitor.class).equalTo("event", eventId).equalTo("isObsolete", false).findAll().distinct("exhibitorcategoryseq").sort("exhibitorcategoryseq", Sort.ASCENDING);
     }
 
     public static void fetchEventExhibitors(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
-        Log.i(HRDFConstants.TAG, "fetchEventExhibitors = "+url);
+        Log.i(HRDFConstants.TAG, "fetchEventExhibitors = " + url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -259,10 +273,23 @@ public class EventExhibitor extends RealmObject {
                             @Override
                             public void run() {
                                 try {
-                                    realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(EventExhibitor.class, response);
+                                    makeAllOrdersObsolete(realm);
+                                    for (int i = 0; i < response.length(); i++) {
+                                        String id = response.getJSONObject(i).optString("id");
+                                        EventExhibitor exhibitor = getExhibitorForId(realm, id);
+                                        if (exhibitor != null) {
+                                            realm.beginTransaction();
+                                            exhibitor.setObsolete(false);
+                                            realm.createOrUpdateObjectFromJson(EventExhibitor.class, response.getJSONObject(i));
+                                            realm.commitTransaction();
+                                        } else {
+                                            realm.beginTransaction();
+                                            exhibitor = realm.createObjectFromJson(EventExhibitor.class, response.getJSONObject(i));
+                                            realm.commitTransaction();
+                                        }
+                                    }
+                                    deleteAllObsoleteExhibitors(realm);
                                     RealmResults eventExhibitor = query.findAll();
-                                    realm.commitTransaction();
                                     callBack.fetchDidSucceed(eventExhibitor);
                                 } catch (Exception e) {
                                     Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
@@ -284,5 +311,25 @@ public class EventExhibitor extends RealmObject {
             }
         });
         HRDFApplication.getInstance().addToRequestQueue(req);
+    }
+
+    public static void makeAllOrdersObsolete(Realm realm) {
+        RealmResults allExhibitor = realm.where(EventExhibitor.class).findAll();
+        realm.beginTransaction();
+        for (int i = 0; i < allExhibitor.size(); i++) {
+            EventExhibitor order = (EventExhibitor) allExhibitor.get(i);
+            order.setObsolete(true);
+        }
+        realm.commitTransaction();
+    }
+
+    public static void deleteAllObsoleteExhibitors(Realm realm) {
+        RealmResults obsoleteOrders = realm.where(EventExhibitor.class).equalTo("isObsolete", true).findAll();
+        realm.beginTransaction();
+        for (int i = 0; i < obsoleteOrders.size(); i++) {
+            EventExhibitor order = (EventExhibitor) obsoleteOrders.get(i);
+            order.deleteFromRealm();
+        }
+        realm.commitTransaction();
     }
 }
