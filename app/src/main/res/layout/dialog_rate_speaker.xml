@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parentView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/detail_dialog_rounded_corners"
+    android:orientation="vertical">
+
+    <RatingBar
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/RatingBar"
+        android:progressDrawable="@drawable/orange_ratings_medium"
+        android:progressTint="@android:color/holo_orange_light"
+        android:id="@+id/ratingBar"
+        android:stepSize="1.0"
+        android:numStars="5" />
+
+    <TextView
+        android:id="@+id/textlabel"
+        android:layout_below="@+id/ratingBar"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:layout_gravity="start"
+        android:layout_marginStart="5dp"
+        android:text="Comments:"/>
+
+    <EditText
+        android:layout_below="@+id/textlabel"
+        android:layout_margin="5dp"
+        android:id="@+id/remarks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="start"
+        android:minHeight="100dp"
+        android:background="#333333"
+        android:padding="5dp"
+        android:inputType="textCapSentences"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/remarks"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/rect_button_rating"
+        android:textColor="@android:color/white"
+        android:text="Submit"/>
+
+</RelativeLayout>
