@@ -5,9 +5,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Project Number -->
+    <string name="gcm_defaultSenderId">1090039120603</string>
     <!-- Buttons-->
     <string name="button_ok">OK</string>
-
     <string name="dialog_congrats_title">Congratulations</string>
 
     <!-- Reg Strings -->
@@ -21,7 +22,8 @@
 
     <string name="reg_error_name">Please provide your full name.</string>
     <string name="reg_error_email">Please provide a valid email.</string>
-    <string name="reg_error_contact_number">Please provide a valid contact number.</string>
+    <string name="reg_error_contact_number">Please provide a contact number.</string>
+    <string name="reg_error_not_malay_contact_number">Please provide a valid contact number.</string>
     <string name="reg_error_nationality">Please provide your nationality.</string>
     <string name="reg_error_password">You must provide password to sign up.</string>
     <string name="reg_error_confirm_password">Please provide confirm password.</string>
@@ -39,12 +41,12 @@
     <string name="login_server_error">Unable to connect to server.</string>
     <string name="login_cred_error">Unable to login. Please check your login credentials.</string>
     <string name="login_authenticating">Authenticating....</string>
-    <string name="login_error_username">Please provide username.</string>
+    <string name="login_error_username">Please provide your email.</string>
     <string name="title_activity_tabbar">TabbarActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- About us strings-->
-    <string name="aboutus_tab_aboutus">About Us</string>
+    <string name="aboutus_tab_aboutus">About HRDF</string>
     <string name="aboutus_tab_contactus">Contact Us</string>
     <string name="aboutus_header_text_bhasa">PEMBANGUNAN SUMBER MANUSIA BERHAD</string>
     <string name="aboutus_header_text_english">Human Resource Development Fund (545143-D)</string>
@@ -72,12 +74,15 @@
     <string name="event_tab_feedback">Feedback</string>
     <string name="event_feedback_not_availble">No Survey Found.</string>
     <string name="event_feedback_item_message">Please take a moment to give your feedback.</string>
-    <string name="event_not_book">No booked events.</string>
+    <string name="event_not_book">You haven"'"t registered for any event.</string>
     <string name="event_no_sponsor">This event has no sponsors.</string>
     <string name="event_no_exhibitor">This event has no exhibitors.</string>
-    <string name="event_no_floorplan">Floor Plan is not available for this event.</string>
+    <string name="event_loading_exhibitor">Loading exhibitors...</string>
+    <string name="event_no_floorplan">Floor plan is not available for this event.</string>
     <string name="event_no_agenda">This event has no agenda.</string>
-    <string name="event_not_fav">No favourite events.</string>
+    <string name="event_not_fav">You don"'"t have any favourites.</string>
+    <string name="event_exhibitor_not_detail">This exhibitor has no details.</string>
+
 
     <!-- Event detail strings-->
     <string name="event_detail_tab_info">Info</string>
@@ -85,6 +90,8 @@
     <string name="event_detail_tab_sponsor">Sponsors</string>
     <string name="event_detail_tab_exhibitor">Exhibitors</string>
     <string name="event_detail_tab_floorplan">Floor Plan</string>
+
+    <string name="news_loading_detail">Loading article details...</string>
 
     <string-array name="main_tabs">
         <item>About Us</item>

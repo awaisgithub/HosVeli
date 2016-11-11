@@ -8,12 +8,11 @@
     android:gravity="center_vertical"
     android:orientation="vertical">
 
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
         android:id="@+id/event_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/colorSponsorCategory"
+        android:textColor="@color/colorBlack"
         android:textStyle="bold"
         android:textAllCaps="true"
         android:textSize="14sp" />

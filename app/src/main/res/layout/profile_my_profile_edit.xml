@@ -1,128 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:orientation="vertical"
-android:layout_width="match_parent"
-android:layout_height="wrap_content">
-<ScrollView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:layout_marginEnd="32dp"
-    android:layout_marginStart="32dp">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/mainlinear_layout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp">
 
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:background="@drawable/edit_text_login"
-            android:ems="10"
-            android:hint="@string/reg_hint_name"
-            android:inputType="textPersonName|textCapWords"
-            android:padding="5dp"
-            android:textSize="@dimen/text_size_loginreg"
-            android:layout_marginTop="10dp"
-            android:layout_height="30dp" />
-
-        <EditText
-            android:id="@+id/email"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edit_text_login"
-            android:ems="10"
-            android:hint="@string/reg_hint_email"
-            android:inputType="textEmailAddress"
-            android:padding="5dp"
-            android:textSize="@dimen/text_size_loginreg"
-            android:layout_height="30dp" />
-
-        <EditText
-            android:id="@+id/contact_number"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edit_text_login"
-            android:ems="10"
-            android:freezesText="false"
-            android:hint="@string/reg_hint_contact"
-            android:inputType="number"
-            android:padding="5dp"
-            android:textSize="@dimen/text_size_loginreg"
-            android:layout_height="30dp" />
-
-        <EditText
-            android:id="@+id/nationality"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edit_text_login"
-            android:ems="10"
-            android:hint="@string/reg_hint_nationality"
-            android:inputType="textCapWords"
-            android:padding="5dp"
-            android:textSize="@dimen/text_size_loginreg"
-            android:layout_height="30dp" />
-
-        <EditText
-            android:id="@+id/organisation"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edit_text_login"
-            android:ems="10"
-            android:hint="Organisation"
-            android:inputType="textPersonName"
-            android:padding="5dp"
-            android:textSize="@dimen/text_size_loginreg"
-            android:layout_height="30dp" />
-
-        <EditText
-            android:id="@+id/designation"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edit_text_login"
-            android:ems="10"
-            android:hint="Designation"
-            android:inputType="textShortMessage"
-            android:padding="5dp"
-            android:textSize="@dimen/text_size_loginreg"
-            android:layout_height="30dp" />
-
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/mainlinear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            android:orientation="vertical">
 
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="@string/reg_hint_name"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="5dp"
+                android:textSize="@dimen/text_size_loginreg" />
 
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:enabled="false"
+                android:hint="@string/reg_hint_email"
+                android:inputType="textEmailAddress"
+                android:padding="5dp"
+                android:textSize="@dimen/text_size_loginreg" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="251dp"
-                android:id="@+id/back"
-                android:background="@drawable/back"
-                android:layout_height="40dp" />
+            <EditText
+                android:id="@+id/contact_number"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:freezesText="false"
+                android:hint="@string/reg_hint_contact"
+                android:inputType="number"
+                android:padding="5dp"
+                android:textSize="@dimen/text_size_loginreg" />
 
-            <Button
-                android:id="@+id/submit_button"
-                android:layout_width="250dp"
-                android:background="@drawable/reg_submit_button"
-                android:text="Submit"
-                android:textColor="@android:color/black"
-                android:layout_marginLeft="70dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_height="40dp" />
+            <EditText
+                android:id="@+id/nationality"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="@string/reg_hint_nationality"
+                android:inputType="textCapWords"
+                android:padding="5dp"
+                android:textSize="@dimen/text_size_loginreg" />
 
-        </RelativeLayout>
+            <EditText
+                android:id="@+id/organisation"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="Organisation"
+                android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textSize="@dimen/text_size_loginreg" />
 
+            <EditText
+                android:id="@+id/designation"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="Designation"
+                android:inputType="textShortMessage"
+                android:padding="5dp"
+                android:textSize="@dimen/text_size_loginreg" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginTop="10dp">
 
+                <ImageButton
+                    android:id="@+id/back"
+                    android:layout_width="40dp"
+                    android:layout_height="34dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/back"
+                    android:tint="@color/colorToolBar"
+                    android:background="@drawable/back_button" />
 
+                <Button
+                    android:layout_toEndOf="@+id/back"
+                    android:id="@+id/submit_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:background="@drawable/reg_submit_button"
+                    android:text="Submit"
+                    android:textColor="@color/colorBlack" />
 
-    </LinearLayout>
-</ScrollView>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

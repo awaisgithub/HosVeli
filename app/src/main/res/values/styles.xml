@@ -6,12 +6,19 @@
         <item name="colorPrimary">@color/colorToolBar</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <!--<item name="android:typeface">serif</item>-->
+    </style>
+
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
 
     <style name="AppTheme.Login" parent="AppTheme">
         <item name="windowActionBar">false</item>
@@ -20,14 +27,18 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/colorTabs</item>
-
-        <!--item name="colorControlNormal">@color/color_onboard</item>
-        <item name="colorControlActivated">@color/login_view_selected</item-->
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
     </style>
 
     <style name="CustomTitleTextStyle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="RatingBarSmall" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorOrange</item>
+        <item name="colorControlActivated">@color/colorOrange</item>
+        <!--<item name="ratingBarStyle">@style/Widget.AppCompat.RatingBar.Small</item>-->
     </style>
 
     <style name="RatingBar" parent="Theme.AppCompat">

@@ -5,22 +5,20 @@
     android:orientation="vertical"
     tools:context="com.od.hrdf.event.EventInfoFragment">
 
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceSmall"
         android:text="Join Us At"
-        android:textColor="@color/colorTabs"
+        android:textColor="@color/colorBlack"
         android:textSize="14sp" />
 
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
         android:id="@+id/title"
         android:layout_marginTop="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceMedium"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorBlack"
         android:textSize="16sp" />
 
     <View
@@ -29,16 +27,18 @@
         android:layout_height="3dp"
         android:background="@color/colorTabs"/>
 
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
+        android:layout_marginTop="5dp"
         android:id="@+id/objective"
         android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorBlack"
         android:textSize="14sp" />
 
     <WebView
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="-8dp"
         android:id="@+id/overview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

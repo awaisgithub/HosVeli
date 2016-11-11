@@ -25,7 +25,7 @@
                 android:layout_height="160dp"
                 fresco:actualImageScaleType="focusCrop" />
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/date_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,22 +33,20 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:textAllCaps="true"
-                android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="12sp" />
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/date_time"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorBlack"
                 android:textSize="16sp" />
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/venue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,9 +54,8 @@
                 android:layout_marginStart="10dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:textColor="@android:color/black"
-                android:textSize="12sp" />
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <View
@@ -66,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/content_container"
-            android:background="@android:color/black"
+            android:background="@color/colorBlack"
             app:layout_marginTopPercent="1%" />
 
         <LinearLayout
@@ -80,7 +77,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@android:color/black" />
+                android:background="@color/colorBlack" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -93,7 +90,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@android:color/black" />
+                android:background="@color/colorBlack" />
 
             <ImageView
                 android:id="@+id/button_fav"

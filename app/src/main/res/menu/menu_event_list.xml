@@ -5,8 +5,16 @@
     tools:context="com.od.hrdf.LandingActivity">
     <item
         android:id="@+id/share_item"
+        android:orderInCategory="100"
         android:title=""
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@drawable/share"
         support:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         support:showAsAction="always" />
+
+    <item
+        android:id="@+id/fav_item"
+        android:title=""
+        android:orderInCategory="200"
+        android:icon="@drawable/bookmark_white"
+        support:showAsAction="ifRoom" />
 </menu>

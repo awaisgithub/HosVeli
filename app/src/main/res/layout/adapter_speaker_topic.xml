@@ -5,30 +5,24 @@
     android:layout_marginTop="5dp"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
-    android:layout_marginBottom="5dp"
     android:orientation="vertical">
 
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
         android:layout_marginTop="5dp"
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="start"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/black"
-        android:textSize="12sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:layout_marginTop="5dp"
-        android:id="@+id/more_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@android:color/black"
-        android:textSize="12sp" />
+        android:gravity="start"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp" />
+
+    <WebView
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="-8dp"
+        android:id="@+id/more_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

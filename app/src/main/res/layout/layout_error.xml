@@ -12,15 +12,15 @@
         android:layout_height="wrap_content"
         android:src="@drawable/error_logo"/>
 
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
         android:layout_marginTop="10dp"
         android:layout_centerInParent="true"
         android:layout_below="@+id/logo"
         android:id="@+id/label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorBlack"
         android:text="No Survey Available."
-        android:textSize="14sp"
-        android:textAppearance="?android:textAppearanceMedium"/>
+        android:textSize="14sp" />
 
 </RelativeLayout>

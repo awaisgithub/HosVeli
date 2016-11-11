@@ -5,11 +5,11 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:scaleType="fitXY"
+        android:layout_height="match_parent"
         android:alpha="0.3"
-        android:src="@drawable/login_bg"/>
+        android:scaleType="fitXY"
+        android:src="@drawable/login_bg" />
 
     <RelativeLayout
         android:id="@+id/header_layout"
@@ -26,60 +26,60 @@
             android:layout_height="match_parent"
             android:background="@drawable/event_detail_header_overlay" />
 
-        <TextView
+        <com.od.hrdf.Utils.HelveticaNeueTV
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="15dp"
             android:layout_marginBottom="25dp"
+            android:layout_marginStart="10dp"
             android:text="@string/aboutus_header_text_bhasa"
             android:textColor="@android:color/white"
-            android:textAppearance="?android:textAppearanceMedium"
             android:textSize="16sp" />
 
-        <TextView
+        <com.od.hrdf.Utils.HelveticaNeueTV
+            android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="15dp"
             android:layout_marginBottom="5dp"
+            android:layout_marginStart="10dp"
             android:text="@string/aboutus_header_text_english"
             android:textColor="@android:color/white"
-            android:textAppearance="?android:textAppearanceSmall"
             android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:minHeight="85dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:orientation="vertical"
             android:background="@drawable/rect_agenda_layout"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:minHeight="85dp"
+            android:orientation="vertical">
 
             <ImageButton
-                android:layout_marginTop="5dp"
                 android:id="@+id/button_call"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/mobile" />
 
             <ImageButton
                 android:id="@+id/button_email"
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/email" />
 
             <ImageButton
                 android:id="@+id/button_website"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/about_website" />
 
@@ -106,10 +106,20 @@
         app:layout_heightPercent="55%"
         app:layout_widthPercent="100%">
 
+        <!--<com.od.hrdf.Utils.HelveticaNeueTV-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:id="@+id/web_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:textSize="14sp"-->
+        <!--android:textColor="@color/colorBlack"-->
+        <!--android:background="@android:color/transparent" />-->
+
         <WebView
             android:id="@+id/web_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:background="@android:color/transparent" />
 
         <include layout="@layout/contactus_layout" />

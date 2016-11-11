@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:id="@+id/tab"
-    android:textColor="@color/colorTabs"
-    android:textAppearance="?android:textAppearanceMedium"
-    android:textSize="12sp">
+    android:layout_height="wrap_content">
 
-</TextView>
+    <com.od.hrdf.Utils.HelveticaNeueTV xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/colorTabs"
+        android:textSize="12sp">
+
+    </com.od.hrdf.Utils.HelveticaNeueTV>
+
+</RelativeLayout>

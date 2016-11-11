@@ -20,7 +20,7 @@
         fresco:actualImageScaleType="fitCenter"/>
 
 
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
         android:layout_below="@+id/file_photo"
         android:layout_centerHorizontal="true"
         android:padding="5dp"
@@ -30,8 +30,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@color/colorSponsorName"
+        android:textColor="@color/colorBlack"
         android:textAllCaps="true"
         android:textStyle="bold"
         android:textSize="12sp" />

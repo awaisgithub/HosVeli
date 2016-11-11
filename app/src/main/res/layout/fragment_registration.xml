@@ -121,7 +121,7 @@
                 android:layout_marginTop="@dimen/reg_button_verticle"
                 android:background="@drawable/reg_submit_button"
                 android:text="Submit"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorBlack"
                 android:layout_height="45dp" />
         </LinearLayout>
     </ScrollView>

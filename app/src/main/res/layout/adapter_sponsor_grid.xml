@@ -12,23 +12,20 @@
         android:id="@+id/sponsor_photo"
         android:layout_width="155dp"
         android:layout_height="90dp"
+        fresco:placeholderImage="@drawable/placeholder"
         fresco:roundedCornerRadius="10dp"
         fresco:roundingBorderWidth="1dp"
         fresco:roundingBorderColor="@color/colorTabs"
         fresco:actualImageScaleType="fitXY"/>
 
-
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
         android:padding="5dp"
         android:id="@+id/sponsor_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:maxLines="1"
-        android:ellipsize="end"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@color/colorSponsorName"
-        android:textStyle="bold"
+        android:textColor="#838383"
         android:textSize="12sp" />
 
 </LinearLayout>

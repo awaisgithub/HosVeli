@@ -17,14 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/main_office_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="MAIN OFFICE"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:text="HEADQUARTERS"
+                android:textColor="#000000"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -35,11 +35,13 @@
                 tools:layout_constraintLeft_creator="1"
                 tools:layout_constraintRight_creator="1" />
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:textColor="#000000"
+                android:textSize="14sp"
                 android:text="Wisma HRDF, Jln Beringin, Damansara Heights, 50490 Kuala Lumpur"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -67,19 +69,22 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.od.hrdf.Utils.HelveticaNeueTV
                         android:id="@+id/yearofap"
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:textColor="@color/colorOrange"
+                        android:textSize="14sp"
                         android:text="Contact Center:" />
 
-                    <TextView
+                    <com.od.hrdf.Utils.HelveticaNeueTV
                         android:id="@+id/contact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
+                        android:textSize="14sp"
+                        android:textColor="#000000"
                         android:layout_toRightOf="@+id/yearofap" />
 
                 </RelativeLayout>
@@ -89,20 +94,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp">
 
-                    <TextView
+                    <com.od.hrdf.Utils.HelveticaNeueTV
                         android:id="@+id/dateappliedtitle"
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:textColor="@color/colorOrange"
+                        android:textSize="14sp"
                         android:text="Email:" />
 
-                    <TextView
+                    <com.od.hrdf.Utils.HelveticaNeueTV
                         android:id="@+id/email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_toRightOf="@+id/dateappliedtitle"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
                         android:gravity="start" />
 
                 </RelativeLayout>
@@ -112,20 +120,23 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp">
 
-                    <TextView
+                    <com.od.hrdf.Utils.HelveticaNeueTV
                         android:id="@+id/websiteTitle"
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:textColor="@color/colorOrange"
+                        android:textSize="14sp"
                         android:text="Website:" />
 
-                    <TextView
+                    <com.od.hrdf.Utils.HelveticaNeueTV
                         android:id="@+id/website"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_toRightOf="@+id/websiteTitle"
+                        android:textSize="14sp"
+                        android:textColor="#000000"
                         android:gravity="start" />
 
                 </RelativeLayout>

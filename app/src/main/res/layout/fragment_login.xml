@@ -52,7 +52,7 @@
                 android:background="@drawable/edit_text_login"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="Username"
+                android:hint="USER EMAIL"
                 android:inputType="textEmailAddress"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -72,7 +72,7 @@
                 android:background="@drawable/edit_text_login"
                 android:ems="10"
                 android:gravity="center"
-                android:hint="Password"
+                android:hint="PASSWORD"
                 android:inputType="textPassword"
                 android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -89,7 +89,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
                 android:text="SIGN UP"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorBlack"
                 android:background="@drawable/reg_submit_button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.24"
@@ -99,13 +99,15 @@
                 app:layout_constraintVertical_bias="0.0"
                 android:layout_marginBottom="16dp" />
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/textView"
                 android:layout_width="155dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="FORGOT PASSWORD ?"
                 android:textStyle="bold"
+                android:textSize="14sp"
+                android:textColor="@color/colorBlack"
                 app:layout_constraintBaseline_toBaselineOf="@+id/signup_button"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toRightOf="@+id/signup_button"

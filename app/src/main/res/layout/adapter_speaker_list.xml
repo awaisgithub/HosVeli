@@ -18,12 +18,12 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/speaker_photo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
             android:layout_marginStart="15dp"
-            fresco:roundedCornerRadius="10dp"
-            fresco:roundingBorderWidth="1dp"
-            fresco:roundingBorderColor="@android:color/white"/>
+            fresco:roundAsCircle="true"
+            fresco:roundingBorderWidth="2dp"
+            fresco:roundingBorderColor="@color/colorToolBar"/>
 
         <RelativeLayout
             android:layout_marginStart="10dp"
@@ -31,17 +31,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="16sp" />
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/designation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,11 +48,10 @@
                 android:layout_marginStart="10dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +59,6 @@
                 android:layout_marginStart="10dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
         </RelativeLayout>

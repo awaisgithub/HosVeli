@@ -8,35 +8,32 @@
     android:layout_marginBottom="5dp"
     android:orientation="vertical">
 
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
         android:id="@+id/venue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:textAppearance="?android:textAppearanceSmall"
         android:textColor="@android:color/holo_red_light"
         android:textSize="14sp" />
 
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
         android:layout_marginTop="5dp"
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="start"
         android:gravity="start"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorBlack"
         android:textSize="12sp"
         android:textStyle="bold" />
 
-    <TextView
+    <com.od.hrdf.Utils.HelveticaNeueTV
         android:layout_marginTop="5dp"
         android:id="@+id/more_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorBlack"
         android:textSize="12sp" />
 
 

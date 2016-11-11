@@ -69,8 +69,7 @@
 
             </LinearLayout>
 
-
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/button_register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,34 +83,30 @@
                 android:layout_alignParentEnd="true"
                 android:gravity="end"
                 android:textAllCaps="true"
-                android:text="Register"
                 android:background="@drawable/rect_button_register"
-                android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="12sp" />
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/date_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/title"
                 android:layout_marginStart="10dp"
                 android:textAllCaps="true"
-                android:textAppearance="?android:textAppearanceSmall"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="14sp" />
 
-            <TextView
+            <com.od.hrdf.Utils.HelveticaNeueTV
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="5dp"
                 android:layout_marginStart="10dp"
-                android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
@@ -122,13 +117,24 @@
 
             <include layout="@layout/event_detail_segment" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/event_detail_pager"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="5dp" />
+                android:layout_height="match_parent">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/event_detail_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp" />
+
+                <include
+                    layout="@layout/layout_error"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
         </LinearLayout>
 
     </LinearLayout>
