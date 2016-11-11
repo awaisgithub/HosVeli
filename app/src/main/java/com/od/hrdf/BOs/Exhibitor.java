@@ -144,16 +144,16 @@ public class Exhibitor extends RealmObject {
 //                        context.runOnUiThread(new Runnable() {
 //                            @Override
 //                            public void run() {
-                                try {
-                                    realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(Exhibitor.class, response);
-                                    RealmResults exhibitor = query.findAll();
-                                    realm.commitTransaction();
-                                    callBack.fetchDidSucceed(exhibitor);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
-                                }
+                        try {
+                            realm.beginTransaction();
+                            realm.createOrUpdateAllFromJson(Exhibitor.class, response);
+                            RealmResults exhibitor = query.findAll();
+                            realm.commitTransaction();
+                            callBack.fetchDidSucceed(exhibitor);
+                        } catch (Exception e) {
+                            Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
+                            callBack.fetchDidFail(e);
+                        }
 //                            }
 //                        });
                     }
@@ -172,27 +172,23 @@ public class Exhibitor extends RealmObject {
     }
 
     public static void fetchEventExhibitors(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
-        Log.i(HRDFConstants.TAG, "fetchEventExhibitors = "+url);
+        Log.i(HRDFConstants.TAG, "fetchEventExhibitors = " + url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(Exhibitor.class, response);
-                                   // RealmResults eventExhibitor = query.findAll();
-                                    realm.commitTransaction();
-                                   // callBack.fetchDidSucceed(eventExhibitor);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
-                                }
-                            }
-                        });
+
+                        try {
+                            realm.beginTransaction();
+                            realm.createOrUpdateAllFromJson(Exhibitor.class, response);
+                            // RealmResults eventExhibitor = query.findAll();
+                            realm.commitTransaction();
+                            // callBack.fetchDidSucceed(eventExhibitor);
+                        } catch (Exception e) {
+                            Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
+                            callBack.fetchDidFail(e);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -214,10 +210,9 @@ public class Exhibitor extends RealmObject {
 
         if (isImagePresent) {
             Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-            if(bitmap!=null) {
+            if (bitmap != null) {
                 callBack.fetchImageSucceed(bitmap);
-            }
-            else
+            } else
                 callBack.fetchImageFail("Failed to Load Image");
         } else {
             ImageRequest request = new ImageRequest(imageURL,

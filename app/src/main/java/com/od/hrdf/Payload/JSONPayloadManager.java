@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.od.hrdf.BOs.User;
 import com.od.hrdf.Utils.HRDFConstants;
+import com.od.hrdf.event.speaker.SpeakerRateDialogFrag;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -105,6 +106,68 @@ public class JSONPayloadManager {
         return regInfoJSON;
     }
 
+    public JSONObject getGCMUploadPayload(String userId, String gcmToken) {
+
+        RegPayloadBO regPayloadBO = new RegPayloadBO();
+        regPayloadBO.setOperation(HRDFConstants.DB_OP_CREATE);
+        regPayloadBO.setTable_name(HRDFConstants.GCM_REG_TABLE);
+        regPayloadBO.setKey(null);
+        ArrayList dataList = regPayloadBO.getData();
+        dataList.add(new DataBO("user", userId));
+        dataList.add(new DataBO("deviceType", "Android"));
+        dataList.add(new DataBO("token", gcmToken));
+
+        Gson gson = new Gson();
+        String requestJSON = gson.toJson(regPayloadBO);
+        JSONObject regInfoJSON = null;
+        try {
+            regInfoJSON = new JSONObject(requestJSON);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return regInfoJSON;
+    }
+
+    public JSONObject getUpdateGCMIDPayload(String userId, String gcmToken) {
+
+        RegPayloadBO regPayloadBOUpdate = new RegPayloadBO();
+        regPayloadBOUpdate.setOperation(HRDFConstants.DB_OP_UPDATE);
+        regPayloadBOUpdate.setTable_name(HRDFConstants.GCM_REG_TABLE);
+        ArrayList dataList = regPayloadBOUpdate.getData();
+        dataList.add(new DataBO("token", gcmToken));
+        dataList.add(new DataBO("deviceType", "Android"));
+        ArrayList keyList = regPayloadBOUpdate.getKey();
+        keyList.add(new DataBO("user", userId));
+
+        Gson gson = new Gson();
+        String requestJSON = gson.toJson(regPayloadBOUpdate);
+        Log.i(HRDFConstants.TAG, "requestJSON getUpdateGCMIDPayload=" + requestJSON);
+        JSONObject regInfoJSON = null;
+        try {
+            regInfoJSON = new JSONObject(requestJSON);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.i("AWAIS1", "JSON= " + regInfoJSON.toString());
+        return regInfoJSON;
+    }
+
+    public JSONObject getSpeakerRatingPayload(SpeakerRateDialogFrag.SpeakerRatingBO ratingBO) {
+
+        Gson gson = new Gson();
+        String requestJSON = gson.toJson(ratingBO);
+        Log.i(HRDFConstants.TAG, "requestJSON =" + requestJSON);
+        JSONObject regInfoJSON = null;
+        try {
+            regInfoJSON = new JSONObject(requestJSON);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return regInfoJSON;
+    }
+
     private class RegPayloadBO {
         String operation;
         String table_name;
@@ -184,4 +247,6 @@ public class JSONPayloadManager {
             this.value = value;
         }
     }
+
+
 }

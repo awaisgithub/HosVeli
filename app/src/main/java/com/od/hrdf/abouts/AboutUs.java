@@ -24,8 +24,8 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class AboutUs extends RealmObject {
-   @PrimaryKey
-   private String id;
+    @PrimaryKey
+    private String id;
 
     private String phone;
     private String dateModified;
@@ -194,27 +194,22 @@ public class AboutUs extends RealmObject {
     }
 
     public static void fetchAboutUs(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
-        Log.i(HRDFConstants.TAG, "fetchAboutUs = "+url);
+        Log.i(HRDFConstants.TAG, "fetchAboutUs = " + url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        Log.i(HRDFConstants.TAG, response.toString());
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(AboutUs.class, response);
-                                    RealmResults about = query.findAll();
-                                    realm.commitTransaction();
-                                    callBack.fetchDidSucceed(about);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
-                                }
-                            }
-                        });
+
+                        try {
+                            realm.beginTransaction();
+                            realm.createOrUpdateAllFromJson(AboutUs.class, response);
+                            RealmResults about = query.findAll();
+                            realm.commitTransaction();
+                            callBack.fetchDidSucceed(about);
+                        } catch (Exception e) {
+                            Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
+                            callBack.fetchDidFail(e);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

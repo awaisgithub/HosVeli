@@ -66,6 +66,14 @@ public class EventInfoFragment extends Fragment {
 
         WebView overview = (WebView) rootView.findViewById(R.id.overview);
         overview.setBackgroundColor(0x00000000);
+        //String htmlContent = "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><title>HRDF EVENTS</title><meta name='viewport' content='width=device-width, initial-scale=1'><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'></head><body style='background-color: transparent;color:#000000;font-weight:400;font-size:14px;font-color:#000000;'>"+event.getOverview()+"</body></html>";
+        overview.getSettings().setStandardFontFamily("sans-serif");
+        overview.getSettings().setFixedFontFamily("sans-serif");
+        overview.getSettings().setFantasyFontFamily("sans-serif");
+        overview.getSettings().setDefaultFontSize(14);
+        overview.getSettings().setCursiveFontFamily("sans-serif");
+        overview.getSettings().setSerifFontFamily("sans-serif");
+        overview.getSettings().setSansSerifFontFamily("sans-serif");
         overview.loadData(event.getOverview(), "text/html; charset=utf-8", "UTF-8");
     }
 }

@@ -185,6 +185,7 @@ public class UserEvent extends RealmObject {
     public static UserEvent getUserEvent(Realm realm, String event, String userId) {
         return realm.where(UserEvent.class).equalTo("event", event).equalTo("user", userId).findFirst();
     }
+
     public static RealmResults getAllUserEvents(Realm realm, String userId) {
         return realm.where(UserEvent.class).equalTo("user", userId).findAll().sort("datecreated", Sort.DESCENDING);
     }
@@ -195,44 +196,35 @@ public class UserEvent extends RealmObject {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                realm.beginTransaction();
-                                try {
-                                    Gson gson = new GsonBuilder().create();
-                                    Type collectionType = new TypeToken<ArrayList<UserEvent>>() {
-                                    }.getType();
 
-                                    ArrayList<UserEvent> userEventList = gson.fromJson(response.toString(), collectionType);
+                        realm.beginTransaction();
+                        try {
+                            Gson gson = new GsonBuilder().create();
+                            Type collectionType = new TypeToken<ArrayList<UserEvent>>() {
+                            }.getType();
 
-                                    for(int i=0; i<userEventList.size(); i++){
-                                        Event event = Event.getUpcomingEventById(userEventList.get(i).getEvent(), realm);
-                                        if(event != null) {
-                                            realm.copyToRealmOrUpdate(userEventList.get(i));
-                                        }
-                                    }
+                            ArrayList<UserEvent> userEventList = gson.fromJson(response.toString(), collectionType);
 
-                                    RealmResults users = query.findAll();
-
-                                    callBack.fetchDidSucceed(users);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
+                            for (int i = 0; i < userEventList.size(); i++) {
+                                Event event = Event.getUpcomingEventById(userEventList.get(i).getEvent(), realm);
+                                if (event != null) {
+                                    realm.copyToRealmOrUpdate(userEventList.get(i));
                                 }
-                                realm.commitTransaction();
                             }
-                        });
+
+                            RealmResults users = query.findAll();
+
+                            callBack.fetchDidSucceed(users);
+                        } catch (Exception e) {
+                            Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
+                            callBack.fetchDidFail(e);
+                        }
+                        realm.commitTransaction();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(final VolleyError error) {
-                context.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        callBack.fetchDidFail(error);
-                    }
-                });
+                callBack.fetchDidFail(error);
             }
         });
 

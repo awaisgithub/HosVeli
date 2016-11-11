@@ -101,7 +101,6 @@ public class NewsFragment extends Fragment implements NewsListAdapterInterface {
             public void fetchDidFail(Exception e) {
             }
         });
-
     }
 
     @Override

@@ -9,12 +9,12 @@ import java.io.UnsupportedEncodingException;
  */
 
 public class Api {
-    private static String baseURL = "http://www.mypams.net";
-    //private static String baseURL = "http://103.233.0.208";
+    //private static String baseURL = "http://www.mypams.net";
+    private static String baseURL = "http://103.233.0.208";
 
-    public static String basicBaseURL = "www.mypams.net";
+    //public static String basicBaseURL = "www.mypams.net";
 
-    //public static String basicBaseURL = "103.233.0.208";
+    public static String basicBaseURL = "103.233.0.208";
 
     private static String jogetAppId = "hrdfApp";
     private static String jogetAppVersion = "1";
@@ -55,12 +55,22 @@ public class Api {
         return urlGetJogetList(HRDFConstants.ArticleList);
     }
 
+    public static String urlArticleById(String articleId) {
+        return urlGetJogetList(HRDFConstants.ArticleList, "id", articleId, true);
+    }
+
+
     public static String urlUserList(String userId) {
         return urlGetJogetList(HRDFConstants.UserListId, "id", userId);
     }
 
     public static String urlEventList() {
         return urlGetJogetList(HRDFConstants.EventListId);
+    }
+
+    public static String urlEventById(String eventId) {
+
+        return urlGetJogetList(HRDFConstants.EventListId, "id", eventId, true);
     }
 
     public static String urlUserEventList(String userId) {
@@ -99,12 +109,20 @@ public class Api {
         return "http://"+basicBaseURL+"/jw/web/json/plugin/org.joget.hrdf.forgetPasswordWS/service";
     }
 
+    public static String urlSubmitUserRating() {
+        return "http://"+basicBaseURL+"/jw/web/json/plugin/org.joget.hrdf.eventSpeakerRatingWS/service";
+    }
+
     public static String urlExhibitor(String exhibitorId) {
         return urlGetJogetList(HRDFConstants.ExhibitorsList, "id", exhibitorId);
     }
 
     public static String urlAllExhibitor() {
         return urlGetJogetList(HRDFConstants.ExhibitorsList);
+    }
+
+    public static String urlGCMList(String userId) {
+        return urlGetJogetList(HRDFConstants.USERGCMList, "user", userId);
     }
 
     public static String urlEventExhibitorsList(String eventId) {

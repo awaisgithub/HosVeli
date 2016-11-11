@@ -28,6 +28,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +54,7 @@ public class Event extends RealmObject {
 
     private String contactEmail;
     private Date endDate;
+    private Date endDateTime;
     private String endTime;
     private String facebookLink;
     private String feeEarlybirdGroup;
@@ -393,6 +396,14 @@ public class Event extends RealmObject {
         this.locationLatitude = locationLatitude;
     }
 
+    public Date getEndDateTime() {
+        return endDateTime;
+    }
+
+    public void setEndDateTime(Date endDateTime) {
+        this.endDateTime = endDateTime;
+    }
+
     public RealmList<EventSponsor> getSponsors() {
         return sponsors;
     }
@@ -408,7 +419,7 @@ public class Event extends RealmObject {
 
     public static Event getUpcomingEventById(String id, Realm realm) {
         Date today = new Date();
-        return realm.where(Event.class).equalTo("id", id).greaterThanOrEqualTo("endDate", today).findFirst();
+        return realm.where(Event.class).equalTo("id", id).greaterThanOrEqualTo("endDateTime", today).findFirst();
     }
 
     public static Event getEvent(String id, Realm realm) {
@@ -417,37 +428,37 @@ public class Event extends RealmObject {
 
     public static RealmResults<Event> getUpFavEvents(Realm realm) {
         Date today = new Date();
-        return realm.where(Event.class).equalTo("isFavourite", true).greaterThanOrEqualTo("endDate", today)
+        return realm.where(Event.class).equalTo("isFavourite", true).greaterThanOrEqualTo("endDateTime", today)
                 .findAll();
     }
 
     public static RealmResults<Event> getUpcomingEvents(Realm realm) {
         Date today = new Date();
-        return realm.where(Event.class).greaterThanOrEqualTo("endDate", today)
+        return realm.where(Event.class).greaterThanOrEqualTo("endDateTime", today)
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
     public static RealmResults<Event> getUpcomingRegisteredEvents(Realm realm, String userId) {
         Date today = new Date();
-        return realm.where(Event.class).equalTo("isBookedLocal", true).greaterThanOrEqualTo("endDate", today)
+        return realm.where(Event.class).equalTo("isBookedLocal", true).greaterThanOrEqualTo("endDateTime", today)
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
     public static Event checkIfEventIsPassed(Realm realm, String eventId) {
         Date today = new Date();
-        return realm.where(Event.class).equalTo("id", eventId).lessThanOrEqualTo("endDate", today)
+        return realm.where(Event.class).equalTo("id", eventId).lessThanOrEqualTo("endDateTime", today)
                 .findFirst();
     }
 
     public static RealmResults<Event> getPastEvents(Realm realm) {
         Date today = new Date();
-        return realm.where(Event.class).lessThan("endDate", today)
+        return realm.where(Event.class).lessThan("endDateTime", today)
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
     public static RealmResults<Event> getSurveyEvents(Realm realm) {
         Date today = new Date();
-        return realm.where(Event.class).lessThan("endDate", today).isNotNull("surveyId").isNotEmpty("surveyId")
+        return realm.where(Event.class).lessThan("endDateTime", today).isNotNull("surveyId").isNotEmpty("surveyId")
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
@@ -471,6 +482,18 @@ public class Event extends RealmObject {
                                 Log.i(HRDFConstants.TAG, "jsonString - " + jsonString);
                                 realm.beginTransaction();
                                 for (Event event : eventList) {
+                                    SimpleDateFormat simpleDate =  new SimpleDateFormat("MM/dd/yyyy");
+                                    String date = simpleDate.format(event.getEndDate());
+                                    String dateTime = date+"T"+event.getEndTime()+":00";
+                                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy'T'HH:mm:ss");
+                                    try {
+                                        Date timeObj = formatter.parse(dateTime);
+                                        event.setEndDateTime(timeObj);
+                                        Log.i(HRDFConstants.TAG, "timeObj ="+timeObj.getTime());
+                                    } catch (ParseException e) {
+                                        event.setEndDateTime(event.getEndDate());
+                                        e.printStackTrace();
+                                    }
                                     Event localEvent = getEvent(event.getId(), realm);
                                     if(localEvent != null)
                                         event.setFavourite(localEvent.getFavourite());

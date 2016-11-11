@@ -3,6 +3,7 @@ package com.od.hrdf.event.speaker;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,9 +20,9 @@ public class SpeakerTopicListViewHolder extends RecyclerView.ViewHolder {
     LinearLayout parent = null;
 
     public final TextView title;
-    public final TextView moreInfo;
+    public final WebView moreInfo;
 
-    public SpeakerTopicListViewHolder(View parentView, final LinearLayout parentLayout, TextView title, TextView moreInfo) {
+    public SpeakerTopicListViewHolder(View parentView, final LinearLayout parentLayout, TextView title, WebView moreInfo) {
         super(parentView);
         this.parent = parentLayout;
         this.title = title;
@@ -32,7 +33,7 @@ public class SpeakerTopicListViewHolder extends RecyclerView.ViewHolder {
 
         LinearLayout parentLayout = (LinearLayout) parent.findViewById(R.id.parent_layout);
         TextView title = (TextView) parent.findViewById(R.id.title);
-        TextView moreInfo = (TextView) parent.findViewById(R.id.more_info);
+        WebView moreInfo = (WebView) parent.findViewById(R.id.more_info);
 
         return new SpeakerTopicListViewHolder(parent, parentLayout, title, moreInfo);
     }

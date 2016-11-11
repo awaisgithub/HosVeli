@@ -72,21 +72,17 @@ public class Floorplan extends RealmObject {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(Floorplan.class, response);
-                                    RealmResults floorPlan = query.findAll();
-                                    realm.commitTransaction();
-                                    callBack.fetchDidSucceed(floorPlan);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
-                                }
-                            }
-                        });
+
+                        try {
+                            realm.beginTransaction();
+                            realm.createOrUpdateAllFromJson(Floorplan.class, response);
+                            RealmResults floorPlan = query.findAll();
+                            realm.commitTransaction();
+                            callBack.fetchDidSucceed(floorPlan);
+                        } catch (Exception e) {
+                            Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
+                            callBack.fetchDidFail(e);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

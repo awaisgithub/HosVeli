@@ -49,25 +49,42 @@ public class SpeakerDocument extends RealmObject {
         this.dateCreated = dateCreated;
     }
 
-    public String getId() { return id; }
+    public String getId() {
+        return id;
+    }
 
-    public void setId(String id) { this.id = id; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getEvent() { return event; }
+    public String getEvent() {
+        return event;
+    }
 
-    public void setEvent(String event) { this.event = event; }
+    public void setEvent(String event) {
+        this.event = event;
+    }
 
-    public String getSpeaker() { return speaker; }
+    public String getSpeaker() {
+        return speaker;
+    }
 
-    public void setSpeaker(String speaker) { this.speaker = speaker; }
+    public void setSpeaker(String speaker) {
+        this.speaker = speaker;
+    }
 
-    public RealmList<Document> getDocuments() { return documents; }
+    public RealmList<Document> getDocuments() {
+        return documents;
+    }
 
-    public void setDocuments(RealmList<Document> documents) { this.documents = documents; }
+    public void setDocuments(RealmList<Document> documents) {
+        this.documents = documents;
+    }
 
     public RealmResults getSpeakerDocuments() {
         return documents.where().findAll();
     }
+
     public static SpeakerDocument getSpeakerDocument(Realm realm, String speakerId) {
         return realm.where(SpeakerDocument.class).equalTo("speaker", speakerId).findFirst();
     }
@@ -77,26 +94,22 @@ public class SpeakerDocument extends RealmObject {
     }
 
     public static void fetchSpeakerDocuments(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
-        Log.i(HRDFConstants.TAG, "fetchSpeakerDocuments = "+url);
+        Log.i(HRDFConstants.TAG, "fetchSpeakerDocuments = " + url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(SpeakerDocument.class, response);
-                                    RealmResults eventDocumentId = query.findAll();
-                                    callBack.fetchDidSucceed(eventDocumentId);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
-                                }
-                                realm.commitTransaction();
-                            }
-                        });
+
+                        try {
+                            realm.beginTransaction();
+                            realm.createOrUpdateAllFromJson(SpeakerDocument.class, response);
+                            RealmResults eventDocumentId = query.findAll();
+                            callBack.fetchDidSucceed(eventDocumentId);
+                        } catch (Exception e) {
+                            Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
+                            callBack.fetchDidFail(e);
+                        }
+                        realm.commitTransaction();
                     }
                 }, new Response.ErrorListener() {
             @Override

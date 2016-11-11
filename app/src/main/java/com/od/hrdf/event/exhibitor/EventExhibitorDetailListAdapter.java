@@ -33,13 +33,13 @@ import io.realm.RealmResults;
 
 public class EventExhibitorDetailListAdapter extends RealmRecyclerViewAdapter<EventExhibitor, RecyclerView.ViewHolder> {
     private Context context;
-    private EventListAdapterInterface eventListAdapterInterface;
+    private ExhibitorListParentInterface exhibitorListParentInterface;
     private OrderedRealmCollection<EventExhibitor> data;
     private View view;
 
-    public EventExhibitorDetailListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<EventExhibitor> data, EventListAdapterInterface eventListAdapterInterface, boolean autoUpdate) {
+    public EventExhibitorDetailListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<EventExhibitor> data, ExhibitorListParentInterface eventListAdapterInterface, boolean autoUpdate) {
         super(context, data, autoUpdate);
-        this.eventListAdapterInterface = eventListAdapterInterface;
+        this.exhibitorListParentInterface = eventListAdapterInterface;
         this.data = data;
     }
 
@@ -80,6 +80,13 @@ public class EventExhibitorDetailListAdapter extends RealmRecyclerViewAdapter<Ev
                     .build();
             viewHolder.imageView.setController(controller);
         }
+
+        viewHolder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exhibitorListParentInterface.showDetail(exhibitor.getImage(), eventExhibitor.getDescription(),  exhibitor.getName());
+            }
+        });
 
     }
 

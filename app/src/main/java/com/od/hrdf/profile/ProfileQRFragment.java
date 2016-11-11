@@ -2,10 +2,14 @@ package com.od.hrdf.profile;
 
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,16 +19,24 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.od.hrdf.BOs.User;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 
+import net.glxn.qrgen.android.QRCode;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.EnumMap;
+import java.util.Map;
 
 import io.realm.RealmResults;
 
@@ -81,11 +93,12 @@ public class ProfileQRFragment extends Fragment {
         imageView = (ImageView) rootView.findViewById(R.id.imageView3);
         user = User.getCurrentUser(realm);
         if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
+            //imageView.setImageBitmap(bitmap);
         }
 
         //REFRESH BUTTON
         refresh = (ImageButton) rootView.findViewById(R.id.imageButton2);
+        refresh.getDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.colorToolBar), PorterDuff.Mode.SRC_ATOP);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,12 +132,16 @@ public class ProfileQRFragment extends Fragment {
         if (getActivity() == null)
             return null;
 
+        Map<EncodeHintType, Object> hints = null;
+        hints = new EnumMap<EncodeHintType, Object>(EncodeHintType.class);
+        //hints.put(EncodeHintType.CHARACTER_SET, encoding);
+        hints.put(EncodeHintType.MARGIN, 2); /* default = 4 */
         BitMatrix bitMatrix;
         try {
             bitMatrix = new MultiFormatWriter().encode(
                     Value,
                     BarcodeFormat.DATA_MATRIX.QR_CODE,
-                    QRcodeWidth, QRcodeWidth, null
+                    QRcodeWidth, QRcodeWidth, hints
             );
 
             int bitMatrixWidth = bitMatrix.getWidth();

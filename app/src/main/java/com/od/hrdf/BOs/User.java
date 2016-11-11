@@ -11,6 +11,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 import com.od.hrdf.CallBack.CheckCallBack;
 import com.od.hrdf.CallBack.LoginCallBack;
 import com.od.hrdf.CallBack.StatusCallBack;
@@ -341,8 +344,19 @@ public class User extends RealmObject {
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(id).matches())
             return new Pair<Boolean, String>(false, HRDFApplication.context.getResources().getString(R.string.reg_error_email));
 
-        if (!Patterns.PHONE.matcher(contactNumber).matches())
+        if (!Patterns.PHONE.matcher(contactNumber).matches()) {
             return new Pair<Boolean, String>(false, HRDFApplication.context.getResources().getString(R.string.reg_error_contact_number));
+        }
+
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        try {
+            Phonenumber.PhoneNumber malaysianNumberProto = phoneUtil.parse(contactNumber, "MY");
+            if(phoneUtil.isValidNumberForRegion(malaysianNumberProto, "MY") == false) {
+                return new Pair<Boolean, String>(false, HRDFApplication.context.getResources().getString(R.string.reg_error_not_malay_contact_number));
+            }
+        } catch (NumberParseException e) {
+            System.err.println("NumberParseException was thrown: " + e.toString());
+        }
 
         if (nationality.isEmpty() || nationality == null)
             return new Pair<Boolean, String>(false, HRDFApplication.context.getResources().getString(R.string.reg_error_nationality));
@@ -456,6 +470,43 @@ public class User extends RealmObject {
         });
         HRDFApplication.getInstance().addToRequestQueue(userUpdation);
     }
+
+    public static void addGCMId(String userId, String gcmId, String url, final StatusCallBack callBack) {
+        JSONObject jsonObject = JSONPayloadManager.getInstance().getGCMUploadPayload(userId, gcmId);
+        JsonObjectRequest updateGCMId = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callBack.success(response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callBack.failure(error.toString());
+
+            }
+        });
+        HRDFApplication.getInstance().addToRequestQueue(updateGCMId);
+    }
+
+    public static void updateGCMId(String userId, String gcmId, String url, final StatusCallBack callBack) {
+        JSONObject jsonObject = JSONPayloadManager.getInstance().getUpdateGCMIDPayload(userId, gcmId);
+        JsonObjectRequest updateGCMId = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callBack.success(response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callBack.failure(error.toString());
+
+            }
+        });
+        HRDFApplication.getInstance().addToRequestQueue(updateGCMId);
+    }
+
 
     public static void forgotPassword(Activity context, String url, final String Email) {
         String jStr = "{\"email\":\"" + Email + "\"}";

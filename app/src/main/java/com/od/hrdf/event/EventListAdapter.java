@@ -100,11 +100,20 @@ public class EventListAdapter extends RealmRecyclerViewAdapter<Event, RecyclerVi
             viewHolder.summaryImageView.setController(controller);
         }
 
+//        viewHolder.summaryImageView.setTag(event.getId());
+//        viewHolder.summaryImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.i(HRDFConstants.TAG, "Item clicked eventId="+event.getId());
+//                eventListAdapterInterface.performOperationOnEvent(EventListAdapterInterface.EventOP.LAUNCH_ACTIVITY, event.getId());
+//            }
+//        });
+
         viewHolder.parent.setTag(event.getId());
         viewHolder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                eventListAdapterInterface.performOperationOnEvent(EventListAdapterInterface.EventOP.LAUNCH_ACTIVITY, event.getId());
+                eventListAdapterInterface.gotoDetailActivity(((String) view.getTag()));
             }
         });
 

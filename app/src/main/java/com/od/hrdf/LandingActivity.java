@@ -202,7 +202,8 @@ public class LandingActivity extends AppCompatActivity {
 //                        Log.i("AWAIS1", " !!!FAIL FAIL FAIL!!! = " + e.toString());
 //                    }
 //                });
-
+http://www.mypams.net/jw/web/json/plugin/org.od.webservice.JsonApiPlugin2/service?appId=hrdfApp&listId=hrdfEventSpeakerTopicList&action=list&filter1Column=event&filter1Value=6eaff16c-7f000010-9bb09e10-e19925f5&filter2Column=speaker&filter2Value=b649fc89-7f000010-9bb09e10-19affd91&imageUrl=Yes
+http://www.mypams.net/jw/web/json/plugin/org.od.webservice.JsonApiPlugin2/service?appId=hrdfApp&listId=hrdfEventSpeakerTopicList&action=list&filter1Column=event&filter1Value=b649fc89-7f000010-9bb09e10-19affd91&filter2Column=speaker&filter2Value=6eaff16c-7f000010-9bb09e10-e19925f5&imageUrl=Yes
          //TEST of fetchEventSpeakerTopic
 //                RealmQuery query;
 //        Log.i(HRDFConstants.TAG, Api.urlEventSpeakerTopic("6eaff16c-7f000010-9bb09e10-e19925f5", "b649fc89-7f000010-9bb09e10-19affd91"));
@@ -219,11 +220,11 @@ public class LandingActivity extends AppCompatActivity {
 //                    }
 //                });
 
-//  TEST of fetchEventDocumentId
+//  TEST of fetchSpeakerDocuments
 //                RealmQuery query;
 //        Log.i(HRDFConstants.TAG, Api.urlDocumentIds("74fc7e5f-7f000010-9bb09e10-ac03266e"));
-//        query = realm.where(DocumentId.class).equalTo("speaker", "74fc7e5f-7f000010-9bb09e10-ac03266e");
-//        DocumentId.fetchEventDocumentId(this, realm, Api.urlDocumentIds("74fc7e5f-7f000010-9bb09e10-ac03266e"), query, new FetchCallBack() {
+//        query = realm.where(SpeakerDocument.class).equalTo("speaker", "74fc7e5f-7f000010-9bb09e10-ac03266e");
+//        SpeakerDocument.fetchSpeakerDocuments(this, realm, Api.urlDocumentIds("74fc7e5f-7f000010-9bb09e10-ac03266e"), query, new FetchCallBack() {
 //                    @Override
 //                    public void fetchDidSucceed(RealmResults fetchedItems) {
 //                        Log.i("AWAIS1", " !!!RESULT LIST!!! = " + fetchedItems.toString());

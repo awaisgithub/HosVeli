@@ -44,7 +44,7 @@ public class AgendsMainActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agends_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Agenda");
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -95,7 +95,7 @@ public class AgendsMainActivity extends AppCompatActivity implements View.OnClic
         Agenda.fetchEventAgenda(this, realm, Api.urlEventAgenda(eventId), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(HRDFConstants.TAG, "!!!!RESULT LIST   YES!!!!= " + fetchedItems.toString());
+
             }
 
             @Override

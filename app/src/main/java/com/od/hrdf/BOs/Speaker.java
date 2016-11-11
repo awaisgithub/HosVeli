@@ -3,15 +3,21 @@ package com.od.hrdf.BOs;
 import android.app.Activity;
 import android.util.Log;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.od.hrdf.CallBack.FetchCallBack;
+import com.od.hrdf.CallBack.StatusCallBack;
 import com.od.hrdf.HRDFApplication;
+import com.od.hrdf.Payload.JSONPayloadManager;
 import com.od.hrdf.Utils.HRDFConstants;
+import com.od.hrdf.event.speaker.SpeakerRateDialogFrag;
 import com.od.hrdf.profile.ProfileQRFragment;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -348,5 +354,24 @@ public class Speaker extends RealmObject {
             }
         });
         HRDFApplication.getInstance().addToRequestQueue(req);
+    }
+
+    public static void rateSpeaker(String url, SpeakerRateDialogFrag.SpeakerRatingBO ratingBO, final StatusCallBack callBack) {
+        Log.i(HRDFConstants.TAG, "performUserRegistration =" + url);
+        JSONObject jsonObject = JSONPayloadManager.getInstance().getSpeakerRatingPayload(ratingBO);
+        JsonObjectRequest rsvpRegistration = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callBack.success(response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callBack.failure(error.toString());
+
+            }
+        });
+        HRDFApplication.getInstance().addToRequestQueue(rsvpRegistration);
     }
 }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -47,7 +48,7 @@ public class ProfileMyProfileFragment extends Fragment {
     User user;
     ViewSwitcher viewSwitcher;
     TextView edit;
-    Button back;
+    ImageButton back;
     Button submit_button;
     private EditText nameTV;
     private EditText emailTV;
@@ -91,7 +92,7 @@ public class ProfileMyProfileFragment extends Fragment {
 
         viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.edit_switcher);
         edit = (TextView) rootView.findViewById(R.id.textView5);
-        back = (Button) rootView.findViewById(R.id.back);
+        back = (ImageButton) rootView.findViewById(R.id.back);
         submit_button = (Button) rootView.findViewById(R.id.submit_button);
 
         name = (TextView) rootView.findViewById(R.id.profile_name);

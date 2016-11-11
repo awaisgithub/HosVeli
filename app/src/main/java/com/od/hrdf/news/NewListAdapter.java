@@ -53,8 +53,6 @@ public class NewListAdapter extends RealmRecyclerViewAdapter<Article, RecyclerVi
 
         viewHolder.title.setText(newsItem.getTitle());
         viewHolder.description.setText(Html.fromHtml(newsItem.getDescription()));
-        //viewHolder.description.setVerticalScrollBarEnabled(false);
-        //viewHolder.description.loadData(newsItem.getDescription(), "text/html; charset=utf-8", "UTF-8");
         viewHolder.dummyView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

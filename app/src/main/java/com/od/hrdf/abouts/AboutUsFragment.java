@@ -3,11 +3,14 @@ package com.od.hrdf.abouts;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +69,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         realm = Realm.getDefaultInstance();
         initViews();
+        Log.i(HRDFConstants.TAG, "Default typeface = "+Typeface.DEFAULT);
         aboutUs = realm.where(AboutUs.class).findFirst();
         if (aboutUs != null)
             setInfo();
@@ -119,7 +123,7 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
 
         webView = (WebView) rootView.findViewById(R.id.web_view);
         webView.setBackgroundColor(0x00000000);
-        webView.getSettings().setJavaScriptEnabled(true);
+       // webView.getSettings().setJavaScriptEnabled(true);
 
         address = (TextView) rootView.findViewById(R.id.address);
         contact = (TextView) rootView.findViewById(R.id.contact);
@@ -160,8 +164,18 @@ public class AboutUsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setInfo() {
+        String htmlContent = "<!DOCTYPE html><html lang='en'><head><meta charset='utf-8'><title>HRDF EVENTS</title><meta name='viewport' content='width=device-width, initial-scale=1'><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'></head><body style='background-color: transparent;color:#000000;font-family:sans-serif;font-weight:400;font-size:14px;font-color:#000000;'>"+aboutUs.getAboutUs()+"</body></html>";
+        webView.getSettings().setStandardFontFamily("sans-serif");
+        webView.getSettings().setFixedFontFamily("sans-serif");
+        webView.getSettings().setFantasyFontFamily("sans-serif");
+        webView.getSettings().setCursiveFontFamily("sans-serif");
+        webView.getSettings().setSerifFontFamily("sans-serif");
+        webView.getSettings().setSansSerifFontFamily("sans-serif");
+        webView.getSettings().setDefaultFontSize(14);
         webView.loadData(aboutUs.getAboutUs(), "text/html; charset=utf-8", "UTF-8");
         webView.setVerticalScrollBarEnabled(false);
+        //webView.setText(Html.fromHtml(aboutUs.getAboutUs()));
+        //webView.setMovementMethod(new ScrollingMovementMethod());
         SimpleDraweeView headerImageView = (SimpleDraweeView) rootView.findViewById(R.id.header_imageview);
         //ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithResourceId(R.drawable.login_bg).build();
         headerImageView.setImageURI(aboutUs.getAboutUsBanner());

@@ -112,16 +112,21 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
         recyclerView.setLayoutManager(linearLayoutManager);
         Log.i(HRDFConstants.TAG, "initViews = "+type);
 
-        fetchUserEvents();
-
         if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_UPCOMING)) {
+
             realmResults = Event.getUpcomingEvents(realm);
             if(realmResults.size() < 1) {
                 showMessage(R.string.event_upcoming_not_availble);
             }
             EventListAdapter eventListAdapter = new EventListAdapter(getActivity(), realmResults, this, true);
             recyclerView.setAdapter(eventListAdapter);
-            fetchAllEvents();
+            recyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    fetchUserEvents();
+                    fetchAllEvents();
+                }
+            });
         } else if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_ARCHIVE)) {
             realmResults = Event.getPastEvents(realm);
             if(realmResults.size() < 1) {
@@ -129,25 +134,27 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
             }
             EventListAdapter eventListAdapter = new EventListAdapter(getActivity(), realmResults, this, true);
             recyclerView.setAdapter(eventListAdapter);
-            fetchAllEvents();
+            recyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    fetchAllEvents();
+                }
+            });
         } else if (type.equalsIgnoreCase(EventFragment.LIST_TYPE_MY_EVENTS)) {
             realmResults = UserEvent.getAllUserEvents(realm, user.getId());
             if(realmResults.size() < 1) {
                 showMessage(R.string.event_not_book);
             } else {
-//                for(int i=0; i<realmResults.size(); i++){
-//                    UserEvent userEvent = ((UserEvent)realmResults.get(i));
-//                    Event event = Event.getUpcomingEventById(userEvent.getEvent(), realm);
-//                    if(event == null) {
-//                        realm.beginTransaction();
-//                        UserEvent.deleteFromRealm(userEvent);
-//                        realm.commitTransaction();
-//                    }
-//                }
             }
 
             UserEventListAdapter userEventListAdapter = new UserEventListAdapter(getActivity(), realmResults, this, true);
             recyclerView.setAdapter(userEventListAdapter);
+            recyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    fetchUserEvents();
+                }
+            });
         } else if(type.equalsIgnoreCase(EventFragment.LIST_TYPE_FAV_EVENTS)) {
             realmResults = Event.getUpFavEvents(realm);
             if(realmResults.size() < 1) {
@@ -155,7 +162,12 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
             }
             EventListAdapter eventListAdapter = new EventListAdapter(getActivity(), realmResults, this, true);
             recyclerView.setAdapter(eventListAdapter);
-            fetchAllEvents();
+            recyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    fetchAllEvents();
+                }
+            });
         } else if(type.equalsIgnoreCase(EventFragment.LIST_TYPE_FEEDBACK)){
             realmResults = Event.getSurveyEvents(realm);
             if(realmResults.size() < 1) {
@@ -163,7 +175,12 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
             }
             EventFeedbackListAdapter eventFeedbackListAdapter = new EventFeedbackListAdapter(getActivity(), realmResults, this, true);
             recyclerView.setAdapter(eventFeedbackListAdapter);
-            fetchAllEvents();
+            recyclerView.post(new Runnable() {
+                @Override
+                public void run() {
+                    fetchAllEvents();
+                }
+            });
         }
 
 
@@ -186,7 +203,6 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
         Event.fetchAllEvents(getActivity(), realm, Api.urlEventList(), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                Log.i(HRDFConstants.TAG, "!!!!RESULTLIST!!!!= " + fetchedItems.toString());
             }
 
             @Override
@@ -203,15 +219,6 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
         UserEvent.fetchUserEvents(getActivity(), realm, Api.urlUserEventList(user.getId()), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-//                for(int i=0; i<fetchedItems.size(); i++){
-//                    UserEvent userEvent = ((UserEvent)fetchedItems.get(i));
-//                    Event event = Event.getUpcomingEventById(userEvent.getEvent(), realm);
-//                    if(event == null) {
-//                        realm.beginTransaction();
-//                        UserEvent.deleteFromRealm(userEvent);
-//                        realm.commitTransaction();
-//                    }
-//                }
             }
 
             @Override
@@ -254,6 +261,7 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
                 realm.commitTransaction();
                 break;
             case LAUNCH_ACTIVITY:
+                Log.i(HRDFConstants.TAG, "Item clicked LAUNCH_ACTIVITY type="+type+" Type "+eventId);
                 if(type.equalsIgnoreCase(EventFragment.LIST_TYPE_FEEDBACK)){
                     event = Event.getEvent(eventId, realm);
                     sdkInstance.onStart(getActivity(), getString(R.string.app_name), 0, event.getSurveyId());

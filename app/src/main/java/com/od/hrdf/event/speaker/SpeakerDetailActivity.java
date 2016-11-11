@@ -1,6 +1,7 @@
 package com.od.hrdf.event.speaker;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,8 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -29,6 +32,8 @@ import com.od.hrdf.Utils.SectionsPagerAdapter;
 import com.od.hrdf.event.speaker.uploads.SpeakerUploadsFragment;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
+import io.realm.RealmChangeListener;
+import io.realm.RealmModel;
 
 import static com.od.hrdf.HRDFApplication.realm;
 
@@ -73,7 +78,6 @@ public class SpeakerDetailActivity extends AppCompatActivity implements View.OnC
             image = image.replaceAll(" ", "%20");
             Uri uri = Uri.parse(image);
             speakerPhoto.setImageURI(uri);
-            speakerPhoto.setScaleType(ImageView.ScaleType.FIT_XY);
             DraweeController controller = Fresco.newDraweeControllerBuilder()
                     .setControllerListener(controllerListener)
                     .setUri(uri)
@@ -105,28 +109,49 @@ public class SpeakerDetailActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener(){
-
+        final TextView likeMeButton = (TextView) findViewById(R.id.button_like);
+        likeMeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                realm.beginTransaction();
-                speaker.setRating(v);
-                speaker.setRated(true);
-                realm.commitTransaction();
+            public void onClick(View view) {
+                SpeakerRateDialogFrag speakerRateDialogFrag = new SpeakerRateDialogFrag();
+                speakerRateDialogFrag.setSpeakerDetails(speakerId, eventId);
+                speakerRateDialogFrag.show(getSupportFragmentManager(), "Speaker Rating Fragment");
             }
         });
 
+        final RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+
         if(speaker.isRated()) {
             //ratingBar.setEnabled(false);
+            likeMeButton.setVisibility(View.GONE);
+            ratingBar.setVisibility(View.VISIBLE);
             ratingBar.setIsIndicator(true);
             ratingBar.setRating(speaker.getRating());
+        } else {
+            RelativeLayout.LayoutParams llp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            llp.setMargins(0, 0, 0, 0); // llp.setMargins(left, top, right, bottom);
+            name.setLayoutParams(llp);
+            likeMeButton.setVisibility(View.VISIBLE);
+            ratingBar.setVisibility(View.GONE);
         }
 
         Event event = Event.checkIfEventIsPassed(realm, eventId);
         if(event == null) {
+            likeMeButton.setVisibility(View.GONE);
             ratingBar.setVisibility(View.GONE);
         }
+
+        speaker.addChangeListener(new RealmChangeListener<RealmModel>() {
+            @Override
+            public void onChange(RealmModel element) {
+                Speaker speaker = (Speaker) element;
+                likeMeButton.setVisibility(View.GONE);
+                ratingBar.setVisibility(View.VISIBLE);
+                ratingBar.setIsIndicator(true);
+                ratingBar.setRating(speaker.getRating());
+            }
+        });
+
     }
 
     private void setupViewPager(ViewPager viewPager) {

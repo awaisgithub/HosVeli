@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Animatable;
 import android.net.ParseException;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -40,11 +41,14 @@ import io.realm.RealmResults;
 public class EventExhibitorListAdapter extends RealmRecyclerViewAdapter<EventExhibitor, RecyclerView.ViewHolder> {
     private Context context;
     private OrderedRealmCollection<EventExhibitor> data;
+    private ExhibitorListParentInterface exhibitorListParentInterface;
+    private EventExhibitorDetailListAdapter eventExhibitorDetailListAdapter;
     private View view;
 
-    public EventExhibitorListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<EventExhibitor> data, boolean autoUpdate) {
+    public EventExhibitorListAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<EventExhibitor> data, ExhibitorListParentInterface exhibitorListParentInterface, boolean autoUpdate) {
         super(context, data, true);
         this.data = data;
+        this.exhibitorListParentInterface = exhibitorListParentInterface;
     }
 
     @Override
@@ -59,23 +63,13 @@ public class EventExhibitorListAdapter extends RealmRecyclerViewAdapter<EventExh
         final EventExhibitorViewHolder viewHolder = (EventExhibitorViewHolder) holder;
         final EventExhibitor eventExhibitor = data.get(position);
         viewHolder.title.setText(eventExhibitor.getExhibitorcategoryname());
-        RealmResults realmResults = EventExhibitor.getExhibitorForCategory(HRDFApplication.realm, eventExhibitor.getExhibitorCategoryName(), eventExhibitor.getEvent());
-        EventExhibitorDetailListAdapter eventExhibitorDetailListAdapter = new EventExhibitorDetailListAdapter(context, realmResults, null, true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) {
-            @Override
-            protected int getExtraLayoutSpace(RecyclerView.State state) {
-                return 300;
-            }
-        };
-        viewHolder.sessionListView.setLayoutManager(linearLayoutManager);
-        viewHolder.sessionListView.setAdapter(eventExhibitorDetailListAdapter);
 
         viewHolder.parent.setTag(false);
         viewHolder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean isExpanded = (boolean) view.getTag();
-                if(isExpanded) {
+                if (isExpanded) {
                     view.setTag(false);
                     viewHolder.sessionListView.setVisibility(View.GONE);
                     viewHolder.arrowButton.setImageResource(R.drawable.expand);
@@ -83,46 +77,46 @@ public class EventExhibitorListAdapter extends RealmRecyclerViewAdapter<EventExh
                     view.setTag(true);
                     viewHolder.sessionListView.setVisibility(View.VISIBLE);
                     viewHolder.arrowButton.setImageResource(R.drawable.expanded);
+                    final RealmResults realmResults = EventExhibitor.getExhibitorForCategory(HRDFApplication.realm, eventExhibitor.getExhibitorCategoryName(), eventExhibitor.getEvent());
+                    new LoadSubItems(viewHolder.sessionListView, context, realmResults, exhibitorListParentInterface).execute();
                 }
             }
         });
-
-//        viewHolder.arrowButton.setTag(false);
-//        viewHolder.arrowButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                boolean isExpanded = (boolean) view.getTag();
-//                if(isExpanded) {
-//                    view.setTag(false);
-//                    viewHolder.sessionListView.setVisibility(View.GONE);
-//                    viewHolder.arrowButton.setImageResource(R.drawable.expand);
-//                } else {
-//                    view.setTag(true);
-//                    viewHolder.sessionListView.setVisibility(View.VISIBLE);
-//                    viewHolder.arrowButton.setImageResource(R.drawable.expanded);
-//                }
-//            }
-//        });
-
     }
 
-    ControllerListener controllerListener = new BaseControllerListener<ImageInfo>() {
-        @Override
-        public void onFinalImageSet(
-                String id,
-                @Nullable ImageInfo imageInfo,
-                @Nullable Animatable anim) {
+    class LoadSubItems extends AsyncTask<Void, Void, EventExhibitorDetailListAdapter> {
 
+        RecyclerView recyclerView;
+        private Context context;
+        private OrderedRealmCollection<EventExhibitor> data;
+        private ExhibitorListParentInterface exhibitorListParentInterface;
+
+        public LoadSubItems(RecyclerView recyclerView, Context context, OrderedRealmCollection<EventExhibitor> realmResults, ExhibitorListParentInterface exhibitorListParentInterface) {
+            this.context = context;
+            data = realmResults;
+            this.exhibitorListParentInterface = exhibitorListParentInterface;
+            this.recyclerView = recyclerView;
         }
 
         @Override
-        public void onIntermediateImageSet(String id, @Nullable ImageInfo imageInfo) {
+        protected EventExhibitorDetailListAdapter doInBackground(Void... voids) {
+            EventExhibitorDetailListAdapter eventExhibitorDetailListAdapter = new EventExhibitorDetailListAdapter(context, data, exhibitorListParentInterface, true);
 
+            return eventExhibitorDetailListAdapter;
         }
 
         @Override
-        public void onFailure(String id, Throwable throwable) {
+        protected void onPostExecute(EventExhibitorDetailListAdapter eventExhibitorDetailListAdapter) {
+            super.onPostExecute(eventExhibitorDetailListAdapter);
 
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context) {
+                @Override
+                protected int getExtraLayoutSpace(RecyclerView.State state) {
+                    return 300;
+                }
+            };
+            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setAdapter(eventExhibitorDetailListAdapter);
         }
-    };
+    }
 }

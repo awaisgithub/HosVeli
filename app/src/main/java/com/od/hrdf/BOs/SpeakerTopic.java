@@ -29,7 +29,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 
-public class  SpeakerTopic extends RealmObject {
+public class SpeakerTopic extends RealmObject {
     @PrimaryKey
     private String id;
 
@@ -114,7 +114,7 @@ public class  SpeakerTopic extends RealmObject {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                  //      Log.i("AWAIS1", response.toString());
+                        //      Log.i("AWAIS1", response.toString());
                         context.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -147,26 +147,23 @@ public class  SpeakerTopic extends RealmObject {
     }
 
     public static void fetchEventSpeakerTopic(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
-        Log.i(HRDFConstants.TAG, "fetchEventSpeakerTopic ="+url);
+        Log.i(HRDFConstants.TAG, "fetchEventSpeakerTopic =" + url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(SpeakerTopic.class, response);
-                                    RealmResults eventSpeakerTopic = query.findAll();
-                                    realm.commitTransaction();
-                                    callBack.fetchDidSucceed(eventSpeakerTopic);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
-                                }
-                            }
-                        });
+
+                        try {
+                            realm.beginTransaction();
+                            realm.createOrUpdateAllFromJson(SpeakerTopic.class, response);
+                            RealmResults eventSpeakerTopic = query.findAll();
+                            realm.commitTransaction();
+                            callBack.fetchDidSucceed(eventSpeakerTopic);
+                        } catch (Exception e) {
+                            Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
+                            callBack.fetchDidFail(e);
+                        }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

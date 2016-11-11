@@ -1,6 +1,7 @@
 package com.od.hrdf.event.exhibitor;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,11 +33,12 @@ import io.realm.RealmResults;
 
 import static com.od.hrdf.HRDFApplication.realm;
 
-public class ExhibitorListFragment extends Fragment {
+public class ExhibitorListFragment extends Fragment implements ExhibitorListParentInterface {
     private static final String ARG_PARAM1 = "param1";
     private String eventId;
     private String mParam2;
     private View rootView;
+    private RealmResults realmResults = null;
 
     public ExhibitorListFragment() {
     }
@@ -68,7 +70,6 @@ public class ExhibitorListFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initViews();
-        fetchExhibitors();
     }
 
     private void initViews() {
@@ -82,7 +83,8 @@ public class ExhibitorListFragment extends Fragment {
         };
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        RealmResults realmResults = null;
+        fetchExhibitors();
+
         realmResults = EventExhibitor.getEventExhibitor(HRDFApplication.realm, eventId);
         realmResults.addChangeListener(new RealmChangeListener<RealmResults>() {
             @Override
@@ -96,11 +98,17 @@ public class ExhibitorListFragment extends Fragment {
         });
 
         if(realmResults.size() < 1) {
-            showMessage(R.string.event_no_exhibitor);
+            showMessage(R.string.event_loading_exhibitor);
         }
 
-        EventExhibitorListAdapter eventExhibitorListAdapter = new EventExhibitorListAdapter(getActivity(), realmResults, true);
+        EventExhibitorListAdapter eventExhibitorListAdapter = new EventExhibitorListAdapter(getActivity(), realmResults, this, true);
         recyclerView.setAdapter(eventExhibitorListAdapter);
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                //fetchExhibitors();
+            }
+        });
     }
 
     private void fetchExhibitors() {
@@ -112,11 +120,18 @@ public class ExhibitorListFragment extends Fragment {
                 HRDFApplication.realm.beginTransaction();
                 Event.getEvent(eventId, realm).setExhibitors(EventExhibitor.getEventExhibitorList(realm, eventId));
                 HRDFApplication.realm.commitTransaction();
+                if(fetchedItems.size() < 1)
+                    showMessage(R.string.event_no_exhibitor);
             }
 
             @Override
             public void fetchDidFail(Exception e) {
                 Log.i(HRDFConstants.TAG, "fetchExhibitors fetchDidFail");
+                if(realmResults != null && realmResults.size() > 0) {
+                    hideMessage();
+                } else {
+                    showMessage(R.string.server_error);
+                }
             }
         });
     }
@@ -133,4 +148,10 @@ public class ExhibitorListFragment extends Fragment {
         messageLayout.setVisibility(View.GONE);
     }
 
+    @Override
+    public void showDetail(String image, String description, String name) {
+        ExhibitorDetailDialogFrag detailDialogFrag = new ExhibitorDetailDialogFrag();
+        detailDialogFrag.setExhibitorDetails(image, description, name);
+        detailDialogFrag.show(getChildFragmentManager(), "Exhibitor Dialog");
+    }
 }

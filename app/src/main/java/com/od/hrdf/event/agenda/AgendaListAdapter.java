@@ -55,7 +55,8 @@ public class AgendaListAdapter extends RealmRecyclerViewAdapter<Agenda, Recycler
         }
 
         titleString = titleString.toLowerCase();
-        viewHolder.title.setText(WordUtils.capitalize(titleString));
+        titleString = titleString.substring(0,1).toUpperCase() + titleString.substring(1);
+        viewHolder.title.setText(titleString);
         String startTime = null;
         String endTime = null;
         try {
@@ -103,6 +104,40 @@ public class AgendaListAdapter extends RealmRecyclerViewAdapter<Agenda, Recycler
 
         viewHolder.parent.setTag(false);
         viewHolder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean isExpanded = (boolean) view.getTag();
+                if(isExpanded) {
+                    view.setTag(false);
+                    viewHolder.sessionListView.setVisibility(View.GONE);
+                    viewHolder.arrowButton.setImageResource(R.drawable.expand);
+                } else {
+                    view.setTag(true);
+                    viewHolder.sessionListView.setVisibility(View.VISIBLE);
+                    viewHolder.arrowButton.setImageResource(R.drawable.expanded);
+                }
+            }
+        });
+
+        viewHolder.title.setTag(false);
+        viewHolder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean isExpanded = (boolean) view.getTag();
+                if(isExpanded) {
+                    view.setTag(false);
+                    viewHolder.sessionListView.setVisibility(View.GONE);
+                    viewHolder.arrowButton.setImageResource(R.drawable.expand);
+                } else {
+                    view.setTag(true);
+                    viewHolder.sessionListView.setVisibility(View.VISIBLE);
+                    viewHolder.arrowButton.setImageResource(R.drawable.expanded);
+                }
+            }
+        });
+
+        viewHolder.arrowButton.setTag(false);
+        viewHolder.arrowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 boolean isExpanded = (boolean) view.getTag();

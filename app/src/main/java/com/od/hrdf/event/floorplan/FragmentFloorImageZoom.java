@@ -25,6 +25,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.od.hrdf.R;
@@ -45,6 +46,9 @@ public class FragmentFloorImageZoom extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_floor_image_zoom);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_back);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
         initViews();
     }
 
@@ -61,13 +65,13 @@ public class FragmentFloorImageZoom extends AppCompatActivity {
         String zoom_name = bundle.getString("floor_plan_name");
         String zoom_url = bundle.getString("floor_plan_image_url");
         String imageUrl =  zoom_url;
-        Toolbar toolbar_back = (Toolbar) findViewById(R.id.toolbar_back);
-        toolbar_back.setTitle(zoom_name);
-        setSupportActionBar(toolbar_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (imageUrl != null) {
             imageUrl = imageUrl.replaceAll(" ", "%20");
         }
+
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(zoom_name);
         WebView wv = (WebView) findViewById(R.id.zoom_floor);
         wv.getSettings().setBuiltInZoomControls(true);
         wv.getSettings().setLoadWithOverviewMode(true);

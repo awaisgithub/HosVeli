@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.od.hrdf.Utils.TypefaceUtil;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -40,6 +41,7 @@ public class HRDFApplication extends Application {
         realm = Realm.getInstance(realmConfiguration);
 
         requestQueue = Volley.newRequestQueue(this);
+        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "HelveticaNeue.ttf");
     }
 
     public static synchronized HRDFApplication getInstance() {

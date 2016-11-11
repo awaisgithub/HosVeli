@@ -2,6 +2,7 @@ package com.od.hrdf.BOs;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.Html;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -13,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.Utils.HRDFConstants;
+import com.od.hrdf.abouts.AboutUs;
 
 import org.json.JSONArray;
 
@@ -25,6 +27,8 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 import io.realm.annotations.PrimaryKey;
+
+import static com.od.hrdf.HRDFApplication.realm;
 
 
 /**
@@ -182,8 +186,6 @@ public class Article extends RealmObject {
         this.sortingSequence = sortingSequence;
     }
 
-
-
     //METHODS
 
     public static Article getArticle(Realm realm, String id) {
@@ -242,10 +244,12 @@ public class Article extends RealmObject {
     }
 
     public Intent createShareIntent() {
+        AboutUs aboutUs = AboutUs.getAboutUs(realm);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TITLE, this.getTitle());
-        shareIntent.putExtra(Intent.EXTRA_TEXT, this.getDescription());
+        shareIntent.setType("*/*");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, this.getArticleSummaryImage());
+        //shareIntent.putExtra(Intent.EXTRA_TEXT, aboutUs.getSocialMediaShareText());
+        shareIntent.putExtra(Intent.EXTRA_TEXT, aboutUs.getSocialMediaShareLink());
         return shareIntent;
     }
 

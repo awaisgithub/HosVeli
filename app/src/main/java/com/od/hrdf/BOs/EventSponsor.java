@@ -41,6 +41,7 @@ public class EventSponsor extends RealmObject {
     private String sponsorName;
     private String event;
     private String eventtitle;
+    private String sponsorWebsite;
 
     public String getSponsorlevelseq() {
         return sponsorlevelseq;
@@ -130,11 +131,19 @@ public class EventSponsor extends RealmObject {
         this.eventtitle = eventtitle;
     }
 
+    public String getSponsorWebsite() {
+        return sponsorWebsite;
+    }
+
+    public void setSponsorWebsite(String sponsorWebsite) {
+        this.sponsorWebsite = sponsorWebsite;
+    }
+
     public static RealmList<EventSponsor> getEventSponsorList(Realm realm, String eventId) {
         RealmList<EventSponsor> sponsors = new RealmList<>();
 
         RealmResults realmResults = realm.where(EventSponsor.class).equalTo("event", eventId).findAll();
-        for(int i=0; i<realmResults.size(); i++) {
+        for (int i = 0; i < realmResults.size(); i++) {
             sponsors.add((EventSponsor) realmResults.get(i));
         }
         return sponsors;
@@ -149,27 +158,23 @@ public class EventSponsor extends RealmObject {
     }
 
     public static void fetchEventSponsors(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
-        Log.i(HRDFConstants.TAG, "fetchEventSponsors ="+url);
+        Log.i(HRDFConstants.TAG, "fetchEventSponsors =" + url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(EventSponsor.class, response);
-                                    RealmResults eventSponsors = query.findAll();
-                                    realm.commitTransaction();
-                                    callBack.fetchDidSucceed(eventSponsors);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
-                                }
-                            }
-                        });
+
+                        try {
+                            realm.beginTransaction();
+                            realm.createOrUpdateAllFromJson(EventSponsor.class, response);
+                            RealmResults eventSponsors = query.findAll();
+                            realm.commitTransaction();
+                            callBack.fetchDidSucceed(eventSponsors);
+                        } catch (Exception e) {
+                            Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
+                            callBack.fetchDidFail(e);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

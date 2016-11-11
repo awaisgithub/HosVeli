@@ -53,6 +53,7 @@ public class EventExhibitor extends RealmObject {
     private String eventtitle;
     private String exhibitorwebsite;
     private String exhibitor;
+    private String description;
     boolean isObsolete;
 
     public String getDateModified() {
@@ -231,6 +232,14 @@ public class EventExhibitor extends RealmObject {
         this.exhibitor = exhibitor;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public boolean isObsolete() {
         return isObsolete;
     }
@@ -255,7 +264,7 @@ public class EventExhibitor extends RealmObject {
     }
 
     public static RealmResults getExhibitorForCategory(Realm realm, String category, String eventId) {
-        return realm.where(EventExhibitor.class).equalTo("exhibitorcategoryname", category).equalTo("isObsolete", false).equalTo("event", eventId).findAll().sort("exhibitorcategoryseq", Sort.ASCENDING);
+        return realm.where(EventExhibitor.class).equalTo("exhibitorcategoryname", category).equalTo("isObsolete", false).equalTo("event", eventId).findAll().sort("exhibitorName", Sort.ASCENDING);
     }
 
     public static RealmResults getEventExhibitor(Realm realm, String eventId) {
@@ -269,34 +278,29 @@ public class EventExhibitor extends RealmObject {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    makeAllOrdersObsolete(realm);
-                                    for (int i = 0; i < response.length(); i++) {
-                                        String id = response.getJSONObject(i).optString("id");
-                                        EventExhibitor exhibitor = getExhibitorForId(realm, id);
-                                        if (exhibitor != null) {
-                                            realm.beginTransaction();
-                                            exhibitor.setObsolete(false);
-                                            realm.createOrUpdateObjectFromJson(EventExhibitor.class, response.getJSONObject(i));
-                                            realm.commitTransaction();
-                                        } else {
-                                            realm.beginTransaction();
-                                            exhibitor = realm.createObjectFromJson(EventExhibitor.class, response.getJSONObject(i));
-                                            realm.commitTransaction();
-                                        }
-                                    }
-                                    deleteAllObsoleteExhibitors(realm);
-                                    RealmResults eventExhibitor = query.findAll();
-                                    callBack.fetchDidSucceed(eventExhibitor);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
+                        try {
+                            makeAllOrdersObsolete(realm);
+                            for (int i = 0; i < response.length(); i++) {
+                                String id = response.getJSONObject(i).optString("id");
+                                EventExhibitor exhibitor = getExhibitorForId(realm, id);
+                                if (exhibitor != null) {
+                                    realm.beginTransaction();
+                                    exhibitor.setObsolete(false);
+                                    realm.createOrUpdateObjectFromJson(EventExhibitor.class, response.getJSONObject(i));
+                                    realm.commitTransaction();
+                                } else {
+                                    realm.beginTransaction();
+                                    exhibitor = realm.createObjectFromJson(EventExhibitor.class, response.getJSONObject(i));
+                                    realm.commitTransaction();
                                 }
                             }
-                        });
+                            deleteAllObsoleteExhibitors(realm);
+                            RealmResults eventExhibitor = query.findAll();
+                            callBack.fetchDidSucceed(eventExhibitor);
+                        } catch (Exception e) {
+                            Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
+                            callBack.fetchDidFail(e);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override

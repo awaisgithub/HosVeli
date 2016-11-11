@@ -1,6 +1,7 @@
 package com.od.hrdf.event.speaker;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -51,7 +52,19 @@ public class SpeakerTopicListAdapter extends RealmRecyclerViewAdapter<SpeakerTop
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         SpeakerTopicListViewHolder viewHolder = (SpeakerTopicListViewHolder) holder;
         final SpeakerTopic speakerTopic = data.get(position);
+        Typeface face= Typeface.createFromAsset(context.getAssets(), "HelveticaNeue.ttf");
         viewHolder.title.setText(speakerTopic.getTitle());
-        viewHolder.moreInfo.setText(speakerTopic.getDesc());
+       // viewHolder.title.setTypeface(face);
+        viewHolder.moreInfo.setBackgroundColor(0x00000000);
+        viewHolder.moreInfo.getSettings().setStandardFontFamily("sans-serif");
+        viewHolder.moreInfo.getSettings().setFixedFontFamily("sans-serif");
+        viewHolder.moreInfo.getSettings().setFantasyFontFamily("sans-serif");
+        viewHolder.moreInfo.getSettings().setCursiveFontFamily("sans-serif");
+        viewHolder.moreInfo.getSettings().setSerifFontFamily("sans-serif");
+        viewHolder.moreInfo.getSettings().setSansSerifFontFamily("sans-serif");
+        viewHolder.moreInfo.getSettings().setDefaultFontSize(14);
+        viewHolder.moreInfo.loadData(speakerTopic.getDesc(), "text/html; charset=utf-8", "UTF-8");
+        //viewHolder.moreInfo.setText(speakerTopic.getDesc());
+        //viewHolder.moreInfo.setTypeface(face);
     }
 }
