@@ -2,7 +2,6 @@ package com.od.hrdf.BOs;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.text.Html;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -54,6 +53,7 @@ public class Article extends RealmObject {
     private String description;
     private String active;
     private String sortingSequence;
+    boolean isObsolete;
 
     public Article() {
     }
@@ -186,6 +186,14 @@ public class Article extends RealmObject {
         this.sortingSequence = sortingSequence;
     }
 
+    public boolean isObsolete() {
+        return isObsolete;
+    }
+
+    public void setObsolete(boolean obsolete) {
+        isObsolete = obsolete;
+    }
+
     //METHODS
 
     public static Article getArticle(Realm realm, String id) {
@@ -195,7 +203,7 @@ public class Article extends RealmObject {
     public static RealmResults<Article> getArticlesResultController(Realm realm) {
         Date today = new Date();
         return realm.where(Article.class).lessThanOrEqualTo("startDate", today).greaterThanOrEqualTo("endDate", today)
-                .equalTo("active", "Yes")
+                .equalTo("active", "Yes").equalTo("isObsolete", false)
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 
@@ -214,9 +222,18 @@ public class Article extends RealmObject {
                                     Type collectionType = new TypeToken<ArrayList<Article>>() {
                                     }.getType();
                                     ArrayList<Article> articles = gson.fromJson(response.toString(), collectionType);
-                                    for(Article article: articles)
-                                    realm.copyToRealmOrUpdate(article);
+                                    if(articles.size() > 0)
+                                        makeAllArticlesObsolete(realm);
 
+                                    for(Article article: articles) {
+                                        Article localArticle = Article.getArticle(realm, article.getId());
+                                        if (localArticle != null) {
+                                            article.setObsolete(false);
+                                        } else {
+                                        }
+                                        realm.copyToRealmOrUpdate(article);
+                                    }
+                                    deleteAllObsoleteArticles(realm);
 //                                    realm.copyToRealmOrUpdate(articles);//Article.class, response);
                                     RealmResults articlesResultSet = query.findAll();
                                     callBack.fetchDidSucceed(articlesResultSet);
@@ -243,13 +260,28 @@ public class Article extends RealmObject {
         HRDFApplication.getInstance().addToRequestQueue(req);
     }
 
+    public static void makeAllArticlesObsolete(Realm realm) {
+        RealmResults allArticle = realm.where(Article.class).findAll();
+        for (int i = 0; i < allArticle.size(); i++) {
+            Article article = (Article) allArticle.get(i);
+            article.setObsolete(true);
+        }
+    }
+
+    public static void deleteAllObsoleteArticles(Realm realm) {
+        RealmResults obsoleteArticle = realm.where(Article.class).equalTo("isObsolete", true).findAll();
+        for (int i = 0; i < obsoleteArticle.size(); i++) {
+            Article article = (Article) obsoleteArticle.get(i);
+            article.deleteFromRealm();
+        }
+    }
+
     public Intent createShareIntent() {
         AboutUs aboutUs = AboutUs.getAboutUs(realm);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("*/*");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, this.getArticleSummaryImage());
-        //shareIntent.putExtra(Intent.EXTRA_TEXT, aboutUs.getSocialMediaShareText());
-        shareIntent.putExtra(Intent.EXTRA_TEXT, aboutUs.getSocialMediaShareLink());
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TITLE, aboutUs.getSocialMediaShareLink());
+        //shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(aboutUs.getSocialMediaSharePic()));
         return shareIntent;
     }
 

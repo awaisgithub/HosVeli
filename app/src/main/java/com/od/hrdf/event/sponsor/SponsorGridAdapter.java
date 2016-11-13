@@ -1,6 +1,7 @@
 package com.od.hrdf.event.sponsor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -79,7 +80,19 @@ public class SponsorGridAdapter extends RealmRecyclerViewAdapter<EventSponsor, R
 
         String titleString = sponsor.getName();
         titleString = titleString.toLowerCase();
-        sponsorGridViewHolder.name.setText(WordUtils.capitalize(titleString));
+        titleString = WordUtils.capitalize(titleString);
+        if(titleString.contains("-")) {
+            try {
+                int idx = titleString.indexOf("-");
+                char ch = Character.toTitleCase(titleString.charAt(idx + 1));
+                char[] myNameChars = titleString.toCharArray();
+                myNameChars[idx + 1] = ch;
+                titleString = String.valueOf(myNameChars);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        sponsorGridViewHolder.name.setText(titleString);
 
         if(sponsor.getImage() != null) {
             String image = sponsor.getImage();
@@ -94,12 +107,16 @@ public class SponsorGridAdapter extends RealmRecyclerViewAdapter<EventSponsor, R
             sponsorGridViewHolder.photoView.setController(controller);
         }
 //
-//        viewHolder.parent.setTag(speaker.getId());
-//        viewHolder.parent.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                eventListAdapterInterface.gotoDetailActivity(((String)view.getTag()));
-//            }
-//        });
+        sponsorGridViewHolder.photoView.setTag(eventSponsor.getSponsorWebsite());
+        sponsorGridViewHolder.photoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String webLink = (String) view.getTag();
+                if(webLink != null && !webLink.isEmpty()) {
+                    Intent intentWebLink = new Intent(Intent.ACTION_VIEW, Uri.parse(webLink));
+                    context.startActivity(intentWebLink);
+                }
+            }
+        });
     }
 }
