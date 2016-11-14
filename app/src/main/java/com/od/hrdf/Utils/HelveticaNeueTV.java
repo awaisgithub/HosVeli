@@ -32,8 +32,6 @@ public class HelveticaNeueTV extends TextView {
 
     private void init() {
         if (!isInEditMode()) {
-            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "HelveticaNeue.ttf");
-            //setTypeface(Typeface.DEFAULT, sai);
         }
     }
 }
