@@ -125,7 +125,9 @@ public class FloorPlanFragment extends Fragment {
         Floorplan.fetchEventFloorPlan(getActivity(), realm, Api.urlEventFloorplan(eventId), query, new FetchCallBack() {
             @Override
             public void fetchDidSucceed(RealmResults fetchedItems) {
-                setupViewPager(fetchedItems);
+                if(fetchedItems.size() > 0) {
+                    hideMessage();
+                }
             }
 
             @Override

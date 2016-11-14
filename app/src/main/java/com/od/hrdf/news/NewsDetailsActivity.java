@@ -2,12 +2,15 @@ package com.od.hrdf.news;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -38,6 +41,7 @@ import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
 import com.od.hrdf.BOs.Article;
 import com.od.hrdf.Utils.HRDFConstants;
+import com.od.hrdf.abouts.AboutUs;
 
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -53,6 +57,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
     private Article article;
     private ShareActionProvider mShareActionProvider;
     private ProgressDialog progressDialog;
+    private AboutUs aboutUs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +74,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
             }
         });
         String newsId = getIntent().getStringExtra(EXTRA_PARAM_ID);
+        aboutUs = AboutUs.getAboutUs(realm);
         article = Article.getArticle(realm, newsId);
         mHeaderImageView = (SimpleDraweeView) findViewById(R.id.imageview_header);
         mHeaderTitle = (TextView) findViewById(R.id.textview_title);
@@ -97,10 +103,8 @@ public class NewsDetailsActivity extends AppCompatActivity {
         Drawable icon = shareItem.getIcon();
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
-        if (article != null) {
-            Intent shareIntent = article.createShareIntent();
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
+        //Intent shareIntent = aboutUs.createShareIntent();
+        mShareActionProvider.setShareIntent(chooserIntent());
         return true;
     }
 
@@ -174,10 +178,11 @@ public class NewsDetailsActivity extends AppCompatActivity {
             public void fetchDidSucceed(RealmResults fetchedItems) {
                 hideProgressDialog();
                 Article articleItem = Article.getArticle(realm, articleId);
-                if(articleItem != null) {
+                if (articleItem != null) {
                     article = articleItem;
-                    Intent shareIntent = article.createShareIntent();
-                    mShareActionProvider.setShareIntent(shareIntent);
+//                    AboutUs aboutUs = AboutUs.getAboutUs(realm);
+//                    Intent shareIntent = aboutUs.createShareIntent();
+//                    mShareActionProvider.setShareIntent(shareIntent);
                     setInfo();
                 }
             }
@@ -215,5 +220,18 @@ public class NewsDetailsActivity extends AppCompatActivity {
 
     private void hideProgressDialog() {
         progressDialog.dismiss();
+    }
+
+    private Intent chooserIntent() {
+        Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
+        Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), mBitmap, "Image I want to share", null);
+        Uri uri = Uri.parse(path);
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, aboutUs.getSocialMediaShareText() + " \n" + aboutUs.getSocialMediaShareLink());
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setType("image/*");
+        return shareIntent;
     }
 }

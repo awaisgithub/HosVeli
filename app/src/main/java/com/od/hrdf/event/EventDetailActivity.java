@@ -2,13 +2,16 @@ package com.od.hrdf.event;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ParseException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -45,6 +48,7 @@ import com.od.hrdf.Payload.JSONPayloadManager;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.SectionsPagerAdapter;
+import com.od.hrdf.abouts.AboutUs;
 import com.od.hrdf.event.agenda.AgendsMainActivity;
 import com.od.hrdf.event.exhibitor.ExhibitorListFragment;
 import com.od.hrdf.event.floorplan.FloorPlanFragment;
@@ -72,6 +76,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
     private boolean isEventBooked;
     private boolean isEventFav;
     private User user;
+    private AboutUs aboutUs;
     private ProgressDialog progressDialog;
     private ShareActionProvider mShareActionProvider;
 
@@ -83,8 +88,8 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         realm = Realm.getDefaultInstance();
         event = Event.getEvent(eventId, realm);
         user = User.getCurrentUser(realm);
-
-        if(event.getFavourite()) {
+        aboutUs = AboutUs.getAboutUs(realm);
+        if (event.getFavourite()) {
             isEventFav = true;
         } else {
             isEventFav = false;
@@ -101,7 +106,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 
         MenuItem favItem = menu.findItem(R.id.fav_item);
-        if(isEventFav) {
+        if (isEventFav) {
             favItem.setIcon(ContextCompat.getDrawable(this, R.drawable.bookmark_filled_white));
         } else {
             favItem.setIcon(ContextCompat.getDrawable(this, R.drawable.bookmark_white));
@@ -110,17 +115,14 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         Drawable favIcon = favItem.getIcon();
         favIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
-        if(event != null) {
-            Intent shareIntent = event.createShareIntent();
-            mShareActionProvider.setShareIntent(shareIntent);
-        }
+        mShareActionProvider.setShareIntent(chooserIntent());
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.fav_item) {
-            if(isEventFav) {
+        if (item.getItemId() == R.id.fav_item) {
+            if (isEventFav) {
                 isEventFav = false;
                 item.setIcon(ContextCompat.getDrawable(this, R.drawable.bookmark_white));
             } else {
@@ -361,8 +363,6 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
                 Event eventItem = Event.getEvent(eventId, realm);
                 if (eventItem != null) {
                     event = eventItem;
-                    Intent shareIntent = event.createShareIntent();
-                    mShareActionProvider.setShareIntent(shareIntent);
                     setInfo();
                 } else {
                     showMessage(R.string.server_error);
@@ -425,6 +425,19 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
     private void hideProgressDialog() {
         ((TextView) findViewById(R.id.button_register)).setVisibility(View.VISIBLE);
         progressDialog.dismiss();
+    }
+
+    private Intent chooserIntent() {
+        Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
+        Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), mBitmap, "Image I want to share", null);
+        Uri uri = Uri.parse(path);
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, aboutUs.getSocialMediaShareText() + " \n" + aboutUs.getSocialMediaShareLink());
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setType("image/*");
+        return shareIntent;
     }
 
 }

@@ -2,6 +2,12 @@ package com.od.hrdf.BOs;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -12,14 +18,21 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.CallBack.FetchCallBack;
+import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.abouts.AboutUs;
 
 import org.json.JSONArray;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
+
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
@@ -27,6 +40,8 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 import io.realm.annotations.PrimaryKey;
 
+import static android.R.attr.path;
+import static com.od.hrdf.HRDFApplication.context;
 import static com.od.hrdf.HRDFApplication.realm;
 
 
@@ -208,7 +223,7 @@ public class Article extends RealmObject {
     }
 
     public static void fetchArticles(final Activity context, final Realm realm, String url, final RealmQuery query, final FetchCallBack callBack) {
-        Log.i(HRDFConstants.TAG, "fetchArticles = "+ url);
+        Log.i(HRDFConstants.TAG, "fetchArticles = " + url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -222,10 +237,10 @@ public class Article extends RealmObject {
                                     Type collectionType = new TypeToken<ArrayList<Article>>() {
                                     }.getType();
                                     ArrayList<Article> articles = gson.fromJson(response.toString(), collectionType);
-                                    if(articles.size() > 0)
+                                    if (articles.size() > 0)
                                         makeAllArticlesObsolete(realm);
 
-                                    for(Article article: articles) {
+                                    for (Article article : articles) {
                                         Article localArticle = Article.getArticle(realm, article.getId());
                                         if (localArticle != null) {
                                             article.setObsolete(false);
@@ -274,15 +289,6 @@ public class Article extends RealmObject {
             Article article = (Article) obsoleteArticle.get(i);
             article.deleteFromRealm();
         }
-    }
-
-    public Intent createShareIntent() {
-        AboutUs aboutUs = AboutUs.getAboutUs(realm);
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TITLE, aboutUs.getSocialMediaShareLink());
-        //shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(aboutUs.getSocialMediaSharePic()));
-        return shareIntent;
     }
 
 }

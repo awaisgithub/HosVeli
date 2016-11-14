@@ -3,7 +3,13 @@ package com.od.hrdf.event;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +32,8 @@ import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.abouts.AboutUs;
 import com.od.hrdf.landingtab.TabFragActivityInterface;
 import com.surveymonkey.surveymonkeyandroidsdk.SurveyMonkey;
+
+import java.io.ByteArrayOutputStream;
 
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -246,9 +254,10 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
             case SHARE_SOCIAL:
                 Intent textShareIntent = new Intent(Intent.ACTION_SEND);
                 textShareIntent.putExtra(Intent.EXTRA_TEXT, aboutus.getSocialMediaShareText() + " \n" + aboutus.getSocialMediaShareLink());
-                textShareIntent.putExtra(Intent.EXTRA_SUBJECT, aboutus.getSocialMediaShareText() + "\n" + aboutus.getSocialMediaSharePic());
+               // textShareIntent.putExtra(Intent.EXTRA_SUBJECT, aboutus.getSocialMediaShareText() + "\n" + aboutus.getSocialMediaSharePic());
                 textShareIntent.setType("text/plain");
-                startActivity(Intent.createChooser(textShareIntent, "Share"));
+                //startActivity(Intent.createChooser(aboutus.createShareIntent(), "Share Image"));
+                chooserIntent();
                 break;
             case MARK_FAV:
                 realm.beginTransaction();
@@ -290,4 +299,16 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
         messageLayout.setVisibility(View.GONE);
     }
 
+    private void chooserIntent() {
+        Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
+        Bitmap mBitmap = ((BitmapDrawable)mDrawable).getBitmap();
+        String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), mBitmap, "Image I want to share", null);
+        Uri uri = Uri.parse(path);
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, aboutus.getSocialMediaShareText() + " \n" + aboutus.getSocialMediaShareLink());
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        shareIntent.setType("image/*");
+        startActivity(Intent.createChooser(shareIntent, "Share"));
+    }
 }

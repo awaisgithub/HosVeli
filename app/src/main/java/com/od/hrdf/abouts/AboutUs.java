@@ -1,6 +1,15 @@
 package com.od.hrdf.abouts;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.provider.MediaStore;
+import android.text.Html;
 import android.util.Log;
 
 import com.android.volley.Response;
@@ -9,15 +18,24 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.od.hrdf.BOs.User;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
+import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
+
+import static com.od.hrdf.HRDFApplication.context;
+import static com.od.hrdf.HRDFApplication.realm;
 
 /**
  * Created by Awais on 10/21/2016.
