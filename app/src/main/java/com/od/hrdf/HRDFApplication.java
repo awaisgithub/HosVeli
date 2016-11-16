@@ -41,7 +41,6 @@ public class HRDFApplication extends Application {
         realm = Realm.getInstance(realmConfiguration);
 
         requestQueue = Volley.newRequestQueue(this);
-        TypefaceUtil.overrideFont(getApplicationContext(), "SERIF", "HelveticaNeue.ttf");
     }
 
     public static synchronized HRDFApplication getInstance() {
