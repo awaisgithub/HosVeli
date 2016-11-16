@@ -55,6 +55,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import me.leolin.shortcutbadger.ShortcutBadgeException;
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class TabbarActivity extends AppCompatActivity implements TabFragActivityInterface {
@@ -127,7 +128,11 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         fetchAllSponsors();
         fetchAllExhibitors();
 
-        ShortcutBadger.removeCount(getApplicationContext());
+        try {
+            ShortcutBadger.removeCountOrThrow(getApplicationContext());
+        } catch (ShortcutBadgeException e) {
+            e.printStackTrace();
+        }
         MyGcmListenerService.count = 0;
 
         NotificationManager nMgr = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
