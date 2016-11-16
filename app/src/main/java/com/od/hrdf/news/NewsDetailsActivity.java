@@ -36,12 +36,15 @@ import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.od.hrdf.API.Api;
+import com.od.hrdf.BOs.NewsItem;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
 import com.od.hrdf.BOs.Article;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.abouts.AboutUs;
+
+import java.util.ArrayList;
 
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -93,7 +96,6 @@ public class NewsDetailsActivity extends AppCompatActivity {
         } else {
             setInfo();
         }
-
     }
 
     @Override
@@ -225,13 +227,15 @@ public class NewsDetailsActivity extends AppCompatActivity {
     private Intent chooserIntent() {
         Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
         Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
-        String path = MediaStore.Images.Media.insertImage(getContentResolver(), mBitmap, "Image I want to share", null);
-        Uri uri = Uri.parse(path);
+
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, aboutUs.getSocialMediaShareText() + " \n" + aboutUs.getSocialMediaShareLink());
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        shareIntent.setType("image/*");
+//        if(path != null) {
+//            Uri uri = Uri.parse(path);
+//            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+//        }
+        shareIntent.setType("text/plain");
         return shareIntent;
     }
 }

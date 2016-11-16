@@ -301,14 +301,15 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
 
     private void chooserIntent() {
         Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
-        Bitmap mBitmap = ((BitmapDrawable)mDrawable).getBitmap();
-        String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), mBitmap, "Image I want to share", null);
-        Uri uri = Uri.parse(path);
+        Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, aboutus.getSocialMediaShareText() + " \n" + aboutus.getSocialMediaShareLink());
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        shareIntent.setType("image/*");
+//        if(path != null) {
+//            Uri uri = Uri.parse(path);
+//            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+//        }
+        shareIntent.setType("text/plain");
         startActivity(Intent.createChooser(shareIntent, "Share"));
     }
 }
