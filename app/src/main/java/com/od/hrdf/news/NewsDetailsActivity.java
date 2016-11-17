@@ -225,8 +225,8 @@ public class NewsDetailsActivity extends AppCompatActivity {
     }
 
     private Intent chooserIntent() {
-        Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
-        Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
+        //Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
+        //Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
 
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);

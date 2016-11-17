@@ -428,8 +428,8 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
     }
 
     private Intent chooserIntent() {
-        Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
-        Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
+        //Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
+       // Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
 //        String path = MediaStore.Images.Media.insertImage(getContentResolver(), mBitmap, "Image I want to share", null);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);

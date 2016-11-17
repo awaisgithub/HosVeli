@@ -300,8 +300,8 @@ public class EventListFragment extends Fragment implements EventListAdapterInter
     }
 
     private void chooserIntent() {
-        Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
-        Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
+       // Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
+       // Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, aboutus.getSocialMediaShareText() + " \n" + aboutus.getSocialMediaShareLink());
