@@ -9,6 +9,7 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -49,6 +50,7 @@ import java.util.ArrayList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
+import static com.od.hrdf.HRDFApplication.context;
 import static com.od.hrdf.HRDFApplication.realm;
 
 public class NewsDetailsActivity extends AppCompatActivity {
@@ -225,9 +227,15 @@ public class NewsDetailsActivity extends AppCompatActivity {
     }
 
     private Intent chooserIntent() {
-        Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
+        //  Drawable mDrawable = getResources().getDrawable(R.drawable.share_image, null);
+        //  Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
+        Drawable mDrawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mDrawable = getResources().getDrawable(R.drawable.share_image, context.getTheme());
+        } else {
+            mDrawable = getResources().getDrawable(R.drawable.share_image);
+        }
         Bitmap mBitmap = ((BitmapDrawable) mDrawable).getBitmap();
-
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         shareIntent.putExtra(Intent.EXTRA_TEXT, aboutUs.getSocialMediaShareText() + " \n" + aboutUs.getSocialMediaShareLink());
