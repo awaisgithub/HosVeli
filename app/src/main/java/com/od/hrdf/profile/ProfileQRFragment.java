@@ -121,6 +121,8 @@ public class ProfileQRFragment extends Fragment {
             jsonObject.put("email", user.getId());
             jsonObject.put("events", jsonArray.toString());
             jsonObject.put("nationality", user.getNationality());
+            jsonObject.put("designation", user.getDesignation());
+            jsonObject.put("company", user.getCompany());
             jsonString = jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
