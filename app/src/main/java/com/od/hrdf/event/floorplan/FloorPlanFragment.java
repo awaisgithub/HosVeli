@@ -114,9 +114,10 @@ public class FloorPlanFragment extends Fragment {
 
         if(realmResults.size() < 1) {
             showMessage(R.string.event_no_floorplan);
+        } else {
+            setupViewPager(realmResults);
         }
 
-        setupViewPager(realmResults);
         fetchFloorPlan();
     }
 
@@ -127,6 +128,7 @@ public class FloorPlanFragment extends Fragment {
             public void fetchDidSucceed(RealmResults fetchedItems) {
                 if(fetchedItems.size() > 0) {
                     hideMessage();
+                    setupViewPager(fetchedItems);
                 }
             }
 
@@ -158,11 +160,13 @@ public class FloorPlanFragment extends Fragment {
         TextView messageView = (TextView) rooView.findViewById(R.id.label);
         messageView.setText(message);
         messageLayout.setVisibility(View.VISIBLE);
+        rooView.findViewById(R.id.pager_parent).setVisibility(View.GONE);
     }
 
     private void hideMessage() {
         RelativeLayout messageLayout = (RelativeLayout) rooView.findViewById(R.id.error_layout);
         messageLayout.setVisibility(View.GONE);
+        rooView.findViewById(R.id.pager_parent).setVisibility(View.VISIBLE);
     }
 
 
