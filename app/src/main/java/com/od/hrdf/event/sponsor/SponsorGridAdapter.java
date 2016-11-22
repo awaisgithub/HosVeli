@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -63,6 +64,8 @@ public class SponsorGridAdapter extends RealmRecyclerViewAdapter<EventSponsor, R
         }
     };
 
+
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
@@ -79,20 +82,24 @@ public class SponsorGridAdapter extends RealmRecyclerViewAdapter<EventSponsor, R
             return;
 
         String titleString = sponsor.getName();
-        titleString = titleString.toLowerCase();
-        titleString = WordUtils.capitalize(titleString);
-        if(titleString.contains("-")) {
-            try {
-                int idx = titleString.indexOf("-");
-                char ch = Character.toTitleCase(titleString.charAt(idx + 1));
-                char[] myNameChars = titleString.toCharArray();
-                myNameChars[idx + 1] = ch;
-                titleString = String.valueOf(myNameChars);
-            } catch(Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+//        titleString = titleString.toLowerCase();
+//        titleString = WordUtils.capitalize(titleString);
+//        if(titleString.contains("-")) {
+//            try {
+//                int idx = titleString.indexOf("-");
+//                char ch = Character.toTitleCase(titleString.charAt(idx + 1));
+//                char[] myNameChars = titleString.toCharArray();
+//                myNameChars[idx + 1] = ch;
+//                titleString = String.valueOf(myNameChars);
+//            } catch(Exception ex) {
+//                ex.printStackTrace();
+//            }
+//        }
         sponsorGridViewHolder.name.setText(titleString);
+        sponsorGridViewHolder.name.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        sponsorGridViewHolder.name.setSingleLine(true);
+        sponsorGridViewHolder.name.setMarqueeRepeatLimit(-1);
+        sponsorGridViewHolder.name.setSelected(true);
 
         if(sponsor.getImage() != null) {
             String image = sponsor.getImage();
