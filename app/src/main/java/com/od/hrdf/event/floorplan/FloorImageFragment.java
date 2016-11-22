@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.od.hrdf.BOs.Floorplan;
 import com.od.hrdf.R;
+import com.od.hrdf.Utils.HRDFConstants;
 
 public class FloorImageFragment extends Fragment {
 
@@ -99,6 +101,7 @@ public class FloorImageFragment extends Fragment {
 
     private void initViews() {
         SimpleDraweeView floorPlanImage = (SimpleDraweeView) rootView.findViewById(R.id.floor_plan_image);
+        Log.i(HRDFConstants.TAG, "floorPlanImageURL = "+floorPlanImageURL);
         if (floorPlanImageURL != null) {
             String image = floorPlanImageURL;
             image = image.replaceAll(" ", "%20");
