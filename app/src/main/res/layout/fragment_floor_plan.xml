@@ -6,6 +6,7 @@
     tools:context="com.od.hrdf.event.floorplan.FloorPlanFragment">
 
     <LinearLayout
+        android:id="@+id/pager_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
