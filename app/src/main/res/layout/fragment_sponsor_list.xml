@@ -4,13 +4,13 @@
     android:layout_height="match_parent"
     tools:context="com.od.hrdf.event.sponsor.SponsorListFragment">
 
+    <include
+        android:visibility="gone"
+        layout="@layout/layout_error"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/sponsor_rcv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <include
-        android:visibility="gone"
-        layout="@layout/layout_error"/>
 
 </FrameLayout>

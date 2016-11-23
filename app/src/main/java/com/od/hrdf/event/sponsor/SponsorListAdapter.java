@@ -42,7 +42,7 @@ public class SponsorListAdapter extends RealmRecyclerViewAdapter<EventSponsor, R
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         SponsorListViewHolder viewHolder = (SponsorListViewHolder) holder;
         final EventSponsor sponsor = data.get(position);
-        viewHolder.sponsor_level_name.setText(sponsor.getSponsorlevelname()+" SPONSORS");
+        viewHolder.sponsor_level_name.setText(sponsor.getSponsorlevelname());
         viewHolder.sponsorGrid.setLayoutManager(new GridLayoutManager(context, 2));
         SponsorGridAdapter sponsorGridAdapter = new SponsorGridAdapter(context, EventSponsor.getSponsorByLevelName(HRDFApplication.realm, sponsor.getSponsorlevelname()), true);
         viewHolder.sponsorGrid.setAdapter(sponsorGridAdapter);
