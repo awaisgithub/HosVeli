@@ -54,8 +54,8 @@ public class AgendaListAdapter extends RealmRecyclerViewAdapter<Agenda, Recycler
             titleString = agenda.getSession();
         }
 
-        titleString = titleString.toLowerCase();
-        titleString = titleString.substring(0,1).toUpperCase() + titleString.substring(1);
+//        titleString = titleString.toLowerCase();
+//        titleString = titleString.substring(0,1).toUpperCase() + titleString.substring(1);
         viewHolder.title.setText(titleString);
         String startTime = null;
         String endTime = null;
