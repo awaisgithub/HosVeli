@@ -30,6 +30,7 @@ import com.od.hrdf.BOs.Exhibitor;
 import com.od.hrdf.BOs.Speaker;
 import com.od.hrdf.BOs.Sponsor;
 import com.od.hrdf.BOs.User;
+import com.od.hrdf.BOs.UserEvent;
 import com.od.hrdf.CallBack.CheckCallBack;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.CallBack.StatusCallBack;
