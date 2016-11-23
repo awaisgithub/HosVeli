@@ -193,16 +193,20 @@ public class LoginFragment extends Fragment {
                     realm.beginTransaction();
                     try {
                         JSONArray array = new JSONArray(response);
-                        if(array.length() > 0) {
+                        if (array.length() > 0) {
                             realm.createOrUpdateObjectFromJson(User.class, array.getJSONObject(0));
-                            User user = realm.where(User.class).endsWith("id", email).findFirst();
-                            if (user != null && user.getPassword().equalsIgnoreCase(password)) {
-                                user.setTemp(false);
-                                user.setSyncedLocal(true);
-                                mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
+                            User user = realm.where(User.class).equalTo("id", email).findFirst();
+                            if (user != null) {
+                                if (user.getPassword().equalsIgnoreCase(password)) {
+                                    user.setTemp(false);
+                                    user.setSyncedLocal(true);
+                                    mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
+                                } else {
+                                    user.setTemp(true);
+                                    user.setSyncedLocal(false);
+                                    showActionSnackBarMessage(getString(R.string.login_cred_error));
+                                }
                             } else {
-                                user.setTemp(true);
-                                user.setSyncedLocal(false);
                                 showActionSnackBarMessage(getString(R.string.login_cred_error));
                             }
                         } else {
@@ -218,6 +222,7 @@ public class LoginFragment extends Fragment {
                 }
                 hideProgressDialog();
             }
+
             @Override
             public void fetchDidFail(Exception e) {
                 hideProgressDialog();
