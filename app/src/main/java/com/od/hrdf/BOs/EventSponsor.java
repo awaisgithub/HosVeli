@@ -6,11 +6,17 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -42,6 +48,7 @@ public class EventSponsor extends RealmObject {
     private String event;
     private String eventtitle;
     private String sponsorWebsite;
+    boolean isObsolete;
 
     public String getSponsorlevelseq() {
         return sponsorlevelseq;
@@ -139,6 +146,14 @@ public class EventSponsor extends RealmObject {
         this.sponsorWebsite = sponsorWebsite;
     }
 
+    public boolean isObsolete() {
+        return isObsolete;
+    }
+
+    public void setObsolete(boolean obsolete) {
+        isObsolete = obsolete;
+    }
+
     public static RealmList<EventSponsor> getEventSponsorList(Realm realm, String eventId) {
         RealmList<EventSponsor> sponsors = new RealmList<>();
 
@@ -147,6 +162,10 @@ public class EventSponsor extends RealmObject {
             sponsors.add((EventSponsor) realmResults.get(i));
         }
         return sponsors;
+    }
+
+    public static EventSponsor getEventSponsor(Realm realm, String eventId) {
+        return realm.where(EventSponsor.class).equalTo("id", eventId).findFirst();
     }
 
     public static RealmResults<EventSponsor> getDistinctByLevelSeq(Realm realm, String eventId) {
@@ -164,17 +183,34 @@ public class EventSponsor extends RealmObject {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
-
                         try {
                             realm.beginTransaction();
-                            realm.createOrUpdateAllFromJson(EventSponsor.class, response);
-                            RealmResults eventSponsors = query.findAll();
+                            Gson gson = new GsonBuilder().create();
+                            Type collectionType = new TypeToken<ArrayList<EventSponsor>>() {
+                            }.getType();
+                            ArrayList<EventSponsor> sponsors = gson.fromJson(response.toString(), collectionType);
+                            if (sponsors.size() > 0)
+                                makeAllObsolete(realm);
+
+                            for (EventSponsor sponsor : sponsors) {
+                                EventSponsor localSponsor = EventSponsor.getEventSponsor(realm, sponsor.getId());
+                                if (localSponsor != null) {
+                                    sponsor.setObsolete(false);
+                                } else {
+                                }
+                                realm.copyToRealmOrUpdate(sponsor);
+                            }
+                            deleteAllObsolete(realm);
                             realm.commitTransaction();
+                            // realm.createOrUpdateAllFromJson(EventSponsor.class, response);
+                            RealmResults eventSponsors = query.findAll();
                             callBack.fetchDidSucceed(eventSponsors);
                         } catch (Exception e) {
                             Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                             callBack.fetchDidFail(e);
+                            realm.commitTransaction();
                         }
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -189,5 +225,21 @@ public class EventSponsor extends RealmObject {
             }
         });
         HRDFApplication.getInstance().addToRequestQueue(req);
+    }
+
+    public static void makeAllObsolete(Realm realm) {
+        RealmResults allItems = realm.where(EventSponsor.class).findAll();
+        for (int i = 0; i < allItems.size(); i++) {
+            EventSponsor item = (EventSponsor) allItems.get(i);
+            item.setObsolete(true);
+        }
+    }
+
+    public static void deleteAllObsolete(Realm realm) {
+        RealmResults obsoleteItems = realm.where(EventSponsor.class).equalTo("isObsolete", true).findAll();
+        for (int i = 0; i < obsoleteItems.size(); i++) {
+            EventSponsor item = (EventSponsor) obsoleteItems.get(i);
+            item.deleteFromRealm();
+        }
     }
 }

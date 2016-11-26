@@ -98,34 +98,15 @@
 
     </include>
 
-    <ViewSwitcher
-        android:id="@+id/view_switcher"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
         android:layout_below="@+id/segmentlayoutinclude"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="15dp"
-        app:layout_heightPercent="55%"
+        app:layout_heightPercent="100%"
         app:layout_widthPercent="100%">
 
-        <!--<com.od.hrdf.Utils.HelveticaNeueTV-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:id="@+id/web_view"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:textSize="14sp"-->
-        <!--android:textColor="@color/colorBlack"-->
-        <!--android:background="@android:color/transparent" />-->
-
-        <WebView
-            android:id="@+id/web_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/transparent" />
-
-        <include layout="@layout/contactus_layout" />
-
-
-    </ViewSwitcher>
+    </android.support.v4.view.ViewPager>
 
 
 </android.support.percent.PercentRelativeLayout>

@@ -6,11 +6,17 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
@@ -29,6 +35,7 @@ public class Floorplan extends RealmObject {
     private String desc;
     private String event;
     private String floorPlan;
+    private boolean isObsolete;
 
     public String getId() {
         return id;
@@ -62,6 +69,18 @@ public class Floorplan extends RealmObject {
         this.floorPlan = floorPlan;
     }
 
+    public boolean isObsolete() {
+        return isObsolete;
+    }
+
+    public void setObsolete(boolean obsolete) {
+        isObsolete = obsolete;
+    }
+
+    public static Floorplan getFloorPlan(Realm realm, String id) {
+        return realm.where(Floorplan.class).equalTo("id", id).findFirst();
+    }
+
     public static RealmResults getFloorPlanForEvent(Realm realm, String eventId) {
         return realm.where(Floorplan.class).equalTo("event", eventId).findAll();
     }
@@ -75,13 +94,30 @@ public class Floorplan extends RealmObject {
 
                         try {
                             realm.beginTransaction();
-                            realm.createOrUpdateAllFromJson(Floorplan.class, response);
+                            Gson gson = new GsonBuilder().create();
+                            Type collectionType = new TypeToken<ArrayList<Floorplan>>() {
+                            }.getType();
+                            ArrayList<Floorplan> floorPlans = gson.fromJson(response.toString(), collectionType);
+                            if (floorPlans.size() > 0)
+                                makeAllObsolete(realm);
+
+                            for (Floorplan floorplan : floorPlans) {
+                                Floorplan localSponsor = Floorplan.getFloorPlan(realm, floorplan.getId());
+                                if (localSponsor != null) {
+                                    floorplan.setObsolete(false);
+                                } else {
+                                }
+                                realm.copyToRealmOrUpdate(floorplan);
+                            }
+                            deleteAllObsolete(realm);
+                            //realm.createOrUpdateAllFromJson(Floorplan.class, response);
                             RealmResults floorPlan = query.findAll();
                             realm.commitTransaction();
                             callBack.fetchDidSucceed(floorPlan);
                         } catch (Exception e) {
                             Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                             callBack.fetchDidFail(e);
+                            realm.commitTransaction();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -96,5 +132,21 @@ public class Floorplan extends RealmObject {
             }
         });
         HRDFApplication.getInstance().addToRequestQueue(req);
+    }
+
+    public static void makeAllObsolete(Realm realm) {
+        RealmResults allItems = realm.where(Floorplan.class).findAll();
+        for (int i = 0; i < allItems.size(); i++) {
+            Floorplan item = (Floorplan) allItems.get(i);
+            item.setObsolete(true);
+        }
+    }
+
+    public static void deleteAllObsolete(Realm realm) {
+        RealmResults obsoleteItems = realm.where(Floorplan.class).equalTo("isObsolete", true).findAll();
+        for (int i = 0; i < obsoleteItems.size(); i++) {
+            Floorplan item = (Floorplan) obsoleteItems.get(i);
+            item.deleteFromRealm();
+        }
     }
 }

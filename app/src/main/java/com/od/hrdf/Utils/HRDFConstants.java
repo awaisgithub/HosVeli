@@ -7,6 +7,7 @@ package com.od.hrdf.Utils;
 final public class HRDFConstants {
     public static final String TAG = "HRDF";
     public static final String appId = "hrdfApp";
+    public static final String BranchList = "hrdfBranchOfficeList";
     public static final String UserListId = "hrdfUserList";
     public static final String EventListId = "hrdfEventList";
     public static final String SpeakerList = "hrdfSpeakerList";

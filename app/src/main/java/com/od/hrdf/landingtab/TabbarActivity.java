@@ -20,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,7 +29,6 @@ import com.od.hrdf.BOs.Exhibitor;
 import com.od.hrdf.BOs.Speaker;
 import com.od.hrdf.BOs.Sponsor;
 import com.od.hrdf.BOs.User;
-import com.od.hrdf.BOs.UserEvent;
 import com.od.hrdf.CallBack.CheckCallBack;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.CallBack.StatusCallBack;
@@ -38,7 +36,7 @@ import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.R;
 import com.od.hrdf.Utils.HRDFConstants;
 import com.od.hrdf.Utils.Util;
-import com.od.hrdf.abouts.AboutUsFragment;
+import com.od.hrdf.abouts.AboutMainFragment;
 import com.od.hrdf.event.EventDetailActivity;
 import com.od.hrdf.event.EventFragment;
 import com.od.hrdf.gcm.MyGcmListenerService;
@@ -254,7 +252,7 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(AboutUsFragment.newInstance("", ""), "About Us");
+        adapter.addFragment(AboutMainFragment.newInstance("", ""), "About Main");
         adapter.addFragment(NewsFragment.newInstance("", ""), "News Feed");
         adapter.addFragment(EventFragment.newInstance("", ""), "Events");
         adapter.addFragment(ProfileFragment.newInstance("", ""), "My Profile");

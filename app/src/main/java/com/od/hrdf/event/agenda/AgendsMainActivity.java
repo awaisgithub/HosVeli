@@ -60,7 +60,7 @@ public class AgendsMainActivity extends AppCompatActivity implements View.OnClic
 
     private void initViews() {
         segmentedGroup = (SegmentedGroup) findViewById(R.id.agenda_segment_control);
-        segmentedGroup.setTintColor(ContextCompat.getColor(this, R.color.colorAgendaTabs), Color.BLACK);
+        segmentedGroup.setTintColor(ContextCompat.getColor(this, R.color.colorTabs), Color.BLACK);
         findViewById(R.id.date_six).setOnClickListener(this);
         findViewById(R.id.date_seven).setOnClickListener(this);
         mViewPager = (ViewPager) findViewById(R.id.agends_pager);

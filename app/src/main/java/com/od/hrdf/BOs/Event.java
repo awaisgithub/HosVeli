@@ -89,6 +89,7 @@ public class Event extends RealmObject {
     private boolean isBookedLocal;
     private String userId;
     private User userObj;
+    private boolean isObsolete;
 
 
     public Event() {
@@ -412,6 +413,14 @@ public class Event extends RealmObject {
         this.sponsors = sponsors;
     }
 
+    public boolean isObsolete() {
+        return isObsolete;
+    }
+
+    public void setObsolete(boolean obsolete) {
+        isObsolete = obsolete;
+    }
+
     //METHODS
     public static String getEventName(String id, Realm realm) {
         return realm.where(Event.class).equalTo("id", id).findFirst().getTitle();
@@ -469,46 +478,47 @@ public class Event extends RealmObject {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(HRDFConstants.TAG, response.toString());
-//                        context.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
 
-                                Gson gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
-                                Type collectionType = new TypeToken<ArrayList<Event>>() {
-                                }.getType();
+                        realm.beginTransaction();
+                        Gson gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
+                        Type collectionType = new TypeToken<ArrayList<Event>>() {
+                        }.getType();
 
-                                ArrayList<Event> eventList = gson.fromJson(response.toString(), collectionType);
-                                String jsonString = gson.toJson(eventList);
-                                Log.i(HRDFConstants.TAG, "jsonString - " + jsonString);
-                                realm.beginTransaction();
-                                for (Event event : eventList) {
-                                    SimpleDateFormat simpleDate =  new SimpleDateFormat("MM/dd/yyyy");
-                                    String date = simpleDate.format(event.getEndDate());
-                                    String dateTime = date+"T"+event.getEndTime()+":00";
-                                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy'T'HH:mm:ss");
-                                    try {
-                                        Date timeObj = formatter.parse(dateTime);
-                                        event.setEndDateTime(timeObj);
-                                        Log.i(HRDFConstants.TAG, "timeObj ="+timeObj.getTime());
-                                    } catch (ParseException e) {
-                                        event.setEndDateTime(event.getEndDate());
-                                        e.printStackTrace();
-                                    }
-                                    Event localEvent = getEvent(event.getId(), realm);
-                                    if(localEvent != null)
-                                        event.setFavourite(localEvent.getFavourite());
+                        ArrayList<Event> eventList = gson.fromJson(response.toString(), collectionType);
+                        if (eventList.size() > 0)
+                            makeAllObsolete(realm);
 
-                                    realm.copyToRealmOrUpdate(event);
-                                }
-                                realm.commitTransaction();
-                                RealmResults events = query.findAll();
-                                try {
-                                    callBack.fetchDidSucceed(events);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                           // }
-                       // });
+                        for (Event event : eventList) {
+                            SimpleDateFormat simpleDate = new SimpleDateFormat("MM/dd/yyyy");
+                            String date = simpleDate.format(event.getEndDate());
+                            String dateTime = date + "T" + event.getEndTime() + ":00";
+                            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy'T'HH:mm:ss");
+                            try {
+                                Date timeObj = formatter.parse(dateTime);
+                                event.setEndDateTime(timeObj);
+                                Log.i(HRDFConstants.TAG, "timeObj =" + timeObj.getTime());
+                            } catch (ParseException e) {
+                                event.setEndDateTime(event.getEndDate());
+                                e.printStackTrace();
+                            }
+                            Event localEvent = getEvent(event.getId(), realm);
+                            if (localEvent != null) {
+                                event.setFavourite(localEvent.getFavourite());
+                                event.setObsolete(false);
+                            }
+
+                            realm.copyToRealmOrUpdate(event);
+                        }
+                        deleteAllObsolete(realm);
+                        realm.commitTransaction();
+                        RealmResults events = query.findAll();
+                        try {
+                            callBack.fetchDidSucceed(events);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        // }
+                        // });
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -533,28 +543,28 @@ public class Event extends RealmObject {
 //                        context.runOnUiThread(new Runnable() {
 //                            @Override
 //                            public void run() {
-                                try {
+                        try {
 
-                                    Gson gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
+                            Gson gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
 
-                                    RealmResults users = query.findAll();
+                            RealmResults users = query.findAll();
 
-                                    Type collectionType = new TypeToken<ArrayList<UserEventBO>>() {
-                                    }.getType();
+                            Type collectionType = new TypeToken<ArrayList<UserEventBO>>() {
+                            }.getType();
 
-                                    ArrayList<UserEventBO> userEvents = gson.fromJson(response.toString(), collectionType);
-                                    String jsonString = gson.toJson(userEvents);
+                            ArrayList<UserEventBO> userEvents = gson.fromJson(response.toString(), collectionType);
+                            String jsonString = gson.toJson(userEvents);
 
-                                    for (UserEventBO event : userEvents) {
-                                        Log.i(HRDFConstants.TAG, "Date Created =     " + event.datecreated.toString());
-                                    }
+                            for (UserEventBO event : userEvents) {
+                                Log.i(HRDFConstants.TAG, "Date Created =     " + event.datecreated.toString());
+                            }
 
-                                    callBack.fetchDidSucceed(users);
-                                } catch (Exception e) {
-                                    Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
-                                    callBack.fetchDidFail(e);
-                                }
-                          //  }
+                            callBack.fetchDidSucceed(users);
+                        } catch (Exception e) {
+                            Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
+                            callBack.fetchDidFail(e);
+                        }
+                        //  }
                         //});
                     }
                 }, new Response.ErrorListener() {
@@ -607,5 +617,21 @@ public class Event extends RealmObject {
             }
         });
         HRDFApplication.getInstance().addToRequestQueue(rsvpRegistration);
+    }
+
+    public static void makeAllObsolete(Realm realm) {
+        RealmResults allItems = realm.where(Event.class).findAll();
+        for (int i = 0; i < allItems.size(); i++) {
+            Event item = (Event) allItems.get(i);
+            item.setObsolete(true);
+        }
+    }
+
+    public static void deleteAllObsolete(Realm realm) {
+        RealmResults obsoleteItems = realm.where(Event.class).equalTo("isObsolete", true).findAll();
+        for (int i = 0; i < obsoleteItems.size(); i++) {
+            Event item = (Event) obsoleteItems.get(i);
+            item.deleteFromRealm();
+        }
     }
 }

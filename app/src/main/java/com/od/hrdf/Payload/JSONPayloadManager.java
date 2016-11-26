@@ -36,7 +36,7 @@ public class JSONPayloadManager {
         dataList.add(new DataBO("password", user.getPassword()));
         dataList.add(new DataBO("passwd", user.getPassword()));
         dataList.add(new DataBO("contactNumber", user.getContactNumber()));
-        dataList.add(new DataBO("nationality", user.getName()));
+        dataList.add(new DataBO("nationality", user.getNationality()));
         dataList.add(new DataBO("type", "User"));
         dataList.add(new DataBO("designation", user.getDesignation()));
         dataList.add(new DataBO("company", user.getCompany()));

@@ -59,7 +59,6 @@ public class Api {
         return urlGetJogetList(HRDFConstants.ArticleList, "id", articleId, true);
     }
 
-
     public static String urlUserList(String userId) {
         return urlGetJogetList(HRDFConstants.UserListId, "id", userId);
     }
@@ -79,6 +78,10 @@ public class Api {
 
     public static String urlEventAgenda(String eventId) {
         return urlGetJogetList(HRDFConstants.AgendaList, "event", eventId);
+    }
+
+    public static String urlBranches() {
+        return urlGetJogetList(HRDFConstants.BranchList);
     }
 
     public static String urlEventFloorplan(String eventId) {

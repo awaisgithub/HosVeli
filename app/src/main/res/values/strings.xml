@@ -9,6 +9,7 @@
     <string name="gcm_defaultSenderId">1090039120603</string>
     <!-- Buttons-->
     <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancel</string>
     <string name="dialog_congrats_title">Congratulations</string>
 
     <!-- Reg Strings -->
@@ -47,7 +48,12 @@
 
     <!-- About us strings-->
     <string name="aboutus_tab_aboutus">About HRDF</string>
-    <string name="aboutus_tab_contactus">Contact Us</string>
+    <string name="aboutus_tab_contactus">Headquarters</string>
+    <string name="aboutus_tab_branches">Branches</string>
+    <string name="aboutus_no_branches">This organization has no branches.</string>
+    <string name="aboutus_loading_branches">Loading branches…</string>
+    <string name="aboutus_dialer_dialog_title">Choose Number to Call</string>
+    <string name="aboutus_error_branches">Unable to fetch branches info from server.</string>
     <string name="aboutus_header_text_bhasa">PEMBANGUNAN SUMBER MANUSIA BERHAD</string>
     <string name="aboutus_header_text_english">Human Resource Development Fund (545143-D)</string>
 

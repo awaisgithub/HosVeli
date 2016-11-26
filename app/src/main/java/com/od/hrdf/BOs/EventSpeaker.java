@@ -6,11 +6,17 @@ import android.util.Log;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.od.hrdf.CallBack.FetchCallBack;
 import com.od.hrdf.HRDFApplication;
 import com.od.hrdf.Utils.HRDFConstants;
 
 import org.json.JSONArray;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmCollection;
@@ -46,6 +52,7 @@ public class EventSpeaker extends RealmObject {
     String speakerName;
     String speakerjobtitle;
     String sortingseq;
+    private boolean isObsolete;
 
     public String getDateModified() {
         return dateModified;
@@ -191,6 +198,13 @@ public class EventSpeaker extends RealmObject {
         this.sortingseq = sortingseq;
     }
 
+    public boolean isObsolete() {
+        return isObsolete;
+    }
+
+    public void setObsolete(boolean obsolete) {
+        isObsolete = obsolete;
+    }
 
     public static RealmList<EventSpeaker> getEventSpeakerList(Realm realm, String eventId) {
         RealmList<EventSpeaker> speakers = new RealmList<>();
@@ -200,6 +214,10 @@ public class EventSpeaker extends RealmObject {
             speakers.add((EventSpeaker) realmResults.get(i));
         }
         return speakers;
+    }
+
+    public static EventSpeaker getEventSpeaker(Realm realm, String id) {
+        return realm.where(EventSpeaker.class).equalTo("id", id).findFirst();
     }
 
     public static RealmResults<EventSpeaker> getEventSpeakerResultSet(Realm realm, String eventId) {
@@ -218,13 +236,30 @@ public class EventSpeaker extends RealmObject {
                             public void run() {
                                 try {
                                     realm.beginTransaction();
-                                    realm.createOrUpdateAllFromJson(EventSpeaker.class, response);
+                                    Gson gson = new GsonBuilder().create();
+                                    Type collectionType = new TypeToken<ArrayList<EventSpeaker>>() {
+                                    }.getType();
+                                    ArrayList<EventSpeaker> speakers = gson.fromJson(response.toString(), collectionType);
+                                    if (speakers.size() > 0)
+                                        makeAllObsolete(realm);
+
+                                    for (EventSpeaker speaker : speakers) {
+                                        EventSpeaker localSpeaker = EventSpeaker.getEventSpeaker(realm, speaker.getId());
+                                        if (localSpeaker != null) {
+                                            speaker.setObsolete(false);
+                                        } else {
+                                        }
+                                        realm.copyToRealmOrUpdate(speaker);
+                                    }
+                                    deleteAllObsolete(realm);
+                                    //realm.createOrUpdateAllFromJson(EventSpeaker.class, response);
                                     RealmResults eventSpeakers = query.findAll();
                                     realm.commitTransaction();
                                     callBack.fetchDidSucceed(eventSpeakers);
                                 } catch (Exception e) {
                                     Log.i(HRDFConstants.TAG, "Exception Error - " + e.getMessage());
                                     callBack.fetchDidFail(e);
+                                    realm.commitTransaction();
                                 }
                             }
                         });
@@ -242,5 +277,21 @@ public class EventSpeaker extends RealmObject {
             }
         });
         HRDFApplication.getInstance().addToRequestQueue(req);
+    }
+
+    public static void makeAllObsolete(Realm realm) {
+        RealmResults allItems = realm.where(EventSpeaker.class).findAll();
+        for (int i = 0; i < allItems.size(); i++) {
+            EventSpeaker item = (EventSpeaker) allItems.get(i);
+            item.setObsolete(true);
+        }
+    }
+
+    public static void deleteAllObsolete(Realm realm) {
+        RealmResults obsoleteItems = realm.where(EventSpeaker.class).equalTo("isObsolete", true).findAll();
+        for (int i = 0; i < obsoleteItems.size(); i++) {
+            EventSpeaker item = (EventSpeaker) obsoleteItems.get(i);
+            item.deleteFromRealm();
+        }
     }
 }
