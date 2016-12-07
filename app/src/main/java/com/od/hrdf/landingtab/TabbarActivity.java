@@ -3,10 +3,12 @@ package com.od.hrdf.landingtab;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
@@ -42,6 +44,7 @@ import com.od.hrdf.event.EventFragment;
 import com.od.hrdf.gcm.MyGcmListenerService;
 import com.od.hrdf.gcm.RegistrationIntentService;
 import com.od.hrdf.loginregistration.LoginRegistrationActivity;
+import com.od.hrdf.loginregistration.RegistrationFragment;
 import com.od.hrdf.news.NewsDetailsActivity;
 import com.od.hrdf.news.NewsFragment;
 import com.od.hrdf.profile.ProfileFragment;
@@ -149,7 +152,11 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
                     gotoNewsDetailActivity(articleId);
                 } else if(from != null && from.equalsIgnoreCase(HRDFConstants.GCM_FROM_UPCOMING_EVENT)) {
                     String eventId = intent.getStringExtra(HRDFConstants.KEY_GCM_ITEM_ID);
-                    gotoEventDetailActivity(eventId);
+                    String message = intent.getStringExtra(HRDFConstants.GCM_INTENT_KEY_MESSAGE);
+                    gotoEventDetailActivity(eventId, message);
+                } else if(from != null && from.equalsIgnoreCase(HRDFConstants.GCM_FROM_GENERAL)){
+                    String message = intent.getStringExtra(HRDFConstants.GCM_INTENT_KEY_MESSAGE);
+                    normalPushNotificationDialog(message);
                 }
             } else {
 
@@ -360,10 +367,11 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
         startActivity(intent);
     }
 
-    private void gotoEventDetailActivity(String eventId) {
+    private void gotoEventDetailActivity(String eventId, String message) {
         Intent intent = new Intent(this, EventDetailActivity.class);
         intent.putExtra(HRDFConstants.LAUNCH_TYPE_KEY, HRDFConstants.LAUNCH_TYPE_GCM);
         intent.putExtra(HRDFConstants.KEY_EVENT_TYPE, EventFragment.LIST_TYPE_UPCOMING);
+        intent.putExtra(HRDFConstants.GCM_INTENT_KEY_MESSAGE, message);
         intent.putExtra(HRDFConstants.KEY_GCM_ITEM_ID, eventId);
         startActivity(intent);
     }
@@ -388,6 +396,19 @@ public class TabbarActivity extends AppCompatActivity implements TabFragActivity
             return false;
         }
         return true;
+    }
+
+    private void normalPushNotificationDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.ThemeDialogCustom);
+        //builder.setTitle(R.string.dialog_congrats_title);
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

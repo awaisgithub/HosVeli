@@ -467,7 +467,7 @@ public class Event extends RealmObject {
 
     public static RealmResults<Event> getSurveyEvents(Realm realm) {
         Date today = new Date();
-        return realm.where(Event.class).lessThan("endDateTime", today).isNotNull("surveyId").isNotEmpty("surveyId")
+        return realm.where(Event.class).lessThanOrEqualTo("startDate", today).isNotNull("surveyId").isNotEmpty("surveyId")
                 .findAll().sort("startDate", Sort.DESCENDING);
     }
 

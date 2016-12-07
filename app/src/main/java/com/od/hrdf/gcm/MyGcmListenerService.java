@@ -91,6 +91,16 @@ public class MyGcmListenerService extends GcmListenerService {
 
                             EventBus.getDefault().post(NotificationEvent.INSTANCE);
                             ShortcutBadger.applyCount(getApplicationContext(), ++count);
+                        } else if (whatNotification.equalsIgnoreCase(HRDFConstants.GCM_FROM_GENERAL)){
+                           // NotificationEvent.INSTANCE.articleId = payLoad.optString("event");
+                            NotificationEvent.INSTANCE.message = payLoad.optString("message");
+                            NotificationEvent.INSTANCE.from = whatNotification;
+
+                            if (EventBus.getDefault().isRegistered(this) == false)
+                                EventBus.getDefault().register(this);
+
+                            EventBus.getDefault().post(NotificationEvent.INSTANCE);
+                            ShortcutBadger.applyCount(getApplicationContext(), ++count);
                         }
                     }
                 }
@@ -123,6 +133,8 @@ public class MyGcmListenerService extends GcmListenerService {
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setSound(defaultSoundUri)
                     .setLights(Color.GRAY, 2000, 1000)
+                    .setStyle(new Notification.BigTextStyle()
+                            .bigText(notificationEvent.message))
                     .setAutoCancel(true).build();
         }
 

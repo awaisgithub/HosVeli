@@ -1,6 +1,7 @@
 package com.od.hrdf.event;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -18,6 +19,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
@@ -79,6 +81,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
     private AboutUs aboutUs;
     private ProgressDialog progressDialog;
     private ShareActionProvider mShareActionProvider;
+    private String gcmMessage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +92,11 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         event = Event.getEvent(eventId, realm);
         user = User.getCurrentUser(realm);
         aboutUs = AboutUs.getAboutUs(realm);
-        if (event.getFavourite()) {
+        if (event != null && event.getFavourite()) {
             isEventFav = true;
         } else {
             isEventFav = false;
         }
-
         initViews();
     }
 
@@ -156,6 +158,7 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
         if (intent != null && intent.hasExtra(HRDFConstants.LAUNCH_TYPE_KEY)) {
             String launchType = intent.getStringExtra(HRDFConstants.LAUNCH_TYPE_KEY);
             if (launchType.equalsIgnoreCase(HRDFConstants.LAUNCH_TYPE_GCM)) {
+                gcmMessage = intent.getStringExtra(HRDFConstants.GCM_INTENT_KEY_MESSAGE);
                 String eventId = intent.getStringExtra(HRDFConstants.KEY_GCM_ITEM_ID);
                 showProgressDialog(R.string.news_loading_detail);
                 fetchEventById(eventId);
@@ -241,6 +244,8 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
             }
         }
 
+        if(gcmMessage != null && gcmMessage.isEmpty() == false)
+            normalPushNotificationDialog(gcmMessage);
     }
 
     private void setDateTimeView(TextView tv) {
@@ -425,6 +430,19 @@ public class EventDetailActivity extends AppCompatActivity implements View.OnCli
     private void hideProgressDialog() {
         ((TextView) findViewById(R.id.button_register)).setVisibility(View.VISIBLE);
         progressDialog.dismiss();
+    }
+
+    private void normalPushNotificationDialog(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.ThemeDialogCustom);
+        builder.setTitle("Notification");
+        builder.setMessage(message);
+        builder.setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
     private Intent chooserIntent() {

@@ -76,7 +76,7 @@
                         android:gravity="end"
                         android:textColor="@color/colorOrange"
                         android:textSize="14sp"
-                        android:text="Contact Center:" />
+                        android:text="Call Center:" />
 
                     <com.od.hrdf.Utils.HelveticaNeueTV
                         android:id="@+id/contact"

@@ -50,7 +50,7 @@ final public class HRDFConstants {
     public static String GCM_INTENT_KEY_STATUS = "status";
     public static String GCM_INTENT_KEY_FROM = "from";
     public static String GCM_FROM_ARTICLE = "from_gcm_article";
-
+    public static String GCM_FROM_GENERAL = "general";
     public static String GCM_FROM_UPCOMING_EVENT = "from_upcoming_event";
 
 }
