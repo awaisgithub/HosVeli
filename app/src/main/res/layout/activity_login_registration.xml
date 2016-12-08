@@ -5,7 +5,7 @@
     android:id="@+id/activity_login_registration"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.od.hrdf.loginregistration.LoginRegistrationActivity">
+    tools:context="com.od.mma.loginregistration.LoginRegistrationActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"

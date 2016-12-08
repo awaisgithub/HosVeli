@@ -3,7 +3,7 @@
     android:id="@+id/error_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.od.hrdf.landingtab.TabbarActivity$PlaceholderFragment">
+    tools:context="com.od.mma.landingtab.TabbarActivity$PlaceholderFragment">
 
     <ImageView
         android:layout_centerInParent="true"
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/error_logo"/>
 
-    <com.od.hrdf.Utils.HelveticaNeueTV
+    <com.od.mma.Utils.HelveticaNeueTV
         android:layout_marginTop="10dp"
         android:layout_centerInParent="true"
         android:layout_below="@+id/logo"

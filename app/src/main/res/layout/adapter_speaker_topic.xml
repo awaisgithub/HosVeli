@@ -7,7 +7,7 @@
     android:layout_marginEnd="10dp"
     android:orientation="vertical">
 
-    <com.od.hrdf.Utils.HelveticaNeueTV
+    <com.od.mma.Utils.HelveticaNeueTV
         android:layout_marginTop="5dp"
         android:id="@+id/title"
         android:layout_width="wrap_content"

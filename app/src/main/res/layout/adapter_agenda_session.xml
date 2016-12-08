@@ -8,7 +8,7 @@
     android:layout_marginBottom="5dp"
     android:orientation="vertical">
 
-    <com.od.hrdf.Utils.HelveticaNeueTV
+    <com.od.mma.Utils.HelveticaNeueTV
         android:id="@+id/venue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:textColor="@android:color/holo_red_light"
         android:textSize="14sp" />
 
-    <com.od.hrdf.Utils.HelveticaNeueTV
+    <com.od.mma.Utils.HelveticaNeueTV
         android:layout_marginTop="5dp"
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
         android:textSize="12sp"
         android:textStyle="bold" />
 
-    <com.od.hrdf.Utils.HelveticaNeueTV
+    <com.od.mma.Utils.HelveticaNeueTV
         android:layout_marginTop="5dp"
         android:id="@+id/more_info"
         android:layout_width="wrap_content"

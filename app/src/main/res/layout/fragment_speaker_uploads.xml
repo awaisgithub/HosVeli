@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.od.hrdf.event.speaker.uploads.SpeakerUploadsFragment">
+    tools:context="com.od.mma.event.speaker.uploads.SpeakerUploadsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/speaker_uploads_rcv"

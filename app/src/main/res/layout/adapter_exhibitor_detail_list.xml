@@ -32,7 +32,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center_vertical">
 
-            <com.od.hrdf.Utils.HelveticaNeueTV
+            <com.od.mma.Utils.HelveticaNeueTV
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
-            <com.od.hrdf.Utils.HelveticaNeueTV
+            <com.od.mma.Utils.HelveticaNeueTV
                 android:id="@+id/booth"
                 android:layout_below="@+id/name"
                 android:layout_width="match_parent"

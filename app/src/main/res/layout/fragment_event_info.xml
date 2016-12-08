@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.od.hrdf.event.EventInfoFragment">
+    tools:context="com.od.mma.event.EventInfoFragment">
 
-    <com.od.hrdf.Utils.HelveticaNeueTV
+    <com.od.mma.Utils.HelveticaNeueTV
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Join Us At"
         android:textColor="@color/colorBlack"
         android:textSize="14sp" />
 
-    <com.od.hrdf.Utils.HelveticaNeueTV
+    <com.od.mma.Utils.HelveticaNeueTV
         android:id="@+id/title"
         android:layout_marginTop="2dp"
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         android:layout_height="3dp"
         android:background="@color/colorTabs"/>
 
-    <com.od.hrdf.Utils.HelveticaNeueTV
+    <com.od.mma.Utils.HelveticaNeueTV
         android:layout_marginTop="5dp"
         android:id="@+id/objective"
         android:gravity="center_vertical"

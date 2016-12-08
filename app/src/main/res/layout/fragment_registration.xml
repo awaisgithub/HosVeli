@@ -4,7 +4,7 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.od.hrdf.loginregistration.RegistrationFragment">
+    tools:context="com.od.mma.loginregistration.RegistrationFragment">
 
     <ScrollView
         android:layout_width="match_parent"

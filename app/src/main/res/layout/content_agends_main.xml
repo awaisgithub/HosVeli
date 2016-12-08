@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.od.hrdf.event.agenda.AgendsMainActivity"
+    tools:context="com.od.mma.event.agenda.AgendsMainActivity"
     tools:showIn="@layout/activity_agends_main">
 
     <ImageView

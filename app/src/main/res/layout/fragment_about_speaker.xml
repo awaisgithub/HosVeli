@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.od.hrdf.event.speaker.AboutSpeakerFragment">
+    tools:context="com.od.mma.event.speaker.AboutSpeakerFragment">
 
-    <com.od.hrdf.Utils.HelveticaNeueTV
+    <com.od.mma.Utils.HelveticaNeueTV
         android:id="@+id/title"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"

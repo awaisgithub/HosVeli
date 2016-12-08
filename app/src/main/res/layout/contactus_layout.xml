@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.od.hrdf.Utils.HelveticaNeueTV
+            <com.od.mma.Utils.HelveticaNeueTV
                 android:id="@+id/main_office_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
                 tools:layout_constraintLeft_creator="1"
                 tools:layout_constraintRight_creator="1" />
 
-            <com.od.hrdf.Utils.HelveticaNeueTV
+            <com.od.mma.Utils.HelveticaNeueTV
                 android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <com.od.hrdf.Utils.HelveticaNeueTV
+                    <com.od.mma.Utils.HelveticaNeueTV
                         android:id="@+id/yearofap"
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                         android:textSize="14sp"
                         android:text="Call Center:" />
 
-                    <com.od.hrdf.Utils.HelveticaNeueTV
+                    <com.od.mma.Utils.HelveticaNeueTV
                         android:id="@+id/contact"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp">
 
-                    <com.od.hrdf.Utils.HelveticaNeueTV
+                    <com.od.mma.Utils.HelveticaNeueTV
                         android:id="@+id/dateappliedtitle"
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                         android:textSize="14sp"
                         android:text="Email:" />
 
-                    <com.od.hrdf.Utils.HelveticaNeueTV
+                    <com.od.mma.Utils.HelveticaNeueTV
                         android:id="@+id/email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp">
 
-                    <com.od.hrdf.Utils.HelveticaNeueTV
+                    <com.od.mma.Utils.HelveticaNeueTV
                         android:id="@+id/websiteTitle"
                         android:layout_width="130dp"
                         android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                         android:textSize="14sp"
                         android:text="Website:" />
 
-                    <com.od.hrdf.Utils.HelveticaNeueTV
+                    <com.od.mma.Utils.HelveticaNeueTV
                         android:id="@+id/website"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

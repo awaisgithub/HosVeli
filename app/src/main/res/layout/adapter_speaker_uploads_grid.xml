@@ -20,7 +20,7 @@
         fresco:actualImageScaleType="fitCenter"/>
 
 
-    <com.od.hrdf.Utils.HelveticaNeueTV
+    <com.od.mma.Utils.HelveticaNeueTV
         android:layout_below="@+id/file_photo"
         android:layout_centerHorizontal="true"
         android:padding="5dp"

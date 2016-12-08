@@ -23,7 +23,7 @@
             android:padding="5dp"
             android:weightSum="1">
 
-            <com.od.hrdf.Utils.HelveticaNeueTV
+            <com.od.mma.Utils.HelveticaNeueTV
                 android:id="@+id/title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

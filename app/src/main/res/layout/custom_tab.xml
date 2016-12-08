@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.od.hrdf.Utils.HelveticaNeueTV xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.od.mma.Utils.HelveticaNeueTV xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -11,6 +11,6 @@
         android:textColor="@color/colorTabs"
         android:textSize="12sp">
 
-    </com.od.hrdf.Utils.HelveticaNeueTV>
+    </com.od.mma.Utils.HelveticaNeueTV>
 
 </RelativeLayout>
