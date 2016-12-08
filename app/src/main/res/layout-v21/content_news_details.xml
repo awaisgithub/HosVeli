@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.od.hrdf.news.NewsDetailsActivity"
+    tools:context="com.od.mma.news.NewsDetailsActivity"
     tools:showIn="@layout/activity_news_details">
 
     <ImageView
@@ -38,7 +38,7 @@
                 android:alpha="0.9"
                 android:background="@color/colorBlack" />
 
-            <com.od.hrdf.Utils.HelveticaNeueTV
+            <com.od.mma.Utils.HelveticaNeueTV
                 android:id="@+id/textview_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
