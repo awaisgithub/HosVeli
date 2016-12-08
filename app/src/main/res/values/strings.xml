@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HRDF Events</string>
+    <string name="app_name">MMA</string>
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -35,7 +35,7 @@
     <string name="reg_error_duplicate">Your are already a registered user. Please login</string>
     <string name="reg_checking_duplicate">Checking for duplication...</string>
     <string name="reg_registering">Submitting registration....Please login</string>
-    <string name="reg_registered_message">Thank you for registering with HRDF. You can proceed to app now.</string>
+    <string name="reg_registered_message">Thank you for registering with MMA. You can proceed to app now.</string>
 
     <!-- Login Strings-->
     <string name="login_not_exist">No account exist with this username. Please SIGN UP first.</string>
@@ -47,7 +47,7 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- About us strings-->
-    <string name="aboutus_tab_aboutus">About HRDF</string>
+    <string name="aboutus_tab_aboutus">About MMA</string>
     <string name="aboutus_tab_contactus">Headquarters</string>
     <string name="aboutus_tab_branches">Branches</string>
     <string name="aboutus_no_branches">This organization has no branches.</string>

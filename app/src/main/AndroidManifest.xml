@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.od.hrdf">
+    package="com.od.mma">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -16,7 +16,7 @@
         android:name="android.permission.STATUS_BAR_SERVICE"
         android:protectionLevel="signature" />
     <permission
-        android:name="com.od.hrdf.permission.C2D_MESSAGE"
+        android:name="com.od.mma.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <!--
@@ -27,7 +27,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
-        android:name=".HRDFApplication"
+        android:name="com.od.mma.MMAApplication"
         android:allowBackup="true"
         android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,7 +35,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".splash.SplashActivity"
+            android:name="com.od.mma.splash.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -45,34 +45,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".loginregistration.LoginRegistrationActivity"
+            android:name="com.od.mma.loginregistration.LoginRegistrationActivity"
             android:theme="@style/AppTheme.Login"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".landingtab.TabbarActivity"
+            android:name="com.od.mma.landingtab.TabbarActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".news.NewsDetailsActivity"
+            android:name="com.od.mma.news.NewsDetailsActivity"
             android:label="@string/title_activity_news_details"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".event.EventDetailActivity"
+            android:name="com.od.mma.event.EventDetailActivity"
             android:label="@string/title_activity_event_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".event.speaker.SpeakerDetailActivity"
+            android:name="com.od.mma.event.speaker.SpeakerDetailActivity"
             android:label="@string/title_activity_speaker_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".event.agenda.AgendsMainActivity"
+            android:name="com.od.mma.event.agenda.AgendsMainActivity"
             android:label="@string/title_activity_agends_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -89,15 +89,15 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".event.EventLocationActivity"
+            android:name="com.od.mma.event.EventLocationActivity"
             android:label="@string/title_activity_event_location">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.od.hrdf.event.EventDetailActivity" />
+                android:value="com.od.mma.event.EventDetailActivity" />
         </activity>
 
         <activity
-            android:name=".event.floorplan.FragmentFloorImageZoom"
+            android:name="com.od.mma.event.floorplan.FragmentFloorImageZoom"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
@@ -117,7 +117,7 @@
 
         <!-- [START gcm_listener] -->
         <service
-            android:name=".gcm.MyGcmListenerService"
+            android:name="com.od.mma.gcm.MyGcmListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
@@ -128,7 +128,7 @@
 
         <!-- [START instanceId_listener] -->
         <service
-            android:name=".gcm.MyInstanceIDListenerService"
+            android:name="com.od.mma.gcm.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
@@ -137,7 +137,7 @@
         <!-- [END instanceId_listener] -->
 
         <service
-            android:name=".gcm.RegistrationIntentService"
+            android:name="com.od.mma.gcm.RegistrationIntentService"
             android:exported="false" />
 
     </application>
