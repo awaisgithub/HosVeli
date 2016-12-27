@@ -33,7 +33,7 @@ public class AboutMainFragment extends Fragment implements View.OnClickListener 
     private TabFragActivityInterface mListener;
     private View rootView;
     private Realm realm;
-    private RadioButton aboutUsRB, contactUs, offices;
+    private RadioButton aboutUsRB, contactUs, offices, membership;
     private AboutUs aboutUs = null;
     private ViewPager mViewPager;
     private SegmentedGroup segmentedGroup;
@@ -144,6 +144,14 @@ public class AboutMainFragment extends Fragment implements View.OnClickListener 
             }
         });
 
+        membership = (RadioButton) rootView.findViewById(R.id.membership);
+        membership.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mViewPager.setCurrentItem(3, true);
+            }
+        });
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -156,8 +164,10 @@ public class AboutMainFragment extends Fragment implements View.OnClickListener 
                     aboutUsRB.setChecked(true);
                 else if(position == 1)
                     contactUs.setChecked(true);
-                else
+                else if(position == 2)
                     offices.setChecked(true);
+                else if(position == 3)
+                    membership.setChecked(true);
             }
 
             @Override
@@ -176,6 +186,8 @@ public class AboutMainFragment extends Fragment implements View.OnClickListener 
         adapter.addFragment(AboutUsFragment.newInstance("", ""), "About Us");
         adapter.addFragment(ContactUsFragment.newInstance("", ""), "Contact Us");
         adapter.addFragment(OfficeListFragment.newInstance("", ""), "Offices");
+        adapter.addFragment(MembershipFragment.newInstance("", ""), "Membership");
+
         viewPager.setAdapter(adapter);
     }
 

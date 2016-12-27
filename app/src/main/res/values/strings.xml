@@ -50,6 +50,7 @@
     <string name="aboutus_tab_aboutus">About MMA</string>
     <string name="aboutus_tab_contactus">Headquarters</string>
     <string name="aboutus_tab_branches">Branches</string>
+    <string name="aboutus_tab_membership">Membership</string>
     <string name="aboutus_no_branches">This organization has no branches.</string>
     <string name="aboutus_loading_branches">Loading branches…</string>
     <string name="aboutus_dialer_dialog_title">Choose Number to Call</string>
