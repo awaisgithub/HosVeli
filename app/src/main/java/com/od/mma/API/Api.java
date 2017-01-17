@@ -46,6 +46,13 @@ public class Api {
         return loginUrl;
     }
 
+    public static String urlForgotPassword(String email) {
+        String loginUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?";
+        loginUrl = loginUrl + "&email=" + email;
+        loginUrl = loginUrl + "&method=forgetPassword";
+        return loginUrl;
+    }
+
 
     //
 
@@ -135,10 +142,6 @@ public class Api {
 
     public static String urlEventSponsorsList(String eventId) {
         return urlGetJogetList(MMAConstants.EventSponsorsList, "event", eventId);
-    }
-
-    public static String urlForgotPassword() {
-        return "http://" + basicBaseURL + "/jw/web/json/plugin/org.joget.hrdf.forgetPasswordWS/service";
     }
 
     public static String urlSubmitUserRating() {

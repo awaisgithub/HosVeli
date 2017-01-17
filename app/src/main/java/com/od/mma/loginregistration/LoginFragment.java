@@ -121,26 +121,28 @@ public class LoginFragment extends Fragment {
                 if (TextUtils.isEmpty(username.getText().toString())) {
                     showActionSnackBarMessage(getString(R.string.login_error_username));
                 } else {
-                    try {
-                        forgotPassword(username.getText().toString(), Api.urlForgotPassword(), new StatusCallBack() {
+                        User.forgotPassword(Api.urlForgotPassword(username.getText().toString()), getActivity(), new StatusCallBack() {
                             @Override
                             public void success(JSONObject response) {
-                                String status = response.optString("Status");
-                                if (status.equals("OK")) {
+                                String forgot_status = response.optString("status");
+                                String forgot_error = response.optString("error");
+
+                                if (forgot_status.contains("SUCCEEDED")) {
                                     showActionSnackBarMessage("An email with link to reset password has been sent to the above email.");
-                                } else
+                                }
+                                if (forgot_error.contains("Sorry email not found")) {
                                     showActionSnackBarMessage("No account with that email address exist. Please sign up as a new user.");
+                                } else if (forgot_error.contains("Error sending email")) {
+                                    showActionSnackBarMessage("Error sending email. Please try again.");
+                                }
                             }
 
                             @Override
                             public void failure(String response) {
-                                showActionSnackBarMessage("No account with that email address exist. Please sign up as a new user.");
+                                showActionSnackBarMessage(getString(R.string.login_server_error));
+
                             }
                         });
-                    } catch (JSONException e) {
-                        showActionSnackBarMessage("Error = " + e.toString());
-                        e.printStackTrace();
-                    }
                 }
             }
         });
