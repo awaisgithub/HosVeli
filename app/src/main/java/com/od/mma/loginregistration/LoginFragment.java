@@ -202,18 +202,18 @@ public class LoginFragment extends Fragment {
             @Override
             public void fetchDidSucceed(JSONObject response) {
                 User user = realm.where(User.class).equalTo("id", email).findFirst();
-              //  User user1 = realm.where(User.class).equalTo("id", email).findFirst();
+                //  User user1 = realm.where(User.class).equalTo("id", email).findFirst();
 
                 realm.beginTransaction();
                 String login_status = response.optString("loginStatus");
                 if (login_status.contains("SUCCEEDED")) {
 
                     if (user != null) {
-                            Log.i(MMAConstants.TAG_MMA, "LOGIN usre!=null if(1) = ");
-                            user.setTemp(false);
-                            user.setSyncedLocal(true);
+                        Log.i(MMAConstants.TAG_MMA, "LOGIN usre!=null if(1) = ");
+                        user.setTemp(false);
+                        user.setSyncedLocal(true);
 
-                            mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
+                        mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
 
                     } else {
                         Log.i(MMAConstants.TAG_MMA, "LOGIN usre!=null else(1) = ");
@@ -227,8 +227,10 @@ public class LoginFragment extends Fragment {
 
                         mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
                     }
-                } else if (login_status.contains("FAILED")) {
+                } else if (login_status.contains("USERNAME_IS_INCORRECT")) {
                     showActionSnackBarMessage(getString(R.string.login_not_exist));
+                } else if (login_status.contains("PASSWORD_IS_INCORRECT")) {
+                    showActionSnackBarMessage(getString(R.string.login_not_exist_wrong_pass));
                 } else if (login_status.contains("error")) {
                     showActionSnackBarMessage(getString(R.string.login_error_unknown_server));
                 }

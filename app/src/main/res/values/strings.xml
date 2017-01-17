@@ -43,6 +43,7 @@
 
     <!-- Login Strings-->
     <string name="login_not_exist">No account exist with this username. Please SIGN UP first.</string>
+    <string name="login_not_exist_wrong_pass">Invalid password. Please try again.</string>
     <string name="login_server_error">Unable to connect to server.</string>
     <string name="login_cred_error">Unable to login. Please check your login credentials.</string>
     <string name="login_authenticating">Authenticating....</string>
