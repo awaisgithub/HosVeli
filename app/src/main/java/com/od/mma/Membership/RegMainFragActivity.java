@@ -152,23 +152,24 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
                         PagerViewPager.setPos(9);
                         break;
                     case 10:
-                        toolbar_title.setText("Payment Method");
+//                        toolbar_title.setText("Payment Method");
+                        toolbar_title.setText("Application Status Details");
                         EmploymentInfoFrag employmentInfoFrag = (EmploymentInfoFrag) pagerFragments.get(9);
                         employmentInfoFrag.validation();
                         PagerViewPager.setPos(10);
                         break;
-                    case 11:
-                        toolbar_title.setText("Payment Details");
-                        PaymentFrag PaymentFrag = (PaymentFrag) pagerFragments.get(10);
-                        PaymentFrag.validation();
-                        PagerViewPager.setPos(11);
-                        break;
-                    case 12:
-                        toolbar_title.setText("Application Status Details");
-                        PaymentDetailsFrag PaymentDetailsFrag = (PaymentDetailsFrag) pagerFragments.get(11);
-                        PaymentDetailsFrag.validation();
-                        PagerViewPager.setPos(12);
-                        break;
+//                    case 11:
+//                        toolbar_title.setText("Payment Details");
+//                        PaymentFrag PaymentFrag = (PaymentFrag) pagerFragments.get(10);
+//                        PaymentFrag.validation();
+//                        PagerViewPager.setPos(11);
+//                        break;
+//                    case 12:
+//                        toolbar_title.setText("Application Status Details");
+//                        PaymentDetailsFrag PaymentDetailsFrag = (PaymentDetailsFrag) pagerFragments.get(11);
+//                        PaymentDetailsFrag.validation();
+//                        PagerViewPager.setPos(12);
+//                        break;
                     default:
                         PagerViewPager.setPos(0);
                 }
@@ -194,8 +195,8 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
         pagerFragments.add(PostgradDegreeFrag.newInstance("PostgradDegreeFrag, Instance 1"));
         pagerFragments.add(MMCInfoFrag.newInstance("MMCInfoFrag, Instance 1"));
         pagerFragments.add(EmploymentInfoFrag.newInstance("EmploymentInfoFrag, Instance 1"));
-        pagerFragments.add(PaymentFrag.newInstance("PaymentFrag, Instance 1"));
-        pagerFragments.add(PaymentDetailsFrag.newInstance("PaymentDetailsFrag, Instance 1"));
+     //   pagerFragments.add(PaymentFrag.newInstance("PaymentFrag, Instance 1"));
+     //   pagerFragments.add(PaymentDetailsFrag.newInstance("PaymentDetailsFrag, Instance 1"));
         pagerFragments.add(ApplicationStatusFrag.newInstance("ApplicationStatusFrag, Instance 1"));
     }
 
@@ -235,12 +236,12 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
             case 10:
                 PagerViewPager.getPager().setCurrentItem(10, true);
                 break;
-            case 11:
-                PagerViewPager.getPager().setCurrentItem(11, true);
-                break;
-            case 12:
-                PagerViewPager.getPager().setCurrentItem(12, true);
-                break;
+//            case 11:
+//                PagerViewPager.getPager().setCurrentItem(11, true);
+//                break;
+//            case 12:
+//                PagerViewPager.getPager().setCurrentItem(12, true);
+//                break;
             default:
                 PagerViewPager.setPos(0);
         }
@@ -293,10 +294,10 @@ class MyPagerAdapter extends FragmentPagerAdapter {
                 return pagerFragments.get(9);
             case 10:
                 return pagerFragments.get(10);
-            case 11:
-                return pagerFragments.get(11);
-            case 12:
-                return pagerFragments.get(12);
+//            case 11:
+//                return pagerFragments.get(11);
+//            case 12:
+//                return pagerFragments.get(12);
             default:
                 return pagerFragments.get(0);
         }
@@ -309,7 +310,7 @@ class MyPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 13;
+        return 11;
     }
 }
 

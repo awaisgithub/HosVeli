@@ -271,6 +271,7 @@
     <string name="reg_hint_addr">Address</string>
     <string name="reg_hint_nric">NRIC Number</string>
     <string name="reg_hint_mmc">MMC Registration No</string>
+    <string name="reg_hint_mmc_tpc">MMC TPC Registration No</string>
     <string name="reg_hint_dor">Date of Registration</string>
     <string name="reg_hint_yodc">Year of Degree Completion</string>
     <string name="reg_hint_bank">Bank</string>
@@ -481,8 +482,10 @@
         <item>Private</item>
         <item>Private Specialist</item>
         <item>Retired</item>
-        <item>University</item>
-        <item>University Specialist</item>
+        <item>Government University</item>
+        <item>Government University Specialist</item>
+        <item>Private University</item>
+        <item>Private University Specialist</item>
     </string-array>
 
     <string-array name="id_practice">

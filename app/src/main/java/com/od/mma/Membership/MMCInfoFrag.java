@@ -70,6 +70,7 @@ public class MMCInfoFrag extends Fragment {
     Calendar myCalendar;
     EditText mmc_reg_no;
     EditText date_pik;
+    EditText mmc_tpc_reg_no;
     boolean error = false;
     boolean error1 = false;
     boolean error2 = false;
@@ -140,6 +141,7 @@ public class MMCInfoFrag extends Fragment {
 
     private void initView() {
         image_title = (TextView) rootView.findViewById(R.id.user_profile_name2);
+        mmc_tpc_reg_no = (EditText) rootView.findViewById(R.id.tpc_regno);
      //   title = (TextView) rootView.findViewById(R.id.title);
         id_uni = (Spinner) rootView.findViewById(R.id.id_uni);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.id_uni, R.layout.spinner_item);
@@ -189,12 +191,14 @@ public class MMCInfoFrag extends Fragment {
           //  title.setText("University Info");
             id_uni.setVisibility(View.VISIBLE);
             mmc_reg_no.setVisibility(View.GONE);
+            mmc_tpc_reg_no.setVisibility(View.GONE);
             date_pik.setHint("Year of Degree Completion");
             image_title.setText("Letter from University OR Student Card");
         } else {
          //   title.setText("MMC Registration Info");
             id_uni.setVisibility(View.GONE);
             mmc_reg_no.setVisibility(View.VISIBLE);
+            mmc_tpc_reg_no.setVisibility(View.VISIBLE);
             date_pik.setText("Date of Registration");
             image_title.setText("Upload MMC Certificate");
         }
@@ -205,6 +209,9 @@ public class MMCInfoFrag extends Fragment {
         }
         if (!(PagerViewPager.membership.getMmc_reg_no() == null)) {
             mmc_reg_no.setText(PagerViewPager.membership.getMmc_reg_no());
+        }
+        if (!(PagerViewPager.membership.getMmc_tpc_reg_no() == null)) {
+            mmc_reg_no.setText(PagerViewPager.membership.getMmc_tpc_reg_no());
         }
         if (!(PagerViewPager.membership.getMmc_dob() == null)) {
             date_pik.setText(PagerViewPager.membership.getMmc_dob());
@@ -257,6 +264,28 @@ public class MMCInfoFrag extends Fragment {
                     @Override
                     public void execute(Realm realm) {
                         PagerViewPager.membership.setMmc_reg_no(s.toString());
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        mmc_tpc_reg_no.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(final CharSequence s, int start, int before, int count) {
+                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        PagerViewPager.membership.setMmc_tpc_reg_no(s.toString());
                     }
                 });
             }
@@ -371,6 +400,20 @@ public class MMCInfoFrag extends Fragment {
                 error = true;
                 mmc_reg_no.setError(null);
             }
+            if (mmc_tpc_reg_no.getText().toString().trim().equalsIgnoreCase("")) {
+                error = false;
+                if (PagerViewPager.membership.getValidation_pos() == -1) {
+                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        }
+                    });
+                }
+            } else {
+                error = true;
+                mmc_tpc_reg_no.setError(null);
+            }
             if (PagerViewPager.membership.getMmc_dob().trim().equalsIgnoreCase("")) {
                 error1 = false;
                 if (PagerViewPager.membership.getValidation_pos() == -1) {
@@ -416,6 +459,13 @@ public class MMCInfoFrag extends Fragment {
             } else {
                 error = true;
                 mmc_reg_no.setError(null);
+            }
+            if (mmc_tpc_reg_no.getText().toString().trim().equalsIgnoreCase("")) {
+                error = false;
+                mmc_tpc_reg_no.setError("Enter MMC TPC Registration No.");
+            } else {
+                error = true;
+                mmc_tpc_reg_no.setError(null);
             }
             if (PagerViewPager.membership.getMmc_dob().trim().equalsIgnoreCase("")) {
                 error1 = false;
