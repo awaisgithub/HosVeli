@@ -380,7 +380,7 @@ http://www.mypams.net/jw/web/json/plugin/org.od.webservice.JsonApiPlugin2/servic
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_landing, menu);
+        getMenuInflater().inflate(R.menu.menu_logout, menu);
         return true;
     }
 

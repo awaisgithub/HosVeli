@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,17 +29,19 @@ import com.od.mma.CallBack.LoginCallBack;
 import com.od.mma.CallBack.StatusCallBack;
 import com.od.mma.MMAApplication;
 import com.od.mma.R;
+import com.od.mma.Utils.MMAConstants;
 import com.od.mma.Utils.Util;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import io.realm.Realm;
-import io.realm.RealmQuery;
+
+/**
+ * Created by awais on 16/01/2017.
+ */
 
 public class LoginFragment extends Fragment {
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -63,6 +66,23 @@ public class LoginFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static void forgotPassword(String email, final String url, final StatusCallBack callBack) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("email", email);
+        JsonObjectRequest forgotPass = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callBack.success(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callBack.failure(error.toString());
+            }
+        });
+        MMAApplication.getInstance().addToRequestQueue(forgotPass);
     }
 
     @Override
@@ -178,41 +198,41 @@ public class LoginFragment extends Fragment {
     }
 
     private void performLogin(final String email, final String password) {
-        RealmQuery query = realm.where(User.class).equalTo("id", email);
-        User.fetchUser(getActivity(), realm, Api.urlUserList(email), query, new LoginCallBack() {
+        User.performLogin(Api.urlLogin(email, password), getActivity(), new LoginCallBack() {
             @Override
-            public void fetchDidSucceed(String response) {
-                if (response != null && response.length() > 0) {
-                    realm.beginTransaction();
-                    try {
-                        JSONArray array = new JSONArray(response);
-                        if (array.length() > 0) {
-                            realm.createOrUpdateObjectFromJson(User.class, array.getJSONObject(0));
-                            User user = realm.where(User.class).equalTo("id", email).findFirst();
-                            if (user != null) {
-                                if (user.getPassword().equalsIgnoreCase(password)) {
-                                    user.setTemp(false);
-                                    user.setSyncedLocal(true);
-                                    mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
-                                } else {
-                                    user.setTemp(true);
-                                    user.setSyncedLocal(false);
-                                    showActionSnackBarMessage(getString(R.string.login_cred_error));
-                                }
-                            } else {
-                                showActionSnackBarMessage(getString(R.string.login_cred_error));
-                            }
-                        } else {
-                            showActionSnackBarMessage(getString(R.string.login_not_exist));
-                        }
-                    } catch (JSONException e) {
-                        showActionSnackBarMessage(getString(R.string.login_error_unknown_server));
-                        e.printStackTrace();
+            public void fetchDidSucceed(JSONObject response) {
+                User user = realm.where(User.class).equalTo("id", email).findFirst();
+              //  User user1 = realm.where(User.class).equalTo("id", email).findFirst();
+
+                realm.beginTransaction();
+                String login_status = response.optString("loginStatus");
+                if (login_status.contains("SUCCEEDED")) {
+
+                    if (user != null) {
+                            Log.i(MMAConstants.TAG_MMA, "LOGIN usre!=null if(1) = ");
+                            user.setTemp(false);
+                            user.setSyncedLocal(true);
+
+                            mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
+
+                    } else {
+                        Log.i(MMAConstants.TAG_MMA, "LOGIN usre!=null else(1) = ");
+                        User new_user = new User();
+                        new_user.setId(email);
+                        new_user.setTemp(false);
+                        new_user.setSyncedLocal(true);
+
+
+                        realm.copyToRealmOrUpdate(new_user);
+
+                        mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
                     }
-                    realm.commitTransaction();
-                } else {
+                } else if (login_status.contains("FAILED")) {
                     showActionSnackBarMessage(getString(R.string.login_not_exist));
+                } else if (login_status.contains("error")) {
+                    showActionSnackBarMessage(getString(R.string.login_error_unknown_server));
                 }
+                realm.commitTransaction();
                 hideProgressDialog();
             }
 
@@ -222,6 +242,7 @@ public class LoginFragment extends Fragment {
                 showActionSnackBarMessage(getString(R.string.login_server_error));
             }
         });
+
     }
 
     private void showActionSnackBarMessage(String message) {
@@ -245,22 +266,5 @@ public class LoginFragment extends Fragment {
 
     private void hideProgressDialog() {
         progressDialog.dismiss();
-    }
-
-    public static void forgotPassword(String email, final String url, final StatusCallBack callBack) throws JSONException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("email", email);
-        JsonObjectRequest forgotPass = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                callBack.success(response);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                callBack.failure(error.toString());
-            }
-        });
-        MMAApplication.getInstance().addToRequestQueue(forgotPass);
     }
 }

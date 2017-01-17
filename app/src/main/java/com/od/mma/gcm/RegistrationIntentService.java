@@ -55,6 +55,7 @@ public class RegistrationIntentService extends IntentService {
         } catch (Exception e) {
             Log.d(MMAConstants.TAG, "Failed to complete token refresh", e);
         }
+        Log.i(MMAConstants.TAG_MMA, "CREATED RegistrartionIntentService  = token = " + token);
 
         Intent GCMTokenIntent = new Intent(MMAConstants.GCM_BROADCAST_INTENT_FILTER);
         GCMTokenIntent.putExtra("token", token);

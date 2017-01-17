@@ -9,7 +9,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.registration_main.runner.AndroidJUnitRunner"
         renderscriptTargetApi 22
         renderscriptSupportModeEnabled true
     }
@@ -52,4 +52,5 @@ dependencies {
     compile 'me.leolin:ShortcutBadger:1.1.10@aar'
     compile 'com.github.kenglxn.QRGen:android:2.2.0'
     compile 'com.afollestad.material-dialogs:core:0.9.1.0'
+    androidTestCompile 'junit:junit:4.12'
 }

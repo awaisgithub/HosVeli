@@ -19,4 +19,10 @@
     <color name="colorSpeakerCardStart">#041E42</color>
     <color name="colorBlack">#000000</color>
 
+    <color name="hint">#808080</color>
+
+    <color name="image_border_start">#546E7A</color>
+    <color name="image_border_end">#455A64</color>
+    <color name="image_border_center">#37474F</color>
+
 </resources>

@@ -13,7 +13,9 @@
     <string name="dialog_congrats_title">Congratulations</string>
 
     <!-- Reg Strings -->
-    <string name="reg_hint_name">Name</string>
+    <string name="reg_hint_name"> Name</string>
+    <string name="reg_hint_fname">First Name</string>
+    <string name="reg_hint_lname">Last Name</string>
     <string name="reg_hint_email">Email</string>
     <string name="reg_hint_contact">Contact Number</string>
     <string name="reg_hint_nationality">Nationality</string>
@@ -22,6 +24,8 @@
     <string name="reg_button_submit">SUBMIT</string>
 
     <string name="reg_error_name">Please provide your full name.</string>
+    <string name="reg_error_fname">Please provide your first name.</string>
+    <string name="reg_error_lname">Please provide your last name.</string>
     <string name="reg_error_email">Please provide a valid email.</string>
     <string name="reg_error_contact_number">Please provide a contact number.</string>
     <string name="reg_error_not_malay_contact_number">Please provide a valid contact number.</string>
@@ -34,7 +38,7 @@
     <string name="login_error_unknown_server">Unable to login due to unknown server error.</string>
     <string name="reg_error_duplicate">Your are already a registered user. Please login</string>
     <string name="reg_checking_duplicate">Checking for duplication...</string>
-    <string name="reg_registering">Submitting registration....Please login</string>
+    <string name="reg_registering">Submitting membership....Please login</string>
     <string name="reg_registered_message">Thank you for registering with MMA. You can proceed to app now.</string>
 
     <!-- Login Strings-->
@@ -99,6 +103,59 @@
     <string name="event_detail_tab_floorplan">Floor Plan</string>
 
     <string name="news_loading_detail">Loading article details...</string>
+
+    //Errors
+    <string name="error_year">Please Select Year.</string>
+    <string name="error_title">Please Select Title.</string>
+    <string name="error_image_profile">Please Upload Picture.</string>
+    <string name="reg_validation">Validation...</string>
+
+
+    <string-array name="marital">
+        <item>Married</item>
+        <item>Single</item>
+        <item>Widow</item>
+    </string-array>
+
+
+    <string-array name="race">
+        <item>Malay</item>
+        <item>Chinese</item>
+        <item>Indian</item>
+        <item>Others</item>
+    </string-array>
+
+
+    <string-array name="religion">
+        <item>Christianity</item>
+        <item>Islam</item>
+        <item>Budhism</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="payment_method">
+        <item>Cheque</item>
+        <item>Cash</item>
+        <item>Direct Debit</item>
+        <item>Credit Card</item>
+    </string-array>
+
+    <string name="marital_0">Married</string>
+    <string name="marital_1">Single</string>
+    <string name="marital_2">Widow</string>
+
+    <string name="race_0">Malay</string>
+    <string name="race_1">Chinese</string>
+    <string name="race_2">Indian</string>
+    <string name="race_3">Others</string>
+
+
+    <string name="religion_0">Christianity</string>
+    <string name="religion_1">Islam</string>
+    <string name="religion_2">Budhism</string>
+    <string name="religion_3">Others</string>
+
+
 
     <string-array name="main_tabs">
         <item>About Us</item>
@@ -205,5 +262,1789 @@
     <string name="title_activity_speaker_detail">SpeakerDetailActivity</string>
     <string name="title_activity_agends_main">AgendsMainActivity</string>
     <string name="title_activity_event_location">Event Location</string>
+    <string name="reg_membership">Registration Form</string>
+    <string name="reg_hint_dob">Date of Birth:</string>
+    <string name="reg_hint_city">City</string>
+    <string name="reg_hint_postal">Postal Code</string>
+    <string name="reg_hint_tel">Telephone Number</string>
+    <string name="reg_hint_addr">Address</string>
+    <string name="reg_hint_nric">NRIC Number</string>
+    <string name="reg_hint_mmc">MMC Registration No</string>
+    <string name="reg_hint_dor">Date of Registration</string>
+    <string name="reg_hint_yodc">Year of Degree Completion</string>
+    <string name="reg_hint_bank">Bank</string>
+    <string name="reg_hint_reference_cheque">Cheque Reference No</string>
+    <string name="reg_hint_reference_debit">Debit Reference No</string>
+    <string name="reg_hint_reference_cash">Cash Reference No</string>
+    <string name="reg_hint_reference_credit">Credit Reference No</string>
+    <string name="reg_hint_payment_date">Payment Date</string>
+    <string name="reg_hint_expiry_date">Expiry Date</string>
+    <string name="reg_hint_username">Username</string>
+    <string name="reg_hint_uni">University</string>
+    <string name="reg_hint_qual_date">Qualification Date</string>
+    <string name="reg_registration">Registration</string>
+    <string name="reg_hint_id">ID No.</string>
+
+    <string name="year">Select Year <font fgcolor="-#00017F96">*</font> </string>
+    <string name="title">Select Title <font fgcolor="-#00017F96">*</font> </string>
+    <string name="type">Select ID Type <font fgcolor="-#00017F96">*</font> </string>
+    <string name="nationality">Select Nationality <font fgcolor="-#00017F96">*</font> </string>
+    <string name="country">Select Country <font fgcolor="-#00017F96">*</font> </string>
+    <string name="state">Select State <font fgcolor="-#00017F96">*</font> </string>
+    <string name="reg_state">Select Registration State <font fgcolor="-#00017F96">*</font> </string>
+    <string name="degree">Select Degree <font fgcolor="-#00017F96">*</font> </string>
+    <string name="uni">Select University Name <font fgcolor="-#00017F96">*</font> </string>
+    <string name="uni_malaysia">Select University <font fgcolor="-#00017F96">*</font> </string>
+    <string name="emp_status">Select Employment Status <font fgcolor="-#00017F96">*</font> </string>
+    <string name="prac_nature">Select Practice Nature</string>
+    <string name="prac_nature_sub">Select Practice Nature Sub Category</string>
+    <string name="sub_year">Subscription Years For <font fgcolor="-#00016F5B">*</font> </string>
+    <string name="error_marital">Please Select Marital Status.</string>
+    <string name="error_id_type">Please Select ID Type.</string>
+    <string name="error_image_nric">Please Upload NRIC Picture.</string>
+    <string name="error_religion">Please Select Religion.</string>
+    <string name="error_race">Please Select Race.</string>
+    <string name="error_nationality">Please Select Nationality.</string>
+    <string name="error_country">Please Select Country.</string>
+    <string name="error_state">Please Select State.</string>
+    <string name="error_reg_state">Please Select Registration State.</string>
+    <string name="error_degree">Please Select Degree.</string>
+    <string name="error_uni">Please Select University.</string>
+    <string name="error_image_mmc">Please Upload MMC Certificate.</string>
+    <string name="error_emp_status">Please Select Employment Status.</string>
+    <string name="reg_hint_mobile">Mobile Number</string>
+
+    <string-array name="id_type">
+        <item>NRIC</item>
+        <item>Military NRIC</item>
+        <item>Passport</item>
+    </string-array>
+
+    <string-array name="id_year">
+        <!--<item>Select Year:</item>-->
+        <item>1st Year Medical Officer</item>
+        <item>2nd Year Medical Officer</item>
+        <item>3rd Year Medical Officer</item>
+        <item>4th Year Medical Officer</item>
+        <item>5th Year Medical Officer</item>
+        <item>6th Year Medical Officer</item>
+        <item>7th Year Medical Officer</item>
+        <item>8th Year Medical Officer</item>
+        <item>9th Year Medical Officer</item>
+        <item>10th Year Medical Officer</item>
+    </string-array>
+
+    <string-array name="id_title">
+        <item>ASOC PROF DATUK DR</item>
+        <item>ASOC PROF DR</item>
+        <item>BRIG JEN DATUK DR</item>
+        <item>BRIG JEN DR</item>
+        <item>KAPT (B) DR</item>
+        <item>KOL (B) DR</item>
+        <item>KOL DATUK DR</item>
+        <item>DATIN DR</item>
+        <item>DATIN PADUKA DR</item>
+        <item>DATIN SERI  DR</item>
+        <item>DATO SERI DR</item>
+        <item>DATUK LT KOL (B) DR</item>
+        <item>DATUK PADUKA DR</item>
+        <item>DATUK SERI DIRAJA DR</item>
+        <item>DATUK SERI PANGLIMA DR</item>
+        <item>DATUK SERI DR</item>
+        <item>DR (MRS)</item>
+        <item>KAPT DR</item>
+        <item>KOL DR</item>
+        <item>LT KOL DATUK DR</item>
+        <item>LT KOL (B) DR</item>
+        <item>LT KOL DR</item>
+        <item>MEJ JEN (B) DATUK DR</item>
+        <item>MEJ JEN DATUK DR</item>
+        <item>MEJ (B) DR</item>
+        <item>MEJ DR</item>
+        <item>MR</item>
+        <item>MS</item>
+        <item>PUAN SRI DATUK DR</item>
+        <item>PROF DATUK DR</item>
+        <item>PROF DATIN DR</item>
+        <item>PROF DR</item>
+        <item>ASSOC PROF DR</item>
+        <item>PUAN SRI DR</item>
+        <item>TAN SRI  DATUK DR</item>
+        <item>TOH PUAN DR</item>
+        <item>TUN DR</item>
+        <item>DATUK DR</item>
+        <item>TAN SRI DR</item>
+        <item>DR</item>
+        <item>DATO\' DR</item>
+        <item>MRS.</item>
+        <item>BRIG GEN (RTD) DATUK DR</item>
+        <item>MAJ GEN (R) DATUK PAHLAWAN DR</item>
+        <item>TAN SRI DATO\' SERI DR</item>
+        <item>YB TAN SRI</item>
+        <item>BRIG JEN DATO\' DR</item>
+        <item>PH. D.</item>
+        <item>DATIN PROF DR</item>
+        <item>LT KOL (R) DR</item>
+        <item>KOL (B) DATIN DR</item>
+        <item>BRIG JEN DATO\' PAHLAWAN DR</item>
+        <item>MAJOR GENERAL (R) DATO\' DR</item>
+        <item>MAJ GEN (R) DATO\' PAHLAWAN DR</item>
+        <item>PROF DATO\' DR</item>
+        <item>LT JEN DATUK DR</item>
+        <item>PROF TAN SRI DATUK DR</item>
+        <item>DATUK WIRA DR</item>
+        <item>DATO\' WIRA DR</item>
+    </string-array>
+
+    <string-array name="id_nationality">
+        <item>MALAYSIA</item>
+        <item>AFRICA</item>
+        <item>AUSTRALIA</item>
+        <item>BRUNEI DARUSSALAM</item>
+        <item>CANADA</item>
+        <item>CHINA</item>
+        <item>FRANCE</item>
+        <item>HONG KONG</item>
+        <item>INDIA</item>
+        <item>INDONESIA</item>
+        <item>IRELAND</item>
+        <item>ITALY</item>
+        <item>JAPAN</item>
+        <item>MYANMAR</item>
+        <item>NETHERLANDS</item>
+        <item>NEW ZEALAND</item>
+        <item>PAKISTAN</item>
+        <item>RUSSIA</item>
+        <item>SAUDI ARABIA</item>
+        <item>SINGAPORE</item>
+        <item>SWITZERLAND</item>
+        <item>TAIWAN</item>
+        <item>TRINIDAD</item>
+        <item>UNITED ARAB EMIRATES</item>
+        <item>UNITED KINGDOM</item>
+        <item>UNITED STATES OF AMERICA</item>
+        <item>Other</item>
+        <item>UKRAINE</item>
+        <item>EGYPT</item>
+        <item>SCOTLAND</item>
+        <item>THAILAND</item>
+        <item>IRAN</item>
+        <item>IRAQ</item>
+        <item>BANGLADESH</item>
+        <item>SRI LANKA</item>
+        <item>SUDAN</item>
+        <item>BELGIUM</item>
+        <item>PHILIPPINES</item>
+        <item>ROMANIA</item>
+        <item>TURKEY</item>
+        <item>ENGLAND</item>
+        <item>JORDAN</item>
+        <item>SPAIN</item>
+    </string-array>
+
+    <string-array name="id_state">
+        <item>JOHOR DARUL TAKZIM</item>
+        <item>KEDAH DARUL AMAN</item>
+        <item>KELANTAN DARUL NAIM</item>
+        <item>LABUAN W.P.</item>
+        <item>MELAKA</item>
+        <item>NEGERI SEMBILAN</item>
+        <item>PAHANG DARUL MAKMUR</item>
+        <item>PERAK</item>
+        <item>PERLIS</item>
+        <item>PULAU PINANG</item>
+        <item>SABAH</item>
+        <item>SARAWAK</item>
+        <item>SELANGOR DARUL EHSAN</item>
+        <item>SINGAPORE</item>
+        <item>TERENGGANU</item>
+        <item>WILAYAH PERSEKUTUAN</item>
+        <item>OTHERS</item>
+    </string-array>
+
+    <string-array name="id_uni">
+        <item>(UM)</item>
+        <item>(USM)</item>
+        <item>A FACOM (SYDNEY)</item>
+        <item>ABIM (SETON HALL)</item>
+        <item>ADELAIDE</item>
+    </string-array>
+
+    <string-array name="id_emp">
+        <item>Army</item>
+        <item>Army Specialist</item>
+        <item>General Practitioner</item>
+        <item>Government</item>
+        <item>Government Specialist</item>
+        <item>Medical Student</item>
+        <item>Private</item>
+        <item>Private Specialist</item>
+        <item>Retired</item>
+        <item>University</item>
+        <item>University Specialist</item>
+    </string-array>
+
+    <string-array name="id_practice">
+        <item>ANAESTHESIOLOGY</item>
+        <item>EMERGENCY MEDICINE</item>
+        <item>FAMILY MEDICINE</item>
+        <item>MEDICINE</item>
+        <item>NUCLEAR MEDICINE</item>
+        <item>OBSTETRICS AND GYNAECOLOGY (O &amp; G)</item>
+        <item>ONCOLOGY</item>
+        <item>OPHTHALMOLOGY</item>
+        <item>OTORHINOLARYNGOLOGY</item>
+        <item>PAEDIATRICS</item>
+        <item>PATHOLOGY</item>
+        <item>PSYCHIATRY</item>
+        <item>PUBLIC HEALTH</item>
+        <item>RADIOLOGY</item>
+        <item>REHABILITATION MEDICINE</item>
+        <item>SPORTS MEDICINE</item>
+        <item>SURGERY</item>
+        <item>UROLOGY</item>
+        <item>DENTAL SURGERY</item>
+        <item>OCCUPATIONAL HEALTH</item>
+        <item>ORTHOPAEDIC SURGERY</item>
+        <item>PARASITOLOGY</item>
+        <item>PHARMACOLOGY</item>
+        <item>PHYSIOLOGY</item>
+        <item>MEDICAL ADMINISTRATION</item>
+        <item>PSYCOHOLOGY</item>
+        <item>RADIOTHERAPY</item>
+        <item>OTHERS</item>
+        <item>AVIATION MEDICINE</item>
+        <item>PRIMARY CARE PHYSICIAN</item>
+        <item>IMMUNOLOGY</item>
+    </string-array>
+
+
+
+    <string-array name="id_prac_sub_ANAESTHESIOLOGY">
+        <item>ANAESTHESIOLOGY AND CRITICAL CARE</item>
+        <item>INTENSIVE CARE (ANAESTHESIOLOGY)</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_EMERGENCY_MEDICINE">
+        <item>EMERGENCY MEDICINE</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_FAMILY_MEDICINE">
+        <item>FAMILY MEDICINE</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_MEDICINE">
+        <item>INTERNAL MEDICINE (GENERAL)</item>
+        <item>CARDIOLOGY</item>
+        <item>CLINICAL HAEMATOLOGY</item>
+        <item>INTENTIONALLY BLANK</item>
+        <item>DERMATOLOGY</item>
+        <item>ENDOCRINOLOGY</item>
+        <item>GASTHROENTEROLOGY</item>
+        <item>GERIATRIC MEDICINE</item>
+        <item>HEPATOLOGY</item>
+        <item>INFECTIOUS DISEASES</item>
+        <item>INTENSIVE CARE (MEDICINE)</item>
+        <item>MEDICAL ONCOLOGY</item>
+        <item>NEPHROLOGY</item>
+        <item>NEUROLOGY</item>
+        <item>RESPIRATORY MEDICINE</item>
+        <item>RHEUMATOLOGY</item>
+        <item>PALLIATIVE MEDICINE</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_NUCLEAR_MEDICINE">
+        <item>NUCLEAR MEDICINE</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_OBSTETRICS_AND_GYNAECOLOGY">
+        <item>OBSTETRICS AND GYNAECOLOGY (O &amp; G)</item>
+        <item>GYNAE-ONCOLOGY</item>
+        <item>MATERNAL FETAL MEDICINE</item>
+        <item>REPRODUCTIVE MEDICINE</item>
+        <item>URO-GYNAECOLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_ONCOLOGY">
+        <item>CLINICAL ONCOLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_OPHTHALMOLOGY">
+        <item>OPHTHALMOLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_OTORHINOLARYNGOLOGY">
+        <item>OTORHINOLARYNGOLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_PAEDIATRICS">
+        <item>GENERAL PAEDIATRICS</item>
+        <item>ADOLESCENT MEDICINE</item>
+        <item>CLINICAL GENETICS</item>
+        <item>DEVELOPMENTAL PAEDIATRICS</item>
+        <item>NEONATOLOGY</item>
+        <item>PAEDIATRICS AND CHILD HEALTH (formerly known)</item>
+        <item>PAEDIATRIC CARDIOLOGY</item>
+        <item>PAEDIATRIC DERMATOLOGY</item>
+        <item>PAEDIATRIC ENDOCRINOLOGY</item>
+        <item>PAEDIATRIC GASTROENTERLOGY</item>
+        <item>PAEDIATRIC HAEMATOLOGY &amp; ONCOLOGY</item>
+        <item>PAEDIATRIC INFECTIOUS  DISEASES</item>
+        <item>PAEDIATRIC INTENSIVE CARE</item>
+        <item>PAEDIATRIC NEPHROLOGY</item>
+        <item>PAEDIATRIC NEUROLOGY</item>
+        <item>PAEDIATRIC RESPIRATORY MEDICINE</item>
+        <item>PAEDIATRIC RHEUMATOLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_PATHOLOGY">
+        <item>PATHOLOGY</item>
+        <item>ANATOMICAL PATHOLOGY</item>
+        <item>CHEMICAL PATHOLOGY</item>
+        <item>CHEMICAL PATHOLOGY (METABOLIC MEDICINE)</item>
+        <item>FORENSIC PATHOLOGY</item>
+        <item>HAEMATOLOGY</item>
+        <item>MEDICAL MICROBIOLOGY</item>
+        <item>HISTOPATHOLOGY</item>
+        <item>CYTOPATHOLOGY</item>
+        <item>PSYCHIATRY</item>
+        <item>CHILD AND ADOLESCENT PSYCHIATRY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_PUBLIC_HEALTH">
+        <item>PUBLIC HEALTH</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_RADIOLOGY">
+        <item>CLINICAL RADIOLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_REHABILITATION_MEDICINE">
+        <item>REHABILITATION MEDICINE</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_SPORTS_MEDICINE">
+        <item>SPORTS MEDICINE</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_SURGERY">
+        <item>GENERAL SURGERY</item>
+        <item>BREAST AND ENDOCRINE SURGERY</item>
+        <item>COLORECTAL</item>
+        <item>HEPATOBILIARY SURGERY</item>
+        <item>THORACIC SURGERY</item>
+        <item>UPPER GIT</item>
+        <item>VASCULAR SURGERY</item>
+        <item>ORTHOPAEDIC SURGERY</item>
+        <item>CARDIOTHORACIC SURGERY</item>
+        <item>NEUROSURGERY</item>
+        <item>PAEDIATRIC SURGERY</item>
+        <item>PLASTIC SURGERY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_UROLOGY">
+        <item>UROLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_DENTAL_SURGERY">
+        <item>DENTAL PUBLIC HEALTH</item>
+        <item>ORAL AND MAXILLOFACIAL SURGERY</item>
+        <item>ORAL PATHOLOGY AND ORAL MEDICINE</item>
+        <item>ORTHODONTICS</item>
+        <item>PAEDIATRIC DENTISTRY</item>
+        <item>PERIODONTICS</item>
+        <item>PROSTHETIC DENTISTRY</item>
+        <item>RESTORATIVE DENTISTRY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_OCCUPATIONAL_HEALTH">
+        <item>OCCUPATIONAL HEALTH</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_ORTHOPAEDIC_SURGERY">
+        <item>ORTHOPAEDIC SURGERY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_PARASITOLOGY">
+        <item>PARASITOLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_PHARMACOLOGY">
+        <item>PHARMACOLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_PHYSIOLOGY">
+        <item>PHYSIOLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_MEDICAL_ADMINISTRATION">
+        <item>MEDICAL ADMINISTRATION</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_PSYCOHOLOGY">
+    <item>PSYCOHOLOGY</item>
+</string-array>
+
+    <string-array name="id_prac_sub_RADIOTHERAPY">
+        <item>RADIOTHERAPY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_OTHERS">
+        <item>OTHERS</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_AVIATION_MEDICINE">
+        <item>AVIATION MEDICINE</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_PRIMARY_CARE_PHYSICIAN">
+        <item>PRIMARY CARE PHYSICIAN</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_IMMUNOLOGY">
+        <item>IMMUNOLOGY</item>
+    </string-array>
+
+    <string-array name="id_prac_sub_PSYCHIATRY">
+        <item>PSYCHIATRY</item>
+    </string-array>
+
+
+
+
+
+
+
+    <string-array name="id_practice_sub">
+        <item>ANAESTHESIOLOGY AND CRITICAL CARE</item>
+        <item>INTENSIVE CARE (ANAESTHESIOLOGY)</item>
+        <item>EMERGENCY MEDICINE</item>
+        <item>FAMILY MEDICINE</item>
+        <item>INTERNAL MEDICINE (GENERAL)</item>
+        <item>CARDIOLOGY</item>
+        <item>CLINICAL HAEMATOLOGY</item>
+        <item>INTENTIONALLY BLANK</item>
+        <item>DERMATOLOGY</item>
+        <item>ENDOCRINOLOGY</item>
+        <item>GASTHROENTEROLOGY</item>
+        <item>GERIATRIC MEDICINE</item>
+        <item>HEPATOLOGY</item>
+        <item>INFECTIOUS DISEASES</item>
+        <item>INTENSIVE CARE (MEDICINE)</item>
+        <item>MEDICAL ONCOLOGY</item>
+        <item>NEPHROLOGY</item>
+        <item>NEUROLOGY</item>
+        <item>RESPIRATORY MEDICINE</item>
+        <item>RHEUMATOLOGY</item>
+        <item>PALLIATIVE MEDICINE</item>
+        <item>NUCLEAR MEDICINE</item>
+        <item>OBSTETRICS AND GYNAECOLOGY (O &amp; G)</item>
+        <item>GYNAE-ONCOLOGY</item>
+        <item>MATERNAL FETAL MEDICINE</item>
+        <item>REPRODUCTIVE MEDICINE</item>
+        <item>URO-GYNAECOLOGY</item>
+        <item>CLINICAL ONCOLOGY</item>
+        <item>OPHTHALMOLOGY</item>
+        <item>OTORHINOLARYNGOLOGY</item>
+        <item>GENERAL PAEDIATRICS</item>
+        <item>ADOLESCENT MEDICINE</item>
+        <item>CLINICAL GENETICS</item>
+        <item>DEVELOPMENTAL PAEDIATRICS</item>
+        <item>NEONATOLOGY</item>
+        <item>PAEDIATRICS AND CHILD HEALTH (formerly known)</item>
+        <item>PAEDIATRIC CARDIOLOGY</item>
+        <item>PAEDIATRIC DERMATOLOGY</item>
+        <item>PAEDIATRIC ENDOCRINOLOGY</item>
+        <item>PAEDIATRIC GASTROENTERLOGY</item>
+        <item>PAEDIATRIC HAEMATOLOGY &amp; ONCOLOGY></item>
+        <item>PAEDIATRIC INFECTIOUS  DISEASES</item>
+        <item>PAEDIATRIC INTENSIVE CARE</item>
+        <item>PAEDIATRIC NEPHROLOGY</item>
+        <item>PAEDIATRIC NEUROLOGY</item>
+        <item>PAEDIATRIC RESPIRATORY MEDICINE</item>
+        <item>PAEDIATRIC RHEUMATOLOGY</item>
+        <item>PATHOLOGY</item>
+        <item>ANATOMICAL PATHOLOGY</item>
+        <item>CHEMICAL PATHOLOGY</item>
+        <item>CHEMICAL PATHOLOGY (METABOLIC MEDICINE)</item>
+        <item>FORENSIC PATHOLOGY</item>
+        <item>HAEMATOLOGY</item>
+        <item>MEDICAL MICROBIOLOGY</item>
+        <item>HISTOPATHOLOGY</item>
+        <item>CYTOPATHOLOGY</item>
+        <item>PSYCHIATRY</item>
+        <item>CHILD AND ADOLESCENT PSYCHIATRY</item>
+        <item>PUBLIC HEALTH</item>
+        <item>CLINICAL RADIOLOGY</item>
+        <item>REHABILITATION MEDICINE</item>
+        <item>SPORTS MEDICINE</item>
+        <item>GENERAL SURGERY</item>
+        <item>BREAST AND ENDOCRINE SURGERY</item>
+        <item>COLORECTAL</item>
+        <item>HEPATOBILIARY SURGERY</item>
+        <item>THORACIC SURGERY</item>
+        <item>UPPER GIT</item>
+        <item>VASCULAR SURGERY</item>
+        <item>ORTHOPAEDIC SURGERY</item>
+        <item>CARDIOTHORACIC SURGERY</item>
+        <item>NEUROSURGERY</item>
+        <item>PAEDIATRIC SURGERY</item>
+        <item>PLASTIC SURGERY</item>
+        <item>UROLOGY</item>
+        <item>DENTAL PUBLIC HEALTH</item>
+        <item>ORAL AND MAXILLOFACIAL SURGERY</item>
+        <item>ORAL PATHOLOGY AND ORAL MEDICINE</item>
+        <item>ORTHODONTICS</item>
+        <item>PAEDIATRIC DENTISTRY</item>
+        <item>PERIODONTICS</item>
+        <item>PROSTHETIC DENTISTRY</item>
+        <item>RESTORATIVE DENTISTRY</item>
+
+
+
+    </string-array>
+
+    <string-array name="id_bachelor">
+        <item>ABIM ( SETON HALL)</item>
+        <item>(UM)</item>
+        <item>(USM)</item>
+        <item>A FACOM (SYDNEY)</item>
+        <item>ADELAIDE</item>
+        <item>AFPM</item>
+        <item>ALEXANDRIA</item>
+        <item>ALS PALS (LONDON)</item>
+        <item>AM(MALAYA)</item>
+        <item>AM,FCGP(MAL)</item>
+        <item>AMC</item>
+        <item>ANAES (UKM)</item>
+        <item>ANAES(UKM)</item>
+        <item>ANESTHESIA (USM)</item>
+        <item>AVIATION MEDICINE</item>
+        <item>B COMP SC(USM)</item>
+        <item>B MED SC (UKM)</item>
+        <item>B MED SC (UKM)</item>
+        <item>B PHARM</item>
+        <item>B SC ( MADURAI)</item>
+        <item>B Sc , MD ;C.M.</item>
+        <item>B SC HONS</item>
+        <item>B SC(HONS)MANCHESTER</item>
+        <item>B.A</item>
+        <item>B.D.S</item>
+        <item>B.D.S(PUNJAB)</item>
+        <item>B.M.N.D.M.C.(TAIPEI)</item>
+        <item>B.MED SC</item>
+        <item>B.MED SCI</item>
+        <item>B.MED SCI MBBS</item>
+        <item>B.O.S (UNI.LOUSIANA)</item>
+        <item>B.OF SCIENCE(UKM)</item>
+        <item>B.PHARM.PH.D</item>
+        <item>B.PHARMS(HONS)USM</item>
+        <item>B.SC (UKM)</item>
+        <item>B.SC MBBS</item>
+        <item>B.SC MD(BR COLOMBIA)</item>
+        <item>B.Sc PHYSIOTHERAPY</item>
+        <item>B.SC(HONS)ENGLAND</item>
+        <item>B.SC(HONS)MALAYA</item>
+        <item>B.SC(MED)</item>
+        <item>B.Sc,MD(UKM)</item>
+        <item>B.V.SC(TAMIL NADU)</item>
+        <item>BA (HONS) S.F UNI</item>
+        <item>BA MOD MA</item>
+        <item>BA,MB BCH BAO(IRE)</item>
+        <item>BA,MBBCH,BAO(DUBLIN)</item>
+        <item>BA.MB.BCH.BAO(DUBLIN</item>
+        <item>BAC MD SURGERY</item>
+        <item>BAC OF ARTS(IOWA)</item>
+        <item>BAC OF MED</item>
+        <item>BAC OF MEDICINE</item>
+        <item>BAC.OF MED SCIENCES</item>
+        <item>BACH OF MED &amp; SUR</item>
+        <item>BACHELOR (USM)</item>
+        <item>BACHELOR OF MED/SURG</item>
+        <item>BACHELOR OF SC</item>
+        <item>BAO.MBBCH(DUBLIN)</item>
+        <item>BARRISTER</item>
+        <item>Bc. Sc. MD (UPM)</item>
+        <item>BCH  (IRELAND)</item>
+        <item>BDS</item>
+        <item>BDS (PUNJAB)</item>
+        <item>BDS(MYSORE)</item>
+        <item>BDS(UM)</item>
+        <item>BIO ELECTRIC MED.</item>
+        <item>BM</item>
+        <item>BM BS (NOTTINHAM)</item>
+        <item>BM(NAT DEF MED CTR)</item>
+        <item>BM(SOUTHAMPTON)</item>
+        <item>BMBS</item>
+        <item>BMBS ( NOTTINGHAM)</item>
+        <item>BMBS (FLINDERS)</item>
+        <item>BMBS (LINDERS)</item>
+        <item>BMBS (NOTTINGHAM)</item>
+        <item>BMBS (NOTTINGHAM)</item>
+        <item>BMBS(FLINDERS UNI)</item>
+        <item>BMBS(NOTTINGHAM)</item>
+        <item>BMBS(SOUTH AUSTRALIA</item>
+        <item>BMED SC</item>
+        <item>BMED SCIENCES</item>
+        <item>BMedSC Bch BAO (I)</item>
+        <item>BMEDSC(UKM)</item>
+        <item>BSBS(UIIV OF EAST)</item>
+        <item>BSC</item>
+        <item>BSC</item>
+        <item>BSC ( HONS )</item>
+        <item>BSC ( HOWARD U )</item>
+        <item>BSC ( LOUISIANA)</item>
+        <item>BSC (HON)</item>
+        <item>BSC (HON) (UPM)</item>
+        <item>BSC (HONS)</item>
+        <item>BSC (MED SC)</item>
+        <item>BSc (PSYCHOLOGY)</item>
+        <item>BSC (UKM)</item>
+        <item>BSc , MBBS (NSW)</item>
+        <item>BSc BIOLOGY (TEXAS)</item>
+        <item>BSC MBBS (MADRAS)</item>
+        <item>BSc MD  (UKM)</item>
+        <item>BSC MED SCI</item>
+        <item>BSC(HONS)OPHTH(GLAS)</item>
+        <item>BSC(MADRAS)</item>
+        <item>BSC(MANILA)</item>
+        <item>BSc(McGill)</item>
+        <item>BSC(MED)</item>
+        <item>BSC(MED) MBBC</item>
+        <item>BSc(MED) MBBS</item>
+        <item>BSC(MED),MBBS</item>
+        <item>BSC(MED)UKM</item>
+        <item>BSC(UKM)</item>
+        <item>BSC(UPM)</item>
+        <item>CCFP (MANITOHA)</item>
+        <item>CERT IN COMM SKILLS</item>
+        <item>CERT NEURO</item>
+        <item>CERT.OF DERM(BANGKOK</item>
+        <item>CFOM(RCP)-DUBLIN</item>
+        <item>CIMA(NIOSH)</item>
+        <item>CJLMS TO OM</item>
+        <item>COHD (NIOSH)</item>
+        <item>COL OF PHYSICIAN</item>
+        <item>COL. OF SURG(DUBLIN)</item>
+        <item>COL.OF SURGEON(EDIN)</item>
+        <item>COLLEGE CALCUTTA</item>
+        <item>COSMETIC SURG</item>
+        <item>D AVIA MED</item>
+        <item>D C H (LONDON)</item>
+        <item>D CARDIOLOGY</item>
+        <item>D CH ( ROYAL C)</item>
+        <item>D MED REHAB(LONDON)</item>
+        <item>D OPHT(DUBLIN)</item>
+        <item>D OPHT(LONDON)</item>
+        <item>D PATH ( RANGOON)</item>
+        <item>D PATH(LONDON)</item>
+        <item>D REPRO MED(UM)</item>
+        <item>D. DERM(WALES)</item>
+        <item>D. P. DERM(MERIT)</item>
+        <item>D.A(ENGLAND)</item>
+        <item>D.A(SHEFFIELD)</item>
+        <item>D.BACT</item>
+        <item>D.C.E.H</item>
+        <item>D.C.H</item>
+        <item>D.C.H(GLASGOW)</item>
+        <item>D.C.H(LOND)</item>
+        <item>D.C.H(LONDON)</item>
+        <item>D.C.H,(IREL)MRCP(EDI</item>
+        <item>D.C.O(EDINBURGH)</item>
+        <item>D.CH(LONDON)</item>
+        <item>D.DERM ( WALES )</item>
+        <item>D.E.A.A (EUROPEAN AC</item>
+        <item>D.G.O(MADRAS)</item>
+        <item>D.L.O(RANGOON)</item>
+        <item>D.MED.REHAB RCP</item>
+        <item>D.O</item>
+        <item>D.O(DUBLIN)</item>
+        <item>D.O(IRELAND)</item>
+        <item>D.O(LONDON)</item>
+        <item>D.O(OPHTH)RANGOON</item>
+        <item>D.O.R.C.P &amp; S</item>
+        <item>D.OBET. R.C.O.G</item>
+        <item>D.P.H</item>
+        <item>D.P.H(BRISTOL)</item>
+        <item>D.P.H(LONDON)</item>
+        <item>D.PATH</item>
+        <item>D.R.M</item>
+        <item>D.T.M &amp; H(L\'POOL)</item>
+        <item>D.V(LONDON)</item>
+        <item>DA</item>
+        <item>DA ( BOMBAY)</item>
+        <item>DA (ENGLAND)</item>
+        <item>DA MD (BOMBAY)</item>
+        <item>DA(RCA)</item>
+        <item>DA,FFARCS(IRE)</item>
+        <item>DAC , H.M.D</item>
+        <item>DAP&amp;E(UM),MPH(MANILA</item>
+        <item>DAv Med(UK)</item>
+        <item>DCCM(NEW DELHI)</item>
+        <item>DCH</item>
+        <item>DCH  FRCPG</item>
+        <item>DCH ( IRELAND )</item>
+        <item>DCH (MANGALORE)</item>
+        <item>DCH DOBST RCP</item>
+        <item>DCH DPH(GLASG)</item>
+        <item>DCH MRCPI</item>
+        <item>DCH(BOMBAY)</item>
+        <item>DCH(CALCUTTA)</item>
+        <item>DCH(DUBLIN)</item>
+        <item>DCH(GLASGOW)</item>
+        <item>DCH(LON)</item>
+        <item>DCH(LON)MRCP</item>
+        <item>DCH(LON)MRCP(UK)</item>
+        <item>DCH(LOND)</item>
+        <item>DCH(LONDON)</item>
+        <item>DCH(SCOTLAND)</item>
+        <item>DCH, D.OBSS,LFP</item>
+        <item>DCH,MRCP(GLASGOW)</item>
+        <item>DCH,MRCP(LONDON)</item>
+        <item>DCH,MRCP(PAED)GLASG</item>
+        <item>DCH,RCPHYSICIAN(UK)</item>
+        <item>DCH. MRCP</item>
+        <item>DCP</item>
+        <item>DCP (LONDON)</item>
+        <item>DCP FRCPA</item>
+        <item>DCP(LON),FRCPA(AUST)</item>
+        <item>DCP(LOND)DTM&amp;H</item>
+        <item>DCP(LONDON)</item>
+        <item>DCP,MRC PATH(LON)</item>
+        <item>DCP,MSC(LONDON)</item>
+        <item>DDM</item>
+        <item>DDS (WALES)</item>
+        <item>DDV(VIENNA)</item>
+        <item>DEG OF MAS &amp; ANAEST</item>
+        <item>DEGREE (TOKUSHIN)</item>
+        <item>DERM(UM)</item>
+        <item>DERMATOLOGY</item>
+        <item>DERMATOLOGY(ENGLAND)</item>
+        <item>DFM(MONASH UNI)</item>
+        <item>DGO ( MADRAS)</item>
+        <item>DGO (MADRAS)</item>
+        <item>DGO (NAGARJUNA)</item>
+        <item>DGO MD(MYSORE)</item>
+        <item>DGO(DUBLIN)</item>
+        <item>DGO(MANGALORE)</item>
+        <item>DGO(PUNJAB)</item>
+        <item>DGO,DULIN,LICENT MID</item>
+        <item>DHA (NSW)</item>
+        <item>DHAKA</item>
+        <item>DI.H</item>
+        <item>DIH</item>
+        <item>DIH (UNI OF OTAGO)</item>
+        <item>DIH(ENG)</item>
+        <item>DIH(LOND)MPH(MAL)</item>
+        <item>DIH(OCC H) OTTAGO</item>
+        <item>DIH(OCC MED)OTTAGO</item>
+        <item>DIP A</item>
+        <item>DIP ANAES(LOND)</item>
+        <item>DIP ANES</item>
+        <item>DIP AV MED</item>
+        <item>DIP AV MED R.CP(LOND</item>
+        <item>DIP AV.MED</item>
+        <item>DIP AVIA MED</item>
+        <item>DIP AVIATION MED</item>
+        <item>DIP CARD(LOND)</item>
+        <item>DIP CERT(NEURO)</item>
+        <item>DIP CHM.PATH(LOND)</item>
+        <item>DIP DER ( LONDON)</item>
+        <item>DIP DER ( UK)</item>
+        <item>DIP DER ( WALES)</item>
+        <item>DIP DER (LONDON)</item>
+        <item>DIP DER MRCP</item>
+        <item>DIP DERM</item>
+        <item>DIP DERM (LONDON)</item>
+        <item>DIP DERM (LONODN)</item>
+        <item>DIP DERM (WALES)</item>
+        <item>DIP DERM MSC</item>
+        <item>DIP DERM(CARDIFF)</item>
+        <item>DIP DERM(LONDON)</item>
+        <item>DIP DERM(UNI WALES)</item>
+        <item>DIP DERM(VIENNA)</item>
+        <item>DIP DERM(WALES)</item>
+        <item>DIP DERM,DIP VEN</item>
+        <item>DIP DERM/VERN(LON)</item>
+        <item>DIP DERMA</item>
+        <item>DIP DERMA SC(CARDIFF</item>
+        <item>DIP DERMA(WALES)</item>
+        <item>DIP DERMATOLOGY</item>
+        <item>DIP DERMOTOLOGY</item>
+        <item>DIP EDITH COWEN</item>
+        <item>DIP HEALTH SC</item>
+        <item>DIP IN ACUPUNTURE</item>
+        <item>DIP IN AVIATION MED</item>
+        <item>DIP IN CARDIOLOGY</item>
+        <item>DIP IN CHILD HEALTH</item>
+        <item>DIP IN DERMATOLOGY</item>
+        <item>DIP IN GYNAE &amp; OBS</item>
+        <item>DIP IN MED(JURIS PRE</item>
+        <item>DIP IN MED.REHAB</item>
+        <item>DIP IN NEU (LEUVEN)</item>
+        <item>DIP IN NEUROSURGERY</item>
+        <item>DIP IN NUTRI(LONDON)</item>
+        <item>DIP IN OCC MED HEALT</item>
+        <item>DIP IN OCC MED(UKM)</item>
+        <item>DIP IN OCCUP MAFP</item>
+        <item>DIP IN REP MED</item>
+        <item>DIP IN REP.MED(LPPKN</item>
+        <item>DIP IN REPRODUC MED</item>
+        <item>DIP IN REPRPDUCTIVE</item>
+        <item>DIP IN RERRPDUCT.MED</item>
+        <item>DIP IN SPORTS MED</item>
+        <item>DIP IND HEALTH (UKM)</item>
+        <item>DIP LUT MED (LON)</item>
+        <item>Dip Med DRM (UPM)</item>
+        <item>DIP NEUROLOGY</item>
+        <item>DIP O.H.S (PERTH)</item>
+        <item>DIP OCC HEALTH (UKM)</item>
+        <item>DIP OCC HEALTH&amp;SAF</item>
+        <item>DIP OCC MED (UKM)</item>
+        <item>DIP OCC SAFETY</item>
+        <item>DIP OCCU HEALTH(UKM)</item>
+        <item>DIP OCCUPATIONAL</item>
+        <item>DIP OF FAMILY DERM</item>
+        <item>DIP OF OPHTH</item>
+        <item>DIP OF PALLIATIVE M</item>
+        <item>DIP OF REPRODUCTIV</item>
+        <item>DIP OH(EDITH COWAN)</item>
+        <item>DIP OMHS(PERTH)</item>
+        <item>DIP OPHTH(DUBLIN)</item>
+        <item>DIP OPTHALMOLOGY</item>
+        <item>DIP OSH (UKM)</item>
+        <item>DIP P DEM (WALES)</item>
+        <item>DIP P DER</item>
+        <item>DIP P DERM</item>
+        <item>DIP P DERM(CARDIFF)</item>
+        <item>DIP PAL MED ( WALES)</item>
+        <item>DIP PALL  CARE (CARD</item>
+        <item>DIP PR DERMATOLOGY</item>
+        <item>DIP PRAC DERM</item>
+        <item>DIP PSYCH MED (MELB)</item>
+        <item>DIP REP (GP)</item>
+        <item>DIP REP MED(MAL)</item>
+        <item>DIP REP MED(MALAYA)</item>
+        <item>DIP REP MED(UPM)</item>
+        <item>DIP REP MEDC</item>
+        <item>DIP REP MEDICINE(UPM</item>
+        <item>DIP REPRO</item>
+        <item>DIP REPRO MED(COLGP)</item>
+        <item>DIP REPRO MED(MAL)</item>
+        <item>DIP REPRO MED(UM)</item>
+        <item>DIP REPROD MED</item>
+        <item>DIP REPROD MED(UM)</item>
+        <item>DIP REPRODUCTIVE</item>
+        <item>DIP REPRODUCTIVE ME</item>
+        <item>DIP SC BASIS DERM</item>
+        <item>DIP SP MED(LONDON)85</item>
+        <item>DIP SPORTS MED (PERT</item>
+        <item>DIP SPORTS MEDICINE</item>
+        <item>DIP TROPICAL MED</item>
+        <item>DIP TROPICAL MED&amp;HYG</item>
+        <item>DIP VEN (LONDON)</item>
+        <item>DIP VEN(LONDON)</item>
+        <item>DIP VEND(LOND)</item>
+        <item>DIP VENEREOLOGY(LON</item>
+        <item>DIP VENEREOLOGY(LON)</item>
+        <item>DIP VERN (UK)</item>
+        <item>DIP VERN(ENGLAND)</item>
+        <item>DIP VERN(LONDON)</item>
+        <item>DIP(DERM)LONDON</item>
+        <item>DIP(OPHTH)</item>
+        <item>DIP. IN CHILDHEALTH</item>
+        <item>DIP. OF CARDIOLOGY</item>
+        <item>DIP.AVIATION MED.</item>
+        <item>DIP.BACT.ENGLAND</item>
+        <item>DIP.DERMATOLOGY</item>
+        <item>DIP.IN CHILD HEALTH</item>
+        <item>DIP.IN INDUS HEALTH</item>
+        <item>DIP.IN INDUST.HEALTH</item>
+        <item>DIP.IN REPROD.MED.</item>
+        <item>DIP.OCC.HEALTH SAFE.</item>
+        <item>DIP.OF DERM(LOND)</item>
+        <item>DIP.OPHTALMOLOGY</item>
+        <item>DIP.PERUB.REPRODUCTI</item>
+        <item>DIP.PRAT.DERM(WALES)</item>
+        <item>DIP.REP.MEDICINE</item>
+        <item>DIP.SPORTS MED(LOND)</item>
+        <item>DIP.VENERCOLOGY(LON)</item>
+        <item>DIPLOMA</item>
+        <item>DIPLOMA  OCC H (UKM)</item>
+        <item>DIPLOMA AV MED</item>
+        <item>DIPLOMA STD(HAADYAI)</item>
+        <item>DIPLOMA(FAMILY PHY)</item>
+        <item>DIPLOMA(MEDICINE)</item>
+        <item>DIPLOMA(UKM)</item>
+        <item>DIPLOMA(UNI WALES)</item>
+        <item>DIPLOMA(WALES)</item>
+        <item>DIPT H TER (USM)</item>
+        <item>DLO - MELBOURNE</item>
+        <item>DLO (LONDON)</item>
+        <item>DLO / MCPS</item>
+        <item>DLO FRCS (LONDON)</item>
+        <item>DLO MS ENT</item>
+        <item>DLO RCS</item>
+        <item>DLO(BANGLORE)</item>
+        <item>DLO(DHAKA)</item>
+        <item>DLO(LONDON)</item>
+        <item>DLO(MADRAS)</item>
+        <item>DLO,M.MED.SC(ENT)</item>
+        <item>DLO,RCS(LONDON)</item>
+        <item>DLO,RRCS(LOND,EDIN)</item>
+        <item>DLORCS (LONDON)</item>
+        <item>DLORCS(LONDON)</item>
+        <item>DM</item>
+        <item>DM (DUBLIN)</item>
+        <item>DM CARDIOLOGY</item>
+        <item>DMICAC MACF</item>
+        <item>DMICAC MASIA</item>
+        <item>DMR</item>
+        <item>DMR ( LONDON )</item>
+        <item>DMRD</item>
+        <item>DMRD ( LONDON )</item>
+        <item>DMRD (DHAKA)</item>
+        <item>DMRD (ENGLAND)</item>
+        <item>DMRD FRCS</item>
+        <item>DMRD LONDON</item>
+        <item>DMRD RCP(LOND)1982</item>
+        <item>DMRD(ENGLAND)</item>
+        <item>DMRD(LIVERPOOL)</item>
+        <item>DMRD(LON)</item>
+        <item>DMRD(LOND)1966</item>
+        <item>DMRD(LONDON</item>
+        <item>DMRD(LONDON)</item>
+        <item>DMRD(LONDON)1976</item>
+        <item>DMRD(RCP&amp;S LONDON)</item>
+        <item>DMRD,FRCR(LON)</item>
+        <item>DMRT</item>
+        <item>DMRT(LONDON)</item>
+        <item>DMRT(ONC)</item>
+        <item>DMRT(ONCOLOY/RADTY)</item>
+        <item>DNB (NATIONAL BOARD)</item>
+        <item>DO (DUBLIN)</item>
+        <item>DO RCPS</item>
+        <item>DO RCS(IRELAND)</item>
+        <item>DO(DUBLIN)</item>
+        <item>DO(EIRE)</item>
+        <item>DO(IREL)FRCS(EDIN)</item>
+        <item>DO(IRELAND)</item>
+        <item>DO(IRELAND)RCS(IRE)</item>
+        <item>DO(LONDON)</item>
+        <item>DO(RCP)</item>
+        <item>DO(RCS &amp; P)(DUBLIN)</item>
+        <item>DO,FRCS,M MED</item>
+        <item>DO,RCP</item>
+        <item>DO.RCP&amp;RCS(IRELAND)</item>
+        <item>DOCTOR OF MEDICINE</item>
+        <item>DOMHS(EDITH COWAN)</item>
+        <item>DOMS(BOMBAY)</item>
+        <item>DORCP &amp; S(DUBLIN)</item>
+        <item>DORCP&amp;S ( R.C.S.I )</item>
+        <item>DORCPS(DUBLIN)</item>
+        <item>DORCS.RCP</item>
+        <item>DPD</item>
+        <item>DPD (WALES)</item>
+        <item>DPH</item>
+        <item>DPH (EDIN)</item>
+        <item>DPH (LONDON)</item>
+        <item>DPH (SINGAPORE)</item>
+        <item>DPH (S\'PORE)</item>
+        <item>DPH MPH</item>
+        <item>DPH(EDINBURGH)</item>
+        <item>DPH(GLASGOW)</item>
+        <item>DPH(LONDON)</item>
+        <item>DPH(MALAYA)</item>
+        <item>DPH(SINGAPORE )</item>
+        <item>DPH(SINGAPORE)</item>
+        <item>DPH(SINGAPORE)1971</item>
+        <item>DPH(S\'PORE)20/3/73</item>
+        <item>DPH,FRSH,M.FCM(LOND)</item>
+        <item>DPH,MHP,FRACMA</item>
+        <item>DPH,S\'PORE,DCH,ENG</item>
+        <item>DPM</item>
+        <item>DPM (BANGALORE)</item>
+        <item>DPM(ENG),FRANZCP(61)</item>
+        <item>DPM(ENG)PSYCH(UK)</item>
+        <item>DPM,MRC PSYCH(ENG)</item>
+        <item>DR PH(PREV.CARE)</item>
+        <item>DRACOG</item>
+        <item>DRANZCOG</item>
+        <item>DRCOG</item>
+        <item>DRCOG (AUCK)</item>
+        <item>DRCOG (LONDON)</item>
+        <item>DRCOG (UK)</item>
+        <item>DRCOG(LON)</item>
+        <item>DRCOG(LOND)</item>
+        <item>DRCOG(LONDON)</item>
+        <item>DRM</item>
+        <item>DRM  (UM)</item>
+        <item>DRM ( MALAYSIA)</item>
+        <item>DRM ( M\'SIA)</item>
+        <item>DRM ( UPM )</item>
+        <item>DRM (GP ACADEMY)</item>
+        <item>DRM (UPM )</item>
+        <item>DRM (UPM)</item>
+        <item>DRM(ACEDEMY M\'SIA)</item>
+        <item>DRM(MAL)</item>
+        <item>DRM(MALAYA)</item>
+        <item>DRM(M\'SIA)DIP.IN STD</item>
+        <item>DRM(M\'SIA)MCGP(S\'POR</item>
+        <item>DRM(UM)</item>
+        <item>DRM(UPM)</item>
+        <item>DRM, LFOM IRELAND 03</item>
+        <item>DRM,DIP ULTRASOUND</item>
+        <item>DRMH(LIVERPOOL)</item>
+        <item>DRN</item>
+        <item>DSC(UNI USA)</item>
+        <item>DTCD(UNI. OF WALES)</item>
+        <item>DTCD(WELSH)</item>
+        <item>DTCH (LIVERPOOL)</item>
+        <item>DTM</item>
+        <item>DTM &amp; h</item>
+        <item>DTM &amp; H (MAHIDOL)</item>
+        <item>DTM &amp; H(ENGLAND)</item>
+        <item>DTM &amp;H (MAHIDOL UNI)</item>
+        <item>DTM MRCP FRSP</item>
+        <item>DTM&amp; H ( BANGKOK)</item>
+        <item>DTM&amp;H</item>
+        <item>DTM&amp;H (LONDON)</item>
+        <item>DTM&amp;H(BANGKOK 1974)</item>
+        <item>DTM&amp;H(LIVERPOOL)</item>
+        <item>DTM&amp;H(L\'POOL)1968</item>
+        <item>DTM(CALCUTTA)</item>
+        <item>DTM/H(MAHIDOL)</item>
+        <item>DTM+H(SYDNEY)</item>
+        <item>DTMH</item>
+        <item>DTMH(BANG)MPATH(UM)</item>
+        <item>DTMH(LONDON)</item>
+        <item>DTMTH</item>
+        <item>DTPH(LONDON)</item>
+        <item>DUBLIN</item>
+        <item>DVD(BOMB), DDV(VIEN)</item>
+        <item>DVD(LONDON)</item>
+        <item>ECFMG</item>
+        <item>EDINBURGH</item>
+        <item>ENGLAND</item>
+        <item>ENT (EDIN)</item>
+        <item>ENT.SPECIALIST(M.H)</item>
+        <item>EUROPEAN MAS IN MED</item>
+        <item>F R S H</item>
+        <item>F.A.COEM (USA)</item>
+        <item>F.F.A,R.C.S(PART II)</item>
+        <item>F.R.A.C.S</item>
+        <item>F.R.C.S</item>
+        <item>F.R.C.S(EDIN)</item>
+        <item>F.R.C.S(EDINBURGH)</item>
+        <item>F.R.C.S(PART A)EDIN</item>
+        <item>FAAD , D DERMATOLOGY</item>
+        <item>FACC (US)</item>
+        <item>FACOM</item>
+        <item>FAFP</item>
+        <item>FAFP (ACA OF FAM PH)</item>
+        <item>FAFP (ACA. F.PHY)</item>
+        <item>FAFP MCGP</item>
+        <item>FAFP(ACA.OF FAMILY )</item>
+        <item>FAFPHM</item>
+        <item>FAGE</item>
+        <item>FAMILY PLANNING</item>
+        <item>FANZCA</item>
+        <item>FANZCA (AUSTRALIA)</item>
+        <item>FANZCA /FJFICM</item>
+        <item>FANZLA (AUSTRALIA)</item>
+        <item>FCANAES</item>
+        <item>FCCP,FCGP</item>
+        <item>FCGP</item>
+        <item>FCGP (AFPM)</item>
+        <item>FCGP (KURNOOL)</item>
+        <item>FCGP(MNS)</item>
+        <item>FCGP,MCGP(1973)</item>
+        <item>FCOphth (HONG KONG)</item>
+        <item>FCPS</item>
+        <item>FDS RCS</item>
+        <item>FDSRCS(ENGLAND)</item>
+        <item>FDSRCS(RSC ENGLAND)</item>
+        <item>FELLOSHIP-PAED NEUR</item>
+        <item>FFA(UK)</item>
+        <item>FFARACS</item>
+        <item>FFARACS &amp; FANZCA</item>
+        <item>FFARACS (</item>
+        <item>FFARACS (AUSTRALIA)</item>
+        <item>FFARACS(M.MED UKM 92</item>
+        <item>FFARACS(MELBOURNE)</item>
+        <item>FFARCS</item>
+        <item>FFARCS ( DUBLIN )</item>
+        <item>FFARCS (ENGLAND)</item>
+        <item>FFARCS (UK)</item>
+        <item>FFARCS I</item>
+        <item>FFARCS(DUBLIN)</item>
+        <item>FFARCS(ENG)</item>
+        <item>FFARCS(ENGLAND)</item>
+        <item>FFARCS(IRELAND)</item>
+        <item>FFARCS(LONDON)</item>
+        <item>FFARCS, DA</item>
+        <item>FFARCSI</item>
+        <item>FFARCSI (DUBLIN)</item>
+        <item>FFARCSI (RCS)</item>
+        <item>FFARCSI(IRE),RRARCS</item>
+        <item>FFARCSI(IRELAND)</item>
+        <item>FFOM (RCPI )</item>
+        <item>FFOM (RCPI)</item>
+        <item>FFOM(OCC MED)IRE</item>
+        <item>FFRACS(IRE),D.A(ENG)</item>
+        <item>FFRACS(IRELAND)</item>
+        <item>FFRARCS (IRE)</item>
+        <item>FFRARCS (IRELAND)</item>
+        <item>FFRCS</item>
+        <item>FFRRCS</item>
+        <item>FFRRCS(IRELAND)</item>
+        <item>FFRRCSI</item>
+        <item>FFRRCSI ( DUBLIN)</item>
+        <item>FICG (INDIA) LFOM</item>
+        <item>FICG NEW YORK</item>
+        <item>FICGP</item>
+        <item>FIMS (GLASG)</item>
+        <item>FIMS(GLASGOW)</item>
+        <item>FLY MEDICINE (UM)</item>
+        <item>FMS(UKM)</item>
+        <item>FOREN.MED,MSC</item>
+        <item>FRACAP</item>
+        <item>FRACEP</item>
+        <item>FRACG(MELBOURNE)</item>
+        <item>FRACGP</item>
+        <item>FRACGP MCGP</item>
+        <item>FRACGP(CANBERRA)</item>
+        <item>FRACMA</item>
+        <item>FRACP</item>
+        <item>FRACP  RACP</item>
+        <item>FRACP (RACP)</item>
+        <item>FRACP(MONASH)</item>
+        <item>FRACR</item>
+        <item>FRACS</item>
+        <item>FRACS ( MELBOURNE)</item>
+        <item>FRACS (COL OF SURG)</item>
+        <item>FRACS (N SURG)</item>
+        <item>FRACS(EDINBURGH)</item>
+        <item>FRACS(MELBOURNE)</item>
+        <item>FRACS(NEURO SURG)</item>
+        <item>FRACS(NEURO)</item>
+        <item>FRACS(PAED SURG)</item>
+        <item>FRACS(RACS)</item>
+        <item>FRACS(RECONST.SURG)</item>
+        <item>FRANZCP (AUST&amp; NZ)</item>
+        <item>FRANZCP(AUSTRALIA)&amp;</item>
+        <item>FRARCSI(DUBLIN)</item>
+        <item>FRC PATH</item>
+        <item>FRCA</item>
+        <item>FRCA  ( ANAEST )</item>
+        <item>FRCA ( LONDON )</item>
+        <item>FRCA (NZ) ANAES</item>
+        <item>FRCA(ANAEST)</item>
+        <item>FRCA(LONDON)</item>
+        <item>FRCAE (UK)</item>
+        <item>FRCG</item>
+        <item>FRCG (ENT)</item>
+        <item>FRCGP</item>
+        <item>FRCGP (CARDIFF)</item>
+        <item>FRCI(IRELAND)</item>
+        <item>FRCOG</item>
+        <item>FRCOG (LONDON)</item>
+        <item>FRCOG (RCOG)</item>
+        <item>FRCOG(ENGLAND)</item>
+        <item>FRCOG(LOND)</item>
+        <item>FRCOG(LONDON)</item>
+        <item>FRCOPHTH</item>
+        <item>FRCOphth (LONDON)</item>
+        <item>FRCOPHTH(LONDON)</item>
+        <item>FRCOPTHAL</item>
+        <item>FRCP</item>
+        <item>FRCP ( EDINBURGH)</item>
+        <item>FRCP ( GLASGOW)</item>
+        <item>FRCP ( IRELAND)</item>
+        <item>FRCP ( LONDON )</item>
+        <item>FRCP ( ROYAL COLLE)</item>
+        <item>FRCP (EDIN)</item>
+        <item>FRCP (EDINBURGH)</item>
+        <item>FRCP (ENDINBURGH)</item>
+        <item>FRCP (Glasg)</item>
+        <item>FRCP (GLASGOW)</item>
+        <item>FRCP (IRELAND)</item>
+        <item>FRCP (LONDON)</item>
+        <item>FRCP (PAED)</item>
+        <item>FRCP (UK)</item>
+        <item>FRCP FRACP (AUS) 78</item>
+        <item>FRCP MRCP</item>
+        <item>FRCP(EDIN &amp; GLASGOW)</item>
+        <item>FRCP(EDIN)</item>
+        <item>FRCP(EDINBURGH)</item>
+        <item>FRCP(GLASGLOW)</item>
+        <item>FRCP(GLASGOW)</item>
+        <item>FRCP(IRELAND)</item>
+        <item>FRCP(LON)</item>
+        <item>FRCP(LONDON)</item>
+        <item>FRCP(ROYAL COLL)</item>
+        <item>FRCPA</item>
+        <item>FRCPATH(90),FRCPA(86</item>
+        <item>FRCPCH</item>
+        <item>FRCPED,DCH</item>
+        <item>FRCPSYCH (UK)</item>
+        <item>FRCR</item>
+        <item>FRCR ( LONDON )</item>
+        <item>FRCR ( LONDON)</item>
+        <item>FRCR (LONDON)</item>
+        <item>FRCR (ONCOLOGY)</item>
+        <item>FRCR (QUEENSLAND)</item>
+        <item>FRCR (ROYAL COLLEGE)</item>
+        <item>FRCR (UK)</item>
+        <item>FRCR DMRD</item>
+        <item>FRCR(DIAGNOSTIC)</item>
+        <item>FRCR(LONDON)</item>
+        <item>FRCR(LONDON) 1994</item>
+        <item>FRCR,DMRD</item>
+        <item>FRCR,FFR (IRELAND)</item>
+        <item>FRCS</item>
+        <item>FRCS  ( GLASGOW )</item>
+        <item>FRCS  (GLASCOW )</item>
+        <item>FRCS  (IRELAND)</item>
+        <item>FRCS ( ED )</item>
+        <item>FRCS ( ED)</item>
+        <item>FRCS ( EDIN)</item>
+        <item>FRCS ( EDINBURG )</item>
+        <item>FRCS ( EDINBURGH )</item>
+        <item>FRCS ( EDINBURGH)</item>
+        <item>FRCS ( EDINGBURG )</item>
+        <item>FRCS ( EDINGBURGH )</item>
+        <item>FRCS ( ENGLAND )</item>
+        <item>FRCS ( GLASCOW )</item>
+        <item>FRCS ( GLASGOW )</item>
+        <item>FRCS ( GLASGOW)</item>
+        <item>FRCS ( IRELAND )</item>
+        <item>FRCS ( IRELAND)</item>
+        <item>FRCS ( LONDON )</item>
+        <item>FRCS ( NEURO SURG )</item>
+        <item>FRCS ( RCS) EDINBURG</item>
+        <item>FRCS ( UK)</item>
+        <item>FRCS (CANADA)</item>
+        <item>FRCS (ED)</item>
+        <item>FRCS (EDENBURG)</item>
+        <item>FRCS (EDIN)</item>
+        <item>FRCS (EDIN) GLASGOW)</item>
+        <item>FRCS (EDINBUGH)</item>
+        <item>FRCS (EDINBURG)</item>
+        <item>FRCS (EDINBURGH )</item>
+        <item>FRCS (EDINBURGH)</item>
+        <item>FRCS (ENT)</item>
+        <item>FRCS (GLAS)</item>
+        <item>FRCS (GLASG)</item>
+        <item>FRCS (GLASGOW)</item>
+        <item>FRCS (GLASLOW)</item>
+        <item>FRCS (GLOSGROW)</item>
+        <item>FRCS (IRE) FRCS CARD</item>
+        <item>FRCS (IRELAND)</item>
+        <item>FRCS (OPHTHAL)</item>
+        <item>FRCS (OPTH) GLASGOW</item>
+        <item>FRCS (PART 1) EDIN</item>
+        <item>FRCS (RCSI)</item>
+        <item>FRCS (ROYAL COL)</item>
+        <item>FRCS (ROYAL COLLEGE)</item>
+        <item>FRCS (UK)</item>
+        <item>FRCS , M.Ch ORTHO</item>
+        <item>FRCS ED( EDINBURGH)</item>
+        <item>FRCS EDINBURGH</item>
+        <item>FRCS ENT(EDIN)</item>
+        <item>FRCS ENT(EDINBURGH)</item>
+        <item>FRCS GLASGOW</item>
+        <item>FRCS MS (OPTHAL)</item>
+        <item>FRCS OPHT(EDIN)</item>
+        <item>FRCS RCSI (IRELAND)</item>
+        <item>FRCS ROYAL COL.EDINB</item>
+        <item>FRCS ROYAL COLLEGE</item>
+        <item>FRCS( EDINBURGH )</item>
+        <item>FRCS(E)PART A(OPHTH)</item>
+        <item>FRCS(ED &amp; ENGLAND)</item>
+        <item>FRCS(ED)</item>
+        <item>FRCS(ED)FRCS(GLAS)UK</item>
+        <item>FRCS(ED)M.M.S.(S)</item>
+        <item>FRCS(EDIBURGH)</item>
+        <item>FRCS(EDIN &amp; GLASG)</item>
+        <item>FRCS(EDIN BURGH)</item>
+        <item>FRCS(EDIN)</item>
+        <item>FRCS(EDIN) GLASGOW</item>
+        <item>FRCS(EDIN)06-1985</item>
+        <item>FRCS(EDIN)1988</item>
+        <item>FRCS(EDIN)ENT</item>
+        <item>FRCS(EDIN)FRCS(GLAS)</item>
+        <item>FRCS(EDIN)FRCS(LON)</item>
+        <item>FRCS(EDIN)FRCS(PLAS)</item>
+        <item>FRCS(EDIN)GLASGOW</item>
+        <item>FRCS(EDINBRUGH)</item>
+        <item>FRCS(EDINBURG)</item>
+        <item>FRCS(EDINBURGE)</item>
+        <item>FRCS(EDINBURGH</item>
+        <item>FRCS(EDINBURGH )</item>
+        <item>FRCS(EDINBURGH)</item>
+        <item>FRCS(EDINBURGH)SN</item>
+        <item>FRCS(EDMBURGH)</item>
+        <item>FRCS(ENG)</item>
+        <item>FRCS(ENGLAND)</item>
+        <item>FRCS(ENT)EDIN</item>
+        <item>FRCS(ENT)EDINBURGH</item>
+        <item>FRCS(GLAS)</item>
+        <item>FRCS(GLAS)SCOTLAND</item>
+        <item>FRCS(GLASAGOW)</item>
+        <item>FRCS(GLASG)</item>
+        <item>FRCS(GLASG)FRCS(EDIN</item>
+        <item>FRCS(GLASGOW )</item>
+        <item>FRCS(GLASGOW)</item>
+        <item>FRCS(G-OPTHAL)</item>
+        <item>FRCS(I) IRELAND</item>
+        <item>FRCS(IRELAND)</item>
+        <item>FRCS(LONDON)</item>
+        <item>FRCS(OPH)DUBLIN</item>
+        <item>FRCS(OPHT) (EDIN)</item>
+        <item>FRCS(OPHT) EDIN</item>
+        <item>FRCS(OPHTH)EDIN</item>
+        <item>FRCS(OPHTH)PART 1(ED</item>
+        <item>FRCS(OPTHAL)</item>
+        <item>FRCS(OTO)IREL(1/4/93</item>
+        <item>FRCS(OTOLAR)EDIN</item>
+        <item>FRCS(PART 1)</item>
+        <item>FRCS(R COLL OF SURG)</item>
+        <item>FRCS(ROYAL COLL)</item>
+        <item>FRCS(ROYAL COLLE EDI</item>
+        <item>FRCS(ROYAL COLLEGE)</item>
+        <item>FRCS(SCOTLAND)</item>
+        <item>FRCS,EDINBURGH</item>
+        <item>FRCS,FRCOPHTH</item>
+        <item>FRCS,FRCS ( EDIN )</item>
+        <item>FRCS,MS ORTH</item>
+        <item>FRCS,RRCS(EDIN)</item>
+        <item>FRCSE OPHTHA</item>
+        <item>FRCSED</item>
+        <item>FRCSEd (CTH)</item>
+        <item>FRCSED (EDINBURGH)</item>
+        <item>FRCSED (OPHTH)</item>
+        <item>FRCSED (ROYAL COLLE</item>
+        <item>FRCSED RCSED</item>
+        <item>FRCSED(EDINBURGE)</item>
+        <item>FRCSEDINBURGH)</item>
+        <item>FRCSI (IRELAND)</item>
+        <item>FRCSI(RCS)</item>
+        <item>FRCSS(EDINBURGH)</item>
+        <item>FRNZCGP (NZ COLLEGE)</item>
+        <item>FRRRCS(DUBLIN)</item>
+        <item>FRSC(EDINBURGH)</item>
+        <item>FRSCGP</item>
+        <item>FRSH</item>
+        <item>FRSH(LOND)</item>
+        <item>FRSH(LONDON)</item>
+        <item>GAZATTED CLINICAL SP</item>
+        <item>GDHA(NSW)</item>
+        <item>GDHPed (UNSW)</item>
+        <item>HEALTH SERVICE ADMIN</item>
+        <item>HEALTH SERVICES ADM</item>
+        <item>HHSA(LONDON)</item>
+        <item>HIGHER DIPLOMA</item>
+        <item>HSC(CAIRO)</item>
+        <item>IJAZAH SARJANA MUDA</item>
+        <item>IJAZAH SARJANAN (UKM</item>
+        <item>INST OF PUB HEALTH</item>
+        <item>INST.CHILD HEALTH</item>
+        <item>INT MEDICINE (UKM)</item>
+        <item>INTERSHIP</item>
+        <item>IRCS(EDINBURGH)</item>
+        <item>IRELAND</item>
+        <item>IRELAND &amp; ENGLAND</item>
+        <item>IRELAND (UK)</item>
+        <item>JOINT FRCS(M.MED)EDI</item>
+        <item>KASTURBA (MAHE)</item>
+        <item>KASTURBA(MAHE)</item>
+        <item>KING GEORGES MED.COL</item>
+        <item>L LM RCP(IREL)</item>
+        <item>L LM RCS(IREL)</item>
+        <item>L LM,RCP(IRELAND)</item>
+        <item>L.LM RCP(IREL)</item>
+        <item>L.LM,RCP(IREL)</item>
+        <item>L.LM,RCP(IRELAND)</item>
+        <item>L.LM,RCS(IREL)1967</item>
+        <item>L.M.S</item>
+        <item>L.M.S.S.A(LOND)</item>
+        <item>LAH</item>
+        <item>LAH(DUBLIN)</item>
+        <item>LFOM  (RCPI)</item>
+        <item>LFOM (DUBLIN)</item>
+        <item>LFOM (IRELAND)</item>
+        <item>LFOM (RCP) IRELAND</item>
+        <item>LFOM (RCPI)</item>
+        <item>LFOM (RCPI) DIP DERM</item>
+        <item>LFOM (RCPI) MFOM 200</item>
+        <item>LFOM RCP</item>
+        <item>LFOM(DUBLIN)</item>
+        <item>LFOM(IRELAND)</item>
+        <item>LFOM(RCP)</item>
+        <item>LFOM(RCP)-(OHD)-(DOS</item>
+        <item>LFOM(RCPI DUBLIN)</item>
+        <item>LFOM(RCPI)</item>
+        <item>LFOM(ROTAL COLLEGE)</item>
+        <item>LFOM(ROYAL COLL )</item>
+        <item>LFOM(ROYAL COLL)</item>
+        <item>LFOMRCP</item>
+        <item>LFOMRCP(IRELAND)</item>
+        <item>LFPM(IRELAND)</item>
+        <item>LLB (QUEENSLAND)</item>
+        <item>LLB(HONS)</item>
+        <item>LLM RCP</item>
+        <item>LLM(RCP) IRELAND</item>
+        <item>LLM,RCP(IRELAND)</item>
+        <item>LLM,RCSI,LLM,RCPI</item>
+        <item>LLMRCP</item>
+        <item>LM,DGO</item>
+        <item>LM,DGO,DCH (DUBLIN)</item>
+        <item>LMCC(CANADA)</item>
+        <item>LMS</item>
+        <item>LMS (SINGAPORE)</item>
+        <item>LMS S.\'PORE</item>
+        <item>LMSSA(LONDON)</item>
+        <item>LMSSA(LONDON)ECFMG</item>
+        <item>LPCP &amp;LRCS</item>
+        <item>LRC PI SI</item>
+        <item>LRCP</item>
+        <item>LRCP &amp; LRCS LM</item>
+        <item>LRCP &amp; LRCSI</item>
+        <item>LRCP &amp; S(IRELAND)</item>
+        <item>LRCP &amp; SI</item>
+        <item>LRCP &amp; SI BAO(NUI)</item>
+        <item>LRCP &amp; SI(DUBLIN)</item>
+        <item>LRCP &amp;S</item>
+        <item>LRCP &amp;SI MBBCH BAO</item>
+        <item>LRCP (LONDON)</item>
+        <item>LRCP SI(IRELAND)</item>
+        <item>LRCP&amp;S</item>
+        <item>LRCP&amp;S</item>
+        <item>LRCP&amp;S I (IRELAND)</item>
+        <item>LRCP&amp;S MBBchBAO</item>
+        <item>LRCP&amp;S(IREL)</item>
+        <item>LRCP&amp;S(IRELAND)</item>
+        <item>LRCP&amp;S(IRELAND)</item>
+        <item>LRCP&amp;SI(IRELAND)</item>
+        <item>LRCP(EDIN)</item>
+        <item>LRCP(EDIN)</item>
+        <item>LRCP(LOND)</item>
+        <item>LRCP(LOND)MRCS(ENG)</item>
+        <item>LRCP(LONDON)</item>
+        <item>LRCP(LONDON)</item>
+        <item>LRCP,LRCS(EDIN)</item>
+        <item>LRCP,LRCS(IRELAND)</item>
+        <item>LRCP,LRCS,LM(DUBLIN)</item>
+        <item>LRCP,LRCS,MBBCH,BAO,</item>
+        <item>LRCP.LRCS</item>
+        <item>LRCP/S(EDIN/GL)</item>
+        <item>LRCP+SI (DUBLIN)</item>
+        <item>LRCPAS I</item>
+        <item>LRCPI &amp; S</item>
+        <item>LRCPI &amp;SI</item>
+        <item>LRCPI, LRCSI &amp; LM</item>
+        <item>LRCPI, LRCSI(IREL)</item>
+        <item>LRCPI,LRCSI</item>
+        <item>LRCPMRCS(LONDON)</item>
+        <item>LRCPS</item>
+        <item>LRCPS(GLASG)</item>
+        <item>LRCPSI,NUI</item>
+        <item>LRFPS(GLASG)</item>
+        <item>LRFPS(GLASGOW)</item>
+        <item>M  MED (USM)</item>
+        <item>M  O&amp;G ( UKM)</item>
+        <item>M  RAD( UM)</item>
+        <item>M ( O&amp;G) UM</item>
+        <item>M (INT MED) UKM</item>
+        <item>M (O &amp; G)</item>
+        <item>M (O&amp; G) UKM</item>
+        <item>M (PATHOLOGY)</item>
+        <item>M (RAD) UM</item>
+        <item>M ANAES ( UM)</item>
+        <item>M ANAES (UM)</item>
+        <item>M ANAESH</item>
+        <item>M ANAEST</item>
+        <item>M ANAEST ( UM )</item>
+        <item>M ANAEST (UKM)</item>
+        <item>M ANAEST (UM)</item>
+        <item>M ANAEST (UM0</item>
+        <item>M ANAEST(UM</item>
+        <item>M ANAESTHETICS(UM)</item>
+        <item>M B (KAOHSIUNG)</item>
+        <item>M B.CH.B(LIVERPOOL)</item>
+        <item>M CLIN TRP MED</item>
+        <item>M COMM.HEALTH(UKM</item>
+        <item>M FAMILY MED(UM)</item>
+        <item>M H A (U.P. Manila)</item>
+        <item>M IN ORTHO (UKM)</item>
+        <item>M MED</item>
+        <item>M MED  ( ANAES)</item>
+        <item>M MED ( ANAES) UKM</item>
+        <item>M MED ( ANAES) UM</item>
+        <item>M MED ( ANAES) USM</item>
+        <item>M MED ( ANAES)( UKM)</item>
+        <item>M MED ( ANAEST ) UKM</item>
+        <item>M MED ( ANAEST) UKM</item>
+        <item>M MED ( ANES) UKM</item>
+        <item>M MED ( INT MED) USM</item>
+        <item>M MED ( O&amp;G) USM</item>
+        <item>M MED ( PAED ) (UKM)</item>
+        <item>M MED ( PAED ) (USM)</item>
+        <item>M MED ( PAED)UKM</item>
+        <item>M MED ( PATH) USM</item>
+        <item>M MED ( PSY) USM</item>
+        <item>M MED ( RAD) UKM</item>
+        <item>M MED ( SURG)</item>
+        <item>M MED ( SURG) USM</item>
+        <item>M MED ( UKM )</item>
+        <item>M MED ( UKM)</item>
+        <item>M MED ( UM)</item>
+        <item>M MED ( USM )</item>
+        <item>M MED ( USM)</item>
+        <item>M MED (0&amp;G) USM</item>
+        <item>M MED (ANAES)</item>
+        <item>M MED (ANAES) UKM</item>
+        <item>M MED (ANAES) UM</item>
+        <item>M MED (ANAES) USM</item>
+        <item>M MED (ANAEST) (USM)</item>
+        <item>M MED (ANAESTHESIA)</item>
+        <item>M MED (ANAESTHESIO</item>
+        <item>M MED (ANES) UKM</item>
+        <item>M MED (FAMILY MED)</item>
+        <item>M MED (FM) UM</item>
+        <item>M MED (FMED</item>
+        <item>M MED (FMS) (UKM)</item>
+        <item>M MED (INT MED)UKM</item>
+        <item>M MED (NAT UNIV)</item>
+        <item>M MED (NUS)</item>
+        <item>M MED (O &amp; G)</item>
+        <item>M MED (O &amp; G) (UM)</item>
+        <item>M MED (O &amp; G) UKM</item>
+        <item>M MED (O &amp; gG)</item>
+        <item>M MED (O&amp;G UKM)</item>
+        <item>M MED (O&amp;G)</item>
+        <item>M MED (O&amp;G) (UM)</item>
+        <item>M MED (O&amp;G) USM</item>
+        <item>M MED (O&amp;G)( USM)</item>
+        <item>M MED (OBST GYNAE)</item>
+        <item>M MED (OCC MED ) S\'P</item>
+        <item>M MED (OM)</item>
+        <item>M MED (OPH)</item>
+        <item>M MED (OPTH) UKM</item>
+        <item>M MED (ORTHO) USM</item>
+        <item>M MED (PAED)</item>
+        <item>M MED (PAED) UKM</item>
+        <item>M MED (PAED) UM</item>
+        <item>M MED (PAED) USM</item>
+        <item>M MED (PAEDIATRICS)</item>
+        <item>M MED (PAEDS)</item>
+        <item>M MED (PATH) USM</item>
+        <item>M Med (PATHOLOGY</item>
+        <item>M MED (PHY , UKM)</item>
+        <item>M MED (PSY) UKM</item>
+        <item>M MED (RAD) UKM</item>
+        <item>M MED (RAD)UM</item>
+        <item>M MED (RADIO) UKM</item>
+        <item>M MED (RADIOL)USM</item>
+        <item>M MED (RADIOLOGY)</item>
+        <item>M MED (S\'PORE)</item>
+        <item>M MED (SURG) UKM</item>
+        <item>M MED (UKM)</item>
+        <item>M MED (UM)</item>
+        <item>M MED (USM)</item>
+        <item>M MED ANESTHESIOLOGY</item>
+        <item>M MED OCC MED</item>
+        <item>M MED ORTHO(USM)</item>
+        <item>M MED RAD(USM)</item>
+        <item>M MED(0&amp;G) ( UM )</item>
+        <item>M MED(ANAES) UKM</item>
+        <item>M MED(ANAEST) USM</item>
+        <item>M MED(ANAEST)MALAYA</item>
+        <item>M MED(ANAEST)UKM</item>
+        <item>M MED(ANES) UKM</item>
+        <item>M MED(F MED)USM</item>
+        <item>M MED(INT MED) UKM</item>
+        <item>M MED(INT) UKM</item>
+        <item>M MED(O &amp; G)</item>
+        <item>M MED(O&amp;G)</item>
+        <item>M MED(OCC MED)</item>
+        <item>M MED(OFTAL)USM</item>
+        <item>M MED(OPHTAL)UM</item>
+        <item>M MED(ORL) USM</item>
+        <item>M MED(PAED)</item>
+        <item>M MED(PAED) UM</item>
+        <item>M MED(PAED)UKM</item>
+        <item>M MED(PAEDS-USM)</item>
+        <item>M MED(PATH) USM</item>
+        <item>M MED(PATHOLOGY)</item>
+        <item>M MED(PERTH)</item>
+        <item>M MED(PSY) UKM</item>
+        <item>M MED(RADIOL) UKM</item>
+        <item>M MED(RADIOLOGY)</item>
+        <item>M MED(RADIOLOGY)UKM</item>
+        <item>M MED(UKM)</item>
+        <item>M MED(UM)</item>
+        <item>M MED(USM)</item>
+        <item>M MED,FM FM (UK)</item>
+        <item>M MEDICINE(ANAES)</item>
+        <item>M MEDICINE(RADIO)</item>
+        <item>M MED-RADI(UKM)</item>
+        <item>M MRAD (UM)</item>
+        <item>M OBS &amp; GYNAE</item>
+        <item>M OCC MED (EDITH CO)</item>
+        <item>M OF FAMILY PHY(UM)</item>
+        <item>M OF MED</item>
+        <item>M OF ORTH SUR (UM)</item>
+        <item>M OF SURGERY(UKM)</item>
+        <item>M OPTH ( UKM)</item>
+        <item>M ORL HEAD&amp;NECK SURG</item>
+        <item>M ORTH SURG</item>
+        <item>M P H</item>
+        <item>M PAED (UM)</item>
+        <item>M PAED( BRUSSELS)</item>
+        <item>M PAED(UM)</item>
+        <item>M PATH</item>
+        <item>M PATH  (UKM)</item>
+        <item>M PATH ( UKM)</item>
+        <item>M PATH (UKM)</item>
+        <item>M PATH (UM)</item>
+        <item>M PATH(MAL)</item>
+        <item>M PATH(MALAYA)</item>
+        <item>M PATH(UM)</item>
+        <item>M PATHOLOGY</item>
+        <item>M PATHOLOGY (UKM)</item>
+        <item>M PH (NUS)</item>
+        <item>M PH (UKM)</item>
+        <item>M PLAS SUR( LEUVEN)</item>
+        <item>M PSYCH</item>
+        <item>M PSYCH MED (UM)</item>
+        <item>M PSYCHOLOGICAL MED</item>
+        <item>M RAD</item>
+        <item>M Rad (RADIPLOGY) UM</item>
+        <item>M RAD(UM)</item>
+        <item>M RADIOLOGY</item>
+        <item>M RADIOLOGY (UM)</item>
+        <item>M RADIOLOGY(UM)</item>
+        <item>M RED (UM)</item>
+        <item>M S (UM)</item>
+        <item>M S OPHTH(UKM)</item>
+        <item>M SC</item>
+        <item>M SC ( S\'PORE)</item>
+        <item>M SC (PH)</item>
+        <item>M SC HPF</item>
+        <item>M SC HSM  (LONDON)</item>
+        <item>M SC MED(ENGLAND)</item>
+        <item>M SC(COM MED)</item>
+        <item>M SC(LONDON)</item>
+        <item>M SC(OCC MED)</item>
+        <item>M SC(OCC MED) NUS</item>
+        <item>M SC(OCC MEDICINE)</item>
+        <item>M SC(OCCU.MED)</item>
+        <item>M SC(P\'COLOGY)</item>
+        <item>M SC(PH)</item>
+        <item>M SUGERY(MALAYA)</item>
+        <item>M SUR (UM)</item>
+        <item>M SURG ( UKM)</item>
+        <item>M SURG (OPHTHAL) UKM</item>
+        <item>M SURG (OPHTHALMOL)</item>
+        <item>M SURG (OPTHAL (UKM)</item>
+        <item>M SURG (UKM)</item>
+        <item>M SURG (UM)</item>
+        <item>M SURG (USM)</item>
+        <item>M SURG(OPHTH) UKM</item>
+        <item>M SURG(ORTHO)UKM</item>
+        <item>M SURGERY ( UKM)</item>
+        <item>M SURGERY (UKM)</item>
+        <item>M SURGERY OPH</item>
+        <item>M SURGERY(UKM)</item>
+        <item>M(OPTH) UM</item>
+        <item>M,S(OPHTH) UKM</item>
+        <item>M. O&amp; G (UKM)</item>
+        <item>M. PATH(MALAYA)</item>
+        <item>M. SURG(OPHTH)UKM</item>
+        <item>M. SURG(UKM)</item>
+        <item>M. SURGERY (UKM)</item>
+        <item>M.A(CANTAB)</item>
+        <item>M.ANAES</item>
+        <item>M.ANAES (MALAYA)</item>
+        <item>M.ANAES (UM) EDIC</item>
+        <item>M.ANAEST(MALAYA)</item>
+        <item>M.ANAESTHESIA(MAL)</item>
+        <item>M.B,CH.B TANTA UNIV</item>
+        <item>M.B.B.B.CH ( CAIRO )</item>
+        <item>M.B.B.S</item>
+        <item>M.B.B.S ( SRINAGAR )</item>
+        <item>M.B.B.S (CALICUT)</item>
+        <item>M.B.B.S(AGRA)</item>
+        <item>M.B.B.S(LUCKNOW)</item>
+        <item>M.B.B.S(MADRAS)</item>
+        <item>M.B.B.S(MALAYA)</item>
+        <item>M.B.B.S.(AGRA)</item>
+        <item>M.B.CH.B (BAGHDAD)</item>
+        <item>M.C.G.P</item>
+        <item>M.C.G.P.</item>
+        <item>M.CGP(MALAYA)</item>
+        <item>M.CH (GEN)</item>
+        <item>M.D</item>
+        <item>M.D (SUMATERA)</item>
+        <item>M.D (UKM)</item>
+        <item>M.D(LUCKNOW)INDIA</item>
+        <item>M.D(U.S.M)</item>
+        <item>M.D(UKM)</item>
+        <item>M.D(UM)</item>
+        <item>M.D. ANAESTHESIA</item>
+        <item>M.D.(UKM)</item>
+        <item>M.ED (O&amp;G) (UM)</item>
+        <item>M.HEAL.PLAN</item>
+        <item>M.INT MED (UM)</item>
+        <item>M.M RADIOLOGY (UKM)</item>
+        <item>M.M.MED</item>
+        <item>M.M.SC</item>
+        <item>M.MCD(MALAYA)</item>
+        <item>M.MED</item>
+        <item>M.MED ( ANAEST )</item>
+        <item>M.MED ( LIVERPOOL )</item>
+        <item>M.MED ( O&amp;G ) ( UM )</item>
+        <item>M.MED ( O&amp;G ) (UKM)</item>
+        <item>M.MED ( UKM )</item>
+        <item>M.MED ( USM )</item>
+        <item>M.MED (ANAES) UKM</item>
+        <item>M.MED (ANAES) USM</item>
+        <item>M.MED (ANAEST)</item>
+        <item>M.MED (ANAESTHESIOLO</item>
+        <item>M.MED (F. MEDICINE)</item>
+        <item>M.MED (MEDICINE)</item>
+        <item>M.MED (O &amp; G)</item>
+        <item>M.MED (O &amp; G) (UM)</item>
+        <item>M.MED (O&amp;G)</item>
+        <item>M.MED (PSY) UKM</item>
+        <item>M.MED (RADIOLOGY)</item>
+        <item>M.MED (RADIOLOGY)UKM</item>
+        <item>M.Med (UKM)</item>
+        <item>M.MED (UM)</item>
+        <item>M.MED (USM)</item>
+        <item>M.MED ANAES (USM)</item>
+        <item>M.MED ANAEST (UKM)</item>
+        <item>M.MED ANAEST (UM)</item>
+        <item>M.MED FAMILY MED.</item>
+        <item>M.MED INT.MED (UM)</item>
+        <item>M.MED OBSGYN (S\'PORE</item>
+        <item>M.MED OPTHAL (USM)</item>
+        <item>M.MED ORTHO (USM)</item>
+        <item>M.MED PAED ( UKM )</item>
+        <item>M.MED PAED(UKM)</item>
+        <item>M.MED PAED(UM)</item>
+        <item>M.MED RADIOLOGY</item>
+        <item>M.MED SURG</item>
+        <item>M.MED(ANAES) UKM</item>
+        <item>M.MED(ANAES)(UKM)</item>
+        <item>M.MED(ANAES)U.K.M</item>
+        <item>M.MED(ANAEST)</item>
+        <item>M.MED(ANAEST) UKM</item>
+        <item>M.MED(ANAEST)UKM</item>
+        <item>M.MED(CARDIO)</item>
+        <item>M.MED(ENT)</item>
+    </string-array>
 
 </resources>

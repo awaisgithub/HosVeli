@@ -1,5 +1,6 @@
 package com.od.mma.API;
 
+import com.od.mma.BOs.User;
 import com.od.mma.Utils.MMAConstants;
 
 import java.io.UnsupportedEncodingException;
@@ -9,17 +10,45 @@ import java.io.UnsupportedEncodingException;
  */
 
 public class Api {
-    //private static String baseURL = "http://www.mypams.net";
-    private static String baseURL = "http://103.233.0.208";
-
-    //public static String basicBaseURL = "www.mypams.net";
-
     public static String basicBaseURL = "103.233.0.208";
 
+    //public static String basicBaseURL = "www.mypams.net";
+    public static String MMABaseUrl = "104.155.207.137";
+    //private static String baseURL = "http://www.mypams.net";
+    private static String baseURL = "http://103.233.0.208";
     private static String jogetAppId = "hrdfApp";
     private static String jogetAppVersion = "1";
     private static String jogetUserViewID = "hrdfAppUV";
     private static String joget_app_id = "hrdfApp";
+
+
+    //MMA
+
+    public static String urlSignUp(User signup_user, String gcm_id, String device_type) {
+        String signUpUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?";
+        signUpUrl = signUpUrl + "id=" + signup_user.getEmail();
+        signUpUrl = signUpUrl + "&username=" + signup_user.getEmail();
+        signUpUrl = signUpUrl + "&password=" + signup_user.getPassword();
+        signUpUrl = signUpUrl + "&firstName=" + signup_user.getFname();
+        signUpUrl = signUpUrl + "&lastName=" + signup_user.getLname();
+        signUpUrl = signUpUrl + "&email=" + signup_user.getEmail();
+        signUpUrl = signUpUrl + "&gcmId=" + "1";
+        signUpUrl = signUpUrl + "&deviceType=" + device_type;
+        signUpUrl = signUpUrl + "&method=createUser";
+        return signUpUrl;
+    }
+
+    public static String urlLogin(String email, String password) {
+        String loginUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?";
+        loginUrl = loginUrl + "&username=" + email;
+        loginUrl = loginUrl + "&password=" + password;
+        loginUrl = loginUrl + "&method=loginUser";
+        return loginUrl;
+    }
+
+
+    //
+
 
     //METHODS
     public static String urlReverseGeoCoding(String address) throws UnsupportedEncodingException {
@@ -28,7 +57,7 @@ public class Api {
     }
 
     public static String urlJogetCRUD() {
-        JogetAPIBuilder builder = new JogetAPIBuilder("http", basicBaseURL , "org.od.webservice.JsonCudApiPlugin2");
+        JogetAPIBuilder builder = new JogetAPIBuilder("http", basicBaseURL, "org.od.webservice.JsonCudApiPlugin2");
         return builder.build().toString();
     }
 
@@ -109,11 +138,11 @@ public class Api {
     }
 
     public static String urlForgotPassword() {
-        return "http://"+basicBaseURL+"/jw/web/json/plugin/org.joget.hrdf.forgetPasswordWS/service";
+        return "http://" + basicBaseURL + "/jw/web/json/plugin/org.joget.hrdf.forgetPasswordWS/service";
     }
 
     public static String urlSubmitUserRating() {
-        return "http://"+basicBaseURL+"/jw/web/json/plugin/org.joget.hrdf.eventSpeakerRatingWS/service";
+        return "http://" + basicBaseURL + "/jw/web/json/plugin/org.joget.hrdf.eventSpeakerRatingWS/service";
     }
 
     public static String urlExhibitor(String exhibitorId) {
@@ -133,10 +162,10 @@ public class Api {
     }
 
     public static String urlEventTopicList(String eventId) {
-       return urlGetJogetList(MMAConstants.EventSpeakerTopicList, "event", eventId);
+        return urlGetJogetList(MMAConstants.EventSpeakerTopicList, "event", eventId);
     }
 
-    public static String urlEventSpeakerTopic(String eventId,String speakerId) {
+    public static String urlEventSpeakerTopic(String eventId, String speakerId) {
         return urlGetJogetList(MMAConstants.EventSpeakerTopicList, "event", eventId, "speaker", speakerId);
     }
 
@@ -165,7 +194,7 @@ public class Api {
         builder.listId(listId);
         builder.action("list");
         builder.primaryFilter(filter1name, filter1Value);
-        builder.secondaryFilter(filter2name,filter2Value);
+        builder.secondaryFilter(filter2name, filter2Value);
         builder.willIncludeImages(true);
         return builder.build().toString();
     }

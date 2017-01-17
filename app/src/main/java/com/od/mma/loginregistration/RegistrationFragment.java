@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.od.mma.API.Api;
 import com.od.mma.BOs.User;
-import com.od.mma.CallBack.CheckCallBack;
 import com.od.mma.CallBack.StatusCallBack;
 import com.od.mma.R;
 import com.od.mma.Utils.MMAConstants;
@@ -33,6 +32,9 @@ import org.json.JSONObject;
 
 import io.realm.Realm;
 
+/**
+ * Created by awais on 16/01/2017.
+ */
 
 public class RegistrationFragment extends Fragment {
 
@@ -44,14 +46,16 @@ public class RegistrationFragment extends Fragment {
     private Realm realm;
     private User user;
 
+
     private LoginRegActivityInterface mListener;
     private View rootView;
-    private EditText nameTV;
-    private EditText emailTV;
-    private EditText contactTV;
-    private EditText passwordTV;
-    private EditText confirmPasswordTV;
+    private EditText fname;
+    private EditText lname;
+    private EditText email;
+    private EditText password;
+    private EditText confirmPassword;
     private ProgressDialog progressDialog;
+    private boolean duplicate = false;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -86,17 +90,19 @@ public class RegistrationFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         realm = Realm.getDefaultInstance();
+
+
         user = new User();
         initViews();
     }
 
     private void initViews() {
 
-        nameTV = (EditText) rootView.findViewById(R.id.name);
-        emailTV = (EditText) rootView.findViewById(R.id.email);
-        contactTV = (EditText) rootView.findViewById(R.id.contact_number);
-        passwordTV = (EditText) rootView.findViewById(R.id.password);
-        confirmPasswordTV = (EditText) rootView.findViewById(R.id.confirm_password);
+        fname = (EditText) rootView.findViewById(R.id.name);
+        lname = (EditText) rootView.findViewById(R.id.email);
+        email = (EditText) rootView.findViewById(R.id.contact_number);
+        password = (EditText) rootView.findViewById(R.id.password);
+        confirmPassword = (EditText) rootView.findViewById(R.id.confirm_password);
         Button submitButton = (Button) rootView.findViewById(R.id.submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,21 +117,34 @@ public class RegistrationFragment extends Fragment {
     }
 
     private void validateAndSubmitRegistration() {
-        final String name = nameTV.getText().toString();
-        final String email = emailTV.getText().toString();
-        final String contact = contactTV.getText().toString();
-        final String password = passwordTV.getText().toString();
-        final String confirmPassword = confirmPasswordTV.getText().toString();
+        final String Fname = fname.getText().toString();
+        final String Lname = lname.getText().toString();
+        final String email = this.email.getText().toString();
+        final String password = this.password.getText().toString();
+        final String confirmPassword = this.confirmPassword.getText().toString();
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-
                 user.setId(email);
-                user.setName(name);
-                user.setContactNumber(contact);
+                user.setEmail(email);
+                user.setFname(Fname);
+                user.setLname(Lname);
                 user.setPassword(password);
                 user.setConfirmPassword(confirmPassword);
+
+//                user.setId(email);
+//                user.setName(Fname + Lname);
+//                user.setContactNumber(Lname);
+//                user.setPassword(password);
+//                user.setConfirmPassword(confirmPassword);
+
+
+//                user.setId(email);
+//                user.setName(name);
+//                user.setContactNumber(contact);
+//                user.setPassword(password);
+//                user.setConfirmPassword(confirmPassword);
             }
         });
 
@@ -134,65 +153,64 @@ public class RegistrationFragment extends Fragment {
             showActionSnackBarMessage(resultPair.second);
         } else {
             showProgressDialog(R.string.reg_checking_duplicate);
-            checkDuplicateAndPerformReg();
+            performRegistration();
         }
 
     }
 
-    private void checkDuplicateAndPerformReg() {
-        User.checkDuplicate(Api.urlUserList(user.getId()), new CheckCallBack() {
-            @Override
-            public void checkDuplicateUser(boolean isDuplicate) {
-                hideProgressDialog();
-                Log.i(MMAConstants.TAG, "checkDuplicate =" + isDuplicate);
-                if (isDuplicate) {
-                    showActionSnackBarMessage(getString(R.string.reg_error_duplicate));
-                } else {
-                    showProgressDialog(R.string.reg_registering);
-                    performReg();
-                }
-            }
-
-            @Override
-            public void checkFail(Exception e) {
-                e.printStackTrace();
-                Log.i(MMAConstants.TAG, "checkDuplicate Exception=");
-                hideProgressDialog();
-                showActionSnackBarMessage(getActivity().getResources().getString(R.string.reg_error_unknown_server));
-            }
-        });
-    }
-
-    private void performReg() {
-        user.performUserRegistration(user, Api.urlJogetCRUD(), new StatusCallBack() {
+    private void performRegistration() {
+        user.performUserRegistration(Api.urlSignUp(user, user.getGcm_id(), "Android"), new StatusCallBack() {
             @Override
             public void success(JSONObject response) {
                 hideProgressDialog();
-                if (response.has("status")) {
-                    String status = response.optString("status");
-                    if (status.equalsIgnoreCase("1")) {
-                        user.setTemp(false);
-                        user.setSyncedLocal(true);
-                        realm.beginTransaction();
-                        realm.copyToRealmOrUpdate(user);
-                        realm.commitTransaction();
-                        onRegistrationSubmitDialog();
-                    } else {
-                        showActionSnackBarMessage(getActivity().getResources().getString(R.string.reg_error_unknown_server));
-                    }
-                } else {
+                Log.i(MMAConstants.TAG_MMA, " onSuccess called with response = " + response.toString());
+                String message = response.optString("message");
+                if (message.contains("User created successfully")) {
+                    showProgressDialog(R.string.reg_registering);
+                    hideProgressDialog();
+                    user.setTemp(false);
+                    user.setSyncedLocal(true);
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(user);
+                    realm.commitTransaction();
+
+//                    user.setTemp(false);
+//                    user.setSyncedLocal(true);
+//                    realm.beginTransaction();
+//                    realm.copyToRealmOrUpdate(user);
+//                    realm.commitTransaction();
+
+                    onRegistrationSubmitDialog();
+                } else if (message.contains("User already exist")) {
+                    duplicate = true;
+                    showActionSnackBarMessage(getString(R.string.reg_error_duplicate));
+                } else if (message.contains("Something went wrong")) {
                     showActionSnackBarMessage(getActivity().getResources().getString(R.string.reg_error_unknown_server));
                 }
+
             }
 
             @Override
             public void failure(String response) {
                 hideProgressDialog();
                 showActionSnackBarMessage(getActivity().getResources().getString(R.string.reg_error_server_not_reached));
-                Log.i(MMAConstants.TAG, "performReg failure=" + response);
+                Log.i(MMAConstants.TAG_MMA, " onFailure called with response = " + response.toString());
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    ////////////////////
+
 
     @Override
     public void onAttach(Context context) {
@@ -249,3 +267,4 @@ public class RegistrationFragment extends Fragment {
         builder.show();
     }
 }
+

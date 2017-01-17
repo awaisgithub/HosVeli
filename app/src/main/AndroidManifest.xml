@@ -29,9 +29,9 @@
     <application
         android:name="com.od.mma.MMAApplication"
         android:allowBackup="true"
-        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -46,14 +46,14 @@
         </activity>
         <activity
             android:name="com.od.mma.loginregistration.LoginRegistrationActivity"
-            android:theme="@style/AppTheme.Login"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Login"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.od.mma.landingtab.TabbarActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:launchMode="singleTask"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -139,6 +139,13 @@
         <service
             android:name="com.od.mma.gcm.RegistrationIntentService"
             android:exported="false" />
+
+        <activity
+            android:name=".Membership.RegMainFragActivity"
+            android:label="@string/reg_membership"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.MedicineList" />
+
 
     </application>
 

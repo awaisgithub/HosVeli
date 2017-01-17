@@ -5,6 +5,14 @@ package com.od.mma.Utils;
  */
 
 final public class MMAConstants {
+
+    public static final String TAG_MMA = "MMA";
+
+
+
+
+
+
     public static final String TAG = "HRDF";
     public static final String appId = "hrdfApp";
     public static final String BranchList = "hrdfBranchOfficeList";
