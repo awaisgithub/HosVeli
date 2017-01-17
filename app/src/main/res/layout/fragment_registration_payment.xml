@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:scrollbars="none">
+        <!-- Here you put the rest of your current view-->
+
+
+        <LinearLayout
+            android:id="@+id/mainlinear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_gravity="center">
+
+
+            <!--<com.od.mma.Utils.HelveticaNeueTV-->
+            <!--android:text="Membership Category:"-->
+            <!--android:textColor="@color/colorPrimary"-->
+            <!--android:textSize="20sp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:id="@+id/textView2"-->
+            <!--android:layout_alignParentStart="true"/>-->
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:text="Payment Method:"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textColor="@color/colorTabs"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+                android:textSize="@dimen/text_size_loginreg" />
+
+            <GridView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/grid_height"
+                android:choiceMode="singleChoice"
+                android:numColumns="2"
+                android:id="@+id/payment"
+                android:scrollbars="none">
+
+            </GridView>
+
+            <Spinner
+                android:id="@+id/id_sub"
+                android:layout_width="match_parent"
+                android:layout_gravity="left"
+                android:dropDownWidth="fill_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:entries="@array/id_year"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:padding="10dp"
+                android:textSize="@dimen/text_size_loginreg"></Spinner>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_button_next_back"
+                android:layout_marginBottom="@dimen/reg_button_next_back">
+
+                <Button
+                    android:id="@+id/back_button1"
+                    android:layout_width="70dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/reg_submit_button"
+                    android:text="Back"
+                    android:textColor="@color/colorBlack"
+                    android:layout_height="35dp" />
+
+                <Button
+                    android:id="@+id/next_button1"
+                    android:layout_width="230dp"
+                    android:layout_marginRight="60dp"
+                    android:background="@drawable/reg_submit_button"
+                    android:text="Next"
+                    android:textColor="@color/colorBlack"
+                    android:layout_height="35dp" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
