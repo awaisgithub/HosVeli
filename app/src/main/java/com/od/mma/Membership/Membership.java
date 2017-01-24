@@ -1,66 +1,93 @@
 package com.od.mma.Membership;
 
+import com.od.mma.BOs.User;
+
 import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by awais on 04/01/2017.
  */
 
 public class Membership extends RealmObject {
+    @PrimaryKey
+    private String id;
+
+    private String applicationStatus = "";
+    private boolean loadFromServer = false;
+
     private String main_category = "";
     private boolean validation = false;
     private int validation_pos = -1;
 
     //2nd
     private int category = -1;
-    private String category_name = "";
+    private String membershipCategory = "";
     private int year = -1;
-    private boolean mom = false;
+    private String yearOfService = "";
+    private boolean medical_off_mem = false;
     //3rd
     private int title = -1;
+    private String titleSelectionBox = "";
     private byte[] personal_pic = null;
-    private String fName = "";
-    private String lName = "";
-    private String dob = "";
+    private String applicantPicture = "";
+    private String applicantFirstName = "";
+    private String applicantLastName = "";
+    private String applicantDateOfBirth = "";
     private int gender = -1;
+    private String applicantGender = "";
     private int marital_stat = -1;
+    private String applicantMaritalStatus = "";
     //4th
     private int id_type = -1;
-    private String id_no = "";
+    private String identificationType = "";
+    private String nricNew = "";
     private byte[] nric_pic = null;
+    private String applicantNRICPic = "";
     private int nationality = -1;
+    private String applicantNationality = "";
     private int race = -1;
-    private String other_race = "";
+    private String applicantRace = "";
     private int religion = -1;
-    private String other_religion = "";
+    private String applicantReligion = "";
     //5th
-    private int country = -1;
-    private int state = -1;
-    private int reg_state = -1;
+    private int country_pos = -1;
+    private String country = "";
+    private int state_pos = -1;
+    private String state = "";
+    private int reg_branch_pos = -1;
+    private String registrationState = "";
     private String city = "";
-    private String postal_code = "";
+    private String postCode = "";
     private String address = "";
-    private String tel_no = "";
+    private String telephoneNo = "";
     //6th
     private int r_country = -1;
+    private String countryResidential = "";
     private int r_state = -1;
-    private String r_city = "";
-    private String r_postal_code = "";
-    private String r_address = "";
-    private String r_tel_no = "";
+    private String stateResidential = "";
+    private String city_1 = "";
+    private String postCodeResidential = "";
+    private String addressResidential = "";
+    private String telephoneNoResidential = "";
     private int correspondence_address = -1;
+    private String correspondenceSelection = "";
     //7th
     private int joint_account = -1;
+    private String isJointAccount = "";
     private int spouse_id_type = -1;
-    private String nric_no = "";
-    private String spouse_fName = "";
-    private String spouse_email = "";
+    private String spouseIdentificationType = "";
+    private String spouseNRICNew = "";
+    private String applicantSpouseFirstName = "";
+    private String applicantSpouseUsername = "";
     //8th
     private int bachelor_degree = -1;
+    private String degree_bachelor = "";
     private String bachelor_uni = "";
     private int bachelor_uni_malay = -1;
     private int bachelor_country = -1;
+    private String degree_bachelor_country = "";
     private String bachelor_qualification_date = "";
     //9th
     private int pos_count = 0;
@@ -81,17 +108,24 @@ public class Membership extends RealmObject {
     private String pos_qof_date2 = "";
 
     //10th
-    private String mmc_reg_no = "";
-    private String mmc_dob = "";
+    private String applicantMMCRegistrationNo = "";
+    private String tpcRegistrationNo = "";
+    private String dateOfRegistrationMMC = "";
     private byte[] mmc_certificate = null;
+    private String applicantMMCRegistrationCopy = "";
     //11th
     private int uni_no = -1;
-    private String uni_year_complete = "";
+    private String studentMemberUniversity = "";
+    private String studentMemberStudyCompletionYear = "";
     private byte[] uni_student_card = null;
+    private String studentMemberUniversityLetter = "";
     //12th
     private int emp_status = -1;
+    private String employmentStatusSelectBox = "";
     private int emp_prac = -1;
+    private String practiceNature = "";
     private int emp_prac_sub = -1;
+    private String practiceNatureSubCategory = "";
     //13th
     private int payment_method = -1;
     private int payment_sub_year = -1;
@@ -106,12 +140,236 @@ public class Membership extends RealmObject {
 
     private boolean isSyncedLocal = false;
 
+    public String getApplicantMMCRegistrationCopy() {
+        return applicantMMCRegistrationCopy;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getApplicationStatus() {
+        return applicationStatus;
+    }
+
+    public void setApplicationStatus(String applicationStatus) {
+        this.applicationStatus = applicationStatus;
+    }
+
+    public boolean isLoadFromServer() {
+        return loadFromServer;
+    }
+
+    public void setLoadFromServer(boolean loadFromServer) {
+        this.loadFromServer = loadFromServer;
+    }
+
+    public void setApplicantMMCRegistrationCopy(String applicantMMCRegistrationCopy) {
+        this.applicantMMCRegistrationCopy = applicantMMCRegistrationCopy;
+    }
+
+    public String getApplicantPicture() {
+        return applicantPicture;
+    }
+
+    public String getApplicantNRICPic() {
+        return applicantNRICPic;
+    }
+
+    public void setApplicantNRICPic(String applicantNRICPic) {
+        this.applicantNRICPic = applicantNRICPic;
+    }
+
+    public void setApplicantPicture(String applicantPicture) {
+        this.applicantPicture = applicantPicture;
+    }
+
+    public String getEmploymentStatusSelectBox() {
+        return employmentStatusSelectBox;
+    }
+
+    public void setEmploymentStatusSelectBox(String employmentStatusSelectBox) {
+        this.employmentStatusSelectBox = employmentStatusSelectBox;
+    }
+
+    public String getPracticeNature() {
+        return practiceNature;
+    }
+
+    public void setPracticeNature(String practiceNature) {
+        this.practiceNature = practiceNature;
+    }
+
+    public String getStudentMemberUniversityLetter() {
+        return studentMemberUniversityLetter;
+    }
+
+    public void setStudentMemberUniversityLetter(String studentMemberUniversityLetter) {
+        this.studentMemberUniversityLetter = studentMemberUniversityLetter;
+    }
+
+    public String getPracticeNatureSubCategory() {
+        return practiceNatureSubCategory;
+    }
+
+    public void setPracticeNatureSubCategory(String practiceNatureSubCategory) {
+        this.practiceNatureSubCategory = practiceNatureSubCategory;
+    }
+
+    public String getStudentMemberUniversity() {
+        return studentMemberUniversity;
+    }
+
+    public void setStudentMemberUniversity(String studentMemberUniversity) {
+        this.studentMemberUniversity = studentMemberUniversity;
+    }
+
+    public String getDegree_bachelor() {
+        return degree_bachelor;
+    }
+
+    public void setDegree_bachelor(String degree_bachelor) {
+        this.degree_bachelor = degree_bachelor;
+    }
+
+    public String getDegree_bachelor_country() {
+        return degree_bachelor_country;
+    }
+
+    public void setDegree_bachelor_country(String degree_bachelor_country) {
+        this.degree_bachelor_country = degree_bachelor_country;
+    }
+
+    public String getSpouseIdentificationType() {
+        return spouseIdentificationType;
+    }
+
+    public void setSpouseIdentificationType(String spouseIdentificationType) {
+        this.spouseIdentificationType = spouseIdentificationType;
+    }
+
+    public String getIsJointAccount() {
+        return isJointAccount;
+    }
+
+    public void setIsJointAccount(String isJointAccount) {
+        this.isJointAccount = isJointAccount;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCountryResidential() {
+        return countryResidential;
+    }
+
+    public void setCountryResidential(String countryResidential) {
+        this.countryResidential = countryResidential;
+    }
+
+    public String getStateResidential() {
+        return stateResidential;
+    }
+
+    public void setStateResidential(String stateResidential) {
+        this.stateResidential = stateResidential;
+    }
+
+    public String getCorrespondenceSelection() {
+        return correspondenceSelection;
+    }
+
+    public void setCorrespondenceSelection(String correspondenceSelection) {
+        this.correspondenceSelection = correspondenceSelection;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getRegistrationState() {
+        return registrationState;
+    }
+
+    public void setRegistrationState(String registrationState) {
+        this.registrationState = registrationState;
+    }
+
+    public String getApplicantGender() {
+        return applicantGender;
+    }
+
+    public String getIdentificationType() {
+        return identificationType;
+    }
+
+    public void setIdentificationType(String identificationType) {
+        this.identificationType = identificationType;
+    }
+
+    public String getApplicantNationality() {
+        return applicantNationality;
+    }
+
+    public void setApplicantNationality(String applicantNationality) {
+        this.applicantNationality = applicantNationality;
+    }
+
+    public void setApplicantGender(String applicantGender) {
+        this.applicantGender = applicantGender;
+    }
+
+    public String getApplicantMaritalStatus() {
+        return applicantMaritalStatus;
+    }
+
+    public void setApplicantMaritalStatus(String applicantMaritalStatus) {
+        this.applicantMaritalStatus = applicantMaritalStatus;
+    }
+
+    public String getTitleSelectionBox() {
+        return titleSelectionBox;
+    }
+
+    public void setTitleSelectionBox(String titleSelectionBox) {
+        this.titleSelectionBox = titleSelectionBox;
+    }
+
+    public String getTpcRegistrationNo() {
+        return tpcRegistrationNo;
+    }
+
+    public void setTpcRegistrationNo(String tpcRegistrationNo) {
+        this.tpcRegistrationNo = tpcRegistrationNo;
+    }
+
     public int getBachelor_uni_malay() {
         return bachelor_uni_malay;
     }
 
     public void setBachelor_uni_malay(int bachelor_uni_malay) {
         this.bachelor_uni_malay = bachelor_uni_malay;
+    }
+
+    public String getYearOfService() {
+        return yearOfService;
+    }
+
+    public void setYearOfService(String yearOfService) {
+        this.yearOfService = yearOfService;
     }
 
     public int getPos_count() {
@@ -218,20 +476,20 @@ public class Membership extends RealmObject {
         this.pos_qof_date2 = pos_qof_date2;
     }
 
-    public int getReg_state() {
-        return reg_state;
+    public int getReg_branch_pos() {
+        return reg_branch_pos;
     }
 
-    public void setReg_state(int reg_state) {
-        this.reg_state = reg_state;
+    public void setReg_branch_pos(int reg_branch_pos) {
+        this.reg_branch_pos = reg_branch_pos;
     }
 
-    public boolean isMom() {
-        return mom;
+    public boolean isMedical_off_mem() {
+        return medical_off_mem;
     }
 
-    public void setMom(boolean mom) {
-        this.mom = mom;
+    public void setMedical_off_mem(boolean medical_off_mem) {
+        this.medical_off_mem = medical_off_mem;
     }
 
     public boolean isValidation() {
@@ -354,12 +612,12 @@ public class Membership extends RealmObject {
         this.uni_no = uni_no;
     }
 
-    public String getUni_year_complete() {
-        return uni_year_complete;
+    public String getStudentMemberStudyCompletionYear() {
+        return studentMemberStudyCompletionYear;
     }
 
-    public void setUni_year_complete(String uni_year_complete) {
-        this.uni_year_complete = uni_year_complete;
+    public void setStudentMemberStudyCompletionYear(String studentMemberStudyCompletionYear) {
+        this.studentMemberStudyCompletionYear = studentMemberStudyCompletionYear;
     }
 
     public byte[] getUni_student_card() {
@@ -370,20 +628,20 @@ public class Membership extends RealmObject {
         this.uni_student_card = uni_student_card;
     }
 
-    public String getMmc_reg_no() {
-        return mmc_reg_no;
+    public String getApplicantMMCRegistrationNo() {
+        return applicantMMCRegistrationNo;
     }
 
-    public void setMmc_reg_no(String mmc_reg_no) {
-        this.mmc_reg_no = mmc_reg_no;
+    public void setApplicantMMCRegistrationNo(String applicantMMCRegistrationNo) {
+        this.applicantMMCRegistrationNo = applicantMMCRegistrationNo;
     }
 
-    public String getMmc_dob() {
-        return mmc_dob;
+    public String getDateOfRegistrationMMC() {
+        return dateOfRegistrationMMC;
     }
 
-    public void setMmc_dob(String mmc_dob) {
-        this.mmc_dob = mmc_dob;
+    public void setDateOfRegistrationMMC(String dateOfRegistrationMMC) {
+        this.dateOfRegistrationMMC = dateOfRegistrationMMC;
     }
 
     public byte[] getMmc_certificate() {
@@ -434,12 +692,12 @@ public class Membership extends RealmObject {
         this.main_category = main_category;
     }
 
-    public String getCategory_name() {
-        return category_name;
+    public String getMembershipCategory() {
+        return membershipCategory;
     }
 
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+    public void setMembershipCategory(String membershipCategory) {
+        this.membershipCategory = membershipCategory;
     }
 
     public int getJoint_account() {
@@ -458,28 +716,28 @@ public class Membership extends RealmObject {
         this.spouse_id_type = spouse_id_type;
     }
 
-    public String getNric_no() {
-        return nric_no;
+    public String getSpouseNRICNew() {
+        return spouseNRICNew;
     }
 
-    public void setNric_no(String nric_no) {
-        this.nric_no = nric_no;
+    public void setSpouseNRICNew(String spouseNRICNew) {
+        this.spouseNRICNew = spouseNRICNew;
     }
 
-    public String getSpouse_fName() {
-        return spouse_fName;
+    public String getApplicantSpouseFirstName() {
+        return applicantSpouseFirstName;
     }
 
-    public void setSpouse_fName(String spouse_fName) {
-        this.spouse_fName = spouse_fName;
+    public void setApplicantSpouseFirstName(String applicantSpouseFirstName) {
+        this.applicantSpouseFirstName = applicantSpouseFirstName;
     }
 
-    public String getSpouse_email() {
-        return spouse_email;
+    public String getApplicantSpouseUsername() {
+        return applicantSpouseUsername;
     }
 
-    public void setSpouse_email(String spouse_email) {
-        this.spouse_email = spouse_email;
+    public void setApplicantSpouseUsername(String applicantSpouseUsername) {
+        this.applicantSpouseUsername = applicantSpouseUsername;
     }
 
     public int getCorrespondence_address() {
@@ -506,52 +764,52 @@ public class Membership extends RealmObject {
         this.r_state = r_state;
     }
 
-    public String getR_city() {
-        return r_city;
+    public String getCity_1() {
+        return city_1;
     }
 
-    public void setR_city(String r_city) {
-        this.r_city = r_city;
+    public void setCity_1(String city_1) {
+        this.city_1 = city_1;
     }
 
-    public String getR_postal_code() {
-        return r_postal_code;
+    public String getPostCodeResidential() {
+        return postCodeResidential;
     }
 
-    public void setR_postal_code(String r_postal_code) {
-        this.r_postal_code = r_postal_code;
+    public void setPostCodeResidential(String postCodeResidential) {
+        this.postCodeResidential = postCodeResidential;
     }
 
-    public String getR_address() {
-        return r_address;
+    public String getAddressResidential() {
+        return addressResidential;
     }
 
-    public void setR_address(String r_address) {
-        this.r_address = r_address;
+    public void setAddressResidential(String addressResidential) {
+        this.addressResidential = addressResidential;
     }
 
-    public String getR_tel_no() {
-        return r_tel_no;
+    public String getTelephoneNoResidential() {
+        return telephoneNoResidential;
     }
 
-    public void setR_tel_no(String r_tel_no) {
-        this.r_tel_no = r_tel_no;
+    public void setTelephoneNoResidential(String telephoneNoResidential) {
+        this.telephoneNoResidential = telephoneNoResidential;
     }
 
-    public int getState() {
-        return state;
+    public int getState_pos() {
+        return state_pos;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setState_pos(int state_pos) {
+        this.state_pos = state_pos;
     }
 
-    public int getCountry() {
-        return country;
+    public int getCountry_pos() {
+        return country_pos;
     }
 
-    public void setCountry(int country) {
-        this.country = country;
+    public void setCountry_pos(int country_pos) {
+        this.country_pos = country_pos;
     }
 
     public String getCity() {
@@ -562,12 +820,12 @@ public class Membership extends RealmObject {
         this.city = city;
     }
 
-    public String getPostal_code() {
-        return postal_code;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setPostal_code(String postal_code) {
-        this.postal_code = postal_code;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public String getAddress() {
@@ -578,28 +836,28 @@ public class Membership extends RealmObject {
         this.address = address;
     }
 
-    public String getTel_no() {
-        return tel_no;
+    public String getTelephoneNo() {
+        return telephoneNo;
     }
 
-    public void setTel_no(String tel_no) {
-        this.tel_no = tel_no;
+    public void setTelephoneNo(String telephoneNo) {
+        this.telephoneNo = telephoneNo;
     }
 
-    public String getOther_race() {
-        return other_race;
+    public String getApplicantRace() {
+        return applicantRace;
     }
 
-    public void setOther_race(String other_race) {
-        this.other_race = other_race;
+    public void setApplicantRace(String applicantRace) {
+        this.applicantRace = applicantRace;
     }
 
-    public String getOther_religion() {
-        return other_religion;
+    public String getApplicantReligion() {
+        return applicantReligion;
     }
 
-    public void setOther_religion(String other_religion) {
-        this.other_religion = other_religion;
+    public void setApplicantReligion(String applicantReligion) {
+        this.applicantReligion = applicantReligion;
     }
 
     public int getId_type() {
@@ -610,12 +868,12 @@ public class Membership extends RealmObject {
         this.id_type = id_type;
     }
 
-    public String getId_no() {
-        return id_no;
+    public String getNricNew() {
+        return nricNew;
     }
 
-    public void setId_no(String id_no) {
-        this.id_no = id_no;
+    public void setNricNew(String nricNew) {
+        this.nricNew = nricNew;
     }
 
     public byte[] getNric_pic() {
@@ -682,28 +940,28 @@ public class Membership extends RealmObject {
         this.title = title;
     }
 
-    public String getfName() {
-        return fName;
+    public String getApplicantFirstName() {
+        return applicantFirstName;
     }
 
-    public void setfName(String fName) {
-        this.fName = fName;
+    public void setApplicantFirstName(String applicantFirstName) {
+        this.applicantFirstName = applicantFirstName;
     }
 
-    public String getlName() {
-        return lName;
+    public String getApplicantLastName() {
+        return applicantLastName;
     }
 
-    public void setlName(String lName) {
-        this.lName = lName;
+    public void setApplicantLastName(String applicantLastName) {
+        this.applicantLastName = applicantLastName;
     }
 
-    public String getDob() {
-        return dob;
+    public String getApplicantDateOfBirth() {
+        return applicantDateOfBirth;
     }
 
-    public void setDob(String dob) {
-        this.dob = dob;
+    public void setApplicantDateOfBirth(String applicantDateOfBirth) {
+        this.applicantDateOfBirth = applicantDateOfBirth;
     }
 
     public Membership() {
@@ -733,8 +991,9 @@ public class Membership extends RealmObject {
         isSyncedLocal = syncedLocal;
     }
 
-    public static Membership getCurrentRegistration(Realm realm) {
-        return realm.where(Membership.class).equalTo("isSyncedLocal", true)
+    public static Membership getCurrentRegistration(Realm realm, String id) {
+        return realm.where(Membership.class).equalTo("id", id).equalTo("isSyncedLocal", true)
                 .findFirst();
     }
+
 }

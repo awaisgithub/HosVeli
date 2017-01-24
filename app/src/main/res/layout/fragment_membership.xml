@@ -9,31 +9,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Get Registered" />
+        android:text="Edit Registration" />
 
     <!--<LinearLayout-->
-        <!--android:id="@+id/pager_parent"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="vertical">-->
+    <!--android:id="@+id/pager_parent"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="vertical">-->
 
-        <!--<android.support.v4.view.ViewPager-->
-            <!--android:id="@+id/floor_plan_pager"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:layout_marginBottom="10dp">-->
+    <!--<android.support.v4.view.ViewPager-->
+    <!--android:id="@+id/floor_plan_pager"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_marginBottom="10dp">-->
 
-        <!--</android.support.v4.view.ViewPager>-->
+    <!--</android.support.v4.view.ViewPager>-->
 
-        <!--<RadioGroup-->
-            <!--android:id="@+id/radio_group"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="0.00">-->
-        <!--</RadioGroup>-->
+    <!--<RadioGroup-->
+    <!--android:id="@+id/radio_group"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="0.00">-->
+    <!--</RadioGroup>-->
 
     <!--</LinearLayout>-->
 

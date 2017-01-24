@@ -15,9 +15,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.od.mma.BOs.User;
 import com.od.mma.R;
 
 import io.realm.Realm;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 29/12/2016.
@@ -32,6 +35,7 @@ public class EmploymentInfoFrag extends Fragment {
     FragInterface mem_interface;
     ArrayAdapter<CharSequence> temp = null;
     private View rootView;
+    Membership membership;
 
     public static EmploymentInfoFrag newInstance(String text) {
         EmploymentInfoFrag f = new EmploymentInfoFrag();
@@ -51,6 +55,7 @@ public class EmploymentInfoFrag extends Fragment {
     }
 
     private void initView() {
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
         prac_sub = (Spinner) rootView.findViewById(R.id.id_prac_sub);
         prac_sub.setVisibility(View.GONE);
         prac = (Spinner) rootView.findViewById(R.id.id_prac);
@@ -78,20 +83,45 @@ public class EmploymentInfoFrag extends Fragment {
                 new NoneSelectSpinnerAdapter(adapter2, R.layout.spinner_hint_frag12_3,
                         getActivity()));
 
-
-        if (PagerViewPager.membership.getEmp_status() != -1) {
-            emp.setSelection(PagerViewPager.membership.getEmp_status());
+        if (!membership.isLoadFromServer()) {
+            if (membership.getEmp_status() != -1) {
+                emp.setSelection(membership.getEmp_status());
+            }
+        } else {
+            int spinnerPosition;
+            spinnerPosition = adapter.getPosition(membership.getEmploymentStatusSelectBox());
+            emp.setSelection(spinnerPosition + 1);
+            if (membership.getEmploymentStatusSelectBox().contains("Specialist")) {
+                prac_sub.setVisibility(View.VISIBLE);
+                prac.setVisibility(View.VISIBLE);
+            }
+            else {
+                prac_sub.setVisibility(View.GONE);
+                prac.setVisibility(View.GONE);
+            }
         }
-        if (PagerViewPager.membership.getEmp_prac() != -1) {
-            prac.setSelection(PagerViewPager.membership.getEmp_prac());
+        if (!membership.isLoadFromServer()) {
+            if (membership.getEmp_prac() != -1) {
+                prac.setSelection(membership.getEmp_prac());
+            }
+        } else {
+            int spinnerPosition;
+            spinnerPosition = adapter.getPosition(membership.getPracticeNature());
+            prac.setSelection(spinnerPosition + 1);
         }
-        if (PagerViewPager.membership.getEmp_prac_sub() != -1) {
-            setSpinnerArray(prac.getSelectedItem().toString());
-            prac_sub.setSelection(PagerViewPager.membership.getEmp_prac_sub());
+        if (!membership.isLoadFromServer()) {
+            if (membership.getEmp_prac_sub() != -1) {
+                setSpinnerArray(prac.getSelectedItem().toString());
+                prac_sub.setSelection(membership.getEmp_prac_sub());
+            }
+        } else {
+            int spinnerPosition;
+            spinnerPosition = adapter.getPosition(membership.getPracticeNatureSubCategory());
+            prac_sub.setSelection(spinnerPosition + 1);
         }
 
 
-        if (PagerViewPager.membership.isValidation()) {
+        if (membership.isValidation()) {
             loadItems();
         }
 
@@ -106,10 +136,11 @@ public class EmploymentInfoFrag extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setEmp_status(emp.getSelectedItemPosition());
+                            membership.setEmp_status(emp.getSelectedItemPosition());
+                            membership.setEmploymentStatusSelectBox(emp.getSelectedItem().toString());
                         }
                     });
                     String result = emp.getSelectedItem().toString();
@@ -117,11 +148,13 @@ public class EmploymentInfoFrag extends Fragment {
                         prac_sub.setVisibility(View.VISIBLE);
                         prac.setVisibility(View.VISIBLE);
                     } else {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setEmp_prac(-1);
-                                PagerViewPager.membership.setEmp_prac_sub(-1);
+                                membership.setEmp_prac(-1);
+                                membership.setPracticeNature("");
+                                membership.setEmp_prac_sub(-1);
+                                membership.setPracticeNatureSubCategory("");
                                 prac.setSelection(0);
                                 prac_sub.setSelection(0);
                             }
@@ -142,10 +175,11 @@ public class EmploymentInfoFrag extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setEmp_prac(prac.getSelectedItemPosition());
+                            membership.setEmp_prac(prac.getSelectedItemPosition());
+                            membership.setPracticeNature(prac.getSelectedItem().toString());
                         }
                     });
                     String result = prac.getSelectedItem().toString();
@@ -163,10 +197,11 @@ public class EmploymentInfoFrag extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setEmp_prac_sub(prac_sub.getSelectedItemPosition());
+                            membership.setEmp_prac_sub(prac_sub.getSelectedItemPosition());
+                            membership.setPracticeNatureSubCategory(prac_sub.getSelectedItem().toString());
                         }
                     });
                 }
@@ -473,11 +508,11 @@ public class EmploymentInfoFrag extends Fragment {
 //            error = true;
 //        } else {
 //            error = false;
-//            if (PagerViewPager.membership.getValidation_pos() == -1) {
-//                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+//            if (membership.getValidation_pos() == -1) {
+//                realm.executeTransaction(new Realm.Transaction() {
 //                    @Override
 //                    public void execute(Realm realm) {
-//                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+//                        membership.setValidation_pos(PagerViewPager.getPos());
 //                    }
 //                });
 //            }

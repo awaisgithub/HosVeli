@@ -16,11 +16,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.od.mma.API.Api;
+import com.od.mma.BOs.User;
+import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.R;
+import com.od.mma.Utils.MMAConstants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 27/12/2016.
@@ -29,9 +39,9 @@ import io.realm.Realm;
 public class RegMainFragActivity extends FragmentActivity implements FragInterface {
     Toolbar toolbar;
     TextView activityTitle;
-    Membership reg;
     ArrayList<Fragment> pagerFragments = new ArrayList<>();
     TextView toolbar_title;
+    Membership membership;
 
 
     @Override
@@ -47,20 +57,56 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
         setContentView(R.layout.registration_main);
         toolbar_title = (TextView) findViewById(R.id.activity_title);
 
-        populatePagerFragments();
-        PagerViewPager.realm = Realm.getDefaultInstance();
-        PagerViewPager.membership = Membership.getCurrentRegistration(PagerViewPager.realm);
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
 
-        if (PagerViewPager.membership == null) {
-            PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    reg = PagerViewPager.realm.createObject(Membership.class);
-                    reg.setSyncedLocal(true);
-                    PagerViewPager.setMembership(reg);
+        final ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabDots);
+        populatePagerFragments();
+        //get data from server
+
+        User.getApplicantData(Api.urlApplicantData(User.getCurrentUser(realm).getId()), new ServerReadCallBack() {
+            @Override
+            public void success(final JSONArray response) {
+
+                try {
+                    final JSONObject membership_data = response.getJSONObject(0);
+                    String applicant_status = membership_data.optString("applicationStatus");
+                    Log.i(MMAConstants.TAG_MMA, "APPLICANT jsonobject = " + applicant_status + " , membershipCategory = " + membership.getMembershipCategory());
+                    if (applicant_status.equalsIgnoreCase("Registration Info")) {
+//
+                    } else {
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                realm.createOrUpdateObjectFromJson(Membership.class, membership_data);
+                                membership.setLoadFromServer(true);
+                            }
+                        });
+                        Log.i(MMAConstants.TAG_MMA, "APPLICANT updateFromJSON = membershipCategory = " + membership.getMembershipCategory());
+                    }
+                } catch (JSONException e) {
+                    Log.i(MMAConstants.TAG_MMA, "APPLICANT parse error");
+                    e.printStackTrace();
                 }
-            });
-        }
+                pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), pagerFragments));
+                PagerViewPager.setPager(pager);
+                tabLayout.setupWithViewPager(pager, true);
+            }
+            @Override
+            public void failure(String response) {
+                if (response.contains("No Entry exist for this username")) {
+                    Toast.makeText(RegMainFragActivity.this, "Your data is not yet registered on the server", Toast.LENGTH_SHORT).show();
+                } else if (response.contains("Table doesnot exit")) {
+                    Toast.makeText(RegMainFragActivity.this, "The server doesnot have the required table", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.i(MMAConstants.TAG_MMA, "Unable to Load data. Server unreachable. Please, try back shortly.");
+                }
+                pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), pagerFragments));
+                PagerViewPager.setPager(pager);
+                tabLayout.setupWithViewPager(pager, true);
+            }
+        });
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -78,11 +124,8 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
             }
         });
 
-        final ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tabDots);
-        pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), pagerFragments));
-        PagerViewPager.setPager(pager);
-        tabLayout.setupWithViewPager(pager, true);
+
+
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -139,7 +182,7 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
                         PagerViewPager.setPos(7);
                         break;
                     case 8:
-                        if (PagerViewPager.membership.getMain_category().equals("Student"))
+                        if (membership.getMain_category().equals("Student"))
                             toolbar_title.setText("University Info");
                         else
                             toolbar_title.setText("MMC Registration Info");
@@ -152,7 +195,6 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
                         PagerViewPager.setPos(9);
                         break;
                     case 10:
-//                        toolbar_title.setText("Payment Method");
                         toolbar_title.setText("Application Status Details");
                         EmploymentInfoFrag employmentInfoFrag = (EmploymentInfoFrag) pagerFragments.get(9);
                         employmentInfoFrag.validation();
@@ -195,8 +237,8 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
         pagerFragments.add(PostgradDegreeFrag.newInstance("PostgradDegreeFrag, Instance 1"));
         pagerFragments.add(MMCInfoFrag.newInstance("MMCInfoFrag, Instance 1"));
         pagerFragments.add(EmploymentInfoFrag.newInstance("EmploymentInfoFrag, Instance 1"));
-     //   pagerFragments.add(PaymentFrag.newInstance("PaymentFrag, Instance 1"));
-     //   pagerFragments.add(PaymentDetailsFrag.newInstance("PaymentDetailsFrag, Instance 1"));
+        //   pagerFragments.add(PaymentFrag.newInstance("PaymentFrag, Instance 1"));
+        //   pagerFragments.add(PaymentDetailsFrag.newInstance("PaymentDetailsFrag, Instance 1"));
         pagerFragments.add(ApplicationStatusFrag.newInstance("ApplicationStatusFrag, Instance 1"));
     }
 

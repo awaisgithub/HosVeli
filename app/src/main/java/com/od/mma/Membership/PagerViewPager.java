@@ -11,9 +11,6 @@ import io.realm.Realm;
 public class PagerViewPager {
     static public ViewPager pager;
     static public int pos;
-    static public String category = "";
-    static public Realm realm;
-    static public Membership membership;
 
     public static ViewPager getPager() {
         return pager;
@@ -29,29 +26,5 @@ public class PagerViewPager {
 
     public static void setPos(int pos) {
         PagerViewPager.pos = pos;
-    }
-
-    public static String getCategory() {
-        return category;
-    }
-
-    public static void setCategory(String category) {
-        PagerViewPager.category = category;
-    }
-
-    public Realm getRealm() {
-        return realm;
-    }
-
-    public void setRealm(Realm realm) {
-        this.realm = realm;
-    }
-
-    public static Membership getMembership() {
-        return membership;
-    }
-
-    public static void setMembership(Membership membership) {
-        PagerViewPager.membership = membership;
     }
 }

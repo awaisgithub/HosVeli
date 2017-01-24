@@ -20,6 +20,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +32,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,19 +49,32 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.od.mma.API.Api;
+import com.od.mma.BOs.User;
+import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.R;
 import com.od.mma.Utils.MMAConstants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import io.realm.Realm;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 29/12/2016.
@@ -75,6 +90,7 @@ public class RegNameFrag extends Fragment {
     Calendar myCalendar;
     Spinner title;
     RadioGroup gender;
+    RadioButton male;
     boolean error = false;
     boolean error1 = false;
     boolean error2 = false;
@@ -91,6 +107,11 @@ public class RegNameFrag extends Fragment {
     private View rootView;
     private ImageView profileImageView;
     private File imageFile;
+    boolean spinnerFromServer = false;
+    Membership membership;
+    ArrayAdapter<String> server;
+    ArrayAdapter<CharSequence> adapter;
+    String pic_url = "";
 
     public static Bitmap getRoundCornerBitmap(Bitmap bitmap, int radius) {
         int w = bitmap.getWidth();
@@ -154,9 +175,50 @@ public class RegNameFrag extends Fragment {
         mem_interface = (FragInterface) context;
     }
 
+    private void populateSpinnerFromServer() {
+        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_titles), new ServerReadCallBack() {
+            @Override
+            public void success(JSONArray response) {
+                List<String> title_list = new ArrayList<String>();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        title_list.add(response.getJSONObject(i).optString("description"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                String[] titleArray = new String[title_list.size()];
+                titleArray = title_list.toArray(titleArray);
+                server = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, titleArray);
+                server.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                title.setAdapter(
+                        new NoneSelectSpinnerAdapter(server, R.layout.spinner_hint_frag3,
+                                getActivity()));
+
+                if (membership.getTitle() != -1) {
+                    title.setSelection(membership.getTitle());
+                }
+
+                spinnerFromServer = true;
+            }
+
+            @Override
+            public void failure(String response) {
+                spinnerFromServer = false;
+                if (response.contains(""))
+                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                else
+                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+            }
+        });
+    }
+
     private void initView() {
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
+        spinnerFromServer = false;
         marital = (TextView) rootView.findViewById(R.id.marital);
         gender = (RadioGroup) rootView.findViewById(R.id.gender);
+        male = (RadioButton) rootView.findViewById(R.id.radioButton);
         last = (RadioButton) rootView.findViewById(R.id.radioButton1);
         name = (EditText) rootView.findViewById(R.id.name);
         email = (EditText) rootView.findViewById(R.id.email);
@@ -169,25 +231,16 @@ public class RegNameFrag extends Fragment {
         marital_adapter = new ArrayAdapter<String>(getActivity(), R.layout.grid_item, marital_status_data);
         marital_status.setAdapter(marital_adapter);
 
-        marital_status.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                marital.setError(null);
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        PagerViewPager.membership.setMarital_stat(position);
-                    }
-                });
-            }
-        });
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.id_title, R.layout.spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        title.setPrompt("Select Title");
-        title.setAdapter(
-                new NoneSelectSpinnerAdapter(adapter, R.layout.spinner_hint_frag3,
-                        getActivity()));
+        populateSpinnerFromServer();
+        if (!spinnerFromServer) {
+            adapter = ArrayAdapter.createFromResource(getActivity(), R.array.id_title, R.layout.spinner_item);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            title.setPrompt("Select Title");
+            title.setAdapter(
+                    new NoneSelectSpinnerAdapter(adapter, R.layout.spinner_hint_frag3,
+                            getActivity()));
+        }
 
         String imageName = getString(R.string.app_name) + String.valueOf(System
                 .currentTimeMillis()) + ".jpg";
@@ -201,37 +254,68 @@ public class RegNameFrag extends Fragment {
             }
         });
 
-        if (PagerViewPager.membership.getTitle() != -1) {
-            title.setSelection(PagerViewPager.membership.getTitle());
+        if (!membership.isLoadFromServer()) {
+            if (membership.getTitle() != -1) {
+                title.setSelection(membership.getTitle());
+            }
+        } else {
+            int spinnerPosition;
+            if (!spinnerFromServer)
+                spinnerPosition = adapter.getPosition(membership.getTitleSelectionBox());
+            else
+                spinnerPosition = server.getPosition(membership.getTitleSelectionBox());
+            title.setSelection(spinnerPosition + 1);
         }
-        if (!(PagerViewPager.membership.getfName().equals("") || PagerViewPager.membership.getfName() == null || PagerViewPager.membership.getfName().isEmpty())) {
-            name.setText(PagerViewPager.membership.getfName());
+        if (!(membership.getApplicantFirstName().equals("") || membership.getApplicantFirstName() == null || membership.getApplicantFirstName().isEmpty())) {
+            name.setText(membership.getApplicantFirstName());
         }
-        if (!(PagerViewPager.membership.getlName().equals("") || PagerViewPager.membership.getlName() == null || PagerViewPager.membership.getlName().isEmpty())) {
-            email.setText(PagerViewPager.membership.getlName());
+        if (!(membership.getApplicantLastName().equals("") || membership.getApplicantLastName() == null || membership.getApplicantLastName().isEmpty())) {
+            email.setText(membership.getApplicantLastName());
         }
-        if (!(PagerViewPager.membership.getDob().equals("") || PagerViewPager.membership.getDob() == null || PagerViewPager.membership.getDob().isEmpty())) {
-            date_pik.setText(PagerViewPager.membership.getDob());
+        if (!(membership.getApplicantDateOfBirth().equals("") || membership.getApplicantDateOfBirth() == null || membership.getApplicantDateOfBirth().isEmpty())) {
+            date_pik.setText(membership.getApplicantDateOfBirth());
         }
-        if (PagerViewPager.membership.getGender() != -1) {
-            final int id = PagerViewPager.membership.getGender();
-            View radioButton = gender.findViewById(id);
-            int radioId = gender.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) gender.getChildAt(radioId);
-            btn.setChecked(true);
-            last.setError(null);
+        if (!membership.isLoadFromServer()) {
+            if (membership.getGender() != -1) {
+                final int id = membership.getGender();
+                View radioButton = gender.findViewById(id);
+                int radioId = gender.indexOfChild(radioButton);
+                RadioButton btn = (RadioButton) gender.getChildAt(radioId);
+                btn.setChecked(true);
+                last.setError(null);
+            }
+        } else {
+            if (membership.getApplicantGender().equalsIgnoreCase("Male"))
+                male.setChecked(true);
+            else
+                last.setChecked(true);
         }
-        if (!(PagerViewPager.membership.getPersonal_pic() == null || PagerViewPager.membership.getPersonal_pic().length == 0)) {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(PagerViewPager.membership.getPersonal_pic(), 0, PagerViewPager.membership.getPersonal_pic().length);
-            profileImageView.setImageBitmap(getRoundCornerBitmap(bitmap, 40));
+        if (!membership.isLoadFromServer()) {
+            if (!(membership.getPersonal_pic() == null || membership.getPersonal_pic().length == 0)) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(membership.getPersonal_pic(), 0, membership.getPersonal_pic().length);
+                profileImageView.setImageBitmap(getRoundCornerBitmap(bitmap, 40));
+            }
+        } else {
+//for image
+            pic_url = membership.getApplicantPicture();
+            new GenerateImage().execute();
         }
-        if (PagerViewPager.membership.getMarital_stat() != -1) {
-            marital_status.setItemChecked(PagerViewPager.membership.getMarital_stat(), true);
-            marital.setError(null);
+        if (!membership.isLoadFromServer()) {
+            if (membership.getMarital_stat() != -1) {
+                marital_status.setItemChecked(membership.getMarital_stat(), true);
+                marital.setError(null);
+            }
+        } else {
+            if (membership.getApplicantMaritalStatus().equalsIgnoreCase("Married"))
+                marital_status.setItemChecked(0, true);
+            else if (membership.getApplicantMaritalStatus().equalsIgnoreCase("Single"))
+                marital_status.setItemChecked(1, true);
+            else if (membership.getApplicantMaritalStatus().equalsIgnoreCase("Widow"))
+                marital_status.setItemChecked(2, true);
         }
 
 
-        if (PagerViewPager.membership.isValidation()) {
+        if (membership.isValidation()) {
             loadItems();
         }
 
@@ -240,15 +324,45 @@ public class RegNameFrag extends Fragment {
         navigate();
     }
 
+    class GenerateImage extends AsyncTask<String, Integer, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            try {
+                URL url = new URL(pic_url);
+                pic_url = "";
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmapp) {
+            super.onPostExecute(bitmapp);
+            if (bitmapp != null) {
+                profileImageView.setImageBitmap(getRoundCornerBitmap(bitmapp, 40));
+            }
+        }
+    }
+
     private void listeners() {
         title.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (title.getSelectedItemPosition() > 0) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setTitle(title.getSelectedItemPosition());
+                            membership.setTitle(title.getSelectedItemPosition());
                         }
                     });
                 }
@@ -267,10 +381,10 @@ public class RegNameFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setfName(s.toString());
+                        membership.setApplicantFirstName(s.toString());
                     }
                 });
             }
@@ -289,10 +403,10 @@ public class RegNameFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setlName(s.toString());
+                        membership.setApplicantLastName(s.toString());
                     }
                 });
             }
@@ -312,10 +426,10 @@ public class RegNameFrag extends Fragment {
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
                 if (!(s.toString().equals("") || s.toString().isEmpty())) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setDob(s.toString());
+                            membership.setApplicantDateOfBirth(s.toString());
                         }
                     });
                     date_pik.setError(null);
@@ -331,18 +445,19 @@ public class RegNameFrag extends Fragment {
         gender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (PagerViewPager.membership.isValidation())
+                if (membership.isValidation())
                     last.setError(null);
                 if (gender.getCheckedRadioButtonId() != -1) {
                     final int id = gender.getCheckedRadioButtonId();
                     View radioButton = gender.findViewById(id);
                     int radioId = gender.indexOfChild(radioButton);
-                    RadioButton btn = (RadioButton) gender.getChildAt(radioId);
+                    final RadioButton btn = (RadioButton) gender.getChildAt(radioId);
 
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setGender(id);
+                            membership.setGender(id);
+                            membership.setApplicantGender(btn.getText().toString());
                         }
                     });
                 }
@@ -374,6 +489,21 @@ public class RegNameFrag extends Fragment {
             }
         });
 
+        marital_status.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
+                marital.setError(null);
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Log.i(MMAConstants.TAG_MMA, "GRIDVIEW = " + position);
+                        membership.setMarital_stat(position);
+                        membership.setApplicantMaritalStatus(parent.getItemAtPosition(position).toString());
+                    }
+                });
+            }
+        });
+
     }
 
     private void navigate() {
@@ -400,22 +530,22 @@ public class RegNameFrag extends Fragment {
             error = true;
         } else {
             error = false;
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }
         }
         if (name.getText().toString().trim().equalsIgnoreCase("")) {
             error1 = false;
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }
@@ -425,11 +555,11 @@ public class RegNameFrag extends Fragment {
         }
         if (email.getText().toString().trim().equalsIgnoreCase("")) {
             error2 = false;
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }
@@ -437,13 +567,13 @@ public class RegNameFrag extends Fragment {
             error2 = true;
             email.setError(null);
         }
-        if (PagerViewPager.membership.getDob().trim().equalsIgnoreCase("")) {
+        if (membership.getApplicantDateOfBirth().trim().equalsIgnoreCase("")) {
             error3 = false;
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }
@@ -453,11 +583,11 @@ public class RegNameFrag extends Fragment {
         }
         if ((gender.getCheckedRadioButtonId() == -1)) {
             error4 = false;
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }
@@ -465,13 +595,13 @@ public class RegNameFrag extends Fragment {
             error4 = true;
             last.setError(null);
         }
-        if (PagerViewPager.membership.getMarital_stat() == -1) {
+        if (membership.getMarital_stat() == -1) {
             error6 = false;
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }
@@ -501,7 +631,7 @@ public class RegNameFrag extends Fragment {
             error2 = true;
             email.setError(null);
         }
-        if (PagerViewPager.membership.getDob().trim().equalsIgnoreCase("")) {
+        if (date_pik.getText().toString().trim().equalsIgnoreCase("")) {
             error3 = false;
             date_pik.setError("Enter Date Of Birth");
         } else {
@@ -515,7 +645,7 @@ public class RegNameFrag extends Fragment {
             error4 = true;
             last.setError(null);
         }
-        if (PagerViewPager.membership.getMarital_stat() == -1) {
+        if (membership.getMarital_stat() == -1 && membership.getApplicantMaritalStatus().equalsIgnoreCase("")) {
             error6 = false;
             marital.setError("Please Select Marital Status.");
         } else {
@@ -642,18 +772,32 @@ public class RegNameFrag extends Fragment {
                     File imageFile = new File(filePath);
                     Bitmap bitmap = decodeSampledBitmapFromResource(false, imageFile, 800, 800);
                     bitmap = rotateImageIfRequired(bitmap, imageFile.getAbsolutePath());
+                    final String myBase64Image = encodeToBase64(bitmap, Bitmap.CompressFormat.JPEG, 100);
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    //
+                    ByteArrayOutputStream temp_stream = new ByteArrayOutputStream();
+                    Bitmap temp;
+                    temp = bitmap;
+                    temp.compress(Bitmap.CompressFormat.JPEG, 100, temp_stream);
+                    final byte[] tempArray = temp_stream.toByteArray();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+                    Log.i(MMAConstants.TAG_MMA, "BASE64 imagename = " + imageFile.getName());
                     // NFCInfoBO.INSTANCE.receiptImageName = imageFile.getName();
                     final byte[] imageByteArray = stream.toByteArray();
                     //NFCInfoBO.INSTANCE.receiptOS = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
                     //
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setPersonal_pic(imageByteArray);
+                            membership.setPersonal_pic(imageByteArray);
+                            Log.i(MMAConstants.TAG_MMA, "BASE64 AWAIS=  \n" + Base64.encodeToString(tempArray, Base64.NO_WRAP) + "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
+                            Log.i(MMAConstants.TAG_MMA, "BASE64 TempArray=  \n" + Base64.encodeToString(tempArray, Base64.NO_WRAP));
+                            Log.i(MMAConstants.TAG_MMA, "BASE64 imageByteArray(compressed)=  \n" + Base64.encodeToString(imageByteArray, Base64.NO_WRAP));
+                            membership.setApplicantPicture(myBase64Image);
                         }
                     });
+
+
                     profileImageView.setImageBitmap(getRoundCornerBitmap(bitmap, 40));
 
                 } catch (Exception e) {
@@ -669,10 +813,11 @@ public class RegNameFrag extends Fragment {
                     final byte[] imageByteArray = stream.toByteArray();
                     // NFCInfoBO.INSTANCE.receiptOS = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
 
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setPersonal_pic(imageByteArray);
+                            membership.setPersonal_pic(imageByteArray);
+                            membership.setApplicantPicture(Base64.encodeToString(imageByteArray, Base64.NO_WRAP));
                         }
                     });
                     profileImageView.setImageBitmap(getRoundCornerBitmap(bitmap, 40));
@@ -683,6 +828,17 @@ public class RegNameFrag extends Fragment {
                 }
             }
         }
+    }
+
+    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
+        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
+        image.compress(compressFormat, quality, byteArrayOS);
+        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.NO_WRAP);
+    }
+
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedBytes = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 
     private Bitmap getPic() {
@@ -788,4 +944,6 @@ public class RegNameFrag extends Fragment {
 
         return uri.getPath();
     }
+
+
 }

@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.od.mma.BOs.User;
 import com.od.mma.R;
 
 import java.text.SimpleDateFormat;
@@ -21,6 +22,8 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import io.realm.Realm;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 04/01/2017.
@@ -39,6 +42,7 @@ public class PaymentDetailsFrag extends Fragment {
     Button next, back;
     FragInterface mem_interface;
     private View rootView;
+    Membership membership;
 
     public static PaymentDetailsFrag newInstance(String text) {
         PaymentDetailsFrag f = new PaymentDetailsFrag();
@@ -65,6 +69,7 @@ public class PaymentDetailsFrag extends Fragment {
     }
 
     private void initView() {
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
         myCalendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -118,30 +123,30 @@ public class PaymentDetailsFrag extends Fragment {
         credit_ref_no = (EditText) rootView.findViewById(R.id.name4);
 
 
-        if (!(PagerViewPager.membership.getBank() == null)) {
-            bank.setText(PagerViewPager.membership.getBank());
+        if (!(membership.getBank() == null)) {
+            bank.setText(membership.getBank());
         }
-        if (!(PagerViewPager.membership.getCheque_ref_no() == null)) {
-            cheque_ref_no.setText(PagerViewPager.membership.getCheque_ref_no());
+        if (!(membership.getCheque_ref_no() == null)) {
+            cheque_ref_no.setText(membership.getCheque_ref_no());
         }
-        if (!(PagerViewPager.membership.getDebit_ref_no() == null)) {
-            debit_ref_no.setText(PagerViewPager.membership.getDebit_ref_no());
+        if (!(membership.getDebit_ref_no() == null)) {
+            debit_ref_no.setText(membership.getDebit_ref_no());
         }
-        if (!(PagerViewPager.membership.getCash_ref_no() == null)) {
-            cash_ref_no.setText(PagerViewPager.membership.getCash_ref_no());
+        if (!(membership.getCash_ref_no() == null)) {
+            cash_ref_no.setText(membership.getCash_ref_no());
         }
-        if (!(PagerViewPager.membership.getCredit_ref_no() == null)) {
-            credit_ref_no.setText(PagerViewPager.membership.getCredit_ref_no());
+        if (!(membership.getCredit_ref_no() == null)) {
+            credit_ref_no.setText(membership.getCredit_ref_no());
         }
-        if (!(PagerViewPager.membership.getBank_payment_date() == null)) {
-            date_pik.setText(PagerViewPager.membership.getBank_payment_date());
+        if (!(membership.getBank_payment_date() == null)) {
+            date_pik.setText(membership.getBank_payment_date());
         }
-        if (!(PagerViewPager.membership.getBank_expiry_date() == null)) {
-            date_expiry.setText(PagerViewPager.membership.getBank_expiry_date());
+        if (!(membership.getBank_expiry_date() == null)) {
+            date_expiry.setText(membership.getBank_expiry_date());
         }
 
 
-        if (PagerViewPager.membership.isValidation()) {
+        if (membership.isValidation()) {
             loadItems();
         }
 
@@ -159,10 +164,10 @@ public class PaymentDetailsFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setBank(s.toString());
+                        membership.setBank(s.toString());
                     }
                 });
             }
@@ -181,10 +186,10 @@ public class PaymentDetailsFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setCheque_ref_no(s.toString());
+                        membership.setCheque_ref_no(s.toString());
                     }
                 });
             }
@@ -203,10 +208,10 @@ public class PaymentDetailsFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setDebit_ref_no(s.toString());
+                        membership.setDebit_ref_no(s.toString());
                     }
                 });
             }
@@ -225,10 +230,10 @@ public class PaymentDetailsFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setCash_ref_no(s.toString());
+                        membership.setCash_ref_no(s.toString());
                     }
                 });
             }
@@ -247,10 +252,10 @@ public class PaymentDetailsFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setCredit_ref_no(s.toString());
+                        membership.setCredit_ref_no(s.toString());
                     }
                 });
             }
@@ -269,10 +274,10 @@ public class PaymentDetailsFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setBank_payment_date(s.toString());
+                        membership.setBank_payment_date(s.toString());
                     }
                 });
             }
@@ -291,10 +296,10 @@ public class PaymentDetailsFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setBank_expiry_date(s.toString());
+                        membership.setBank_expiry_date(s.toString());
                     }
                 });
             }

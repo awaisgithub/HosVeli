@@ -16,9 +16,12 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.od.mma.BOs.User;
 import com.od.mma.R;
 
 import io.realm.Realm;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 29/12/2016.
@@ -39,6 +42,7 @@ public class CategoryFrag extends Fragment {
     boolean err = false;
     FragInterface mem_interface;
     private View rootView;
+    Membership membership;
 
     public static CategoryFrag newInstance(String text) {
         CategoryFrag f = new CategoryFrag();
@@ -57,6 +61,7 @@ public class CategoryFrag extends Fragment {
     }
 
     private void initView() {
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
         year = (Spinner) rootView.findViewById(R.id.year);
         first = (RadioButton) rootView.findViewById(R.id.radioButton);
         second = (RadioButton) rootView.findViewById(R.id.radioButton1);
@@ -72,30 +77,70 @@ public class CategoryFrag extends Fragment {
                 new NoneSelectSpinnerAdapter(adapter, R.layout.spinner_hint_frag2,
                         getActivity()));
         category = (RadioGroup) rootView.findViewById(R.id.radioGroup);
-        if (PagerViewPager.membership.getCategory() != -1) {
-            final int id = PagerViewPager.membership.getCategory();
-            View radioButton = category.findViewById(id);
-            int radioId = category.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) category.getChildAt(radioId);
-            btn.setChecked(true);
-            final String selection = (String) btn.getText();
-            if (selection.equals("Medical Officer Membership") || selection.equalsIgnoreCase("Medical Officer Membership")) {
-                if (PagerViewPager.membership.getYear() != -1) {
-                    year.setSelection(PagerViewPager.membership.getYear());
-                }
-                year.setVisibility(View.VISIBLE);
-            } else {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        PagerViewPager.membership.setYear(-1);
+
+
+        if (!membership.isLoadFromServer()) {
+            if (membership.getCategory() != -1) {
+                final int id = membership.getCategory();
+                View radioButton = category.findViewById(id);
+                int radioId = category.indexOfChild(radioButton);
+                RadioButton btn = (RadioButton) category.getChildAt(radioId);
+                btn.setChecked(true);
+                final String selection = (String) btn.getText();
+                if (selection.equals("Medical Officer Membership") || selection.equalsIgnoreCase("Medical Officer Membership")) {
+                    if (membership.getYear() != -1) {
+                        year.setSelection(membership.getYear());
                     }
-                });
-                year.setSelection(0);
+                    year.setVisibility(View.VISIBLE);
+                } else {
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            membership.setYear(-1);
+                            membership.setYearOfService("");
+                        }
+                    });
+                    year.setSelection(0);
+                    year.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            if (membership.getMembershipCategory().equalsIgnoreCase("Associate Membership")) {
+                first.setChecked(true);
                 year.setVisibility(View.GONE);
+                year.setSelection(0);
+            } else if (membership.getMembershipCategory().equalsIgnoreCase("Life Time Membership")) {
+                second.setChecked(true);
+                year.setVisibility(View.GONE);
+                year.setSelection(0);
+            } else if (membership.getMembershipCategory().equalsIgnoreCase("House Doctor Membership")) {
+                third.setChecked(true);
+                year.setVisibility(View.GONE);
+                year.setSelection(0);
+            } else if (membership.getMembershipCategory().equalsIgnoreCase("Ordinary Membership")) {
+                fourth.setChecked(true);
+                year.setVisibility(View.GONE);
+                year.setSelection(0);
+            } else if (membership.getMembershipCategory().equalsIgnoreCase("Overseas Ordinary Membership")) {
+                fifth.setChecked(true);
+                year.setVisibility(View.GONE);
+                year.setSelection(0);
+            } else if (membership.getMembershipCategory().equalsIgnoreCase("Medical Officer Membership")) {
+                seventh.setChecked(true);
+                if (!(membership.getYearOfService().equalsIgnoreCase("") || membership.getYearOfService().isEmpty())) {
+                    int spinnerPosition = adapter.getPosition(membership.getYearOfService());
+                    year.setSelection(spinnerPosition+1);
+                    year.setVisibility(View.VISIBLE);
+                }
+            } else if (membership.getMembershipCategory().equalsIgnoreCase("Student Membership")) {
+                last.setChecked(true);
+                year.setVisibility(View.GONE);
+                year.setSelection(0);
             }
         }
-        if (PagerViewPager.membership.isValidation()) {
+
+
+        if (membership.isValidation()) {
             loadItems();
         }
         listeners();
@@ -107,10 +152,11 @@ public class CategoryFrag extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (year.getSelectedItemPosition() > 0) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setYear(year.getSelectedItemPosition());
+                            membership.setYear(year.getSelectedItemPosition());
+                            membership.setYearOfService(year.getSelectedItem().toString());
                         }
                     });
                 }
@@ -126,14 +172,14 @@ public class CategoryFrag extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (category.getCheckedRadioButtonId() != -1) {
-                    if (PagerViewPager.membership.isValidation())
+                    if (membership.isValidation())
                         last.setError(null);
-                    if (category.getCheckedRadioButtonId() != PagerViewPager.membership.getCategory()) {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    if (category.getCheckedRadioButtonId() != membership.getCategory()) {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMmc_dob("");
-                                PagerViewPager.membership.setMmc_certificate(null);
+                                membership.setDateOfRegistrationMMC("");
+                                membership.setMmc_certificate(null);
                             }
                         });
                     }
@@ -143,85 +189,86 @@ public class CategoryFrag extends Fragment {
                     RadioButton btn = (RadioButton) category.getChildAt(radioId);
                     final String selection = (String) btn.getText();
 
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setCategory(id);
+                            membership.setCategory(id);
+                            membership.setMembershipCategory(selection);
                         }
                     });
                     if (checkedId == R.id.radioButton6) {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMain_category("");
+                                membership.setMain_category("");
                             }
                         });
                         year.setVisibility(View.VISIBLE);
                         err = true;
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMom(true);
+                                membership.setMedical_off_mem(true);
                             }
                         });
                     } else if (checkedId == R.id.radioButton1) {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMain_category("Life Time Membership");
+                                membership.setMain_category("Life Time Membership");
                             }
                         });
                         year.setVisibility(View.GONE);
                         err = false;
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMom(false);
+                                membership.setMedical_off_mem(false);
                             }
                         });
                     } else if (checkedId == R.id.radioButton3) {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMain_category("Ordinary");
+                                membership.setMain_category("Ordinary");
                             }
                         });
                         year.setVisibility(View.GONE);
                         err = false;
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMom(false);
+                                membership.setMedical_off_mem(false);
                             }
                         });
                     } else if (checkedId == R.id.radioButton7) {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMain_category("Student");
+                                membership.setMain_category("Student");
                             }
                         });
                         year.setVisibility(View.GONE);
                         err = false;
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMom(false);
+                                membership.setMedical_off_mem(false);
                             }
                         });
                     } else {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMain_category("");
+                                membership.setMain_category("");
                             }
                         });
                         year.setVisibility(View.GONE);
                         err = false;
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setMom(false);
+                                membership.setMedical_off_mem(false);
                             }
                         });
                     }
@@ -260,15 +307,15 @@ public class CategoryFrag extends Fragment {
     public void validation() {
         if (!(category.getCheckedRadioButtonId() == -1)) {
             last.setError(null);
-            if (PagerViewPager.membership.isMom()) {
+            if (membership.isMedical_off_mem()) {
                 if (year.getSelectedItemPosition() > 0)
                     error = true;
                 else {
                     error = false;
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                            membership.setValidation_pos(PagerViewPager.getPos());
                         }
                     });
                 }
@@ -279,10 +326,10 @@ public class CategoryFrag extends Fragment {
                 error = true;
             }
         } else {
-            PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                    membership.setValidation_pos(PagerViewPager.getPos());
                 }
             });
         }
@@ -291,7 +338,7 @@ public class CategoryFrag extends Fragment {
     public void loadItems() {
         if (!(category.getCheckedRadioButtonId() == -1)) {
             last.setError(null);
-            if (PagerViewPager.membership.isMom()) {
+            if (membership.isMedical_off_mem()) {
                 if (year.getSelectedItemPosition() > 0)
                     error = true;
                 else {

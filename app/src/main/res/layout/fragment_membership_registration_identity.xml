@@ -73,7 +73,6 @@
                         android:layout_marginTop="@dimen/activity_vertical_margin"
                         android:layout_marginLeft="35dp"
                         android:src="@drawable/image_place_holder"
-                        android:scaleType="center"
                         android:adjustViewBounds="true"
                         style="@style/myImageView" />
 
@@ -134,7 +133,7 @@
                 android:id="@+id/Other"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_below="@+id/other_race"
+                android:layout_below="@+id/applicantRace"
                 android:visibility="gone"
                 android:background="@drawable/edit_text_login"
                 android:ems="10"
@@ -172,7 +171,7 @@
                 android:id="@+id/Others"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_below="@+id/other_religion"
+                android:layout_below="@+id/applicantReligion"
                 android:visibility="gone"
                 android:background="@drawable/edit_text_login"
                 android:ems="10"

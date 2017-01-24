@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +20,21 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.od.mma.API.Api;
+import com.od.mma.BOs.User;
+import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.R;
+import com.od.mma.Utils.MMAConstants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 29/12/2016.
@@ -36,6 +49,7 @@ public class AddressResidentialFrag extends Fragment {
     EditText address;
     EditText tel_no;
     RadioGroup corresponce_addr;
+    RadioButton first;
     RadioButton last;
     boolean error = false;
     boolean error1 = false;
@@ -45,6 +59,11 @@ public class AddressResidentialFrag extends Fragment {
     boolean error5 = false;
     FragInterface mem_interface;
     private View rootView;
+    boolean spinnerCountryFromServer = false;
+    boolean spinnerStateFromServer = false;
+    Membership membership;
+    ArrayAdapter<String> server;
+    ArrayAdapter<String> server1;
 
     public static AddressResidentialFrag newInstance(String text) {
 
@@ -55,6 +74,81 @@ public class AddressResidentialFrag extends Fragment {
         f.setArguments(b);
 
         return f;
+    }
+
+    private void populateCountrySpinnerFromServer() {
+        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_countries), new ServerReadCallBack() {
+            @Override
+            public void success(JSONArray response) {
+                List<String> title_list = new ArrayList<String>();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        title_list.add(response.getJSONObject(i).optString("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                String[] titleArray = new String[title_list.size()];
+                titleArray = title_list.toArray(titleArray);
+                server = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, titleArray);
+                server.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                country.setAdapter(
+                        new NoneSelectSpinnerAdapter(server, R.layout.spinner_hint_frag5_1,
+                                getActivity()));
+                int spinnerPosition;
+                spinnerPosition = server.getPosition(membership.getCountryResidential());
+                country.setSelection(spinnerPosition + 1);
+                spinnerCountryFromServer = true;
+            }
+
+            @Override
+            public void failure(String response) {
+                spinnerCountryFromServer = false;
+                if (response.contains(""))
+                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                else
+                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+            }
+        });
+    }
+
+    private void populateStateSpinnerFromServer() {
+        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_states), new ServerReadCallBack() {
+            @Override
+            public void success(JSONArray response) {
+                List<String> title_list = new ArrayList<String>();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        title_list.add(response.getJSONObject(i).optString("states"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                String[] titleArray = new String[title_list.size()];
+                titleArray = title_list.toArray(titleArray);
+                if(titleArray != null) {
+                    server1 = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, titleArray);
+                    server1.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                    state.setAdapter(
+                            new NoneSelectSpinnerAdapter(server1, R.layout.spinner_hint_frag5_2,
+                                    getActivity()));
+                }
+                state.setVisibility(View.GONE);
+                int spinnerPosition;
+                spinnerPosition = server1.getPosition(membership.getStateResidential());
+                state.setSelection(spinnerPosition + 1);
+                spinnerStateFromServer = true;
+            }
+
+            @Override
+            public void failure(String response) {
+                spinnerCountryFromServer = false;
+                if (response.contains(""))
+                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                else
+                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+            }
+        });
     }
 
     @Override
@@ -72,58 +166,78 @@ public class AddressResidentialFrag extends Fragment {
     }
 
     private void initView() {
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
+        spinnerCountryFromServer = false;
+        spinnerStateFromServer = false;
+        first = (RadioButton) rootView.findViewById(R.id.radioButton);
         last = (RadioButton) rootView.findViewById(R.id.radioButton1);
         city = (EditText) rootView.findViewById(R.id.name);
+        state = (Spinner) rootView.findViewById(R.id.state);
+        country = (Spinner) rootView.findViewById(R.id.country);
         postal_code = (EditText) rootView.findViewById(R.id.email);
         address = (EditText) rootView.findViewById(R.id.contact_number);
         tel_no = (EditText) rootView.findViewById(R.id.date_pick);
         corresponce_addr = (RadioGroup) rootView.findViewById(R.id.radioGroup);
 
-        state = (Spinner) rootView.findViewById(R.id.state);
-        state.setVisibility(View.GONE);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity(), R.array.id_state, R.layout.spinner_item);
-        adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        state.setPrompt("Select State");
-        state.setAdapter(
-                new NoneSelectSpinnerAdapter(adapter1, R.layout.spinner_hint_frag5_2,// R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        getActivity()));
-
-        country = (Spinner) rootView.findViewById(R.id.country);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.id_nationality, R.layout.spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        country.setPrompt("Select Country");
-        country.setAdapter(
-                new NoneSelectSpinnerAdapter(adapter, R.layout.spinner_hint_frag5_1,
-                        getActivity()));
-
-        if (PagerViewPager.membership.getR_country() != -1) {
-            country.setSelection(PagerViewPager.membership.getR_country());
-        }
-        if (PagerViewPager.membership.getR_state() != -1) {
-            state.setSelection(PagerViewPager.membership.getR_state());
-        }
-        if (!(PagerViewPager.membership.getR_city().equals("") || PagerViewPager.membership.getR_city() == null || PagerViewPager.membership.getR_city().isEmpty())) {
-            city.setText(PagerViewPager.membership.getR_city());
-        }
-        if (!(PagerViewPager.membership.getR_postal_code().equals("") || PagerViewPager.membership.getR_postal_code() == null || PagerViewPager.membership.getR_postal_code().isEmpty())) {
-            postal_code.setText(PagerViewPager.membership.getR_postal_code());
-        }
-        if (!(PagerViewPager.membership.getR_address().equals("") || PagerViewPager.membership.getR_address() == null || PagerViewPager.membership.getR_address().isEmpty())) {
-            address.setText(PagerViewPager.membership.getR_address());
-        }
-        if (!(PagerViewPager.membership.getR_tel_no().equals("") || PagerViewPager.membership.getR_tel_no() == null || PagerViewPager.membership.getR_tel_no().isEmpty())) {
-            tel_no.setText(PagerViewPager.membership.getR_tel_no());
-        }
-        if (PagerViewPager.membership.getCorrespondence_address() != -1) {
-            final int id = PagerViewPager.membership.getCorrespondence_address();
-            View radioButton = corresponce_addr.findViewById(id);
-            int radioId = corresponce_addr.indexOfChild(radioButton);
-            RadioButton btn = (RadioButton) corresponce_addr.getChildAt(radioId);
-            btn.setChecked(true);
+        populateCountrySpinnerFromServer();
+        if (!spinnerCountryFromServer) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.id_nationality, R.layout.spinner_item);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            country.setPrompt("Select Country");
+            country.setAdapter(
+                    new NoneSelectSpinnerAdapter(adapter, R.layout.spinner_hint_frag5_1,
+                            getActivity()));
         }
 
+        populateStateSpinnerFromServer();
+        if (!spinnerStateFromServer) {
+            state.setVisibility(View.GONE);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity(), R.array.id_state, R.layout.spinner_item);
+            adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            state.setPrompt("Select State");
+            state.setAdapter(
+                    new NoneSelectSpinnerAdapter(adapter1, R.layout.spinner_hint_frag5_2,// R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+                            getActivity()));
+            state.setVisibility(View.GONE);
+        }
 
-        if (PagerViewPager.membership.isValidation()) {
+        if (!membership.isLoadFromServer()) {
+            if (membership.getR_country() != -1) {
+                country.setSelection(membership.getR_country());
+            }
+            if (membership.getR_state() != -1) {
+                state.setSelection(membership.getR_state());
+            }
+        }
+        if (!(membership.getCity_1().equals("") || membership.getCity_1() == null || membership.getCity_1().isEmpty())) {
+            city.setText(membership.getCity_1());
+        }
+        if (!(membership.getPostCodeResidential().equals("") || membership.getPostCodeResidential() == null || membership.getPostCodeResidential().isEmpty())) {
+            postal_code.setText(membership.getPostCodeResidential());
+        }
+        if (!(membership.getAddressResidential().equals("") || membership.getAddressResidential() == null || membership.getAddressResidential().isEmpty())) {
+            address.setText(membership.getAddressResidential());
+        }
+        if (!(membership.getTelephoneNoResidential().equals("") || membership.getTelephoneNoResidential() == null || membership.getTelephoneNoResidential().isEmpty())) {
+            tel_no.setText(membership.getTelephoneNoResidential());
+        }
+        if (!membership.isLoadFromServer()) {
+            if (membership.getCorrespondence_address() != -1) {
+                final int id = membership.getCorrespondence_address();
+                View radioButton = corresponce_addr.findViewById(id);
+                int radioId = corresponce_addr.indexOfChild(radioButton);
+                RadioButton btn = (RadioButton) corresponce_addr.getChildAt(radioId);
+                btn.setChecked(true);
+            }
+        } else {
+            if (membership.getCorrespondenceSelection().equalsIgnoreCase("Working Address"))
+                first.setChecked(true);
+            else
+                last.setChecked(true);
+        }
+
+
+        if (membership.isValidation()) {
             loadItems();
         }
 
@@ -144,10 +258,11 @@ public class AddressResidentialFrag extends Fragment {
                         state.setVisibility(View.VISIBLE);
                     else
                         state.setVisibility(View.GONE);
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setR_country(country.getSelectedItemPosition());
+                            membership.setR_country(country.getSelectedItemPosition());
+                            membership.setCountryResidential(country.getSelectedItem().toString());
                         }
                     });
                 }
@@ -163,18 +278,19 @@ public class AddressResidentialFrag extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (corresponce_addr.getCheckedRadioButtonId() != -1) {
-                    if (PagerViewPager.membership.isValidation())
+                    if (membership.isValidation())
                         last.setError(null);
 
                     final int id = corresponce_addr.getCheckedRadioButtonId();
                     View radioButton = corresponce_addr.findViewById(id);
                     int radioId = corresponce_addr.indexOfChild(radioButton);
-                    RadioButton btn = (RadioButton) corresponce_addr.getChildAt(radioId);
+                    final RadioButton btn = (RadioButton) corresponce_addr.getChildAt(radioId);
 
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setCorrespondence_address(id);
+                            membership.setCorrespondence_address(id);
+                            membership.setCorrespondenceSelection(btn.getText().toString());
                         }
                     });
                 }
@@ -185,10 +301,11 @@ public class AddressResidentialFrag extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setR_state(state.getSelectedItemPosition());
+                            membership.setR_state(state.getSelectedItemPosition());
+                            membership.setStateResidential(state.getSelectedItem().toString());
                         }
                     });
                 }
@@ -208,10 +325,10 @@ public class AddressResidentialFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setR_city(s.toString());
+                        membership.setCity_1(s.toString());
                     }
                 });
             }
@@ -230,10 +347,10 @@ public class AddressResidentialFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setR_postal_code(s.toString());
+                        membership.setPostCodeResidential(s.toString());
                     }
                 });
             }
@@ -252,10 +369,10 @@ public class AddressResidentialFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setR_address(s.toString());
+                        membership.setAddressResidential(s.toString());
                     }
                 });
             }
@@ -274,10 +391,10 @@ public class AddressResidentialFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setR_tel_no(s.toString());
+                        membership.setTelephoneNoResidential(s.toString());
                     }
                 });
             }
@@ -325,11 +442,11 @@ public class AddressResidentialFrag extends Fragment {
                     error = true;
                 else {
                     error = false;
-                    if (PagerViewPager.membership.getValidation_pos() == -1) {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    if (membership.getValidation_pos() == -1) {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                                membership.setValidation_pos(PagerViewPager.getPos());
                             }
                         });
                     }
@@ -338,11 +455,11 @@ public class AddressResidentialFrag extends Fragment {
                 error = true;
         } else {
             error = false;
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }
@@ -350,11 +467,11 @@ public class AddressResidentialFrag extends Fragment {
 
         if (city.getText().toString().trim().equalsIgnoreCase("")) {
             error1 = false;
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }
@@ -364,11 +481,11 @@ public class AddressResidentialFrag extends Fragment {
         }
         if (address.getText().toString().trim().equalsIgnoreCase("")) {
             error3 = false;
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }
@@ -378,11 +495,11 @@ public class AddressResidentialFrag extends Fragment {
         }
         if (tel_no.getText().toString().trim().equalsIgnoreCase("")) {
             error4 = false;
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }
@@ -394,11 +511,11 @@ public class AddressResidentialFrag extends Fragment {
             last.setError(null);
             error5 = true;
         } else {
-            if (PagerViewPager.membership.getValidation_pos() == -1) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                        membership.setValidation_pos(PagerViewPager.getPos());
                     }
                 });
             }

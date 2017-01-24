@@ -14,11 +14,14 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.od.mma.BOs.User;
 import com.od.mma.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 11/01/2017.
@@ -35,6 +38,7 @@ public class PostgradDegreeFrag extends Fragment implements FragPostGradInterfac
     TextView add_info;
     Button next, back;
     FragInterface mem_interface;
+    Membership membership;
 
 
     @Nullable
@@ -42,6 +46,7 @@ public class PostgradDegreeFrag extends Fragment implements FragPostGradInterfac
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_membership_qualification_postgraduate, container, false);
 
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
         add_info = (TextView) rootView.findViewById(R.id.err_no_degree);
         add = (FloatingActionButton) rootView.findViewById(R.id.fab);
         expListView = (ExpandableListView) rootView.findViewById(R.id.lvExp);
@@ -57,7 +62,7 @@ public class PostgradDegreeFrag extends Fragment implements FragPostGradInterfac
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PagerViewPager.membership.getPos_count() < 3) {
+                if (membership.getPos_count() < 3) {
                     PostgradDegreeDialogFrag dialog = PostgradDegreeDialogFrag.newInstance();
                     dialog.show(getActivity().getFragmentManager(), "fragmentDialog");
                     dialog.context_interface(PostgradDegreeFrag.this);
@@ -122,56 +127,56 @@ public class PostgradDegreeFrag extends Fragment implements FragPostGradInterfac
     }
 
     private void prepareListData() {
-        if (PagerViewPager.membership.getPos_count() > 0) {
+        if (membership.getPos_count() > 0) {
             add_info.setVisibility(View.GONE);
             listDataHeader = new ArrayList<String>();
             listDataChild = new HashMap<String, List<String>>();
-            switch (PagerViewPager.membership.getPos_count()) {
+            switch (membership.getPos_count()) {
                 case 1:
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree());
+                    listDataHeader.add(membership.getPos_degree());
                     List<String> child = new ArrayList<String>();
-                    child.add(PagerViewPager.membership.getPos_uni());
-                    child.add(PagerViewPager.membership.getPos_country());
-                    child.add(PagerViewPager.membership.getPos_qof_date());
+                    child.add(membership.getPos_uni());
+                    child.add(membership.getPos_country());
+                    child.add(membership.getPos_qof_date());
                     listDataChild.put(listDataHeader.get(0), child);
 
                     break;
                 case 2:
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree());
+                    listDataHeader.add(membership.getPos_degree());
                     List<String> child1 = new ArrayList<String>();
-                    child1.add(PagerViewPager.membership.getPos_uni());
-                    child1.add(PagerViewPager.membership.getPos_country());
-                    child1.add(PagerViewPager.membership.getPos_qof_date());
+                    child1.add(membership.getPos_uni());
+                    child1.add(membership.getPos_country());
+                    child1.add(membership.getPos_qof_date());
                     listDataChild.put(listDataHeader.get(0), child1);
 
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree1());
+                    listDataHeader.add(membership.getPos_degree1());
                     List<String> child1_1 = new ArrayList<String>();
-                    child1_1.add(PagerViewPager.membership.getPos_uni1());
-                    child1_1.add(PagerViewPager.membership.getPos_country1());
-                    child1_1.add(PagerViewPager.membership.getPos_qof_date1());
+                    child1_1.add(membership.getPos_uni1());
+                    child1_1.add(membership.getPos_country1());
+                    child1_1.add(membership.getPos_qof_date1());
                     listDataChild.put(listDataHeader.get(1), child1_1);
 
                     break;
                 case 3:
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree());
+                    listDataHeader.add(membership.getPos_degree());
                     List<String> child2 = new ArrayList<String>();
-                    child2.add(PagerViewPager.membership.getPos_uni());
-                    child2.add(PagerViewPager.membership.getPos_country());
-                    child2.add(PagerViewPager.membership.getPos_qof_date());
+                    child2.add(membership.getPos_uni());
+                    child2.add(membership.getPos_country());
+                    child2.add(membership.getPos_qof_date());
                     listDataChild.put(listDataHeader.get(0), child2);
 
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree1());
+                    listDataHeader.add(membership.getPos_degree1());
                     List<String> child2_1 = new ArrayList<String>();
-                    child2_1.add(PagerViewPager.membership.getPos_uni1());
-                    child2_1.add(PagerViewPager.membership.getPos_country1());
-                    child2_1.add(PagerViewPager.membership.getPos_qof_date1());
+                    child2_1.add(membership.getPos_uni1());
+                    child2_1.add(membership.getPos_country1());
+                    child2_1.add(membership.getPos_qof_date1());
                     listDataChild.put(listDataHeader.get(1), child2_1);
 
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree2());
+                    listDataHeader.add(membership.getPos_degree2());
                     List<String> child2_2 = new ArrayList<String>();
-                    child2_2.add(PagerViewPager.membership.getPos_uni2());
-                    child2_2.add(PagerViewPager.membership.getPos_country2());
-                    child2_2.add(PagerViewPager.membership.getPos_qof_date2());
+                    child2_2.add(membership.getPos_uni2());
+                    child2_2.add(membership.getPos_country2());
+                    child2_2.add(membership.getPos_qof_date2());
                     listDataChild.put(listDataHeader.get(2), child2_2);
 
                     break;
@@ -214,56 +219,56 @@ public class PostgradDegreeFrag extends Fragment implements FragPostGradInterfac
         listDataChild = new HashMap<String, List<String>>();
 
 
-        if (PagerViewPager.membership.getPos_count() > 0) {
+        if (membership.getPos_count() > 0) {
             add_info.setVisibility(View.GONE);
             expListView.setVisibility(View.VISIBLE);
 
-            switch (PagerViewPager.membership.getPos_count()) {
+            switch (membership.getPos_count()) {
                 case 1:
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree());
+                    listDataHeader.add(membership.getPos_degree());
                     List<String> child = new ArrayList<String>();
-                    child.add(PagerViewPager.membership.getPos_uni());
-                    child.add(PagerViewPager.membership.getPos_country());
-                    child.add(PagerViewPager.membership.getPos_qof_date());
+                    child.add(membership.getPos_uni());
+                    child.add(membership.getPos_country());
+                    child.add(membership.getPos_qof_date());
                     listDataChild.put(listDataHeader.get(0), child);
 
                     break;
                 case 2:
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree());
+                    listDataHeader.add(membership.getPos_degree());
                     List<String> child1 = new ArrayList<String>();
-                    child1.add(PagerViewPager.membership.getPos_uni());
-                    child1.add(PagerViewPager.membership.getPos_country());
-                    child1.add(PagerViewPager.membership.getPos_qof_date());
+                    child1.add(membership.getPos_uni());
+                    child1.add(membership.getPos_country());
+                    child1.add(membership.getPos_qof_date());
                     listDataChild.put(listDataHeader.get(0), child1);
 
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree1());
+                    listDataHeader.add(membership.getPos_degree1());
                     List<String> child1_1 = new ArrayList<String>();
-                    child1_1.add(PagerViewPager.membership.getPos_uni1());
-                    child1_1.add(PagerViewPager.membership.getPos_country1());
-                    child1_1.add(PagerViewPager.membership.getPos_qof_date1());
+                    child1_1.add(membership.getPos_uni1());
+                    child1_1.add(membership.getPos_country1());
+                    child1_1.add(membership.getPos_qof_date1());
                     listDataChild.put(listDataHeader.get(1), child1_1);
 
                     break;
                 case 3:
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree());
+                    listDataHeader.add(membership.getPos_degree());
                     List<String> child2 = new ArrayList<String>();
-                    child2.add(PagerViewPager.membership.getPos_uni());
-                    child2.add(PagerViewPager.membership.getPos_country());
-                    child2.add(PagerViewPager.membership.getPos_qof_date());
+                    child2.add(membership.getPos_uni());
+                    child2.add(membership.getPos_country());
+                    child2.add(membership.getPos_qof_date());
                     listDataChild.put(listDataHeader.get(0), child2);
 
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree1());
+                    listDataHeader.add(membership.getPos_degree1());
                     List<String> child2_1 = new ArrayList<String>();
-                    child2_1.add(PagerViewPager.membership.getPos_uni1());
-                    child2_1.add(PagerViewPager.membership.getPos_country1());
-                    child2_1.add(PagerViewPager.membership.getPos_qof_date1());
+                    child2_1.add(membership.getPos_uni1());
+                    child2_1.add(membership.getPos_country1());
+                    child2_1.add(membership.getPos_qof_date1());
                     listDataChild.put(listDataHeader.get(1), child2_1);
 
-                    listDataHeader.add(PagerViewPager.membership.getPos_degree2());
+                    listDataHeader.add(membership.getPos_degree2());
                     List<String> child2_2 = new ArrayList<String>();
-                    child2_2.add(PagerViewPager.membership.getPos_uni2());
-                    child2_2.add(PagerViewPager.membership.getPos_country2());
-                    child2_2.add(PagerViewPager.membership.getPos_qof_date2());
+                    child2_2.add(membership.getPos_uni2());
+                    child2_2.add(membership.getPos_country2());
+                    child2_2.add(membership.getPos_qof_date2());
                     listDataChild.put(listDataHeader.get(2), child2_2);
 
                     break;

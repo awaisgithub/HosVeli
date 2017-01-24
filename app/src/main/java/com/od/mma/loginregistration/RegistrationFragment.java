@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.od.mma.API.Api;
 import com.od.mma.BOs.User;
 import com.od.mma.CallBack.StatusCallBack;
+import com.od.mma.Membership.Membership;
 import com.od.mma.R;
 import com.od.mma.Utils.MMAConstants;
 import com.od.mma.Utils.Util;
@@ -101,7 +102,7 @@ public class RegistrationFragment extends Fragment {
         fname = (EditText) rootView.findViewById(R.id.name);
         lname = (EditText) rootView.findViewById(R.id.email);
         email = (EditText) rootView.findViewById(R.id.contact_number);
-        password = (EditText) rootView.findViewById(R.id.password);
+        password = (EditText) rootView.findViewById(R.id.applicantPassword);
         confirmPassword = (EditText) rootView.findViewById(R.id.confirm_password);
         Button submitButton = (Button) rootView.findViewById(R.id.submit_button);
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -130,20 +131,20 @@ public class RegistrationFragment extends Fragment {
                 user.setEmail(email);
                 user.setFname(Fname);
                 user.setLname(Lname);
-                user.setPassword(password);
+                user.setApplicantPassword(password);
                 user.setConfirmPassword(confirmPassword);
 
 //                user.setId(email);
 //                user.setName(Fname + Lname);
 //                user.setContactNumber(Lname);
-//                user.setPassword(password);
+//                user.setApplicantPassword(password);
 //                user.setConfirmPassword(confirmPassword);
 
 
 //                user.setId(email);
 //                user.setName(name);
 //                user.setContactNumber(contact);
-//                user.setPassword(password);
+//                user.setApplicantPassword(password);
 //                user.setConfirmPassword(confirmPassword);
             }
         });
@@ -173,6 +174,16 @@ public class RegistrationFragment extends Fragment {
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(user);
                     realm.commitTransaction();
+
+
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            Membership new_membership = realm.createObject(Membership.class, email.getText().toString());
+                            new_membership.setSyncedLocal(true);
+                        }
+                    });
+
 
 //                    user.setTemp(false);
 //                    user.setSyncedLocal(true);

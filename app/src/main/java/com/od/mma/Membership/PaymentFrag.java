@@ -12,12 +12,15 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Spinner;
 
+import com.od.mma.BOs.User;
 import com.od.mma.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import io.realm.Realm;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 29/12/2016.
@@ -31,6 +34,8 @@ public class PaymentFrag extends Fragment {
     ArrayAdapter<String> adapter;
     FragInterface mem_interface;
     private View rootView;
+    Membership membership;
+
 
     public static PaymentFrag newInstance(String text) {
         PaymentFrag f = new PaymentFrag();
@@ -56,6 +61,7 @@ public class PaymentFrag extends Fragment {
     }
 
     private void initView() {
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
         payment_method = (GridView) rootView.findViewById(R.id.payment);
         data = new ArrayList<String>(Arrays.asList(getResources().getStringArray(R.array.payment_method)));
         payment_method.setColumnWidth(60);
@@ -73,15 +79,15 @@ public class PaymentFrag extends Fragment {
                         getActivity()));
 
 
-        if (PagerViewPager.membership.getPayment_method() != -1) {
-            payment_method.setItemChecked(PagerViewPager.membership.getPayment_method(), true);
+        if (membership.getPayment_method() != -1) {
+            payment_method.setItemChecked(membership.getPayment_method(), true);
         }
-        if (PagerViewPager.membership.getPayment_sub_year() != -1) {
-            subs.setSelection(PagerViewPager.membership.getPayment_sub_year());
+        if (membership.getPayment_sub_year() != -1) {
+            subs.setSelection(membership.getPayment_sub_year());
         }
 
 
-        if (PagerViewPager.membership.isValidation()) {
+        if (membership.isValidation()) {
             loadItems();
         }
         listeners();
@@ -92,10 +98,10 @@ public class PaymentFrag extends Fragment {
         payment_method.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setPayment_method(position);
+                        membership.setPayment_method(position);
                     }
                 });
             }
@@ -104,10 +110,10 @@ public class PaymentFrag extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (subs.getSelectedItemPosition() > 0) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setPayment_sub_year(subs.getSelectedItemPosition());
+                            membership.setPayment_sub_year(subs.getSelectedItemPosition());
                         }
                     });
                 }

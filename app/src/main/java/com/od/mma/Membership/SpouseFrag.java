@@ -19,9 +19,12 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.od.mma.BOs.User;
 import com.od.mma.R;
 
 import io.realm.Realm;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 29/12/2016.
@@ -31,6 +34,7 @@ public class SpouseFrag extends Fragment {
     Spinner id_type;
     Button next, back;
     RadioGroup joint;
+    RadioButton first;
     RadioButton last;
     EditText nric_no;
     EditText fName;
@@ -42,6 +46,7 @@ public class SpouseFrag extends Fragment {
     boolean error4 = false;
     FragInterface mem_interface;
     private View rootView;
+    Membership membership;
 
     public static SpouseFrag newInstance(String text) {
 
@@ -63,20 +68,30 @@ public class SpouseFrag extends Fragment {
     }
 
     private void initView() {
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
+        first = (RadioButton) rootView.findViewById(R.id.radioButtonNo);
         last = (RadioButton) rootView.findViewById(R.id.radioButtonYes);
         nric_no = (EditText) rootView.findViewById(R.id.name);
         fName = (EditText) rootView.findViewById(R.id.email);
         email = (EditText) rootView.findViewById(R.id.date_pick);
         joint = (RadioGroup) rootView.findViewById(R.id.joint_account);
-        if (PagerViewPager.membership.getMain_category().equals("Ordinary") || PagerViewPager.membership.getMain_category().equals("Life Time Membership")) {
-            if (PagerViewPager.membership.getJoint_account() != -1) {
-                final int id = PagerViewPager.membership.getJoint_account();
-                View radioButton = joint.findViewById(id);
-                int radioId = joint.indexOfChild(radioButton);
-                RadioButton btn = (RadioButton) joint.getChildAt(radioId);
-                btn.setChecked(true);
+        if (membership.getMain_category().equals("Ordinary") || membership.getMain_category().equals("Life Time Membership")) {
+            if (!membership.isLoadFromServer()) {
+                if (membership.getJoint_account() != -1) {
+                    final int id = membership.getJoint_account();
+                    View radioButton = joint.findViewById(id);
+                    int radioId = joint.indexOfChild(radioButton);
+                    RadioButton btn = (RadioButton) joint.getChildAt(radioId);
+                    btn.setChecked(true);
+                }
+                joint.setVisibility(View.VISIBLE);
+            } else {
+                if (membership.getIsJointAccount().equalsIgnoreCase("Yes"))
+                    last.setChecked(true);
+                else
+                    first.setChecked(true);
+                joint.setVisibility(View.VISIBLE);
             }
-            joint.setVisibility(View.VISIBLE);
         } else
             joint.setVisibility(View.GONE);
         id_type = (Spinner) rootView.findViewById(R.id.id_type);
@@ -87,22 +102,27 @@ public class SpouseFrag extends Fragment {
                 new NoneSelectSpinnerAdapter(adapter, R.layout.spinner_hint_frag4_1,
                         getActivity()));
 
+        if (!membership.isLoadFromServer()) {
+            if (membership.getSpouse_id_type() != -1) {
+                id_type.setSelection(membership.getSpouse_id_type());
+            }
+        } else {
+            int spinnerPosition;
+            spinnerPosition = adapter.getPosition(membership.getSpouseIdentificationType());
+            id_type.setSelection(spinnerPosition + 1);
+        }
+        if (!(membership.getSpouseNRICNew() == null)) {
+            nric_no.setText(membership.getSpouseNRICNew());
+        }
+        if (!(membership.getApplicantSpouseFirstName() == null)) {
+            fName.setText(membership.getApplicantSpouseFirstName());
+        }
+        if (!(membership.getApplicantSpouseUsername() == null)) {
+            email.setText(membership.getApplicantSpouseUsername());
+        }
 
-        if (PagerViewPager.membership.getSpouse_id_type() != -1) {
-            id_type.setSelection(PagerViewPager.membership.getSpouse_id_type());
-        }
-        if (!(PagerViewPager.membership.getNric_no() == null)) {
-            nric_no.setText(PagerViewPager.membership.getNric_no());
-        }
-        if (!(PagerViewPager.membership.getSpouse_fName() == null)) {
-            fName.setText(PagerViewPager.membership.getSpouse_fName());
-        }
-        if (!(PagerViewPager.membership.getSpouse_email() == null)) {
-            email.setText(PagerViewPager.membership.getSpouse_email());
-        }
 
-
-        if (PagerViewPager.membership.isValidation()) {
+        if (membership.isValidation()) {
             loadItems();
         }
 
@@ -118,24 +138,26 @@ public class SpouseFrag extends Fragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (joint.getCheckedRadioButtonId() != -1) {
-                    if (PagerViewPager.membership.isValidation())
+                    if (membership.isValidation())
                         last.setError(null);
                     final int id = joint.getCheckedRadioButtonId();
                     View radioButton = joint.findViewById(id);
                     int radioId = joint.indexOfChild(radioButton);
-                    RadioButton btn = (RadioButton) joint.getChildAt(radioId);
+                    final RadioButton btn = (RadioButton) joint.getChildAt(radioId);
 
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setJoint_account(id);
+                            membership.setJoint_account(id);
+                            membership.setIsJointAccount(btn.getText().toString());
                         }
                     });
                 } else {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setJoint_account(-1);
+                            membership.setJoint_account(-1);
+                            membership.setIsJointAccount("");
                         }
                     });
                 }
@@ -147,10 +169,11 @@ public class SpouseFrag extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
                     nric_no.setHint(id_type.getSelectedItem().toString() + " No.");
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setSpouse_id_type(id_type.getSelectedItemPosition());
+                            membership.setSpouse_id_type(id_type.getSelectedItemPosition());
+                            membership.setSpouseIdentificationType(id_type.getSelectedItem().toString());
                         }
                     });
                 }
@@ -172,10 +195,10 @@ public class SpouseFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setNric_no(s.toString());
+                        membership.setSpouseNRICNew(s.toString());
                     }
                 });
             }
@@ -194,10 +217,10 @@ public class SpouseFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setSpouse_fName(s.toString());
+                        membership.setApplicantSpouseFirstName(s.toString());
                     }
                 });
             }
@@ -216,10 +239,10 @@ public class SpouseFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setSpouse_email(s.toString());
+                        membership.setApplicantSpouseUsername(s.toString());
                     }
                 });
             }
@@ -260,30 +283,30 @@ public class SpouseFrag extends Fragment {
     }
 
     public void validation() {
-        if (PagerViewPager.membership.getMain_category().equals("Ordinary") || PagerViewPager.membership.getMain_category().equals("Life Time Membership")) {
+        if (membership.getMain_category().equals("Ordinary") || membership.getMain_category().equals("Life Time Membership")) {
 
-            if (PagerViewPager.membership.getJoint_account() != -1) {
+            if (membership.getJoint_account() != -1) {
                 if (last.isChecked()) {
                     if (id_type.getSelectedItemPosition() > 0) {
                         error = true;
                     } else {
                         error = false;
-                        if (PagerViewPager.membership.getValidation_pos() == -1) {
-                            PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        if (membership.getValidation_pos() == -1) {
+                            realm.executeTransaction(new Realm.Transaction() {
                                 @Override
                                 public void execute(Realm realm) {
-                                    PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                                    membership.setValidation_pos(PagerViewPager.getPos());
                                 }
                             });
                         }
                     }
                     if (nric_no.getText().toString().trim().equalsIgnoreCase("")) {
                         error1 = false;
-                        if (PagerViewPager.membership.getValidation_pos() == -1) {
-                            PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        if (membership.getValidation_pos() == -1) {
+                            realm.executeTransaction(new Realm.Transaction() {
                                 @Override
                                 public void execute(Realm realm) {
-                                    PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                                    membership.setValidation_pos(PagerViewPager.getPos());
                                 }
                             });
                         }
@@ -293,11 +316,11 @@ public class SpouseFrag extends Fragment {
                     }
                     if (fName.getText().toString().trim().equalsIgnoreCase("")) {
                         error2 = false;
-                        if (PagerViewPager.membership.getValidation_pos() == -1) {
-                            PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        if (membership.getValidation_pos() == -1) {
+                            realm.executeTransaction(new Realm.Transaction() {
                                 @Override
                                 public void execute(Realm realm) {
-                                    PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                                    membership.setValidation_pos(PagerViewPager.getPos());
                                 }
                             });
                         }
@@ -307,11 +330,11 @@ public class SpouseFrag extends Fragment {
                     }
                     if (email.getText().toString().trim().equalsIgnoreCase("")) {
                         error3 = false;
-                        if (PagerViewPager.membership.getValidation_pos() == -1) {
-                            PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        if (membership.getValidation_pos() == -1) {
+                            realm.executeTransaction(new Realm.Transaction() {
                                 @Override
                                 public void execute(Realm realm) {
-                                    PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                                    membership.setValidation_pos(PagerViewPager.getPos());
                                 }
                             });
                         }
@@ -321,11 +344,11 @@ public class SpouseFrag extends Fragment {
                     }
                 }
             } else {
-                if (PagerViewPager.membership.getValidation_pos() == -1) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                if (membership.getValidation_pos() == -1) {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                            membership.setValidation_pos(PagerViewPager.getPos());
                         }
                     });
                 }
@@ -340,9 +363,9 @@ public class SpouseFrag extends Fragment {
     }
 
     private void loadItems() {
-        if (PagerViewPager.membership.getMain_category().equals("Ordinary") || PagerViewPager.membership.getMain_category().equals("Life Time Membership")) {
+        if (membership.getMain_category().equals("Ordinary") || membership.getMain_category().equals("Life Time Membership")) {
 
-            if (PagerViewPager.membership.getJoint_account() != -1) {
+            if (membership.getJoint_account() != -1) {
                 if (last.isChecked()) {
                     if (id_type.getSelectedItemPosition() > 0) {
                         error = true;

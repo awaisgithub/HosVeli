@@ -30,8 +30,8 @@
     <string name="reg_error_contact_number">Please provide a contact number.</string>
     <string name="reg_error_not_malay_contact_number">Please provide a valid contact number.</string>
     <string name="reg_error_nationality">Please provide your nationality.</string>
-    <string name="reg_error_password">You must provide password to sign up.</string>
-    <string name="reg_error_confirm_password">Please provide confirm password.</string>
+    <string name="reg_error_password">You must provide applicantPassword to sign up.</string>
+    <string name="reg_error_confirm_password">Please provide confirm applicantPassword.</string>
     <string name="reg_error_password_not_match">Passwords does not matched.</string>
     <string name="reg_error_server_not_reached">Server is not reachable. Please try back shortly</string>
     <string name="reg_error_unknown_server">Unable to register due to unknown server error.</string>
@@ -43,7 +43,7 @@
 
     <!-- Login Strings-->
     <string name="login_not_exist">No account exist with this username. Please SIGN UP first.</string>
-    <string name="login_not_exist_wrong_pass">Invalid password. Please try again.</string>
+    <string name="login_not_exist_wrong_pass">Invalid applicantPassword. Please try again.</string>
     <string name="login_server_error">Unable to connect to server.</string>
     <string name="login_cred_error">Unable to login. Please check your login credentials.</string>
     <string name="login_authenticating">Authenticating....</string>
@@ -235,7 +235,7 @@
         "to user input (e.g., normal, focused, and pressed) or system events. These elevation "
         "changes are consistently implemented using dynamic elevation offsets.\n"
         "Dynamic elevation offsets are the goal elevation that a component moves towards, relative "
-        "to the component’s resting state. They ensure that elevation changes are consistent "
+        "to the component’s resting state_pos. They ensure that elevation changes are consistent "
         "across actions and component types. For example, all components that lift on press have "
         "the same elevation change relative to their resting elevation.\n"
         "Once the input event is completed or cancelled, the component will return to its resting "
@@ -291,9 +291,9 @@
     <string name="title">Select Title <font fgcolor="-#00017F96">*</font> </string>
     <string name="type">Select ID Type <font fgcolor="-#00017F96">*</font> </string>
     <string name="nationality">Select Nationality <font fgcolor="-#00017F96">*</font> </string>
-    <string name="country">Select Country <font fgcolor="-#00017F96">*</font> </string>
-    <string name="state">Select State <font fgcolor="-#00017F96">*</font> </string>
-    <string name="reg_state">Select Registration State <font fgcolor="-#00017F96">*</font> </string>
+    <string name="country_pos">Select Country <font fgcolor="-#00017F96">*</font> </string>
+    <string name="state_pos">Select State <font fgcolor="-#00017F96">*</font> </string>
+    <string name="reg_branch_pos">Select Registration Branch <font fgcolor="-#00017F96">*</font> </string>
     <string name="degree">Select Degree <font fgcolor="-#00017F96">*</font> </string>
     <string name="uni">Select University Name <font fgcolor="-#00017F96">*</font> </string>
     <string name="uni_malaysia">Select University <font fgcolor="-#00017F96">*</font> </string>
@@ -315,6 +315,7 @@
     <string name="error_image_mmc">Please Upload MMC Certificate.</string>
     <string name="error_emp_status">Please Select Employment Status.</string>
     <string name="reg_hint_mobile">Mobile Number</string>
+    <string name="pick_image_intent_text">Choose Image</string>
 
     <string-array name="id_type">
         <item>NRIC</item>
@@ -399,7 +400,6 @@
     </string-array>
 
     <string-array name="id_nationality">
-        <item>MALAYSIA</item>
         <item>AFRICA</item>
         <item>AUSTRALIA</item>
         <item>BRUNEI DARUSSALAM</item>
@@ -412,6 +412,7 @@
         <item>IRELAND</item>
         <item>ITALY</item>
         <item>JAPAN</item>
+        <item>MALAYSIA</item>
         <item>MYANMAR</item>
         <item>NETHERLANDS</item>
         <item>NEW ZEALAND</item>

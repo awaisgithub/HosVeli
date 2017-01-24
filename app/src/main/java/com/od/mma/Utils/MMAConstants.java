@@ -7,6 +7,22 @@ package com.od.mma.Utils;
 final public class MMAConstants {
 
     public static final String TAG_MMA = "MMA";
+    public static final String app_id = "mmaMembership";
+    public static final String USER_TABLE = "app_fd_mma_applicant";
+    public static final String ApplicantTable =  "app_fd_mma_applicant";
+    public static final String method_create_user = "createUser";
+    public static final String method_login_user = "loginUser";
+    public static final String method_forget_pass = "forgetPassword";
+    public static final String method_read_SQL = "readSQLResultSet";
+    public static final String action_list = "list";
+
+    public static final String list_titles = "titlesList";
+    public static final String list_university = "universityList";
+    public static final String list_basic_degree = "mma_applicant_deg_ug";
+    public static final String list_states = "mma_applicant_states";
+    public static final String list_post_degree = "mma_applicant_pg_deg";
+    public static final String list_countries = "mma_applicant_countries";
+
 
 
 

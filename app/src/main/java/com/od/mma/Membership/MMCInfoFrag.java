@@ -20,6 +20,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +32,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,17 +46,31 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.od.mma.API.Api;
+import com.od.mma.BOs.User;
+import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.R;
 import com.od.mma.Utils.MMAConstants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import io.realm.Realm;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 29/12/2016.
@@ -65,7 +81,7 @@ public class MMCInfoFrag extends Fragment {
     private static int ATTACH_IMAGE = 2;
     Button next, back;
     TextView image_title;
-//    TextView title;
+    //    TextView title;
     Spinner id_uni;
     Calendar myCalendar;
     EditText mmc_reg_no;
@@ -78,6 +94,9 @@ public class MMCInfoFrag extends Fragment {
     private View rootView;
     private ImageView mmc_certificate;
     private File imageFile;
+    Membership membership;
+    boolean spinnerUniFromServer = false;
+    String pic_url = "";
 
     public static MMCInfoFrag newInstance(String text) {
         MMCInfoFrag f = new MMCInfoFrag();
@@ -133,6 +152,43 @@ public class MMCInfoFrag extends Fragment {
         return rootView;
     }
 
+    private void populateUniSpinnerFromServer() {
+        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_university), new ServerReadCallBack() {
+            @Override
+            public void success(JSONArray response) {
+                List<String> title_list = new ArrayList<String>();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        title_list.add(response.getJSONObject(i).optString("c_universityname"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                String[] titleArray = new String[title_list.size()];
+                titleArray = title_list.toArray(titleArray);
+                ArrayAdapter<String> server = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, titleArray);
+                server.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                id_uni.setAdapter(
+                        new NoneSelectSpinnerAdapter(server, R.layout.spinner_hint_frag11,
+                                getActivity()));
+                int spinnerPosition;
+                spinnerPosition = server.getPosition(membership.getStudentMemberUniversity());
+                id_uni.setSelection(spinnerPosition + 1);
+
+                spinnerUniFromServer = true;
+            }
+
+            @Override
+            public void failure(String response) {
+                spinnerUniFromServer = false;
+                if (response.contains(""))
+                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                else
+                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+            }
+        });
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -140,9 +196,11 @@ public class MMCInfoFrag extends Fragment {
     }
 
     private void initView() {
+        spinnerUniFromServer = false;
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
         image_title = (TextView) rootView.findViewById(R.id.user_profile_name2);
         mmc_tpc_reg_no = (EditText) rootView.findViewById(R.id.tpc_regno);
-     //   title = (TextView) rootView.findViewById(R.id.title);
+        //   title = (TextView) rootView.findViewById(R.id.title);
         id_uni = (Spinner) rootView.findViewById(R.id.id_uni);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.id_uni, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -187,15 +245,17 @@ public class MMCInfoFrag extends Fragment {
             }
         });
 
-        if (PagerViewPager.membership.getMain_category().equals("Student")) {
-          //  title.setText("University Info");
+        Log.i(MMAConstants.TAG_MMA, "category = " + membership.getMain_category());
+        if (membership.getMembershipCategory().equalsIgnoreCase("Student")) {
+            populateUniSpinnerFromServer();
+            //  title.setText("University Info");
             id_uni.setVisibility(View.VISIBLE);
             mmc_reg_no.setVisibility(View.GONE);
             mmc_tpc_reg_no.setVisibility(View.GONE);
             date_pik.setHint("Year of Degree Completion");
             image_title.setText("Letter from University OR Student Card");
         } else {
-         //   title.setText("MMC Registration Info");
+            //   title.setText("MMC Registration Info");
             id_uni.setVisibility(View.GONE);
             mmc_reg_no.setVisibility(View.VISIBLE);
             mmc_tpc_reg_no.setVisibility(View.VISIBLE);
@@ -203,26 +263,50 @@ public class MMCInfoFrag extends Fragment {
             image_title.setText("Upload MMC Certificate");
         }
 
+        if (!membership.isLoadFromServer() && membership.getMembershipCategory().equalsIgnoreCase("Student")) {
+            if (membership.getUni_no() != -1) {
+                id_uni.setSelection(membership.getUni_no());
+            }
+        }
+        if (!(membership.getApplicantMMCRegistrationNo() == null)) {
+            mmc_reg_no.setText(membership.getApplicantMMCRegistrationNo());
+        }
+        if (!(membership.getTpcRegistrationNo() == null)) {
+            mmc_tpc_reg_no.setText(membership.getTpcRegistrationNo());
+        }
+        if (!(membership.getDateOfRegistrationMMC() == null)) {
+            date_pik.setText(membership.getDateOfRegistrationMMC());
+        }
+        if (!membership.isLoadFromServer()) {
 
-        if (PagerViewPager.membership.getUni_no() != -1) {
-            id_uni.setSelection(PagerViewPager.membership.getUni_no());
-        }
-        if (!(PagerViewPager.membership.getMmc_reg_no() == null)) {
-            mmc_reg_no.setText(PagerViewPager.membership.getMmc_reg_no());
-        }
-        if (!(PagerViewPager.membership.getMmc_tpc_reg_no() == null)) {
-            mmc_reg_no.setText(PagerViewPager.membership.getMmc_tpc_reg_no());
-        }
-        if (!(PagerViewPager.membership.getMmc_dob() == null)) {
-            date_pik.setText(PagerViewPager.membership.getMmc_dob());
-        }
-        if (!(PagerViewPager.membership.getMmc_certificate() == null || PagerViewPager.membership.getMmc_certificate().length == 0)) {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(PagerViewPager.membership.getMmc_certificate(), 0, PagerViewPager.membership.getMmc_certificate().length);
-            mmc_certificate.setImageBitmap(getRoundCornerBitmap(bitmap, 40));
-        }
+            if (image_title.getText().toString().equalsIgnoreCase("Upload MMC Certificate")) {
+                if (!(membership.getMmc_certificate() == null || membership.getMmc_certificate().length == 0)) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(membership.getMmc_certificate(), 0, membership.getMmc_certificate().length);
+                    mmc_certificate.setImageBitmap(getRoundCornerBitmap(bitmap, 40));
+                }
+            } else {
+                pic_url = membership.getApplicantMMCRegistrationCopy();
+                if (pic_url.equalsIgnoreCase("") || pic_url.isEmpty())
+                    pic_url = membership.getStudentMemberUniversityLetter();
+                new GenerateImage().execute();
+            }
+            if(image_title.getText().toString().equalsIgnoreCase("Letter from University OR Student Card")) {
+                if(!(membership.getUni_student_card() == null || membership.getUni_student_card().length == 0)) {
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(membership.getUni_student_card(), 0, membership.getUni_student_card().length);
+                    mmc_certificate.setImageBitmap(getRoundCornerBitmap(bitmap, 40));
+                }
+            }
+            else {
+                pic_url = membership.getApplicantMMCRegistrationCopy();
+                if (pic_url.equalsIgnoreCase("") || pic_url.isEmpty())
+                    pic_url = membership.getStudentMemberUniversityLetter();
+                new GenerateImage().execute();
+            }
+            }
 
 
-        if (PagerViewPager.membership.isValidation()) {
+
+        if (membership.isValidation()) {
             loadItems();
         }
 
@@ -232,15 +316,46 @@ public class MMCInfoFrag extends Fragment {
 
     }
 
+    class GenerateImage extends AsyncTask<String, Integer, Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            try {
+                URL url = new URL(pic_url);
+                pic_url = "";
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmapp) {
+            super.onPostExecute(bitmapp);
+            if (bitmapp != null) {
+                mmc_certificate.setImageBitmap(getRoundCornerBitmap(bitmapp, 40));
+            }
+        }
+    }
+
     private void listeners() {
         id_uni.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, final long id) {
                 if (position > 0) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setUni_no(id_uni.getSelectedItemPosition());
+                            membership.setUni_no(id_uni.getSelectedItemPosition());
+                            membership.setStudentMemberUniversity(id_uni.getSelectedItem().toString());
                         }
                     });
                 }
@@ -260,10 +375,10 @@ public class MMCInfoFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setMmc_reg_no(s.toString());
+                        membership.setApplicantMMCRegistrationNo(s.toString());
                     }
                 });
             }
@@ -282,10 +397,10 @@ public class MMCInfoFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setMmc_tpc_reg_no(s.toString());
+                        membership.setTpcRegistrationNo(s.toString());
                     }
                 });
             }
@@ -305,10 +420,10 @@ public class MMCInfoFrag extends Fragment {
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
                 if (!(s.toString().equals("") || s.toString().isEmpty())) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setMmc_dob(s.toString());
+                            membership.setDateOfRegistrationMMC(s.toString());
                         }
                     });
                     date_pik.setError(null);
@@ -357,27 +472,27 @@ public class MMCInfoFrag extends Fragment {
     }
 
     public void validation() {
-        if (PagerViewPager.membership.getMain_category().equals("Student")) {
+        if (membership.getMain_category().equals("Student")) {
             if (id_uni.getSelectedItemPosition() > 0) {
                 error = true;
             } else {
                 error = false;
-                if (PagerViewPager.membership.getValidation_pos() == -1) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                if (membership.getValidation_pos() == -1) {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                            membership.setValidation_pos(PagerViewPager.getPos());
                         }
                     });
                 }
             }
-            if (PagerViewPager.membership.getMmc_dob().trim().equalsIgnoreCase("")) {
+            if (membership.getDateOfRegistrationMMC().trim().equalsIgnoreCase("")) {
                 error1 = false;
-                if (PagerViewPager.membership.getValidation_pos() == -1) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                if (membership.getValidation_pos() == -1) {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                            membership.setValidation_pos(PagerViewPager.getPos());
                         }
                     });
                 }
@@ -388,11 +503,11 @@ public class MMCInfoFrag extends Fragment {
         } else { //MMC
             if (mmc_reg_no.getText().toString().trim().equalsIgnoreCase("")) {
                 error = false;
-                if (PagerViewPager.membership.getValidation_pos() == -1) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                if (membership.getValidation_pos() == -1) {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                            membership.setValidation_pos(PagerViewPager.getPos());
                         }
                     });
                 }
@@ -400,13 +515,13 @@ public class MMCInfoFrag extends Fragment {
                 error = true;
                 mmc_reg_no.setError(null);
             }
-            if (mmc_tpc_reg_no.getText().toString().trim().equalsIgnoreCase("")) {
+            if (membership.getTpcRegistrationNo().equals("")) {
                 error = false;
-                if (PagerViewPager.membership.getValidation_pos() == -1) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                if (membership.getValidation_pos() == -1) {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                            membership.setValidation_pos(PagerViewPager.getPos());
                         }
                     });
                 }
@@ -414,13 +529,13 @@ public class MMCInfoFrag extends Fragment {
                 error = true;
                 mmc_tpc_reg_no.setError(null);
             }
-            if (PagerViewPager.membership.getMmc_dob().trim().equalsIgnoreCase("")) {
+            if (membership.getDateOfRegistrationMMC().trim().equalsIgnoreCase("")) {
                 error1 = false;
-                if (PagerViewPager.membership.getValidation_pos() == -1) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                if (membership.getValidation_pos() == -1) {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                            membership.setValidation_pos(PagerViewPager.getPos());
                         }
                     });
                 }
@@ -432,21 +547,21 @@ public class MMCInfoFrag extends Fragment {
     }
 
     private void loadItems() {
-        if (PagerViewPager.membership.getMain_category().equals("Student")) {
+        if (membership.getMain_category().equals("Student")) {
             if (id_uni.getSelectedItemPosition() > 0) {
                 error = true;
             } else {
                 error = false;
                 showActionSnackBarMessage(getString(R.string.error_id_type));
             }
-            if (PagerViewPager.membership.getMmc_dob().trim().equalsIgnoreCase("")) {
+            if (membership.getDateOfRegistrationMMC().trim().equalsIgnoreCase("")) {
                 error1 = false;
                 date_pik.setError("Enter Date Of Registration");
             } else {
                 error1 = true;
                 date_pik.setError(null);
             }
-            if (PagerViewPager.membership.getMmc_certificate() == null || PagerViewPager.membership.getMmc_certificate().length == 0) {
+            if (membership.getMmc_certificate() == null || membership.getMmc_certificate().length == 0) {
                 error2 = false;
                 showActionSnackBarMessage(getString(R.string.error_image_mmc));
             } else {
@@ -460,21 +575,21 @@ public class MMCInfoFrag extends Fragment {
                 error = true;
                 mmc_reg_no.setError(null);
             }
-            if (mmc_tpc_reg_no.getText().toString().trim().equalsIgnoreCase("")) {
+            if (membership.getTpcRegistrationNo().trim().equalsIgnoreCase("")) {
                 error = false;
                 mmc_tpc_reg_no.setError("Enter MMC TPC Registration No.");
             } else {
                 error = true;
                 mmc_tpc_reg_no.setError(null);
             }
-            if (PagerViewPager.membership.getMmc_dob().trim().equalsIgnoreCase("")) {
+            if (membership.getDateOfRegistrationMMC().trim().equalsIgnoreCase("")) {
                 error1 = false;
                 date_pik.setError("Enter Date Of Registration");
             } else {
                 error1 = true;
                 date_pik.setError(null);
             }
-            if (PagerViewPager.membership.getMmc_certificate() == null || PagerViewPager.membership.getMmc_certificate().length == 0) {
+            if (membership.getMmc_certificate() == null || membership.getMmc_certificate().length == 0) {
                 error2 = false;
                 showActionSnackBarMessage(getString(R.string.error_image_mmc));
             } else {
@@ -590,10 +705,16 @@ public class MMCInfoFrag extends Fragment {
                     final byte[] imageByteArray = stream.toByteArray();
                     //NFCInfoBO.INSTANCE.receiptOS = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
 
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setMmc_certificate(imageByteArray);
+                            if (image_title.getText().toString().equalsIgnoreCase("Upload MMC Certificate")) {
+                                membership.setMmc_certificate(imageByteArray);
+                                membership.setApplicantMMCRegistrationCopy(Base64.encodeToString(imageByteArray, Base64.NO_WRAP));
+                            } else {
+                                membership.setUni_student_card(imageByteArray);
+                                membership.setStudentMemberUniversityLetter(Base64.encodeToString(imageByteArray, Base64.NO_WRAP));
+                            }
                         }
                     });
                     mmc_certificate.setImageBitmap(getRoundCornerBitmap(bitmap, 40));
@@ -610,10 +731,16 @@ public class MMCInfoFrag extends Fragment {
                     final byte[] imageByteArray = stream.toByteArray();
                     // NFCInfoBO.INSTANCE.receiptOS = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
 
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setMmc_certificate(imageByteArray);
+                            if (image_title.getText().toString().equalsIgnoreCase("Upload MMC Certificate")) {
+                                membership.setMmc_certificate(imageByteArray);
+                                membership.setApplicantMMCRegistrationCopy(Base64.encodeToString(imageByteArray, Base64.NO_WRAP));
+                            } else {
+                                membership.setUni_student_card(imageByteArray);
+                                membership.setStudentMemberUniversityLetter(Base64.encodeToString(imageByteArray, Base64.NO_WRAP));
+                            }
                         }
                     });
                     mmc_certificate.setImageBitmap(getRoundCornerBitmap(bitmap, 40));

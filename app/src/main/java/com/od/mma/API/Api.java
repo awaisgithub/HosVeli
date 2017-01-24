@@ -28,13 +28,13 @@ public class Api {
         String signUpUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?";
         signUpUrl = signUpUrl + "id=" + signup_user.getEmail();
         signUpUrl = signUpUrl + "&username=" + signup_user.getEmail();
-        signUpUrl = signUpUrl + "&password=" + signup_user.getPassword();
+        signUpUrl = signUpUrl + "&password=" + signup_user.getApplicantPassword();
         signUpUrl = signUpUrl + "&firstName=" + signup_user.getFname();
         signUpUrl = signUpUrl + "&lastName=" + signup_user.getLname();
         signUpUrl = signUpUrl + "&email=" + signup_user.getEmail();
         signUpUrl = signUpUrl + "&gcmId=" + "1";
         signUpUrl = signUpUrl + "&deviceType=" + device_type;
-        signUpUrl = signUpUrl + "&method=createUser";
+        signUpUrl = signUpUrl + "&method=" + MMAConstants.method_create_user;
         return signUpUrl;
     }
 
@@ -42,19 +42,64 @@ public class Api {
         String loginUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?";
         loginUrl = loginUrl + "&username=" + email;
         loginUrl = loginUrl + "&password=" + password;
-        loginUrl = loginUrl + "&method=loginUser";
+        loginUrl = loginUrl + "&method=" + MMAConstants.method_login_user;
         return loginUrl;
     }
 
     public static String urlForgotPassword(String email) {
-        String loginUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?";
-        loginUrl = loginUrl + "&email=" + email;
-        loginUrl = loginUrl + "&method=forgetPassword";
-        return loginUrl;
+        String forgotUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?";
+        forgotUrl = forgotUrl + "&email=" + email;
+        forgotUrl = forgotUrl + "&method=" + MMAConstants.method_forget_pass;
+        return forgotUrl;
     }
 
+    public static String urlMembershipUpdate() {
+        String membershipUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?method=cud";
+        return membershipUrl;
+    }
 
+    public static String urlReadApplicant(String email) {
+        String readUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?";
+        readUrl = readUrl + "table=" + MMAConstants.ApplicantTable;
+        readUrl = readUrl + "&filterColumn=id" + "&filterValue=" + email;
+        readUrl = readUrl + "&method=" + MMAConstants.method_read_SQL;
+        return readUrl;
+    }
+
+    public static String urlDataListData(String listId) {
+        String datalistUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?";
+        datalistUrl = datalistUrl + "listId=" + listId;
+        datalistUrl = datalistUrl + "&action=" + MMAConstants.action_list;
+        datalistUrl = datalistUrl + "&appId=" + MMAConstants.app_id;
+        datalistUrl = datalistUrl + "&filter1Column=&filter1Value=&method=listDataList";
+        return datalistUrl;
+    }
+
+    public static String urlApplicantData(String email) {
+        String datalistUrl = "http://" + MMABaseUrl + "/jw/web/json/plugin/org.joget.mmaWebServices.webservices/service?";
+        datalistUrl = datalistUrl + "listId=" + "pi";
+        datalistUrl = datalistUrl + "&action=" + MMAConstants.action_list;
+        datalistUrl = datalistUrl + "&appId=" + MMAConstants.app_id;
+        datalistUrl = datalistUrl + "&filter1Column=id" + "&filter1Value=" + email;
+        datalistUrl = datalistUrl + "&method=listDataList";
+        datalistUrl = datalistUrl + "&imageUrl=" + "Yes";
+        return datalistUrl;
+    }
     //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     //METHODS

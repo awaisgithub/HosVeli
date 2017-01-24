@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +21,24 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.od.mma.API.Api;
+import com.od.mma.BOs.User;
+import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.R;
+import com.od.mma.Utils.MMAConstants;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import io.realm.Realm;
+
+import static com.od.mma.MMAApplication.realm;
 
 /**
  * Created by awais on 02/01/2017.
@@ -46,6 +58,10 @@ public class BachelorDegreeFrag extends Fragment {
     boolean error3 = false;
     FragInterface mem_interface;
     private View rootView;
+    boolean spinnerDegreeFromServer = false;
+    boolean spinnerUniFromServer = false;
+    boolean spinnerCountryFromServer = false;
+    Membership membership;
 
     public static BachelorDegreeFrag newInstance(String text) {
 
@@ -56,6 +72,117 @@ public class BachelorDegreeFrag extends Fragment {
         f.setArguments(b);
 
         return f;
+    }
+
+    private void populateDegreeSpinnerFromServer() {
+        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_basic_degree), new ServerReadCallBack() {
+            @Override
+            public void success(JSONArray response) {
+                List<String> title_list = new ArrayList<String>();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        title_list.add(response.getJSONObject(i).optString("description"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                String[] titleArray = new String[title_list.size()];
+                titleArray = title_list.toArray(titleArray);
+                ArrayAdapter<String> server = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, titleArray);
+                server.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                degree.setAdapter(
+                        new NoneSelectSpinnerAdapter(server, R.layout.spinner_hint_frag8_1,
+                                getActivity()));
+                if (membership.getBachelor_degree() != -1) {
+                    degree.setSelection(membership.getBachelor_degree());
+                }
+                spinnerDegreeFromServer = true;
+            }
+
+            @Override
+            public void failure(String response) {
+                spinnerDegreeFromServer = false;
+                if (response.contains(""))
+                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                else
+                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+            }
+        });
+    }
+
+    private void populateUniSpinnerFromServer() {
+        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_university), new ServerReadCallBack() {
+            @Override
+            public void success(JSONArray response) {
+                List<String> title_list = new ArrayList<String>();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        title_list.add(response.getJSONObject(i).optString("c_universityname"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                String[] titleArray = new String[title_list.size()];
+                titleArray = title_list.toArray(titleArray);
+                ArrayAdapter<String> server = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, titleArray);
+                server.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                uni.setAdapter(
+                        new NoneSelectSpinnerAdapter(server, R.layout.spinner_hint_frag8_3,
+                                getActivity()));
+                if (!(membership.getBachelor_uni() == null)) {
+                    uni_name.setText(membership.getBachelor_uni());
+                }
+                if (membership.getBachelor_uni_malay() != -1) {
+                    uni.setSelection(membership.getBachelor_uni_malay());
+                }
+                spinnerUniFromServer = true;
+            }
+
+            @Override
+            public void failure(String response) {
+                spinnerUniFromServer = false;
+                if (response.contains(""))
+                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                else
+                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+            }
+        });
+    }
+
+    private void populateCountrySpinnerFromServer() {
+        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_countries), new ServerReadCallBack() {
+            @Override
+            public void success(JSONArray response) {
+                List<String> title_list = new ArrayList<String>();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        title_list.add(response.getJSONObject(i).optString("name"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                String[] titleArray = new String[title_list.size()];
+                titleArray = title_list.toArray(titleArray);
+                ArrayAdapter<String> server = new ArrayAdapter<String>(getActivity(), R.layout.spinner_item, titleArray);
+                server.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                country.setAdapter(
+                        new NoneSelectSpinnerAdapter(server, R.layout.spinner_hint_frag5_1,
+                                getActivity()));
+                if (membership.getBachelor_country() != -1) {
+                    country.setSelection(membership.getBachelor_country());
+                }
+                spinnerCountryFromServer = true;
+            }
+
+            @Override
+            public void failure(String response) {
+                spinnerCountryFromServer = false;
+                if (response.contains(""))
+                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                else
+                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+            }
+        });
     }
 
     @Nullable
@@ -74,7 +201,14 @@ public class BachelorDegreeFrag extends Fragment {
     }
 
     private void initView() {
+        membership = Membership.getCurrentRegistration(realm, User.getCurrentUser(realm).getId());
+        spinnerDegreeFromServer = false;
+        spinnerUniFromServer = false;
+        spinnerCountryFromServer = false;
         uni_name = (EditText) rootView.findViewById(R.id.name);
+        degree = (Spinner) rootView.findViewById(R.id.id_bach);
+        country = (Spinner) rootView.findViewById(R.id.id_uni);
+        uni = (Spinner) rootView.findViewById(R.id.id_uni_malaysia);
         date_pik = (EditText) rootView.findViewById(R.id.date_qualify);
         myCalendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -100,61 +234,66 @@ public class BachelorDegreeFrag extends Fragment {
             }
         });
 
-        degree = (Spinner) rootView.findViewById(R.id.id_bach);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.id_bachelor, R.layout.spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        degree.setPrompt("Select Employment Status");
-        degree.setAdapter(
-                new NoneSelectSpinnerAdapter(adapter, R.layout.spinner_hint_frag8_1,
-                        getActivity()));
+        populateDegreeSpinnerFromServer();
+        if (!spinnerDegreeFromServer) {
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.id_bachelor, R.layout.spinner_item);
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            degree.setPrompt("Select Employment Status");
+            degree.setAdapter(
+                    new NoneSelectSpinnerAdapter(adapter, R.layout.spinner_hint_frag8_1,
+                            getActivity()));
+        }
+
+        populateUniSpinnerFromServer();
+        if (!spinnerUniFromServer) {
+            ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.id_bachelor, R.layout.spinner_item);
+            adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            uni.setPrompt("Select Employment Status");
+            uni.setAdapter(
+                    new NoneSelectSpinnerAdapter(adapter2, R.layout.spinner_hint_frag8_3,
+                            getActivity()));
+        }
+
+        populateCountrySpinnerFromServer();
+        if (!spinnerCountryFromServer) {
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity(), R.array.id_nationality, R.layout.spinner_item);
+            adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            country.setPrompt("Select Country");
+            country.setAdapter(
+                    new NoneSelectSpinnerAdapter(adapter1, R.layout.spinner_hint_frag8_2,// R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+                            getActivity()));
+        }
 
 
-        uni = (Spinner) rootView.findViewById(R.id.id_uni_malaysia);                                  //change array here
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity(), R.array.id_bachelor, R.layout.spinner_item);
-        adapter2.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        uni.setPrompt("Select Employment Status");
-        uni.setAdapter(
-                new NoneSelectSpinnerAdapter(adapter2, R.layout.spinner_hint_frag8_3,
-                        getActivity()));
-
-
-        country = (Spinner) rootView.findViewById(R.id.id_uni);
-        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity(), R.array.id_nationality, R.layout.spinner_item);
-        adapter1.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        country.setPrompt("Select Country");
-        country.setAdapter(
-                new NoneSelectSpinnerAdapter(adapter1, R.layout.spinner_hint_frag8_2,// R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        getActivity()));
-
-
-        if (PagerViewPager.membership.getBachelor_country() == -1) {
-            country.setSelection(1);
-            PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+        if (membership.getBachelor_country() == -1) {
+            country.setSelection(13);
+            realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    PagerViewPager.membership.setBachelor_country(country.getSelectedItemPosition());
+                    membership.setBachelor_country(country.getSelectedItemPosition());
+                    membership.setDegree_bachelor_country(country.getSelectedItem().toString());
                 }
             });
         }
 
-        if (PagerViewPager.membership.getBachelor_degree() != -1) {
-            degree.setSelection(PagerViewPager.membership.getBachelor_degree());
+        if (membership.getBachelor_degree() != -1) {
+            degree.setSelection(membership.getBachelor_degree());
         }
-        if (!(PagerViewPager.membership.getBachelor_uni() == null)) {
-            uni_name.setText(PagerViewPager.membership.getBachelor_uni());
+        if (!(membership.getBachelor_uni() == null)) {
+            uni_name.setText(membership.getBachelor_uni());
         }
-        if (PagerViewPager.membership.getBachelor_country() != -1) {
-            country.setSelection(PagerViewPager.membership.getBachelor_country());
+        if (membership.getBachelor_country() != -1) {
+            country.setSelection(membership.getBachelor_country());
         }
-        if (!(PagerViewPager.membership.getBachelor_qualification_date() == null)) {
-            date_pik.setText(PagerViewPager.membership.getBachelor_qualification_date());
+        if (!(membership.getBachelor_qualification_date() == null)) {
+            date_pik.setText(membership.getBachelor_qualification_date());
         }
-        if (PagerViewPager.membership.getBachelor_uni_malay() != -1) {
-            uni.setSelection(PagerViewPager.membership.getBachelor_uni_malay());
+        if (membership.getBachelor_uni_malay() != -1) {
+            uni.setSelection(membership.getBachelor_uni_malay());
         }
 
 
-        if (PagerViewPager.membership.isValidation()) {
+        if (membership.isValidation()) {
             loadItems();
         }
 
@@ -169,10 +308,11 @@ public class BachelorDegreeFrag extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setBachelor_degree(degree.getSelectedItemPosition());
+                            membership.setBachelor_degree(degree.getSelectedItemPosition());
+                            membership.setDegree_bachelor(degree.getSelectedItem().toString());
                         }
                     });
                 }
@@ -188,10 +328,11 @@ public class BachelorDegreeFrag extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position > 0) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setBachelor_uni_malay(uni.getSelectedItemPosition());
+                            membership.setBachelor_uni_malay(uni.getSelectedItemPosition());
+                            membership.setBachelor_uni(uni.getSelectedItem().toString());
                         }
                     });
                 }
@@ -210,21 +351,22 @@ public class BachelorDegreeFrag extends Fragment {
                     if (position == 1 || country.getSelectedItem().toString().equals("MALAYSIA")) {
                         uni.setVisibility(View.VISIBLE);
                         uni_name.setVisibility(View.GONE);
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setBachelor_country(country.getSelectedItemPosition());
-                                PagerViewPager.membership.setBachelor_uni("");
+                                membership.setBachelor_country(country.getSelectedItemPosition());
+                                membership.setDegree_bachelor_country(country.getSelectedItem().toString());
                             }
                         });
                     } else {
                         uni_name.setVisibility(View.VISIBLE);
                         uni.setVisibility(View.GONE);
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setBachelor_country(country.getSelectedItemPosition());
-                                PagerViewPager.membership.setBachelor_uni_malay(-1);
+                                membership.setBachelor_country(country.getSelectedItemPosition());
+                                membership.setDegree_bachelor_country(country.getSelectedItem().toString());
+                                membership.setBachelor_uni_malay(-1);
                             }
                         });
                     }
@@ -245,10 +387,10 @@ public class BachelorDegreeFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        PagerViewPager.membership.setBachelor_uni(s.toString());
+                        membership.setBachelor_uni(s.toString());
                     }
                 });
             }
@@ -267,23 +409,23 @@ public class BachelorDegreeFrag extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence s, int start, int before, int count) {
-                if (PagerViewPager.membership.getMain_category().equals("Student")) {
+                if (membership.getMain_category().equals("Student")) {
                     if (s.toString().equals("") || s.toString().isEmpty())
                         date_pik.setError("Enter Qualification Date");
                     else {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setBachelor_qualification_date(s.toString());
+                                membership.setBachelor_qualification_date(s.toString());
                             }
                         });
                         date_pik.setError(null);
                     }
                 } else {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setBachelor_qualification_date(s.toString());
+                            membership.setBachelor_qualification_date(s.toString());
                         }
                     });
                 }
@@ -325,17 +467,17 @@ public class BachelorDegreeFrag extends Fragment {
     }
 
     public void validation() {
-        if (PagerViewPager.membership.getMain_category().equals("Student")) {
+        if (membership.getMain_category().equals("Student")) {
 
             if (country.getSelectedItemPosition() > 0) {
                 error2 = true;
             } else {
                 error2 = false;
-                if (PagerViewPager.membership.getValidation_pos() == -1) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                if (membership.getValidation_pos() == -1) {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                            membership.setValidation_pos(PagerViewPager.getPos());
                         }
                     });
                 }
@@ -346,11 +488,11 @@ public class BachelorDegreeFrag extends Fragment {
                     error = true;
                 } else {
                     error = false;
-                    if (PagerViewPager.membership.getValidation_pos() == -1) {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    if (membership.getValidation_pos() == -1) {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                                membership.setValidation_pos(PagerViewPager.getPos());
                             }
                         });
                     }
@@ -358,11 +500,11 @@ public class BachelorDegreeFrag extends Fragment {
             } else if (country.getSelectedItemPosition() > 1) {
                 if (uni_name.getText().toString().trim().equalsIgnoreCase("")) {
                     error1 = false;
-                    if (PagerViewPager.membership.getValidation_pos() == -1) {
-                        PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                    if (membership.getValidation_pos() == -1) {
+                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
                             public void execute(Realm realm) {
-                                PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                                membership.setValidation_pos(PagerViewPager.getPos());
                             }
                         });
                     }
@@ -377,24 +519,24 @@ public class BachelorDegreeFrag extends Fragment {
                 error = true;
             } else {
                 error = false;
-                if (PagerViewPager.membership.getValidation_pos() == -1) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                if (membership.getValidation_pos() == -1) {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                            membership.setValidation_pos(PagerViewPager.getPos());
                         }
                     });
                 }
             }
 
 
-            if (PagerViewPager.membership.getBachelor_qualification_date().trim().equalsIgnoreCase("")) {
+            if (membership.getBachelor_qualification_date().trim().equalsIgnoreCase("")) {
                 error3 = false;
-                if (PagerViewPager.membership.getValidation_pos() == -1) {
-                    PagerViewPager.realm.executeTransaction(new Realm.Transaction() {
+                if (membership.getValidation_pos() == -1) {
+                    realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            PagerViewPager.membership.setValidation_pos(PagerViewPager.getPos());
+                            membership.setValidation_pos(PagerViewPager.getPos());
                         }
                     });
                 }
@@ -408,7 +550,7 @@ public class BachelorDegreeFrag extends Fragment {
     }
 
     private void loadItems() {
-        if (PagerViewPager.membership.getMain_category().equals("Student")) {
+        if (membership.getMain_category().equals("Student")) {
 
             if (degree.getSelectedItemPosition() > 0) {
                 error = true;
@@ -418,7 +560,7 @@ public class BachelorDegreeFrag extends Fragment {
             }
 
 
-            if (!(PagerViewPager.membership.getBachelor_uni().equals("") || PagerViewPager.membership.getBachelor_uni().isEmpty())) {
+            if (!(membership.getBachelor_uni().equals("") || membership.getBachelor_uni().isEmpty())) {
                 if (uni_name.getText().toString().trim().equalsIgnoreCase("")) {
                     error1 = false;
                     uni_name.setError("Enter University");
@@ -426,7 +568,7 @@ public class BachelorDegreeFrag extends Fragment {
                     error1 = true;
                     uni_name.setError(null);
                 }
-            } else if (PagerViewPager.membership.getBachelor_uni_malay() != -1) {
+            } else if (membership.getBachelor_uni_malay() != -1) {
                 if (uni.getSelectedItemPosition() > 0) {
                     error = true;
                 } else {
@@ -442,7 +584,7 @@ public class BachelorDegreeFrag extends Fragment {
                 error2 = false;
                 showActionSnackBarMessage(getString(R.string.error_country));
             }
-            if (PagerViewPager.membership.getBachelor_qualification_date().trim().equalsIgnoreCase("")) {
+            if (membership.getBachelor_qualification_date().trim().equalsIgnoreCase("")) {
                 error3 = false;
                 date_pik.setError("Enter Qualification Date");
             } else {

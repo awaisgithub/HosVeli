@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.od.mma.CallBack.CheckCallBack;
 import com.od.mma.CallBack.LoginCallBack;
+import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.CallBack.StatusCallBack;
 import com.od.mma.MMAApplication;
 import com.od.mma.Membership.Membership;
@@ -22,6 +23,7 @@ import com.od.mma.Utils.MMAConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -42,14 +44,12 @@ public class User extends RealmObject {
     private String fname;
     private String lname;
     private String email;
-    private String password;
+    private String applicantPassword;
     private String confirmPassword;
     private String gcm_id = " ";
     private boolean isSyncedLocal = false;
     private boolean isTemp = true;
     //
-
-
 
 
     private String age;
@@ -248,12 +248,12 @@ public class User extends RealmObject {
         this.passport = passport;
     }
 
-    public String getPassword() {
-        return password;
+    public String getApplicantPassword() {
+        return applicantPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setApplicantPassword(String applicantPassword) {
+        this.applicantPassword = applicantPassword;
     }
 
     public String getPostcode() {
@@ -342,6 +342,7 @@ public class User extends RealmObject {
 
     //METHODS
 
+
     //MMA
     public Pair<Boolean, String> validate() {
         if (fname == null || fname.isEmpty())
@@ -354,15 +355,16 @@ public class User extends RealmObject {
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(id).matches())
             return new Pair<Boolean, String>(false, MMAApplication.context.getResources().getString(R.string.reg_error_email));
 
-        if (password.isEmpty() || password == null)
+        if (applicantPassword.isEmpty() || applicantPassword == null)
             return new Pair<Boolean, String>(false, MMAApplication.context.getResources().getString(R.string.reg_error_password));
 
-        if (!password.equalsIgnoreCase(confirmPassword)) {
+        if (!applicantPassword.equalsIgnoreCase(confirmPassword)) {
             return new Pair<Boolean, String>(false, MMAApplication.context.getResources().getString(R.string.reg_error_password_not_match));
         }
 
         return new Pair<Boolean, String>(true, "");
     }
+
 
     public static User getCurrentUser(Realm realm) {
         return realm.where(User.class).equalTo("isTemp", false).equalTo("isSyncedLocal", true)
@@ -389,7 +391,7 @@ public class User extends RealmObject {
     }
 
     public static void performLogin(String url, final Activity context, final LoginCallBack callBack) {
-        Log.i(MMAConstants.TAG, "fetchUser ="+url);
+        Log.i(MMAConstants.TAG, "fetchUser =" + url);
 
         JsonObjectRequest login_req = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -412,7 +414,97 @@ public class User extends RealmObject {
         MMAApplication.getInstance().addToRequestQueue(login_req);
     }
 
+    public static void forgotPassword(String url, final Activity context, final StatusCallBack callBack) {
+        Log.i(MMAConstants.TAG, "fetchUser =" + url);
+
+        JsonObjectRequest login_req = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i(MMAConstants.TAG_MMA, "LOGIN response = " + response.toString());
+                callBack.success(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(final VolleyError error) {
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i(MMAConstants.TAG_MMA, "LOGIN response = " + error.toString());
+                        callBack.failure(error.toString());
+                    }
+                });
+            }
+        });
+        MMAApplication.getInstance().addToRequestQueue(login_req);
+    }
+
+    public static void performMembershipUpdation(User user, Membership membership, String url, final StatusCallBack callBack) throws JSONException {
+        Log.i(MMAConstants.TAG, "performUserUpdation=" + url);
+        JSONObject jsonObject = JSONPayloadManager.getInstance().getMembershipPayload(user, membership);
+        JsonObjectRequest userUpdation = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                callBack.success(response);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callBack.failure(error.toString());
+
+            }
+        });
+        MMAApplication.getInstance().addToRequestQueue(userUpdation);
+
+    }
+
+    public static void getApplicantData(String url, final ServerReadCallBack callBack) {
+        Log.i(MMAConstants.TAG, "getApplicantData = " + url);
+        JsonArrayRequest applicantData = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(final JSONArray response) {
+                if (response.toString().contains("id")) {
+                    Log.i(MMAConstants.TAG_MMA, "APPLICANT RESPONSE1 = " + response.toString());
+                    callBack.success(response);
+                } else if (response.toString().contains("[]")) {
+                    Log.i(MMAConstants.TAG_MMA, "APPLICANT RESPONSE1 = No Entry exist for this username");
+                    callBack.failure("No Entry exist for this username");
+                } else if (response.toString().contains("error")) {
+                    Log.i(MMAConstants.TAG_MMA, "APPLICANT RESPONSE = Table doesnot exit");
+                    callBack.failure("Table doesnot exit");
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(MMAConstants.TAG_MMA, "APPLICANT RESPONSE2 = " + error.toString());
+                callBack.failure(error.toString());
+            }
+        });
+        MMAApplication.getInstance().addToRequestQueue(applicantData);
+    }
+
+    public static void getSpinnerList(String url, final ServerReadCallBack callBack) {
+
+        JsonArrayRequest titlesList = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                if (response.toString().length() > 2)
+                    callBack.success(response);
+                else
+                    callBack.failure("empty");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callBack.failure(error.toString());
+            }
+        });
+        MMAApplication.getInstance().addToRequestQueue(titlesList);
+    }
+
     //
+
 
     public RealmResults getUserEvents() {
         return events.where().findAll();
@@ -445,14 +537,13 @@ public class User extends RealmObject {
     }
 
 
-
     public JSONObject getUserData() throws JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", id);
         jsonObject.put("name", name);
         jsonObject.put("contactNumber", contactNumber);
         jsonObject.put("nationality", nationality);
-        jsonObject.put("password", password);
+        jsonObject.put("applicantPassword", applicantPassword);
         jsonObject.put("type", "User");
         return jsonObject;
     }
@@ -463,13 +554,13 @@ public class User extends RealmObject {
     }
 
     public static void fetchUser(final Activity context, final Realm realm, String url, final RealmQuery query, final LoginCallBack callBack) {
-        Log.i(MMAConstants.TAG, "fetchUser ="+url);
+        Log.i(MMAConstants.TAG, "fetchUser =" + url);
         JsonArrayRequest req = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(final JSONArray response) {
                         Log.i(MMAConstants.TAG, response.toString());
-                    //    callBack.fetchDidSucceed(response.toString());
+                        //    callBack.fetchDidSucceed(response.toString());
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -582,31 +673,6 @@ public class User extends RealmObject {
         MMAApplication.getInstance().addToRequestQueue(updateGCMId);
     }
 
-
-    public static void forgotPassword(Activity context, String url, final String Email) {
-        String jStr = "{\"email\":\"" + Email + "\"}";
-        JSONObject object = null;
-        try {
-            object = new JSONObject(jStr);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jr = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Log.i(MMAConstants.TAG, " onResponse = " + response.toString());
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.i(MMAConstants.TAG, " ERRor  Errror ERROR = " + error.toString());
-
-            }
-        });
-        MMAApplication.getInstance().addToRequestQueue(jr);
-    }
 
 }
 

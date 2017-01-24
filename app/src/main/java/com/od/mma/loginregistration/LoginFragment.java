@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +27,8 @@ import com.od.mma.BOs.User;
 import com.od.mma.CallBack.LoginCallBack;
 import com.od.mma.CallBack.StatusCallBack;
 import com.od.mma.MMAApplication;
+import com.od.mma.Membership.Membership;
 import com.od.mma.R;
-import com.od.mma.Utils.MMAConstants;
 import com.od.mma.Utils.Util;
 
 import org.json.JSONException;
@@ -121,28 +120,28 @@ public class LoginFragment extends Fragment {
                 if (TextUtils.isEmpty(username.getText().toString())) {
                     showActionSnackBarMessage(getString(R.string.login_error_username));
                 } else {
-                        User.forgotPassword(Api.urlForgotPassword(username.getText().toString()), getActivity(), new StatusCallBack() {
-                            @Override
-                            public void success(JSONObject response) {
-                                String forgot_status = response.optString("status");
-                                String forgot_error = response.optString("error");
+                    User.forgotPassword(Api.urlForgotPassword(username.getText().toString()), getActivity(), new StatusCallBack() {
+                        @Override
+                        public void success(JSONObject response) {
+                            String forgot_status = response.optString("status");
+                            String forgot_error = response.optString("error");
 
-                                if (forgot_status.contains("SUCCEEDED")) {
-                                    showActionSnackBarMessage("An email with link to reset password has been sent to the above email.");
-                                }
-                                if (forgot_error.contains("Sorry email not found")) {
-                                    showActionSnackBarMessage("No account with that email address exist. Please sign up as a new user.");
-                                } else if (forgot_error.contains("Error sending email")) {
-                                    showActionSnackBarMessage("Error sending email. Please try again.");
-                                }
+                            if (forgot_status.contains("SUCCEEDED")) {
+                                showActionSnackBarMessage("An email with link to reset password has been sent to the above email.");
                             }
-
-                            @Override
-                            public void failure(String response) {
-                                showActionSnackBarMessage(getString(R.string.login_server_error));
-
+                            if (forgot_error.contains("Sorry email not found")) {
+                                showActionSnackBarMessage("No account with that email address exist. Please sign up as a new user.");
+                            } else if (forgot_error.contains("Error sending email")) {
+                                showActionSnackBarMessage("Error sending email. Please try again.");
                             }
-                        });
+                        }
+
+                        @Override
+                        public void failure(String response) {
+                            showActionSnackBarMessage(getString(R.string.login_server_error));
+
+                        }
+                    });
                 }
             }
         });
@@ -204,28 +203,25 @@ public class LoginFragment extends Fragment {
             @Override
             public void fetchDidSucceed(JSONObject response) {
                 User user = realm.where(User.class).equalTo("id", email).findFirst();
-                //  User user1 = realm.where(User.class).equalTo("id", email).findFirst();
-
+                Membership membership = realm.where(Membership.class).equalTo("id", email).findFirst();
                 realm.beginTransaction();
                 String login_status = response.optString("loginStatus");
                 if (login_status.contains("SUCCEEDED")) {
-
-                    if (user != null) {
-                        Log.i(MMAConstants.TAG_MMA, "LOGIN usre!=null if(1) = ");
+                    if (user != null && membership != null) {
                         user.setTemp(false);
                         user.setSyncedLocal(true);
 
-                        mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
+                        membership.setSyncedLocal(true);
 
+                        mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
                     } else {
-                        Log.i(MMAConstants.TAG_MMA, "LOGIN usre!=null else(1) = ");
-                        User new_user = new User();
-                        new_user.setId(email);
+                        User new_user = realm.createObject(User.class, email);
                         new_user.setTemp(false);
                         new_user.setSyncedLocal(true);
 
 
-                        realm.copyToRealmOrUpdate(new_user);
+                        Membership new_membership = realm.createObject(Membership.class, email);
+                        new_membership.setSyncedLocal(true);
 
                         mListener.onFragmentNav(LoginFragment.this, Util.Navigate.LOGIN);
                     }
