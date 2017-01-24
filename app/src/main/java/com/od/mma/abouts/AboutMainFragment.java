@@ -22,6 +22,7 @@ import com.od.mma.CallBack.FetchCallBack;
 import com.od.mma.R;
 import com.od.mma.Utils.MMAConstants;
 import com.od.mma.Utils.SectionsPagerAdapter;
+import com.od.mma.Membership.MembershipFragment;
 import com.od.mma.landingtab.TabFragActivityInterface;
 
 import info.hoang8f.android.segmented.SegmentedGroup;
