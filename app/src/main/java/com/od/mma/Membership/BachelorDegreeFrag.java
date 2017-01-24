@@ -467,7 +467,7 @@ public class BachelorDegreeFrag extends Fragment {
     }
 
     public void validation() {
-        if (membership.getMain_category().equals("Student")) {
+        if (!(membership.getMain_category().equals("Student"))) {
 
             if (country.getSelectedItemPosition() > 0) {
                 error2 = true;
