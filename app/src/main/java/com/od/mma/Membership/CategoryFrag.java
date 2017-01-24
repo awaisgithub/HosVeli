@@ -38,6 +38,9 @@ public class CategoryFrag extends Fragment {
     RadioButton fifth;
     RadioButton seventh;
     RadioButton last;
+    RadioGroup lifetime;
+    RadioButton yes;
+    RadioButton no;
     boolean error = true;
     boolean err = false;
     FragInterface mem_interface;
@@ -70,6 +73,8 @@ public class CategoryFrag extends Fragment {
         fifth = (RadioButton) rootView.findViewById(R.id.radioButton4);
         seventh = (RadioButton) rootView.findViewById(R.id.radioButton6);
         last = (RadioButton) rootView.findViewById(R.id.radioButton7);
+        yes = (RadioButton) rootView.findViewById(R.id.radioButtonYes);
+        no = (RadioButton) rootView.findViewById(R.id.radioButtonNo);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.id_year, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         year.setPrompt("Select Year");
@@ -77,6 +82,7 @@ public class CategoryFrag extends Fragment {
                 new NoneSelectSpinnerAdapter(adapter, R.layout.spinner_hint_frag2,
                         getActivity()));
         category = (RadioGroup) rootView.findViewById(R.id.radioGroup);
+        lifetime = (RadioGroup) rootView.findViewById(R.id.lifetime);
 
 
         if (!membership.isLoadFromServer()) {
@@ -114,6 +120,12 @@ public class CategoryFrag extends Fragment {
                 year.setVisibility(View.GONE);
                 year.setSelection(0);
             } else if (membership.getMembershipCategory().equalsIgnoreCase("House Doctor Membership")) {
+                lifetime.setVisibility(View.VISIBLE);
+                if (membership.getHouseDoctorIsLifeTime().equalsIgnoreCase("Yes")) {
+                    yes.setChecked(true);
+                } else if (membership.getHouseDoctorIsLifeTime().equalsIgnoreCase("No")) {
+                    no.setChecked(true);
+                }
                 third.setChecked(true);
                 year.setVisibility(View.GONE);
                 year.setSelection(0);
@@ -129,7 +141,7 @@ public class CategoryFrag extends Fragment {
                 seventh.setChecked(true);
                 if (!(membership.getYearOfService().equalsIgnoreCase("") || membership.getYearOfService().isEmpty())) {
                     int spinnerPosition = adapter.getPosition(membership.getYearOfService());
-                    year.setSelection(spinnerPosition+1);
+                    year.setSelection(spinnerPosition + 1);
                     year.setVisibility(View.VISIBLE);
                 }
             } else if (membership.getMembershipCategory().equalsIgnoreCase("Student Membership")) {
@@ -204,6 +216,7 @@ public class CategoryFrag extends Fragment {
                             }
                         });
                         year.setVisibility(View.VISIBLE);
+                        third.setVisibility(View.GONE);
                         err = true;
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -219,6 +232,7 @@ public class CategoryFrag extends Fragment {
                             }
                         });
                         year.setVisibility(View.GONE);
+                        third.setVisibility(View.GONE);
                         err = false;
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -234,6 +248,7 @@ public class CategoryFrag extends Fragment {
                             }
                         });
                         year.setVisibility(View.GONE);
+                        third.setVisibility(View.GONE);
                         err = false;
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -249,6 +264,23 @@ public class CategoryFrag extends Fragment {
                             }
                         });
                         year.setVisibility(View.GONE);
+                        third.setVisibility(View.GONE);
+                        err = false;
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                membership.setMedical_off_mem(false);
+                            }
+                        });
+                    } else if (checkedId == R.id.radioButton2) {
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                membership.setMain_category("Student");
+                            }
+                        });
+                        year.setVisibility(View.GONE);
+                        third.setVisibility(View.VISIBLE);
                         err = false;
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -325,6 +357,19 @@ public class CategoryFrag extends Fragment {
             if (error) {
                 error = true;
             }
+            if (membership.getMembershipCategory().equalsIgnoreCase("House Doctor Membership")) {
+                if (membership.getHouseDoctorIsLifeTime().equalsIgnoreCase("Yes") || membership.getHouseDoctorIsLifeTime().equalsIgnoreCase("No")) {
+                    error = true;
+                } else {
+                    error = false;
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            membership.setValidation_pos(PagerViewPager.getPos());
+                        }
+                    });
+                }
+            }
         } else {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
@@ -353,6 +398,15 @@ public class CategoryFrag extends Fragment {
             }
         } else
             last.setError("Select a Category");
+        if (membership.getMembershipCategory().equalsIgnoreCase("House Doctor Membership")) {
+            if (membership.getHouseDoctorIsLifeTime().equalsIgnoreCase("Yes") || membership.getHouseDoctorIsLifeTime().equalsIgnoreCase("No")) {
+                error = true;
+            } else {
+                showActionSnackBarMessage(getString(R.string.error_member));
+            }
+        }
+
+
     }
 
     private void showActionSnackBarMessage(String message) {

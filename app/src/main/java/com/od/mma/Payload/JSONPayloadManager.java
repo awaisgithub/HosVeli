@@ -46,6 +46,11 @@ public class JSONPayloadManager {
         } else {
             dataList.add(new DataBO("yearOfService", ""));
         }
+        if (membership.getMembershipCategory().equals("House Doctor Membership")) {
+            dataList.add(new DataBO("houseDoctorIsLifeTime", membership.getHouseDoctorIsLifeTime()));
+        } else {
+            dataList.add(new DataBO("houseDoctorIsLifeTime", ""));
+        }
         //2nd
         dataList.add(new DataBO("email", user.getId())); //hidden
         dataList.add(new DataBO("titleSelectionBox", membership.getTitleSelectionBox()));

@@ -27,6 +27,7 @@ public class Membership extends RealmObject {
     private int year = -1;
     private String yearOfService = "";
     private boolean medical_off_mem = false;
+    private String houseDoctorIsLifeTime = "";
     //3rd
     private int title = -1;
     private String titleSelectionBox = "";
@@ -139,6 +140,14 @@ public class Membership extends RealmObject {
     private String bank_expiry_date = "";
 
     private boolean isSyncedLocal = false;
+
+    public String getHouseDoctorIsLifeTime() {
+        return houseDoctorIsLifeTime;
+    }
+
+    public void setHouseDoctorIsLifeTime(String houseDoctorIsLifeTime) {
+        this.houseDoctorIsLifeTime = houseDoctorIsLifeTime;
+    }
 
     public String getApplicantMMCRegistrationCopy() {
         return applicantMMCRegistrationCopy;
