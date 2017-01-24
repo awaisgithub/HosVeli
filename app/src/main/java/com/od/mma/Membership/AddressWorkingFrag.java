@@ -131,7 +131,6 @@ public class AddressWorkingFrag extends Fragment {
                         new NoneSelectSpinnerAdapter(server, R.layout.spinner_hint_frag5_3,
                                 getActivity()));
                 state.setVisibility(View.GONE);
-                reg_state.setVisibility(View.GONE);
 
                 int spinnerPosition;
                 spinnerPosition = server.getPosition(membership.getState());
@@ -200,7 +199,6 @@ public class AddressWorkingFrag extends Fragment {
             reg_state.setAdapter(
                     new NoneSelectSpinnerAdapter(adapter2, R.layout.spinner_hint_frag5_3,// R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                             getActivity()));
-            reg_state.setVisibility(View.GONE);
         }
 
         if (!membership.isLoadFromServer()) {
@@ -246,10 +244,8 @@ public class AddressWorkingFrag extends Fragment {
                     String result = country.getSelectedItem().toString();
                     if ((result.equals("MALAYSIA") || result.equalsIgnoreCase("MALAYSIA") || result.contentEquals("MALAYSIA") || result == "MALAYSIA")) {
                         state.setVisibility(View.VISIBLE);
-                        reg_state.setVisibility(View.VISIBLE);
                     } else {
                         state.setVisibility(View.GONE);
-                        reg_state.setVisibility(View.GONE);
                     }
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
@@ -425,7 +421,7 @@ public class AddressWorkingFrag extends Fragment {
         if (country.getSelectedItemPosition() > 0) {
             String result = country.getSelectedItem().toString();
             if ((result.equals("MALAYSIA") || result.equalsIgnoreCase("MALAYSIA") || result.contentEquals("MALAYSIA") || result == "MALAYSIA")) {
-                if (state.getSelectedItemPosition() > 0 && reg_state.getSelectedItemPosition() > 0)
+                if (state.getSelectedItemPosition() > 0 )
                     error = true;
                 else {
                     error = false;
@@ -441,6 +437,20 @@ public class AddressWorkingFrag extends Fragment {
             } else
                 error = true;
         } else {
+            error = false;
+            if (membership.getValidation_pos() == -1) {
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        membership.setValidation_pos(PagerViewPager.getPos());
+                    }
+                });
+            }
+        }
+        if(reg_state.getSelectedItemPosition() > 0) {
+            error = true;
+        }
+        else {
             error = false;
             if (membership.getValidation_pos() == -1) {
                 realm.executeTransaction(new Realm.Transaction() {
@@ -493,17 +503,17 @@ public class AddressWorkingFrag extends Fragment {
                     error = false;
                     showActionSnackBarMessage(getString(R.string.error_state));
                 }
-                if (reg_state.getSelectedItemPosition() > 0)
-                    error = true;
-                else {
-                    error = false;
-                    showActionSnackBarMessage(getString(R.string.error_reg_state));
-                }
             } else
                 error = true;
         } else {
             error = false;
             showActionSnackBarMessage(getString(R.string.error_country));
+        }
+        if (reg_state.getSelectedItemPosition() > 0)
+            error = true;
+        else {
+            error = false;
+            showActionSnackBarMessage(getString(R.string.error_reg_state));
         }
 
         if (city.getText().toString().trim().equalsIgnoreCase("")) {
