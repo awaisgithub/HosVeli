@@ -165,8 +165,9 @@ public class RegistrationFragment extends Fragment {
             public void success(JSONObject response) {
                 hideProgressDialog();
                 Log.i(MMAConstants.TAG_MMA, " onSuccess called with response = " + response.toString());
-                String message = response.optString("message");
-                if (message.contains("User created successfully")) {
+                String message = response.optString("status");
+                String error = response.optString("error");
+                if (message.equalsIgnoreCase("Ok")) {
                     showProgressDialog(R.string.reg_registering);
                     hideProgressDialog();
                     user.setTemp(false);
@@ -192,10 +193,10 @@ public class RegistrationFragment extends Fragment {
 //                    realm.commitTransaction();
 
                     onRegistrationSubmitDialog();
-                } else if (message.contains("User already exist")) {
+                } else if (message.equalsIgnoreCase("Failed") && error.equalsIgnoreCase("User already exist")) {
                     duplicate = true;
                     showActionSnackBarMessage(getString(R.string.reg_error_duplicate));
-                } else if (message.contains("Something went wrong")) {
+                } else if (message.equalsIgnoreCase("Failed")) {
                     showActionSnackBarMessage(getActivity().getResources().getString(R.string.reg_error_unknown_server));
                 }
 
