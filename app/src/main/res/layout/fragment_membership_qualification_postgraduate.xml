@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout_posfrag"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/mainlinear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp">
+
+
+        <!--<TextView-->
+            <!--android:id="@+id/err_no_degree"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="16dp"-->
+            <!--android:textColor="@color/colorOrange"-->
+            <!--android:text="Add degrees by clicking on add button... You can add upto 3 degrees maximum."-->
+            <!--android:visibility="visible"/>-->
+
+
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="32dp"
+    android:orientation="vertical">
+
+
+    <ExpandableListView
+        android:id="@+id/lvExp"
+        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        android:childDivider="@drawable/md_transparent"
+        android:scrollbars="none"
+        />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="@dimen/reg_button_next_back"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/back_button1"
+            android:layout_width="70dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/reg_submit_button"
+            android:text="Back"
+            android:textColor="@color/colorBlack"
+            android:layout_height="35dp" />
+
+        <Button
+            android:id="@+id/next_button1"
+            android:layout_width="230dp"
+            android:layout_marginRight="60dp"
+            android:background="@drawable/reg_submit_button"
+            android:text="Next"
+            android:textColor="@color/colorBlack"
+            android:layout_height="35dp" />
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+
+</LinearLayout>
+
+    <TextView
+        android:id="@+id/err_no_degree"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:textColor="@color/colorSponsorName"
+        android:text="Add degrees by clicking on add button... You can add upto 3 degrees maximum."
+        android:visibility="visible"/>
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/colorTabs"
+        app:srcCompat="@drawable/ic_action_add" />
+
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="32dp"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="32dp"
+        android:scrollbars="none">
+        <!-- Here you put the rest of your current view-->
+
+
+        <LinearLayout
+            android:id="@+id/mainlinear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="@string/reg_hint_bank"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text" />
+
+            <EditText
+                android:id="@+id/name1"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="@string/reg_hint_reference_cheque"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text" />
+
+            <EditText
+                android:id="@+id/name2"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="@string/reg_hint_reference_debit"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text" />
+
+            <EditText
+                android:id="@+id/name3"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="@string/reg_hint_reference_cash"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text" />
+
+            <EditText
+                android:id="@+id/name4"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:hint="@string/reg_hint_reference_credit"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text" />
+
+            <EditText
+                android:id="@+id/date_payment"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:focusableInTouchMode="false"
+                android:hint="@string/reg_hint_payment_date"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text" />
+
+            <EditText
+                android:id="@+id/date_expiry"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:focusableInTouchMode="false"
+                android:hint="@string/reg_hint_expiry_date"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/reg_button_next_back"
+                android:layout_marginTop="@dimen/reg_button_next_back">
+
+                <Button
+                    android:id="@+id/back_button1"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/reg_submit_button"
+                    android:text="Back"
+                    android:textColor="@color/colorBlack" />
+
+                <Button
+                    android:id="@+id/next_button1"
+                    android:layout_width="230dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="60dp"
+                    android:background="@drawable/reg_submit_button"
+                    android:text="Next"
+                    android:textColor="@color/colorBlack" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

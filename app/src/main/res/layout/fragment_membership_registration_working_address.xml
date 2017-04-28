@@ -1,0 +1,159 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:layout_centerInParent="true"
+        android:scrollbars="none">
+
+
+
+        <LinearLayout
+            android:id="@+id/mainlinear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <!--android:gravity="center"-->
+
+
+            <Spinner
+                android:id="@+id/country"
+                android:layout_width="match_parent"
+                android:layout_gravity="left"
+                android:dropDownWidth="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:ems="10"
+                android:entries="@array/id_nationality"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text"></Spinner>
+
+            <Spinner
+                android:id="@+id/state"
+                android:layout_width="match_parent"
+                android:layout_gravity="left"
+                android:dropDownWidth="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:ems="10"
+                android:entries="@array/id_state"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text"></Spinner>
+
+            <Spinner
+                android:id="@+id/reg_state"
+                android:layout_width="match_parent"
+                android:layout_gravity="left"
+                android:dropDownWidth="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:ems="10"
+                android:entries="@array/id_state"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text"></Spinner>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+
+                android:layout_marginTop="@dimen/activity_vertical_margin">
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="140dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/edit_text_login"
+                    android:ems="10"
+                    android:hint="@string/reg_hint_city"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName|textCapWords"
+                    android:padding="10dp"
+                    android:textSize="@dimen/radio_text" />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="140dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/edit_text_login"
+                    android:ems="10"
+                    android:layout_marginLeft="10dp"
+                    android:imeOptions="actionNext"
+                    android:hint="@string/reg_hint_postal"
+                    android:inputType="number"
+                    android:padding="10dp"
+                    android:textSize="@dimen/radio_text" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/contact_number"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:freezesText="false"
+                android:hint="@string/reg_hint_addr"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:gravity="top"
+                android:layout_weight="1"
+                />
+
+            <EditText
+                android:id="@+id/date_pick"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/edit_text_login"
+                android:ems="10"
+                android:freezesText="false"
+                android:inputType="number"
+                android:hint="@string/reg_hint_tel"
+                android:padding="10dp"
+                android:textSize="@dimen/radio_text"
+                android:editable="false"/>
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_button_next_back"
+                android:layout_marginBottom="@dimen/reg_button_next_back">
+
+                <Button
+                    android:id="@+id/back_button1"
+                    android:layout_width="70dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/reg_submit_button"
+                    android:text="Back"
+                    android:textColor="@color/colorBlack"
+                    android:layout_height="35dp" />
+
+                <Button
+                    android:id="@+id/next_button1"
+                    android:layout_width="230dp"
+                    android:layout_marginRight="60dp"
+                    android:background="@drawable/reg_submit_button"
+                    android:text="Next"
+                    android:textColor="@color/colorBlack"
+                    android:layout_height="35dp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>
