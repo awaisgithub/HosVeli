@@ -19,7 +19,7 @@ import com.od.mma.API.Api;
 import com.od.mma.BOs.User;
 import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.R;
-import com.od.mma.Utils.MMAConstants;
+import com.od.mma.Utils.HosVeliConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +28,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 import static com.od.mma.MMAApplication.realm;
 
@@ -71,7 +70,7 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
                 try {
                     final JSONObject membership_data = response.getJSONObject(0);
                     String applicant_status = membership_data.optString("applicationStatus");
-                    Log.i(MMAConstants.TAG_MMA, "APPLICANT jsonobject = " + applicant_status + " , membershipCategory = " + membership.getMembershipCategory());
+                    Log.i(HosVeliConstants.TAG_HosVeli, "APPLICANT jsonobject = " + applicant_status + " , membershipCategory = " + membership.getMembershipCategory());
                     if (applicant_status.equalsIgnoreCase("Registration Info")) {
 //
                     } else {
@@ -82,10 +81,10 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
                                 membership.setLoadFromServer(true);
                             }
                         });
-                        Log.i(MMAConstants.TAG_MMA, "APPLICANT updateFromJSON = membershipCategory = " + membership.getMembershipCategory());
+                        Log.i(HosVeliConstants.TAG_HosVeli, "APPLICANT updateFromJSON = membershipCategory = " + membership.getMembershipCategory());
                     }
                 } catch (JSONException e) {
-                    Log.i(MMAConstants.TAG_MMA, "APPLICANT parse error");
+                    Log.i(HosVeliConstants.TAG_HosVeli, "APPLICANT parse error");
                     e.printStackTrace();
                 }
                 pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), pagerFragments));
@@ -99,7 +98,7 @@ public class RegMainFragActivity extends FragmentActivity implements FragInterfa
                 } else if (response.contains("Table doesnot exit")) {
                     Toast.makeText(RegMainFragActivity.this, "The server doesnot have the required table", Toast.LENGTH_SHORT).show();
                 } else {
-                    Log.i(MMAConstants.TAG_MMA, "Unable to Load data. Server unreachable. Please, try back shortly.");
+                    Log.i(HosVeliConstants.TAG_HosVeli, "Unable to Load data. Server unreachable. Please, try back shortly.");
                 }
                 pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), pagerFragments));
                 PagerViewPager.setPager(pager);

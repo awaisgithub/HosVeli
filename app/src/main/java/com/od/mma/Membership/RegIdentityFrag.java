@@ -49,7 +49,7 @@ import com.od.mma.API.Api;
 import com.od.mma.BOs.User;
 import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.R;
-import com.od.mma.Utils.MMAConstants;
+import com.od.mma.Utils.HosVeliConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -156,7 +156,7 @@ public class RegIdentityFrag extends Fragment {
     }
 
     private int populateSpinnerFromServer() {
-        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_countries), new ServerReadCallBack() {
+        User.getSpinnerList(Api.urlDataListData(HosVeliConstants.list_countries), new ServerReadCallBack() {
             @Override
             public void success(JSONArray response) {
                 List<String> title_list = new ArrayList<String>();
@@ -186,9 +186,9 @@ public class RegIdentityFrag extends Fragment {
             public void failure(String response) {
                 spinnerFromServer = false;
                 if (response.contains(""))
-                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                    Log.i(HosVeliConstants.TAG_HosVeli, "No Such List exist");
                 else
-                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+                    Log.i(HosVeliConstants.TAG_HosVeli, "err = " + response.toString());
             }
         });
         return 1;
@@ -285,7 +285,7 @@ public class RegIdentityFrag extends Fragment {
                 }
             }
         } else {
-            Log.i(MMAConstants.TAG_MMA, "RACE = " + membership.getApplicantRace());
+            Log.i(HosVeliConstants.TAG_HosVeli, "RACE = " + membership.getApplicantRace());
             if (membership.getApplicantRace().equalsIgnoreCase("Malay")) {
                 race.setItemChecked(0, true);
             } else if (membership.getApplicantRace().equalsIgnoreCase("Chinese")) {
@@ -375,7 +375,7 @@ public class RegIdentityFrag extends Fragment {
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        Log.i(MMAConstants.TAG_MMA, "IDENTITY race = " + position);
+                        Log.i(HosVeliConstants.TAG_HosVeli, "IDENTITY race = " + position);
                         membership.setRace(position);
                         membership.setApplicantRace(parent.getItemAtPosition(position).toString());
                     }
@@ -405,7 +405,7 @@ public class RegIdentityFrag extends Fragment {
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        Log.i(MMAConstants.TAG_MMA, "IDENTITY religion = " + position);
+                        Log.i(HosVeliConstants.TAG_HosVeli, "IDENTITY religion = " + position);
                         membership.setReligion(position);
                         membership.setApplicantReligion(parent.getItemAtPosition(position).toString());
                     }
@@ -735,7 +735,7 @@ public class RegIdentityFrag extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case MMAConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA: {
+            case HosVeliConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
@@ -755,7 +755,7 @@ public class RegIdentityFrag extends Fragment {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MMAConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA);
+                    HosVeliConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA);
         } else {
             selectImageIfHaveCameraPermission();
         }

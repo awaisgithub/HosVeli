@@ -22,7 +22,7 @@ import com.od.mma.API.Api;
 import com.od.mma.BOs.User;
 import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.R;
-import com.od.mma.Utils.MMAConstants;
+import com.od.mma.Utils.HosVeliConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,7 +71,7 @@ public class AddressWorkingFrag extends Fragment {
     }
 
     private void populateCountrySpinnerFromServer() {
-        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_countries), new ServerReadCallBack() {
+        User.getSpinnerList(Api.urlDataListData(HosVeliConstants.list_countries), new ServerReadCallBack() {
             @Override
             public void success(JSONArray response) {
                 List<String> title_list = new ArrayList<String>();
@@ -100,15 +100,15 @@ public class AddressWorkingFrag extends Fragment {
             public void failure(String response) {
                 spinnerCountryFromServer = false;
                 if (response.contains(""))
-                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                    Log.i(HosVeliConstants.TAG_HosVeli, "No Such List exist");
                 else
-                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+                    Log.i(HosVeliConstants.TAG_HosVeli, "err = " + response.toString());
             }
         });
     }
 
     private void populateStateSpinnerFromServer() {
-        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_states), new ServerReadCallBack() {
+        User.getSpinnerList(Api.urlDataListData(HosVeliConstants.list_states), new ServerReadCallBack() {
             @Override
             public void success(JSONArray response) {
                 List<String> title_list = new ArrayList<String>();
@@ -146,9 +146,9 @@ public class AddressWorkingFrag extends Fragment {
             public void failure(String response) {
                 spinnerStateFromServer = false;
                 if (response.contains(""))
-                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                    Log.i(HosVeliConstants.TAG_HosVeli, "No Such List exist");
                 else
-                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+                    Log.i(HosVeliConstants.TAG_HosVeli, "err = " + response.toString());
             }
         });
     }

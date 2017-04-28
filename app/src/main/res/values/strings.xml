@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MMA</string>
+    <string name="app_name">Hos Veli</string>
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -38,8 +38,8 @@
     <string name="login_error_unknown_server">Unable to login due to unknown server error.</string>
     <string name="reg_error_duplicate">Your are already a registered user. Please login</string>
     <string name="reg_checking_duplicate">Checking for duplication...</string>
-    <string name="reg_registering">Submitting membership....Please login</string>
-    <string name="reg_registered_message">Thank you for registering with MMA. You can proceed to app now.</string>
+    <string name="reg_registering">Submitting Registration....Please login</string>
+    <string name="reg_registered_message">Thank you for registering with Hos Veli. You can proceed to app now.</string>
 
     <!-- Login Strings-->
     <string name="login_not_exist">No account exist with this username. Please SIGN UP first.</string>
@@ -52,16 +52,16 @@
     <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- About us strings-->
-    <string name="aboutus_tab_aboutus">About MMA</string>
-    <string name="aboutus_tab_contactus">Headquarters</string>
-    <string name="aboutus_tab_branches">Branches</string>
-    <string name="aboutus_tab_membership">Membership</string>
+    <string name="aboutus_tab_aboutus">About Us</string>
+    <string name="aboutus_tab_contactus">Contact Us</string>
+    <string name="aboutus_tab_branches">Menu</string>
+    <string name="aboutus_tab_membership">Location</string>
     <string name="aboutus_no_branches">This organization has no branches.</string>
     <string name="aboutus_loading_branches">Loading branches…</string>
     <string name="aboutus_dialer_dialog_title">Choose Number to Call</string>
     <string name="aboutus_error_branches">Unable to fetch branches info from server.</string>
-    <string name="aboutus_header_text_bhasa">PEMBANGUNAN SUMBER MANUSIA BERHAD</string>
-    <string name="aboutus_header_text_english">Human Resource Development Fund (545143-D)</string>
+    <string name="aboutus_header_text_bhasa">Hos Veli a/s</string>
+    <string name="aboutus_header_text_english">Vi har alle rettigheter.</string>
 
     <!-- Profile strings-->
     <string name="profile_tab_qr">QR Code</string>
@@ -107,6 +107,7 @@
 
     //Errors
     <string name="error_year">Please Select Year.</string>
+    <string name="error_member">Please Select Life Member.</string>
     <string name="error_title">Please Select Title.</string>
     <string name="error_image_profile">Please Upload Picture.</string>
     <string name="reg_validation">Validation...</string>
@@ -160,8 +161,7 @@
 
     <string-array name="main_tabs">
         <item>About Us</item>
-        <item>News Feed</item>
-        <item>Events</item>
+        <item>Coupons</item>
         <item>My Profile</item>
     </string-array>
     <string name="title_activity_scrolling">ScrollingActivity</string>
@@ -262,6 +262,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_speaker_detail">SpeakerDetailActivity</string>
     <string name="title_activity_agends_main">AgendsMainActivity</string>
+    <string name="title_activity_agends_main1">QRScannerActivity</string>
     <string name="title_activity_event_location">Event Location</string>
     <string name="reg_membership">Registration Form</string>
     <string name="reg_hint_dob">Date of Birth:</string>

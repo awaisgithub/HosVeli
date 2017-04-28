@@ -53,7 +53,7 @@ import com.od.mma.API.Api;
 import com.od.mma.BOs.User;
 import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.R;
-import com.od.mma.Utils.MMAConstants;
+import com.od.mma.Utils.HosVeliConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -176,7 +176,7 @@ public class RegNameFrag extends Fragment {
     }
 
     private void populateSpinnerFromServer() {
-        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_titles), new ServerReadCallBack() {
+        User.getSpinnerList(Api.urlDataListData(HosVeliConstants.list_titles), new ServerReadCallBack() {
             @Override
             public void success(JSONArray response) {
                 List<String> title_list = new ArrayList<String>();
@@ -206,9 +206,9 @@ public class RegNameFrag extends Fragment {
             public void failure(String response) {
                 spinnerFromServer = false;
                 if (response.contains(""))
-                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                    Log.i(HosVeliConstants.TAG_HosVeli, "No Such List exist");
                 else
-                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+                    Log.i(HosVeliConstants.TAG_HosVeli, "err = " + response.toString());
             }
         });
     }
@@ -363,6 +363,7 @@ public class RegNameFrag extends Fragment {
                         @Override
                         public void execute(Realm realm) {
                             membership.setTitle(title.getSelectedItemPosition());
+                            membership.setTitleSelectionBox(title.getSelectedItem().toString());
                         }
                     });
                 }
@@ -496,7 +497,7 @@ public class RegNameFrag extends Fragment {
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        Log.i(MMAConstants.TAG_MMA, "GRIDVIEW = " + position);
+                        Log.i(HosVeliConstants.TAG_HosVeli, "GRIDVIEW = " + position);
                         membership.setMarital_stat(position);
                         membership.setApplicantMaritalStatus(parent.getItemAtPosition(position).toString());
                     }
@@ -666,7 +667,8 @@ public class RegNameFrag extends Fragment {
 
     private void updateLabel() {
 
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        // String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         date_pik.setText(sdf.format(myCalendar.getTime()));
@@ -685,7 +687,7 @@ public class RegNameFrag extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case MMAConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA: {
+            case HosVeliConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
@@ -705,7 +707,7 @@ public class RegNameFrag extends Fragment {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MMAConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA);
+                    HosVeliConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA);
         } else {
             selectImageIfHaveCameraPermission();
         }
@@ -781,7 +783,7 @@ public class RegNameFrag extends Fragment {
                     temp.compress(Bitmap.CompressFormat.JPEG, 100, temp_stream);
                     final byte[] tempArray = temp_stream.toByteArray();
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                    Log.i(MMAConstants.TAG_MMA, "BASE64 imagename = " + imageFile.getName());
+                    Log.i(HosVeliConstants.TAG_HosVeli, "BASE64 imagename = " + imageFile.getName());
                     // NFCInfoBO.INSTANCE.receiptImageName = imageFile.getName();
                     final byte[] imageByteArray = stream.toByteArray();
                     //NFCInfoBO.INSTANCE.receiptOS = Base64.encodeToString(imageByteArray, Base64.DEFAULT);
@@ -790,9 +792,9 @@ public class RegNameFrag extends Fragment {
                         @Override
                         public void execute(Realm realm) {
                             membership.setPersonal_pic(imageByteArray);
-                            Log.i(MMAConstants.TAG_MMA, "BASE64 AWAIS=  \n" + Base64.encodeToString(tempArray, Base64.NO_WRAP) + "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
-                            Log.i(MMAConstants.TAG_MMA, "BASE64 TempArray=  \n" + Base64.encodeToString(tempArray, Base64.NO_WRAP));
-                            Log.i(MMAConstants.TAG_MMA, "BASE64 imageByteArray(compressed)=  \n" + Base64.encodeToString(imageByteArray, Base64.NO_WRAP));
+                            Log.i(HosVeliConstants.TAG_HosVeli, "BASE64 AWAIS=  \n" + Base64.encodeToString(tempArray, Base64.NO_WRAP) + "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
+                            Log.i(HosVeliConstants.TAG_HosVeli, "BASE64 TempArray=  \n" + Base64.encodeToString(tempArray, Base64.NO_WRAP));
+                            Log.i(HosVeliConstants.TAG_HosVeli, "BASE64 imageByteArray(compressed)=  \n" + Base64.encodeToString(imageByteArray, Base64.NO_WRAP));
                             membership.setApplicantPicture(myBase64Image);
                         }
                     });

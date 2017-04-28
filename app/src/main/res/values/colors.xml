@@ -8,7 +8,7 @@
     <color name="colorToolBar">#63BEEC</color>
     <color name="colorTabs">#098198</color>
     <color name="colorOrange">#EE5A2F</color>
-    <color name="colorTabbar">#f2f2f2</color>
+    <color name="colorTabbar">#FFEFD5</color>
     <color name="colorSponsorCategory">#397e95</color>
     <color name="colorSponsorName">#7a7878</color>
     <color name="colorAgendaTabs">#53b5c0</color>
@@ -24,5 +24,8 @@
     <color name="image_border_start">#546E7A</color>
     <color name="image_border_end">#455A64</color>
     <color name="image_border_center">#37474F</color>
+
+
+    <color name="colorButton">#8B4513</color>
 
 </resources>

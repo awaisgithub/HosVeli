@@ -18,7 +18,7 @@ import com.od.mma.API.Api;
 import com.od.mma.BOs.User;
 import com.od.mma.CallBack.StatusCallBack;
 import com.od.mma.R;
-import com.od.mma.Utils.MMAConstants;
+import com.od.mma.Utils.HosVeliConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,7 +112,7 @@ public class ApplicationStatusFrag extends Fragment {
                                         });
                                     } catch (JSONException e) {
                                         e.printStackTrace();
-                                        Log.i(MMAConstants.TAG_MMA, "MEMBERSHIP JSON EXCEPTION ");
+                                        Log.i(HosVeliConstants.TAG_HosVeli, "MEMBERSHIP JSON EXCEPTION ");
                                     }
 
                                 }

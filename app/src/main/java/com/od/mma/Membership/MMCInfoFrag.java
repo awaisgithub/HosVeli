@@ -50,7 +50,7 @@ import com.od.mma.API.Api;
 import com.od.mma.BOs.User;
 import com.od.mma.CallBack.ServerReadCallBack;
 import com.od.mma.R;
-import com.od.mma.Utils.MMAConstants;
+import com.od.mma.Utils.HosVeliConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -153,7 +153,7 @@ public class MMCInfoFrag extends Fragment {
     }
 
     private void populateUniSpinnerFromServer() {
-        User.getSpinnerList(Api.urlDataListData(MMAConstants.list_university), new ServerReadCallBack() {
+        User.getSpinnerList(Api.urlDataListData(HosVeliConstants.list_university), new ServerReadCallBack() {
             @Override
             public void success(JSONArray response) {
                 List<String> title_list = new ArrayList<String>();
@@ -182,9 +182,9 @@ public class MMCInfoFrag extends Fragment {
             public void failure(String response) {
                 spinnerUniFromServer = false;
                 if (response.contains(""))
-                    Log.i(MMAConstants.TAG_MMA, "No Such List exist");
+                    Log.i(HosVeliConstants.TAG_HosVeli, "No Such List exist");
                 else
-                    Log.i(MMAConstants.TAG_MMA, "err = " + response.toString());
+                    Log.i(HosVeliConstants.TAG_HosVeli, "err = " + response.toString());
             }
         });
     }
@@ -245,7 +245,7 @@ public class MMCInfoFrag extends Fragment {
             }
         });
 
-        Log.i(MMAConstants.TAG_MMA, "category = " + membership.getMain_category());
+        Log.i(HosVeliConstants.TAG_HosVeli, "category = " + membership.getMain_category());
         if (membership.getMembershipCategory().equalsIgnoreCase("Student")) {
             populateUniSpinnerFromServer();
             //  title.setText("University Info");
@@ -612,7 +612,7 @@ public class MMCInfoFrag extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case MMAConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA: {
+            case HosVeliConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
@@ -632,7 +632,7 @@ public class MMCInfoFrag extends Fragment {
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MMAConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA);
+                    HosVeliConstants.MY_PERMISSIONS_REQUEST_READ_CAMERA);
         } else {
             selectImageIfHaveCameraPermission();
         }

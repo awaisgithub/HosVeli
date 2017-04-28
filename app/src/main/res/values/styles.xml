@@ -73,4 +73,21 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppTheme.MedicineList" parent="AppTheme">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorToolBar</item>
+        <item name="colorPrimaryDark">@color/colorAgendaTabs</item>
+        <item name="colorAccent">@color/colorAgendaListItem</item>
+        <item name="android:textColorPrimary">@color/colorBlack</item>
+        <item name="android:textColorHint">@color/hint</item>
+    </style>
+
+    <style name="myImageView">
+        <!-- 3dp so the background border to be visible -->
+        <item name="android:padding">1dp</item>
+        <item name="android:background">@drawable/image_border</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
 </resources>
